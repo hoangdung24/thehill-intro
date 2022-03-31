@@ -15,52 +15,42 @@ const News = ({ ...props }) => {
 
 export default News;
 
-export async function getStaticProps() {
-	const data = await getAllData();
+export async function getServerSideProps({ params }) {
+	console.log(params);
 
-	return {
-		props: {
-			data: data,
-		},
-		revalidate: 60,
-	};
+	try {
+		const urls = [
+			`${DOMAIN}${PAGES}?type=${BLOG_CATEGORIES}&fields=*`,
+			`${DOMAIN}${PAGES}?type=${BLOG_DETAIL}&fields=*`,
+		];
+		console.log(urls);
+		const List = await Promise.all(
+			urls.map((url) => {
+				axios.get(url).then(({ data }) => {
+					return data;
+				});
+			})
+		);
+
+		let blogDetail;
+		let blogCategory;
+
+		List.forEach((e, index) => {
+			if (index === 0) {
+				blogCategory = e;
+			} else if (index === 1) {
+				blogDetail = e;
+			}
+		});
+
+		return {
+			props: {
+				blogDetail: blogDetail,
+				blogCategory: blogCategory,
+			},
+		};
+	} catch (e) {
+		console.log(e);
+		return <div>404</div>;
+	}
 }
-
-// export async function getServerSideProps({ params }) {
-// 	console.log(params);
-
-// 	try {
-// 		const url = [
-// 			`${DOMAIN}${PAGES}?type=${BLOG_CATEGORIES}&fields=*`,
-// 			// `${DOMAIN}${PAGES}?type=${BLOG_DETAIL}&fields=*`,
-// 		];
-// 		console.log(url);
-// 		const List = await Promise.all(
-// 			url.map((url) => {
-// 				axios.get(url).then(({ data }) => {
-// 					return data;
-// 				});
-// 			})
-// 		);
-
-// 		let blogDetail;
-// 		// let blogCategory;
-
-// 		List.forEach((e, index) => {
-// 			if (index === 0) {
-// 				blogCategory = e;
-// 			} else if (index === 1) {
-// 				blogDetail = e;
-// 			}
-// 		});
-
-// 		return {
-// 			props: {
-// 				blogDetail: blogDetail,
-// 				// blogCategory: blogCategory,
-// 			},
-// 		};
-// 	} catch (e) {
-// 		console.log(e);
-// 	}
-// }

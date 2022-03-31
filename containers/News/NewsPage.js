@@ -14,11 +14,9 @@ const NewsPage = ({ blogDetail, blogCategories, ...props }) => {
 				}}>
 				<Grid className='Container' container spacing={2} direction={"row"}>
 					<Grid item xs={12} lg={9} container spacing={2} direction={"row"}>
-						<Grid item xs={12} md={6}>
-							{blogDetail.items.map((e, index) => {
-								return <BlogCard key={e.id} {...e} />;
-							})}
-						</Grid>
+						{blogDetail.items.map((e, index) => {
+							return <BlogCard key={e.id} {...e} />;
+						})}
 					</Grid>
 					<Grid item xs={12} lg={3}>
 						<div>Tag</div>

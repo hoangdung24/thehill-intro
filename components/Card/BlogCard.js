@@ -8,6 +8,7 @@ import {
 	Stack,
 } from "@mui/material";
 import { Button } from "../../components";
+import { Markup } from "interweave";
 
 const BlogCard = ({
 	id,
@@ -37,7 +38,7 @@ const BlogCard = ({
 					{title}
 				</Title>
 				<Description variant='body2' color='text.secondary'>
-					{content}
+					<Markup content={content} />
 				</Description>
 			</CardContent>
 			<CardActions>

@@ -1,24 +1,22 @@
-import React from "react";
+import React, { Fragment } from "react";
 import {
-	GridContainer,
 	Button,
 	FormContact,
 	BoxContact,
 	Wheel,
 	ButtonShape,
 	BlogCard,
+	CategoryList,
+	ScrollButton,
+	CardPartner,
+	ButtonPop,
 } from "../components";
-import { Stack, Box } from "@mui/material";
+import { Stack, Box, Container } from "@mui/material";
 
 const UIPage = () => {
 	return (
-		<>
-			<GridContainer
-				OuterProps={{
-					sx: {
-						padding: 2,
-					},
-				}}>
+		<Fragment>
+			<Container maxWidth='xl'>
 				<Stack
 					direction={"column"}
 					spacing={2}
@@ -67,9 +65,21 @@ const UIPage = () => {
 					{/* <div>
 						<BlogCard />
 					</div> */}
+					{/* <div>
+						<CategoryList title={"1"} />
+					</div> */}
+					{/* <div>
+						<ScrollButton />
+					</div> */}
+					<div>
+						<CardPartner />
+					</div>
+					<div>
+						<ButtonPop />
+					</div>
 				</Stack>
-			</GridContainer>
-		</>
+			</Container>
+		</Fragment>
 	);
 };
 

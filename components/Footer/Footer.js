@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { GridContainer, QRcode, Image, Theme } from "../../components";
-import { Container, Stack, Typography, Grid } from "@mui/material";
+import { Container, Stack, Typography, Grid, Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 const SIZE = 35;
@@ -10,14 +10,15 @@ const TRANSITION = "all 0.5s";
 const Footer = (props) => {
 	return (
 		<footer>
-			<GridContainer
-				OuterProps={{
-					sx: {
-						backgroundColor: Theme.palette.primary.main,
-						padding: 2,
-					},
+			<Box
+				sx={{
+					backgroundColor: Theme.palette.primary.main,
 				}}>
-				<Container maxWidth='xl'>
+				<Container
+					maxWidth='xl'
+					sx={{
+						padding: 5,
+					}}>
 					<Grid container spacing={5}>
 						<Grid item xs={12} sm={2.4}>
 							<Title variant='h5'>Trang chủ</Title>
@@ -83,7 +84,7 @@ const Footer = (props) => {
 						</Grid>
 					</Grid>
 				</Container>
-			</GridContainer>
+			</Box>
 		</footer>
 	);
 };
@@ -101,10 +102,10 @@ const Title = styled(Typography)(({ theme }) => {
 
 const Subtile = styled(Typography)(({ theme }) => {
 	return {
-		color: theme.palette.grey[600],
+		color: Theme.palette.grey[400],
 		transition: TRANSITION,
 		"&:hover": {
-			color: "#5B7DB1",
+			color: Theme.palette.secondary.main,
 		},
 	};
 });

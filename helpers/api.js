@@ -6,6 +6,8 @@ export const TAGS = "/api/v2/tags/";
 
 export const PAGES = "/api/v2/pages/";
 
+export const BANKS = "/api/v2/banks/";
+
 export const STORE_CATEGORIES = "/api/v2/store-categories/";
 
 export const SUBCRIBERS = "/api/v2/subcribers/"; // WITH POST METHOD

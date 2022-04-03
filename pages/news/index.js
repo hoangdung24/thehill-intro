@@ -10,47 +10,79 @@ import {
 import { getAllData } from "../../helpers/api-util";
 
 const News = ({ ...props }) => {
+	return null;
 	return <NewsPage {...props} />;
 };
 
 export default News;
 
 export async function getServerSideProps({ params }) {
-	console.log(params);
-
 	try {
 		const urls = [
-			`${DOMAIN}${PAGES}?type=${BLOG_CATEGORIES}&fields=*`,
-			`${DOMAIN}${PAGES}?type=${BLOG_DETAIL}&fields=*`,
+			`${PAGES}?type=${BLOG_LIST}&fields=*`,
+			`${PAGES}?type=${BLOG_CATEGORIES}&fields=*`,
 		];
-		console.log(urls);
-		const List = await Promise.all(
+
+		const reList = await Promise.all(
 			urls.map((url) => {
-				axios.get(url).then(({ data }) => {
+				return axios.get(url).then(({ data }) => {
 					return data;
 				});
 			})
 		);
 
+		console.log(reList);
+		let blogCategories;
 		let blogDetail;
-		let blogCategory;
 
-		List.forEach((e, index) => {
-			if (index === 0) {
-				blogCategory = e;
-			} else if (index === 1) {
-				blogDetail = e;
-			}
-		});
+		// reList.forEach((e, index) => {
+		// 	if (index === 0) {
+		// 		blogCategories = e;
+		// 	} else if (index === 1) {
+		// 		blogDetail = e;
+		// 	}
+		// });
 
 		return {
 			props: {
+				// blogDetail: JSON.parse(JSON.stringify(blogDetail)),
+				// blogCategories: JSON.parse(JSON.stringify(blogCategories)),
 				blogDetail: blogDetail,
-				blogCategory: blogCategory,
+				blogCategories: blogCategories,
 			},
 		};
 	} catch (e) {
-		console.log(e);
-		return <div>404</div>;
+		return console.log(e);
+		// redirect: {
+		// 	destination: "/404",
+		// 	permanent: false,
+		// },
 	}
 }
+
+// export async function getServerSideProps(context) {
+// 	const { params, res, req } = context;
+
+// 	// console.log(req.headers.cookie);
+
+// 	let blogDetail;
+
+// 	const response = await axios
+// 		.get(`${DOMAIN}${PAGES}?type=${BLOG_CATEGORIES}&fields=*`)
+// 		.then((response) => {
+// 			console.log(response.data);
+// 		});
+
+// 	const data = await response.data.json();
+
+// 	// for (let blogDetail of data){
+// 	// 	if(blogDetail ===)
+// 	// }
+
+// 	return {
+// 		props: {
+// 			data: data,
+// 			blogDetail: blogDetail,
+// 		},
+// 	};
+// }

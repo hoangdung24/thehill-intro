@@ -13,23 +13,28 @@
     "@emotion/react": "^11.8.2",
     "@emotion/server": "^11.4.0",
     "@emotion/styled": "^11.8.1",
+    "@hookform/resolvers": "^2.8.8",
     "@mui/icons-material": "^5.5.1",
     "@mui/lab": "^5.0.0-alpha.74",
     "@mui/material": "^5.5.2",
     "@mui/styles": "^5.5.1",
     "axios": "^0.26.1",
+    "dotenv": "^16.0.0",
     "interweave": "^13.0.0",
     "lodash": "^4.17.21",
     "next": "12.1.0",
     "qrcode": "^1.5.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-error-boundary": "^3.1.4",
     "react-hook-form": "^7.28.1",
     "react-phone-number-input": "^3.1.47",
     "react-use": "^17.3.2",
-    "swr": "^1.2.2"
+    "swr": "^1.2.2",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
+    "babel-plugin-styled-components": "^2.0.6",
     "eslint": "8.11.0",
     "eslint-config-next": "12.1.0"
   }

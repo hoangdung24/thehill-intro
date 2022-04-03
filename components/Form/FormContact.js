@@ -1,30 +1,83 @@
 import styled from "@emotion/styled";
-import { Box as BoxMui, TextField, Stack, Typography } from "@mui/material";
-import theme from "../HOC/Theme";
+import {
+	Box as BoxMui,
+	TextField,
+	Stack,
+	Typography,
+	Select,
+	MenuItem,
+	InputLabel,
+	FormControl,
+	Checkbox,
+} from "@mui/material";
+import theme from "../../HOC/Theme";
 import { useForm, Controller } from "react-hook-form";
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import axios from "axios";
 import { Button } from "../../components";
-import PhoneInputWithCountry from "react-phone-number-input/react-hook-form";
-import PhoneInput from "react-phone-number-input/react-hook-form-input";
-
-import { CountrySelectWithIcon } from "./CountrySelect";
-import { isValidPhoneNumber } from "react-phone-number-input";
-import { SUBMISSIONS, DOMAIN } from "../../helpers/api";
+import { DOMAIN, SUBMISSIONS } from "../../helpers/api";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const URL = `${DOMAIN}${SUBMISSIONS}`;
 
+const useYupValidationResolver = (validateSchema) =>
+	useCallback(
+		async (data) => {
+			try {
+				const values = await validateSchema.validate(data, {
+					abortEarly: false,
+				});
+				return {
+					values,
+					error: {},
+				};
+			} catch (error) {
+				return {
+					values: {},
+					errors: errors.inner.reduce(
+						(allErrors, currentError) => ({
+							...allErrors,
+							[currentError.path]: {
+								type: currentError.type ?? "validation",
+								message: currentError.message,
+							},
+						}),
+						{}
+					),
+				};
+			}
+		},
+		[validateSchema]
+	);
+
+const validateSchema = yup.object({
+	store_name: yup.string().required("Required"),
+	presentator: yup.string().required("Required"),
+	email: yup.string().email().required("Required"),
+	bank_number: yup.number().positive().integer().required("Required"),
+	bank: yup.string().required("Required"),
+	owner: yup.string().required("Required"),
+	branch: yup.string().required("Required"),
+	phone: yup.string().required("Required"),
+});
+
 const FormContact = () => {
+	// const resolver = useYupValidationResolver(validateSchema);
+
+	const resolver = yupResolver(validateSchema);
+
 	const {
 		register,
 		control,
 		handleSubmit,
 		formState: { errors },
 	} = useForm({
+		resolver: resolver,
 		defaultValues: {
 			page: 6,
 			category: 1,
-			phone: "+84912345679",
+			phone: "+84978216729",
 		},
 	});
 
@@ -32,12 +85,22 @@ const FormContact = () => {
 
 	const [value, setValue] = useState("");
 
+	const handleChange = (e) => {
+		setValue(e.target.value);
+	};
+
 	// console.log(errors);
 
 	// console.log(watch());
+
+	const onChange = useCallback((event) => {
+		const value = event.target.value;
+		onChange(value === "VN" ? undefined : value);
+	}, []);
+
 	const config = {
 		"Content-Type": "application/json",
-		Authorization: "Api-Key ubc9FYnH.brSNHwzFxNIZgehgQosDArgFe70dfigA", //KEY could be changed
+		Authorization: process.env.NEXT_PUBLIC_ANALYTICS_ID,
 	};
 
 	const onSubmit = (data) => {
@@ -63,43 +126,85 @@ const FormContact = () => {
 						fullWidth
 						label='Tên quán / Thương hiệu'
 						id='1'
-						{...register("store_name", { required: true, maxLength: 20 })}
+						{...register("store_name")}
 					/>
 					<TextField
 						fullWidth
 						label='Người đại diện'
 						id='2'
-						{...register("presentator", { required: true, maxLenght: 20 })}
+						{...register("presentator")}
 					/>
-					<TextField
-						fullWidth
-						label='Email'
-						id='3'
-						{...register("email", { required: true })}
+
+					<Controller
+						name='category'
+						control={control}
+						render={() => (
+							<FormControl fullWidth>
+								<InputLabel id='10'>Categogy</InputLabel>
+								<Select
+									{...register("category")}
+									label='Categogy'
+									defaultValue={1}
+									autoWidth
+									onChange={handleChange}>
+									<MenuItem value={1}>Quán Ăn</MenuItem>
+									<MenuItem value={2}>Quán Cafe</MenuItem>
+									<MenuItem value={3}>Giải trí</MenuItem>
+									<MenuItem value={4}>Giáo dục</MenuItem>
+									<MenuItem value={5}>Baby & Toddler</MenuItem>
+									<MenuItem value={6}>Automative</MenuItem>
+								</Select>
+							</FormControl>
+						)}
+						defaultValue={1}
 					/>
+
+					{/* <Controller
+						name='iceCreamType'
+						render={({ field }) => (
+							<Select
+								{...field}
+								options={[
+									{ value: "chocolate", label: "Chocolate" },
+									{ value: "strawberry", label: "Strawberry" },
+									{ value: "vanilla", label: "Vanilla" },
+								]}
+							/>
+						)}
+						control={control}
+						defaultValue=''
+					/>
+					<Controller
+						name='Checkbox'
+						control={control}
+						render={({ field }) => <Checkbox {...field} />}
+					/> */}
+
+					<TextField fullWidth label='Email' id='3' {...register("email")} />
 					<TextField
 						fullWidth
 						label='Số tài khoản ngân hàng'
 						id='5'
-						{...register("bank_number", { required: true })}
+						{...register("bank_number")}
 					/>
-					<TextField
-						fullWidth
-						label='Bank'
-						id='6'
-						{...register("bank", { required: true })}
-					/>
+					<TextField fullWidth label='Bank' id='6' {...register("bank")} />
 					<TextField
 						fullWidth
 						label='Chủ tài khoản'
 						id='7'
-						{...register("owner", { required: true })}
+						{...register("owner")}
 					/>
 					<TextField
 						fullWidth
 						label='Chi nhánh'
 						id='8'
-						{...register("branch", { required: true })}
+						{...register("branch")}
+					/>
+					<TextField
+						fullWidth
+						label='Số điện thoại'
+						id='9'
+						{...register("phone")}
 					/>
 
 					{/* <PhoneInput
@@ -129,12 +234,13 @@ const FormContact = () => {
 							/>
 						)}
 					/> */}
+					{/* <CountrySelect value={value} onChange={onChange} /> */}
 
 					<Button
 						type='submit'
 						title={"Đăng Ký"}
 						isBackground={true}
-						backgroundColor={theme.palette.primary.main}
+						backgroundColor={theme.palette.secondary.main}
 						sx={{
 							paddingX: 10,
 						}}

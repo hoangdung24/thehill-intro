@@ -1,8 +1,9 @@
 import axios from "axios";
+import { BLOG_DETAIL, BLOG_LIST, DOMAIN, SETTINGS } from "../helpers/api";
 
 export async function getAllData() {
 	const response = await axios.get(
-		"https://member-intro.t-solution.vn/api/v2/pages/?fields=*&type=blog.BlogDetailPage"
+		`${DOMAIN}${SETTINGS}?fields=*&type=${BLOG_LIST}`
 	);
 	const data = await response.data;
 

@@ -9,17 +9,12 @@ import {
 } from "@mui/material";
 import { Button } from "../../components";
 import { Markup } from "interweave";
+import { useRouter } from "next/router";
 
-const BlogCard = ({
-	id,
-	counter,
-	title,
-	thumbnail,
-	date,
-	content,
-	...props
-}) => {
-	const converDate = new Date(date).toLocaleDateString("en-US", {
+const BlogCard = ({ id, title, thumbnail, date, content, ...props }) => {
+	const router = useRouter();
+
+	const converDate = new Date({ date }).toLocaleDateString("en-US", {
 		day: "numeric",
 		month: "long",
 		year: "numeric",
@@ -42,7 +37,13 @@ const BlogCard = ({
 				</Description>
 			</CardContent>
 			<CardActions>
-				<Button title={"Read More"} isBackground={false} />
+				<Button
+					onClick={() => {
+						router.push(`${router.pathname}/${id}`);
+					}}
+					title={"Read More"}
+					isBackground={false}
+				/>
 			</CardActions>
 		</Card>
 	);

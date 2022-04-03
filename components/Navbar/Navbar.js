@@ -1,4 +1,4 @@
-import { GridContainer, Button, Theme } from "../../components";
+import { Button, Theme } from "../../components";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
 	AppBar,
@@ -9,10 +9,12 @@ import {
 	Container,
 	MenuItem,
 	Box,
+	SvgIcon,
 } from "@mui/material";
 
 import { useState } from "react";
 import { Image } from "@mui/icons-material";
+import ButtonBack from "../Button/ButtonShape";
 
 const pages = [
 	"Giới thiệu",
@@ -35,24 +37,19 @@ const Navbar = (props) => {
 	};
 
 	return (
-		<AppBar position='static'>
-			<GridContainer
-				OuterProps={{
-					sx: {
-						backgroundColor: Theme.palette.primary.main,
-						padding: 2,
-					},
+		<Box sx={{ flexGrow: 1 }}>
+			<AppBar
+				position='static'
+				sx={{
+					backgroundColor: Theme.palette.primary.main,
 				}}>
 				<Container maxWidth='xl'>
 					<Toolbar disableGutters>
-						<Typography
-							href='/'
-							variant='h6'
-							noWrap
-							component='div'
+						<Box
+							component={"div"}
 							sx={{ mr: 2, display: { xs: "none", md: "flex" } }}>
-							LOGO
-						</Typography>
+							<Typography variant='h6'>LOGO</Typography>
+						</Box>
 
 						<Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
 							<IconButton
@@ -88,13 +85,12 @@ const Navbar = (props) => {
 								))}
 							</Menu>
 						</Box>
-						<Typography
-							variant='h6'
-							noWrap
-							component='div'
+
+						<Box
+							component={"div"}
 							sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-							LOGO
-						</Typography>
+							<Typography variant='h6'>LOGO</Typography>
+						</Box>
 						<Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
 							{pages.map((page) => (
 								<Button
@@ -108,15 +104,16 @@ const Navbar = (props) => {
 
 						<Box sx={{ flexGrow: 0 }}>
 							<Button
+								href='/contact'
 								title={"Đăng ký"}
 								isBackground={true}
-								backgroundColor={"#E2D784"}
+								backgroundColor={Theme.palette.secondary.main}
 							/>
 						</Box>
 					</Toolbar>
 				</Container>
-			</GridContainer>
-		</AppBar>
+			</AppBar>
+		</Box>
 	);
 };
 export default Navbar;

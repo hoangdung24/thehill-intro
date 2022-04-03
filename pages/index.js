@@ -1,7 +1,7 @@
-import { Header } from "../components";
+import { HomePage } from "../containers";
 
-const Home = () => {
-	return <Header />;
+const Home = ({ ...props }) => {
+	return <HomePage {...props} />;
 };
 
 export default Home;

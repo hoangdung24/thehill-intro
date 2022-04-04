@@ -1,18 +1,14 @@
-import { SubHeader, GridContainer } from "../../components";
-import { Stack, Box, Grid } from "@mui/material";
+import { SubHeader } from "../../components";
+import { Stack, Box, Grid, Container } from "@mui/material";
 import Blog from "../../containers/News/components/Blog";
 import Tag from "../../containers/News/components/Tag";
+import { Fragment } from "react";
 
 const FilterNews = () => {
 	return (
-		<>
+		<Fragment>
 			<SubHeader title='We are tech giant with 50k+ clients ' />
-			<GridContainer
-				OuterProps={{
-					sx: {
-						padding: 5,
-					},
-				}}>
+			<Container maxWidth='xl'>
 				<Stack spacing={2} direction='column'>
 					<Box>
 						<Blog />
@@ -26,20 +22,11 @@ const FilterNews = () => {
 							<Grid item xs={3}>
 								<Tag />
 							</Grid>
-							<Grid item xs={3}>
-								<Tag />
-							</Grid>
-							<Grid item xs={3}>
-								<Tag />
-							</Grid>
-							<Grid item xs={3}>
-								<Tag />
-							</Grid>
 						</Grid>
 					</Box>
 				</Stack>
-			</GridContainer>
-		</>
+			</Container>
+		</Fragment>
 	);
 };
 

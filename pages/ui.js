@@ -1,24 +1,23 @@
-import React from "react";
+import React, { Fragment } from "react";
 import {
-	GridContainer,
 	Button,
 	FormContact,
 	BoxContact,
 	Wheel,
 	ButtonShape,
 	BlogCard,
+	CategoryList,
+	ScrollButton,
+	CardPartner,
+	ButtonPop,
 } from "../components";
-import { Stack, Box } from "@mui/material";
+import { Stack, Box, Container } from "@mui/material";
+import Slider from "../containers/Home/components/Slider";
 
-const UIPage = () => {
+const UIPage = ({ ...props }) => {
 	return (
-		<>
-			<GridContainer
-				OuterProps={{
-					sx: {
-						padding: 2,
-					},
-				}}>
+		<Fragment>
+			<Container maxWidth='xl'>
 				<Stack
 					direction={"column"}
 					spacing={2}
@@ -67,10 +66,69 @@ const UIPage = () => {
 					{/* <div>
 						<BlogCard />
 					</div> */}
+					{/* <div>
+						<CategoryList title={"1"} />
+					</div> */}
+					<div>
+						<ScrollButton />
+					</div>
+					<div>
+						<CardPartner
+							link={"https://thepizzacompany.vn"}
+							icon={
+								"http://member-intro.t-solution.vn/media/original_images/TPC_logo-02.jpg"
+							}
+							description={"Tách cà phê ngon cho cuộc gặp gỡ thêm hứng khởi"}
+							point_content={"<p>Tích điểm: <span>5</span></p>"}
+							name={"The coffee club"}
+						/>
+					</div>
+					<div>
+						<ButtonPop
+							isSpecial={true}
+							svg={
+								"http://member-intro.t-solution.vn/media/original_images/icon-am-thuc.png"
+							}
+						/>
+					</div>
+					{/* <div>
+						<Slider {...props} />
+					</div> */}
 				</Stack>
-			</GridContainer>
-		</>
+			</Container>
+		</Fragment>
 	);
 };
 
 export default UIPage;
+
+// export async function getServerSideProps({ params }) {
+// 	try {
+// 		const urls = [`${PARTNER}?fields=*`];
+// 		const reList = await Promise.all(
+// 			urls.map((url) => {
+// 				return axios.get(url).then(({ data }) => {
+// 					return data;
+// 				});
+// 			})
+// 		);
+
+// 		console.log(reList);
+
+// 		let partnerData;
+
+// 		reList.forEach((e, index) => {
+// 			if (index === 0) {
+// 				partnerData = e;
+// 			}
+// 		});
+
+// 		return {
+// 			props: {
+// 				partnerData: partnerData,
+// 			},
+// 		};
+// 	} catch (e) {
+// 		return console.log(e);
+// 	}
+// }

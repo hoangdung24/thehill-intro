@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import getUnicodeFlagIcon from "country-flag-icons/unicode";
 
-export default function CountrySelect({ value, onChange, options, ...rest }) {
+export default function CountrySelect({ value, onChange, options, ...props }) {
 	const onChange_ = useCallback(
 		(event) => {
 			const value = event.target.value;
@@ -17,7 +17,7 @@ export default function CountrySelect({ value, onChange, options, ...rest }) {
 	}, [options, value]);
 
 	return (
-		<select {...rest} value={value || "VN"} onChange={onChange_}>
+		<select {...props} value={value || "VN"} onChange={onChange_}>
 			{options.map(({ value, label, divider }) => (
 				<option
 					key={divider ? "|" : value || "VN"}
@@ -68,7 +68,7 @@ export function CountrySelectWithIcon({
 	getIconAspectRatio,
 	arrowComponent: Arrow,
 	unicodeFlags,
-	...rest
+	...props
 }) {
 	const selectedOption = useMemo(() => {
 		return getSelectedOption(options, value);
@@ -77,7 +77,7 @@ export function CountrySelectWithIcon({
 	return (
 		<div className='PhoneInputCountry'>
 			<CountrySelect
-				{...rest}
+				{...props}
 				value={value}
 				options={options}
 				className={classNames("PhoneInputCountrySelect", className)}

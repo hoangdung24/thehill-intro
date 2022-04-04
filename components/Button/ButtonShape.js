@@ -9,7 +9,7 @@ import { ButtonUnstyled } from "@mui/base";
 import { NoEncryption } from "@mui/icons-material";
 import { color } from "@mui/system";
 
-const ButtonBack = ({
+const ButtonShape = ({
 	title,
 	isBackground = false,
 	backgroundColor = "6EDCD9",
@@ -37,7 +37,7 @@ const ButtonBack = ({
 	);
 };
 
-export default ButtonBack;
+export default ButtonShape;
 
 // Styled Sheet
 

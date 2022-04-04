@@ -1,37 +1,25 @@
 import { GridContainer, ButtonShape, Theme } from "../../components";
 import { Grid, Typography, Container, Box } from "@mui/material";
-import { styled } from "@mui/styles";
+import styled from "@emotion/styled";
 
-const SubHeader = ({ title, ...props }) => {
+const SubHeader = ({ title }) => {
 	return (
-		<GridContainer
-			OuterProps={{
-				sx: {
-					backgroundColor: Theme.palette.primary.main,
-					padding: 2,
-				},
-			}}>
-			<Container maxWidth='xl' sx={{ padding: 20 }}>
-				<Grid
-					container
-					spacing={2}
-					justifyContent='center'
-					alignContent='center'>
-					<Grid item xs={12} md={6} lg={6}>
-						<Box>
-							<ButtonShape
-								title={"About us"}
-								isBackground={true}
-								backgroundColor={"#0E185F"}
-							/>
-						</Box>
-					</Grid>
-					<Grid item xs={12} md={6} lg={6}>
-						<Title variant='h3'>{title}</Title>
-					</Grid>
+		<Container maxWidth='xl' sx={{ padding: 20 }}>
+			<Grid container spacing={2} justifyContent='center' alignContent='center'>
+				<Grid item xs={12} md={6} lg={6}>
+					<Box>
+						<ButtonShape
+							title={"About us"}
+							isBackground={true}
+							backgroundColor={"#0E185F"}
+						/>
+					</Box>
 				</Grid>
-			</Container>
-		</GridContainer>
+				<Grid item xs={12} md={6} lg={6}>
+					<Title variant='h3'>{title}</Title>
+				</Grid>
+			</Grid>
+		</Container>
 	);
 };
 
@@ -39,12 +27,8 @@ export default SubHeader;
 
 // Styled Sheet
 
-const Title = styled(Typography, {
-	shouldForwardProp: (prop) => {
-		return {};
-	},
-})(({ theme }) => {
+const Title = styled(Typography)(({ theme }) => {
 	return {
-		color: Theme.palette.common.white,
+		color: Theme.palette.common.black,
 	};
 });

@@ -6,20 +6,16 @@ import {
 	CardActions,
 	styled,
 	Stack,
+	Box,
 } from "@mui/material";
 import { Button } from "../../components";
-import { Markup } from "interweave";
+import { useRouter } from "next/router";
+import DOMPurify from "isomorphic-dompurify";
 
-const BlogCard = ({
-	id,
-	counter,
-	title,
-	thumbnail,
-	date,
-	content,
-	...props
-}) => {
-	const converDate = new Date(date).toLocaleDateString("en-US", {
+const BlogCard = ({ id, title, thumbnail, date, content, ...props }) => {
+	const router = useRouter();
+
+	const converDate = new Date({ date }).toLocaleDateString("en-US", {
 		day: "numeric",
 		month: "long",
 		year: "numeric",
@@ -37,12 +33,20 @@ const BlogCard = ({
 				<Title gutterBottom variant='h5' component='div'>
 					{title}
 				</Title>
-				<Description variant='body2' color='text.secondary'>
-					<Markup content={content} />
-				</Description>
+				<Box
+					component={"div"}
+					dangerouselySetInnerHTML={{
+						__html: DOMPurify.sanitize(content),
+					}}></Box>
 			</CardContent>
 			<CardActions>
-				<Button title={"Read More"} isBackground={false} />
+				<Button
+					onClick={() => {
+						router.push(`${router.pathname}/${id}`);
+					}}
+					title={"Read More"}
+					isBackground={false}
+				/>
 			</CardActions>
 		</Card>
 	);

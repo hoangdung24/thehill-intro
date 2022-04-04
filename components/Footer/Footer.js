@@ -3,13 +3,13 @@ import { GridContainer, QRcode, Image, Theme } from "../../components";
 import { Container, Stack, Typography, Grid, Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-const SIZE = 35;
+const SIZE = "2vw";
 
 const TRANSITION = "all 0.5s";
 
 const Footer = (props) => {
 	return (
-		<footer>
+		<Footer>
 			<Box
 				sx={{
 					backgroundColor: Theme.palette.primary.main,
@@ -85,7 +85,7 @@ const Footer = (props) => {
 					</Grid>
 				</Container>
 			</Box>
-		</footer>
+		</Footer>
 	);
 };
 

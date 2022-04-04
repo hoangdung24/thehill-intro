@@ -1,16 +1,13 @@
-import { Markup } from "interweave";
+import DOMPurify from "isomorphic-dompurify";
+import { Box } from "@mui/system";
 
-// const data =
-// 	'<p data-block-key="3y3mb">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce condimentum mi nec neque vehicula, ac finibus quam lacinia. Fusce et malesuada dolor. In posuere pulvinar ex non auctor. Pellentesque arcu diam, dapibus quis congue et, consequat id metus. Nullam quis elit id enim tempor consectetur nec non elit. Nunc elementum porttitor enim ac consectetur. Nam convallis rhoncus justo, non luctus lectus laoreet vel. Morbi vitae euismod ligula. Maecenas dictum mauris est, in viverra nulla gravida vel. Praesent congue bibendum elit sit amet semper. Mauris mi felis, tempor et magna quis, finibus ornare massa. Donec suscipit blandit dui, vel facilisis dui. Nullam faucibus maximus tempus. Ut vestibulum volutpat ante vitae vehicula. Duis elementum erat nulla, vel varius nulla porttitor quis. Sed ante leo, porttitor ut pulvinar in, elementum a sapien.</p><p data-block-key="7523e">Sed ligula metus, commodo eu volutpat non, dictum eu purus. Suspendisse vestibulum eu mi in condimentum. Nullam imperdiet, libero nec eleifend laoreet, odio eros vulputate tortor, a vulputate massa enim non sem. Mauris viverra sapien quis ipsum tempus volutpat. Curabitur hendrerit accumsan urna. Phasellus non mollis sapien, at maximus leo. Ut sit amet libero bibendum, aliquam ligula non, volutpat justo.</p><p data-block-key="cve4q">Pellentesque consectetur eu diam vitae tincidunt. Nunc maximus nisl vitae neque condimentum, vitae rutrum quam eleifend. Maecenas luctus efficitur malesuada. Quisque ac orci at ligula rutrum fringilla vel sed libero. Duis tincidunt turpis leo, ac aliquam velit convallis nec. Nam ultricies felis eu dolor tempus, et venenatis tortor tincidunt. Suspendisse volutpat ex feugiat magna faucibus tincidunt. Sed massa elit, dictum at venenatis et, pellentesque sit amet ipsum. Donec viverra quam at libero faucibus tempus. Vivamus ac turpis in eros maximus tempor in a arcu. Vestibulum sapien eros, cursus sed vulputate in, pretium non est. Vivamus eu arcu pellentesque, scelerisque nisl ornare, ultricies metus. Donec mollis ut mi at mollis. Praesent eu elementum lacus, et suscipit magna. Suspendisse vel mi ultrices, laoreet turpis id, mollis risus.</p><p data-block-key="f2cpe">Etiam id mi magna. Curabitur ligula massa, fringilla porttitor ultricies ac, tempus vulputate sapien. Suspendisse a nulla sed velit facilisis facilisis. Maecenas malesuada ex ac ullamcorper fringilla. Cras sit amet tempus nibh. Aliquam eget tortor lectus. Duis et tempor orci. Cras sed turpis ex. Nulla at lorem nisi. Sed tempus vitae felis nec vehicula. Sed vestibulum ipsum eu dolor varius, at rhoncus ante fermentum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nunc pellentesque dapibus massa, et tempus ante molestie vitae. Nullam eget sapien posuere, dignissim dolor id, malesuada lacus. Sed lacinia convallis luctus. Etiam egestas at orci quis pharetra.</p><p data-block-key="1msva">Quisque ut ante at sem sollicitudin tincidunt. Aliquam non eros in purus molestie auctor nec vel arcu. Aenean lectus ligula, scelerisque non pellentesque at, malesuada venenatis lacus. Sed eget odio semper mi ultrices viverra. Sed dolor ipsum, pulvinar et fringilla in, luctus sed diam. Sed iaculis sapien elit, at viverra dui hendrerit in. Cras egestas nibh in nulla pellentesque rhoncus. Cras tincidunt mattis fringilla. Duis porttitor sem a ipsum aliquam, a tempor ante congue. Aenean vitae magna nisi. In venenatis quis neque at fringilla. Curabitur at diam quis erat sagittis porta et at ipsum. Sed scelerisque ultrices metus.</p>';
-
-const data =
-	'<h3 data-block-key="zpjb3"><b>Then</b> <b><span>book your trip</span></b> <b>from our exclusive</b> <b><span>offers.</span></b></h3><h4 data-block-key="e30v0">Inspiration comes in many ways and you like to save everything from. sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</h4><p data-block-key="3vefb"><b>Take your flight</b></p><p data-block-key="ced99">in many ways and you like to save Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.</p><p data-block-key="cbaip"><b>Room Service</b></p><p data-block-key="bk445">in many ways and you like to save Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.</p>';
-
-const Blog = () => {
+const Blog = ({ about_content }) => {
 	return (
-		<div>
-			<Markup content={data} />
-		</div>
+		<Box
+			component={"div"}
+			dangerouslySetInnerHTML={{
+				__html: DOMPurify.sanitize(about_content),
+			}}></Box>
 	);
 };
 

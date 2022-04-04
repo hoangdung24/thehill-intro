@@ -25,8 +25,9 @@ const ScrollButton = () => {
 			behavior: "smooth",
 		});
 	};
-
-	window.addEventListener("scroll", toggleV);
+	if (typeof window !== "undefined") {
+		window.addEventListener("scroll", toggleV);
+	}
 
 	return (
 		<Button onClick={scrollToTop}>

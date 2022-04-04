@@ -1,9 +1,26 @@
-import styled from "@emotion/styled";
-import { Button as ButtonMui, Typography } from "@mui/material";
-import { Theme } from "../../components";
+import { styled } from "@mui/material/styles";
 
-const ButtonPop = () => {
-	return <ButtonStyled></ButtonStyled>;
+import { Button as ButtonMui, Box } from "@mui/material";
+
+import { Image } from "../../HOC";
+
+const SIZE = 50;
+
+const TRANSITION = "all 0.5s";
+
+const ButtonPop = ({ svg, isSpecial = false, ...props }) => {
+	return (
+		<ButtonStyled disableFocusRipple disableTouchRipple>
+			<Wrapper
+				component={"div"}
+				className='SVG'
+				id='SVG'
+				isSpecial={isSpecial}
+				{...props}>
+				<Image src={svg} height={SIZE} width={SIZE} alt='POP' />
+			</Wrapper>
+		</ButtonStyled>
+	);
 };
 
 export default ButtonPop;
@@ -12,9 +29,37 @@ export default ButtonPop;
 
 const ButtonStyled = styled(ButtonMui)(({ theme }) => {
 	return {
-		background: Theme.palette.secondary.main,
-		borderRadius: "50%",
-		height: 50,
-		width: 50,
+		maxWidth: "fit-content",
+		maxHeight: "fit-content",
+		position: "relative",
 	};
+});
+
+const Wrapper = styled(Box, {
+	shouldForwardProp: (prop) => {
+		return prop !== "isSpecial";
+	},
+})(({ theme, isSpecial }) => {
+	let defaultStyle = {
+		maxWidth: "content-fit",
+		maxHeight: "content-fit",
+		justifyContent: "center",
+		alignItems: "center",
+		display: "flex",
+		borderRadius: "50%",
+		transition: TRANSITION,
+	};
+	if (isSpecial === true) {
+		return {
+			...defaultStyle,
+			boxShadow: "none",
+			"&:hover": {
+				transform: "scale(1.3)",
+			},
+		};
+	} else {
+		return {
+			...defaultStyle,
+		};
+	}
 });

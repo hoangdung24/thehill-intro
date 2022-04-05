@@ -11,7 +11,12 @@ const AboutUs = ({ about_content, about_image, ...props }) => {
 			<Grid container spacing={2}>
 				<Grid item lg={6} md={12} xs={12}>
 					<WrapperBox>
-						<Image src={about_image} height={SIZE} width={SIZE} />
+						<Image
+							src={about_image}
+							height={SIZE}
+							width={SIZE}
+							alt='IMAGE ABOUT US'
+						/>
 					</WrapperBox>
 				</Grid>
 				<Grid item lg={6} md={12} xs={12}>

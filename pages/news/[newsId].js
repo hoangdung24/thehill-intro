@@ -1,15 +1,11 @@
 import axios from "axios";
 import { NewsBlog } from "../../containers";
-import {
-	BLOG_CATEGORIES,
-	BLOG_DETAIL,
-	BLOG_LIST,
-	DOMAIN,
-	PAGES,
-} from "../../helpers/api";
+import { BLOG_CATEGORIES, BLOG_DETAIL, BLOG_LIST, DOMAIN, PAGES } from "../../helpers/api";
 
 const NewsDetailPage = ({ ...props }) => {
-	return <NewsBlog {...props} />;
+  return null;
+
+  return <NewsBlog {...props} />;
 };
 
 export default NewsDetailPage;

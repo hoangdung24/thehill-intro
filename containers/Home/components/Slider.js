@@ -5,13 +5,10 @@ import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
 import { CardPartner, Theme, Image } from "../../../components";
 import styled from "@emotion/styled";
-import { flexbox } from "@mui/system";
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
-const SIZE = 400;
-
-const Slider = (partnerData, ...props) => {
+const Slider = ({ partnerData, partner_image, ...props }) => {
 	const theme = useTheme();
 	const [activeStep, setActiveStep] = useState(0);
 
@@ -20,47 +17,62 @@ const Slider = (partnerData, ...props) => {
 	};
 
 	return (
-		<Fragment>
-			<Container maxWidth='xl'>
-				<ImageBackground>
-					<Image
-						src='http://member-intro.t-solution.vn/media/original_images/01_qSR6fdH.png'
-						width='100%'
-						height={SIZE}
-						alt='Image Partner'
-					/>
-					<Wraper>
-						<AutoPlaySwipeableViews
-							axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-							index={activeStep}
-							onChangeIndex={handleStepChange}
-							enableMouseEvents>
-							{partnerData?.partnerData?.items?.map((e, index) => (
-								<Box component={"div"} key={index}>
-									<CardPartner
-										icon={e.image}
-										name={e.name}
-										description={e.description}
-										point_content={e.point_content}
-										link={e.link}
-									/>
-								</Box>
-							))}
-						</AutoPlaySwipeableViews>
-					</Wraper>
-				</ImageBackground>
-			</Container>
-		</Fragment>
+		<Wrapper>
+			<WraperImage>
+				<Image
+					src={partner_image}
+					width='100%'
+					height='100%'
+					objectFit='cover'
+					objectPosition='center'
+					alt='Image Partner'
+				/>
+			</WraperImage>
+			<AutoPlaySwipeableViews
+				axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+				index={activeStep}
+				onChangeIndex={handleStepChange}
+				enableMouseEvents>
+				{partnerData?.items?.map((e, index) => (
+					<Box component={"div"} key={index}>
+						<CardPartner
+							icon={e.image}
+							name={e.name}
+							description={e.description}
+							point_content={e.point_content}
+							link={e.link}
+						/>
+					</Box>
+				))}
+			</AutoPlaySwipeableViews>
+		</Wrapper>
 	);
 };
 
 export default Slider;
 
 // styled Sheet
-const ImageBackground = styled(Box)(({ theme }) => {
-	return {};
+
+const WraperImage = styled(Box, {
+	shouldForwardProp: (prop) => {
+		return prop !== "partner_image";
+	},
+})(({ theme }) => {
+	return {
+		position: "absolute",
+		bottom: 0,
+		top: 0,
+		width: "100%",
+		height: "100%",
+		pointerEvents: "none",
+		objectFit: "contain",
+		objectPosition: "center",
+	};
 });
 
-const Wraper = styled(Box)(({ theme }) => {
-	return {};
+const Wrapper = styled(Box)(({ theme }) => {
+	return {
+		paddingTop: theme.spacing(2),
+		paddingBottom: theme.spacing(4),
+	};
 });

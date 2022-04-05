@@ -3,7 +3,7 @@ import { Image } from "../../HOC";
 
 const SIZE = 50;
 
-const TRANSITION = "all 0.5s";
+const TRANSITION = "all 0.3s";
 
 const ButtonPop = ({ svg, isSpecial = false, ...props }) => {
   return (

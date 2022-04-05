@@ -1,19 +1,27 @@
 import QRCode from "qrcode";
 import { useEffect, useState } from "react";
-import { Image } from "../../HOC";
+import { DOMAIN, QR_CUSTOMER } from '../../helpers/api'
+import {Box} from '@mui/material'
 
-const URL = "https://hyuti.herokuapp.com/qr/customer";
+
+const URL = `${DOMAIN}${QR_CUSTOMER}`;
 
 const ALT = "QRCode";
 
-const QRcode = ({ SIZE = "10vw" }) => {
+const SIZE = "250px";
+
+const QRcode = () => {
 	const [src, setSrc] = useState("");
 
 	useEffect(() => {
 		QRCode.toDataURL(URL).then(setSrc);
 	}, []);
 
-	return <Image src={src} alt={ALT} width={SIZE} height={SIZE} />;
+	return (
+		<Box>
+			<img src={src} width={SIZE} height={SIZE} alt={ALT} />
+		</Box>
+	)
 };
 
 export default QRcode;

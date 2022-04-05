@@ -3,12 +3,10 @@ import {
 	Box as BoxMui,
 	TextField,
 	Stack,
-	Typography,
 	Select,
 	MenuItem,
 	InputLabel,
 	FormControl,
-	Checkbox,
 } from "@mui/material";
 import theme from "../../HOC/Theme";
 import { useForm, Controller } from "react-hook-form";

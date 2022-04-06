@@ -1,26 +1,48 @@
-import { Container, Grid, Box, styled, Typography } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
+import { Box, styled, Typography, Fade } from "@mui/material";
 
 import { Image } from "../../../HOC";
 
 const DUMB_IMAGE = "/faq.png";
 
 const Card = ({ data }) => {
+  const ref = useRef();
+  const [height, setHeight] = useState(0);
+
+  useEffect(() => {
+    if (ref.current) {
+      setHeight((ref.current.clientWidth * 2) / 3);
+    }
+  }, []);
+
   return (
-    <Wrapper width={297} height={192}>
-      <Box
-        sx={{
-          position: "absolute",
-          top: "20%",
-          left: "20%",
-          zIndex: 2,
-        }}
-      >
-        <Typography>{data}</Typography>
-      </Box>
-      <ImageWrapper>
-        <Image width={297} height={192} src={DUMB_IMAGE} />
-      </ImageWrapper>
-    </Wrapper>
+    <Fade
+      in={true}
+      timeout={{
+        enter: 500,
+      }}
+    >
+      <Wrapper ref={ref} width={"100%"} height={height}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "20%",
+            left: "20%",
+            zIndex: 2,
+          }}
+        >
+          <Typography>{data.title}</Typography>
+        </Box>
+        <ImageWrapper>
+          <Image
+            width="100%"
+            height={"100%"}
+            src={data.thumbnail || DUMB_IMAGE}
+            objectFit="cover"
+          />
+        </ImageWrapper>
+      </Wrapper>
+    </Fade>
   );
 };
 
@@ -31,8 +53,10 @@ const Wrapper = styled(Box)(({}) => {
     position: "relative",
     transition: "all .3s ease-in-out",
     "&:hover": {
-      transform: "scale(1.2)",
+      transform: "scale(1.1)",
     },
+    borderRadius: 5,
+    overflow: "hidden",
   };
 });
 

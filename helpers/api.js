@@ -27,3 +27,6 @@ export const HOME_PAGE = "home.HomePage";
 export const QR_STORE = "/qr/store";
 
 export const QR_CUSTOMER = "/qr/customer";
+
+export const FAQ_LIST = "faq.FAQCategoryListingPage";
+export const FAQ_DETAIL = "faq.FAQCategoryPage";

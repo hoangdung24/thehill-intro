@@ -10,29 +10,34 @@ import {
   ScrollButton,
   CardPartner,
   ButtonPop,
+  QRcode,
+  CustomerCard,
 } from "../components";
 import { Stack, Box, Container } from "@mui/material";
 import Slider from "../containers/Home/components/Slider";
 
 const UIPage = ({ ...props }) => {
-  return null;
+
 
   return (
-    <Fragment>
-      <Container maxWidth="xl">
-        <Stack
-          direction={"column"}
-          spacing={2}
-          justifyContent={"center"}
-          alignItems={"center"}
-          sx={{
-            width: "inherit",
-          }}
-        >
-          <div>
-            <h1>UI PAGE</h1>
-          </div>
-          {/* <div>
+		<Fragment>
+			<Container maxWidth='xl'>
+				<Stack
+					direction={"column"}
+					spacing={2}
+					justifyContent={"center"}
+					alignItems={"center"}
+					sx={{
+						width: "inherit",
+					}}>
+					<div>
+						<h1>UI PAGE</h1>
+					</div>
+
+					<div>
+						<QRcode />
+					</div>
+					{/* <div>
 						<Button title='Button' isBackground={true} />
 					</div>
 					<div>
@@ -53,46 +58,62 @@ const UIPage = ({ ...props }) => {
 							backgroundColor='#332FD0'
 						/>
 					</div> */}
-          {/* <div>
+					{/* <div>
 						<Wheel />
 					</div> */}
-          <div>
-            <ButtonShape title={"About"} isBackground={true} backgroundColor={"#FAD9E6"} />
-          </div>
-          {/* <div>
+					<div>
+						<ButtonShape
+							title={"About"}
+							isBackground={true}
+							backgroundColor={"#FAD9E6"}
+						/>
+					</div>
+					{/* <div>
 						<FormContact />
 					</div> */}
-          {/* <div>
+					{/* <div>
 						<BlogCard />
 					</div> */}
-          {/* <div>
+					{/* <div>
 						<CategoryList title={"1"} />
 					</div> */}
-          <div>
+					{/* <div>
             <ScrollButton />
-          </div>
-          <div>
-            <CardPartner
-              link={"https://thepizzacompany.vn"}
-              icon={"http://member-intro.t-solution.vn/media/original_images/TPC_logo-02.jpg"}
-              description={"Tách cà phê ngon cho cuộc gặp gỡ thêm hứng khởi"}
-              point_content={"<p>Tích điểm: <span>5</span></p>"}
-              name={"The coffee club"}
-            />
-          </div>
-          <div>
-            <ButtonPop
-              isSpecial={true}
-              svg={"http://member-intro.t-solution.vn/media/original_images/icon-am-thuc.png"}
-            />
-          </div>
-          {/* <div>
-						<Slider {...props} />
-					</div> */}
-        </Stack>
-      </Container>
-    </Fragment>
-  );
+          </div> */}
+					<div>
+						<CardPartner
+							link={"https://thepizzacompany.vn"}
+							icon={
+								"http://member-intro.t-solution.vn/media/original_images/TPC_logo-02.jpg"
+							}
+							description={"Tách cà phê ngon cho cuộc gặp gỡ thêm hứng khởi"}
+							point_content={"<p>Tích điểm: <span>5</span></p>"}
+							name={"The coffee club"}
+						/>
+					</div>
+					<div>
+						<ButtonPop
+							isSpecial={true}
+							svg={
+								"http://member-intro.t-solution.vn/media/original_images/icon-am-thuc.png"
+							}
+						/>
+					</div>
+					<div>
+						<CustomerCard
+							icon={
+								"http://member-intro.t-solution.vn/media/original_images/icon-am-thuc.png"
+							}
+							title={"Book Hotels"}
+							desc={
+								"Inspiration comes in many ways and you like to save everything from."
+							}
+						/>
+					</div>
+				</Stack>
+			</Container>
+		</Fragment>
+	);
 };
 
 export default UIPage;

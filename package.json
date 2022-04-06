@@ -21,6 +21,7 @@
     "@next/bundle-analyzer": "^12.1.4",
     "axios": "^0.26.1",
     "dompurify": "^2.3.6",
+    "isomorphic-dompurify": "^0.18.0",
     "lodash": "^4.17.21",
     "next": "12.1.0",
     "nprogress": "^0.2.0",

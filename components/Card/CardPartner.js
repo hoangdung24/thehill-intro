@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Avatar, Card, Box, Typography, Stack, Paper, Link } from "@mui/material";
 import { Theme } from "../../HOC";
-import createDOMPurify from "dompurify";
+import createDOMPurify from "isomorphic-dompurify";
 
 const CardPartner = ({ icon, name, description, point_content, link, ...props }) => {
   return (

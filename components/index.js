@@ -1,5 +1,5 @@
 export { Layout } from "./Layout";
-export { Footer } from "./Footer";
+export { Footer, FooterTop, FooterBottom } from "./Footer";
 export { Button, ButtonShape, ScrollButton, ButtonPop } from "./Button";
 export { Header, SubHeader } from "./Header";
 export { Navbar } from "./Navbar";
@@ -7,5 +7,5 @@ export { QRcode } from "./QRcode";
 export { FormContact, BoxContact } from "./Form";
 export { Image, Theme } from "../HOC";
 export { Wheel, Bulb } from "./Animation";
-export { BlogCard, CardPartner } from "./Card";
+export { BlogCard, CardPartner , CustomerCard, Subcriber} from "./Card";
 export { CategoryList } from "./Category";

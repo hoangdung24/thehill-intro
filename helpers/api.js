@@ -1,6 +1,6 @@
 export const DOMAIN = "https://member-intro.t-solution.vn";
 
-export const SETTINGS = "/api/v2/";
+export const SETTINGS = "https://member-intro.t-solution.vn/api/v2/";
 
 export const TAGS = "/api/v2/tags/";
 
@@ -23,3 +23,7 @@ export const BLOG_DETAIL = "blog.BlogDetailPage";
 export const BLOG_CATEGORIES = "blog.BlogCategoryPage";
 
 export const HOME_PAGE = "home.HomePage";
+
+export const QR_STORE = "/qr/store";
+
+export const QR_CUSTOMER = "/qr/customer";

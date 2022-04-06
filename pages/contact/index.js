@@ -4,7 +4,6 @@ import styled from "@emotion/styled";
 
 const ContactPage = () => {
   return null;
-
   return (
     <Container
       maxWidth="xl"

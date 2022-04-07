@@ -3,20 +3,23 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import { Container, Grid, Box, Fade, Button, Stack } from "@mui/material";
 
-import Card from "./components/Card";
+import PartnerCategoryItem from "./components/PartnerCategoryItem";
 import Title from "./components/Title";
 import Banner from "./components/Banner";
-import PartnerDetail from "./components/PartnerDetail";
+import PartnerList from "./components/PartnerList";
+
+const DUMB_IMAGE = "/icon-all.png";
 
 const Partner = ({ ...props }) => {
-  const [selectedPartner, setSelectedPartner] = useState(null);
+  const [selectedPartner, setSelectedPartner] = useState("all");
 
   const { initPartnerPage, initPartnerDetailList } = props;
 
-  const partnerDetailList = initPartnerDetailList?.items;
+  let partnerDetailList = initPartnerDetailList?.items;
+
   const metadata = initPartnerPage?.items?.[0];
 
-  const selectedPartner1Handler = useCallback((id) => {
+  const selectedPartnerHandler = useCallback((id) => {
     return () => {
       setSelectedPartner(id);
     };
@@ -25,7 +28,6 @@ const Partner = ({ ...props }) => {
   return (
     <Box paddingBottom={5}>
       <Banner data={metadata} />
-
       <Container
         sx={{
           maxWidth: {
@@ -39,39 +41,56 @@ const Partner = ({ ...props }) => {
             <Title data={metadata} />
           </Grid>
 
-          {selectedPartner === null &&
-            partnerDetailList.map((el) => {
-              return (
-                <Grid item xs={12} md={6} lg={4} key={el.id}>
-                  <Box sx={{ cursor: "pointer" }} onClick={selectedPartner1Handler(el)}>
-                    <Card data={el} />
-                  </Box>
-                </Grid>
-              );
-            })}
+          <Grid item xs={12}>
+            <Stack direction={"row"} justifyContent="space-between" flexWrap={"wrap"}>
+              {[{ id: "all", title: "Tất cả", thumbnail: DUMB_IMAGE }, ...partnerDetailList].map(
+                (el) => {
+                  return (
+                    <PartnerCategoryItem
+                      onClick={selectedPartnerHandler(el.id)}
+                      data={el}
+                      key={el.id}
+                      sx={{
+                        cursor: "pointer",
+                        marginBottom: 2,
+                        marginX: 2,
+                      }}
+                    />
+                  );
+                }
+              )}
+            </Stack>
+          </Grid>
 
-          {selectedPartner && (
-            <Fade in={!!selectedPartner}>
-              <Grid item xs={12}>
-                <Stack>
-                  <Button
-                    startIcon={<ArrowBackIcon />}
+          <Grid item xs={12}>
+            {partnerDetailList.map((el) => {
+              if (selectedPartner === "all") {
+                return (
+                  <PartnerList
+                    key={el.id}
+                    data={el}
                     sx={{
-                      width: "fit-content",
-                      borderRadius: "24px",
-                      marginBottom: 3,
+                      marginBottom: 8,
                     }}
-                    variant="outlined"
-                    onClick={selectedPartner1Handler(null)}
-                  >
-                    Trở về
-                  </Button>
+                  />
+                );
+              }
 
-                  <PartnerDetail data={selectedPartner} />
-                </Stack>
-              </Grid>
-            </Fade>
-          )}
+              if (el.id === selectedPartner) {
+                return (
+                  <PartnerList
+                    key={el.id}
+                    data={el}
+                    sx={{
+                      marginBottom: 8,
+                    }}
+                  />
+                );
+              } else {
+                return null;
+              }
+            })}
+          </Grid>
         </Grid>
       </Container>
     </Box>

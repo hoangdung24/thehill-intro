@@ -30,3 +30,6 @@ export const QR_CUSTOMER = "/qr/customer";
 
 export const FAQ_LIST = "faq.FAQCategoryListingPage";
 export const FAQ_DETAIL = "faq.FAQCategoryPage";
+
+export const PARTNER_LIST = "partner.PartnerListingPage";
+export const PARTNER_DETAIL = "partner.PartnerCategoryPage";

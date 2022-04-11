@@ -1,40 +1,32 @@
-import { QRcode,FooterTop, FooterBottom } from "../../components";
-import { Container, Stack, Typography, Grid, Box, styled } from "@mui/material";
-
+import { Container, Box, styled } from "@mui/material";
+import { useSetting } from "../../hooks";
+import {FooterTop , FooterBottom} from "../../components"
 const SIZE = "2vw";
 
 const TRANSITION = "all 0.5s";
 
 const Footer = ({children, ...props}) => {
+
+  const {logo_footer} = useSetting();
+
   return (
-    <FootWraper>
-      <Container maxWidth="xl">
-        <FooterTop/>
-        {/* <FooterBottom/>         */}
-      </Container>
-    </FootWraper>
-  );
+		<FootWraper>
+			<Container maxWidth='lg'>
+        <Box sx={{
+          paddingBottom: 2
+        }}>
+            <img src={logo_footer} height={100} width={175} alt="logo footer"/>
+        </Box>
+				<FooterBottom />
+        <FooterTop />
+			</Container>
+		</FootWraper>
+	);
 };
 
 export default Footer;
 
 // Styled Sheet
-
-const Title = styled(Typography)(({ theme }) => {
-  return {
-    color: theme.palette.common.white,
-  };
-});
-
-const Subtile = styled(Typography)(({ theme }) => {
-  return {
-    color: theme.palette.grey[400],
-    transition: TRANSITION,
-    "&:hover": {
-      color: theme.palette.secondary.main,
-    },
-  };
-});
 
 const FootWraper = styled(Box)(({theme}) => {
   return {
@@ -44,7 +36,6 @@ const FootWraper = styled(Box)(({theme}) => {
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    paddingTop: 85,
-    paddingBottom: 50,
+    paddingTop: "30px",
   }
 })

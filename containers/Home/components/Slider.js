@@ -1,14 +1,15 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import { useTheme } from "@mui/material/styles";
-import { Box, Container } from "@mui/material";
+import { Box, Typography , styled} from "@mui/material";
 import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
-import { CardPartner, Theme, Image } from "../../../components";
-import styled from "@emotion/styled";
+import { CardPartner } from "../../../components";
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
-const Slider = ({ partnerData, partner_image, ...props }) => {
+
+
+const SliderCarousel = ({partnerData, data,...props}) => {
 	const theme = useTheme();
 	const [activeStep, setActiveStep] = useState(0);
 
@@ -16,25 +17,39 @@ const Slider = ({ partnerData, partner_image, ...props }) => {
 		setActiveStep(step);
 	};
 
+	function slideRenderer(params) {
+		const {index, key} = params
+	}
+
+	// console.log(partnerData?.items?.[0]);
+
 	return (
 		<Wrapper>
 			<WraperImage>
-				<Image
-					src={partner_image}
-					width='100%'
-					height='100%'
-					objectFit='cover'
-					objectPosition='center'
-					alt='Image Partner'
+				<img
+					src={data.partner_image}
+					style={{
+						width: "100%",
+						height: "100%",
+						objectFit: "cover",
+					}}
 				/>
 			</WraperImage>
+			<Box
+				sx={{
+					textAlign: "center",
+					paddingBottom: 5,
+					paddingTop: 5,
+				}}>
+				<Title variant='h4'>{data.partner_title}</Title>
+			</Box>
 			<AutoPlaySwipeableViews
 				axis={theme.direction === "rtl" ? "x-reverse" : "x"}
 				index={activeStep}
 				onChangeIndex={handleStepChange}
 				enableMouseEvents>
 				{partnerData?.items?.map((e, index) => (
-					<Box component={"div"} key={index}>
+					<CardsWrapper component={"div"} key={index}>
 						<CardPartner
 							icon={e.image}
 							name={e.name}
@@ -42,14 +57,14 @@ const Slider = ({ partnerData, partner_image, ...props }) => {
 							point_content={e.point_content}
 							link={e.link}
 						/>
-					</Box>
+					</CardsWrapper>
 				))}
 			</AutoPlaySwipeableViews>
 		</Wrapper>
 	);
 };
 
-export default Slider;
+export default SliderCarousel;
 
 // styled Sheet
 
@@ -59,20 +74,37 @@ const WraperImage = styled(Box, {
 	},
 })(({ theme }) => {
 	return {
+		zIndex: -1,
 		position: "absolute",
-		bottom: 0,
 		top: 0,
-		width: "100%",
-		height: "100%",
-		pointerEvents: "none",
-		objectFit: "contain",
-		objectPosition: "center",
+		bottom: 0,
+		right: 0,
+		left: 0,
 	};
 });
 
-const Wrapper = styled(Box)(({ theme }) => {
+const Wrapper = styled(Box, {
+	shouldForwardProp: (prop) => {
+		return prop !== "parter_image";
+	},
+})(({ theme, partner_image }) => {
 	return {
+		position: "relative",
 		paddingTop: theme.spacing(2),
 		paddingBottom: theme.spacing(4),
+	};
+});
+
+const CardsWrapper = styled(Box)(({ theme }) => {
+	return {
+		alignContent: 'center',
+		display: 'flex',
+		justifyContent: 'center'
+	};
+});
+
+const Title = styled(Typography)(({ theme }) => {
+	return {
+		color: theme.palette.common.white,
 	};
 });

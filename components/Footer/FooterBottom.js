@@ -1,78 +1,79 @@
-import {Box, Grid, Stack, Typography} from '@mui/material'
+import {Box, Grid, Stack, Typography, Link, styled} from '@mui/material'
 import { QRcode } from '../../components';
 import { Image } from '../../HOC';
-import { styled } from '@mui/styles';
-
+import { useSetting, useDevice } from '../../hooks';
 
 const SIZE = "2vw";
 
 const TRANSITION = "all 0.5s";
 
 const FooterBottom = () => {
+
+	const {isTablet} = useDevice();
+
+	const {
+		title_column_1,
+		title_column_2,
+		title_column_3,
+		link_in_column_1,
+		link_in_column_2,
+		social_icons,
+		email,
+		hotline,
+		working_desc
+	} = useSetting();
+
     return (
 			<WrapperBottom>
 				<Grid container spacing={5}>
-					<Grid item xs={12} sm={2.4}>
-						<Title variant='h5'>Trang chủ</Title>
-						<Stack
-							spacing={{
-								xs: 1,
-								sm: 2,
-								md: 4,
-								lg: 5,
-							}}
-							justifyContent='flex-end'>
-							<Subtile variant='subtitle1'>Điều Kiện & Điều Khoản</Subtile>
-							<Subtile variant='subtitle1'>Chính sách sử dụng</Subtile>
-							<Subtile variant='subtitle1'>FAQ</Subtile>
+					<Grid item xs={12} md={3} lg={3}>
+						<Title variant='h5'>{title_column_1}</Title>
+						<Stack spacing={2}>
+							{link_in_column_1?.map((el, index) => (
+								<Subtile key={index} variant='body1'>
+									{el.value.title}
+								</Subtile>
+							))}
 						</Stack>
 					</Grid>
-					<Grid item xs={12} sm={2.4}>
-						<Title variant='h5'>Trang chủ</Title>
-						<Stack
-							spacing={{
-								xs: 1,
-								sm: 2,
-								md: 4,
-								lg: 5,
-							}}
-							justifyContent='flex-end'>
-							<Subtile variant='subtitle1'>Điều Kiện & Điều Khoản</Subtile>
-							<Subtile variant='subtitle1'>Chính sách sử dụng</Subtile>
-							<Subtile variant='subtitle1'>FAQ</Subtile>
+					<Grid item xs={12} md={3} lg={3}>
+						<Title variant='h5'>{title_column_2}</Title>
+						<Stack spacing={2}>
+							{link_in_column_2?.map((el, index) => (
+								<Subtile key={index} variant='body1'>
+									{el.value.title}
+								</Subtile>
+							))}
 						</Stack>
 					</Grid>
-					<Grid item xs={12} sm={2.4}>
-						<Title variant='h5'>Trở thành đối tác</Title>
-						<Stack
-							spacing={{
-								xs: 1,
-								sm: 2,
-								md: 4,
-								lg: 5,
-							}}>
-							<Subtile variant='subtitle1'>Chính sách sử dụng</Subtile>
-							<Subtile variant='subtitle1'>FAQ</Subtile>
+					<Grid item xs={12} md={3} lg={3}>
+						<Title variant='h5'>{title_column_3}</Title>
+						<Stack spacing={2}>
+							<Stack spacing={2} direction='row'>
+								{social_icons?.map((el, index) => (
+									<Link key={index} href={el.value.link} underline='none'>
+										<Image
+											src={el.value.icon}
+											width={SIZE}
+											height={SIZE}
+											alt='icon'
+										/>
+									</Link>
+								))}
+							</Stack>
+							<Subtile>{email}</Subtile>
+							<Subtile>{hotline}</Subtile>
+							<Subtile>{working_desc}</Subtile>
 						</Stack>
 					</Grid>
-					<Grid item xs={12} sm={2.4}>
-						<Title variant='h5'>Liên Hệ</Title>
-						<Stack
-							direction={"row"}
-							alignItems={"center"}
-							spacing={1.5}
-							position='relative'>
-							<Image src='/linkedin.svg' height={SIZE} width={SIZE} />
-
-							<Image src='/instagram.svg' height={SIZE} width={SIZE} />
-
-							<Image src='/facebook.svg' height={SIZE} width={SIZE} />
-
-							<Image src='/youtube.svg' height={SIZE} width={SIZE} />
-						</Stack>
-					</Grid>
-					<Grid item xs={12} sm={2.4}>
-						<QRcode />
+					<Grid item xs={12} md={3} lg={3}>
+						<Box>
+							{isTablet ? (
+								<QRcode isBadge={true} left={true} />
+							) : (
+								<QRcode isBadge={true} right={true} />
+							)}
+						</Box>
 					</Grid>
 				</Grid>
 			</WrapperBottom>
@@ -90,16 +91,19 @@ const Title = styled(Typography)(({ theme }) => {
 
 const Subtile = styled(Typography)(({ theme }) => {
 	return {
-		color: theme.palette.grey[400],
+		color: theme.palette.grey[800],
 		transition: TRANSITION,
 		"&:hover": {
-			color: theme.palette.secondary.main,
+			color: theme.palette.primary.light,
 		},
 	};
 });
 
 const WrapperBottom = styled(Box)(({theme}) => {
     return {
-        
+        paddingTop: 5,
+		paddingBottom: 20,
+		justifyContent: 'center',
+		alignContent: 'center'
     }
 })

@@ -1,27 +1,35 @@
-import { Container, Grid, Box, Typography } from "@mui/material";
-import Blog from "../../News/components/Blog";
+import { Grid, Box, Typography, styled } from "@mui/material";
 import { Image } from "../../../HOC";
-import styled from "@emotion/styled";
+import { ReaderHTML } from "../../../components";
+import { useDevice } from "../../../hooks";
+
 
 const SIZE = 450;
 
-const Tutorial = ({ tutorial_title, tutorial_content, tutorial_image, ...props }) => {
+const Tutorial = ({ data, ...props }) => {
+
+	const {isTable1200} = useDevice();
+
 	return (
-		<Wrapper>
+		<Wrapper id="Tutorial">
 			<Grid container spacing={2}>
 				<Grid item lg={6} md={12} xs={12}>
-					<Typography variant='h3'>{tutorial_title}</Typography>
-					<Blog about_content={tutorial_content} />
+					<Typography variant='h4'>{data.tutorial_title}</Typography>
+					<ReaderHTML content={data.tutorial_content} />
 				</Grid>
 				<Grid item lg={6} md={12} xs={12}>
-					<WrapperBox>
+					<Box sx={[
+						isTable1200 && {
+							display: 'none'
+						}
+					]}>
 						<Image
-							src={tutorial_image}
+							src={data.tutorial_image}
 							height={SIZE}
-							width={SIZE}
-							alt='IMAGE ABOUT US'
+							width={SIZE}	
+							alt='IMAGE Hướng dẫn'
 						/>
-					</WrapperBox>
+					</Box>
 				</Grid>
 			</Grid>
 		</Wrapper>
@@ -31,10 +39,6 @@ const Tutorial = ({ tutorial_title, tutorial_content, tutorial_image, ...props }
 export default Tutorial;
 
 // styled sheet
-const WrapperBox = styled(Box)(({ theme }) => {
-	return {};
-});
-
 
 const Wrapper = styled(Box)(({ theme }) => {
 	return {

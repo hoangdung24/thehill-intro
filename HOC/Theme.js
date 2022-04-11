@@ -1,16 +1,17 @@
-import { createTheme } from "@mui/material";
-import { green, grey, red } from "@mui/material/colors";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { CssBaseline } from "@mui/material";
+import { red, green, grey } from "@mui/material/colors";
 
 const rawTheme = createTheme({
   palette: {
     primary: {
       light: "#0093AB",
-      main: "#006778",
-      dark: "#00AFC1",
+      main: "#F6CB18",
+      dark: "#FDF0B9",
     },
     secondary: {
       light: "#fff5f8",
-      main: "#FFD124",
+      main: "#F7CC15",
       dark: "#e62958",
     },
     warning: {
@@ -61,7 +62,7 @@ const theme = {
       ...rawTheme.typography.h1,
       ...fontHeader,
       letterSpacing: 0,
-      fontSize: 60,
+      fontSize: "72px",
     },
     h2: {
       ...rawTheme.typography.h2,
@@ -76,7 +77,8 @@ const theme = {
     h4: {
       ...rawTheme.typography.h4,
       ...fontHeader,
-      fontSize: 36,
+      fontSize: 24,
+      fontWeight: 700,
     },
     h5: {
       ...rawTheme.typography.h5,
@@ -104,4 +106,11 @@ const theme = {
   },
 };
 
-export default theme;
+export default ({ children }) => {
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      {children}
+    </ThemeProvider>
+  );
+};

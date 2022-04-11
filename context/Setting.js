@@ -8,6 +8,8 @@ export const Context = createContext({});
 const Setting = ({ children }) => {
 	const { data, error } = useSWR(SETTINGS);
 
+    // console.log(data)
+
     if (error) {
         return "Error"
     }

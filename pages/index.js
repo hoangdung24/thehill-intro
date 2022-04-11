@@ -41,10 +41,11 @@ export async function getServerSideProps({ params }) {
 			},
 		};
 	} catch (e) {
-		return console.log(e);
-		// redirect: {
-		// 	destination: "/",
-		// 	permanent: false,
-		// },
+		return {
+			redirect: {
+				destination: "/",
+				permanent: false,
+			},
+		};
 	}
 }

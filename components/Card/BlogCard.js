@@ -6,20 +6,21 @@ import {
 	CardActions,
 	styled,
 	Stack,
-	Box,
 } from "@mui/material";
 import { Button } from "../../components";
 import { useRouter } from "next/router";
-import createDOMPurify from "isomorphic-dompurify";
+import ReaderHTML from "../ReaderHTML";
 
 const BlogCard = ({ id, title, thumbnail, date, content, ...props }) => {
 	const router = useRouter();
 
-	const converDate = new Date({ date }).toLocaleDateString("en-US", {
-		day: "numeric",
-		month: "long",
+	const converDate = new Date({ date }).toLocaleDateString("vi-VN", {
+		day: "2-digit",
+		month: "2-digit",
 		year: "numeric",
 	});
+
+	console.log(date);
 
 	return (
 		<Card sx={{ maxWidth: "100%" }}>
@@ -33,11 +34,7 @@ const BlogCard = ({ id, title, thumbnail, date, content, ...props }) => {
 				<Title gutterBottom variant='h5' component='div'>
 					{title}
 				</Title>
-				<Box
-					component={"div"}
-					dangerouselySetInnerHTML={{
-						__html: createDOMPurify.sanitize(content),
-					}}></Box>
+				<ReaderHTML content={content}/>
 			</CardContent>
 			<CardActions>
 				<Button

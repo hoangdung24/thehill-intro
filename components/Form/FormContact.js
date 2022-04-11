@@ -1,4 +1,3 @@
-import styled from "@emotion/styled";
 import {
 	Box as BoxMui,
 	TextField,
@@ -7,61 +6,32 @@ import {
 	MenuItem,
 	InputLabel,
 	FormControl,
+	styled,
+	Alert,
+	AlertTitle
 } from "@mui/material";
-import theme from "../../HOC/Theme";
 import { useForm, Controller } from "react-hook-form";
 import { useState, useRef, useCallback } from "react";
 import axios from "axios";
 import { Button } from "../../components";
 import { DOMAIN, SUBMISSIONS } from "../../helpers/api";
-import * as yup from "yup";
+import { number, object, string } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 const URL = `${DOMAIN}${SUBMISSIONS}`;
 
-const useYupValidationResolver = (validateSchema) =>
-	useCallback(
-		async (data) => {
-			try {
-				const values = await validateSchema.validate(data, {
-					abortEarly: false,
-				});
-				return {
-					values,
-					error: {},
-				};
-			} catch (error) {
-				return {
-					values: {},
-					errors: errors.inner.reduce(
-						(allErrors, currentError) => ({
-							...allErrors,
-							[currentError.path]: {
-								type: currentError.type ?? "validation",
-								message: currentError.message,
-							},
-						}),
-						{}
-					),
-				};
-			}
-		},
-		[validateSchema]
-	);
-
-const validateSchema = yup.object({
-	store_name: yup.string().required("Required"),
-	presentator: yup.string().required("Required"),
-	email: yup.string().email().required("Required"),
-	bank_number: yup.number().positive().integer().required("Required"),
-	bank: yup.string().required("Required"),
-	owner: yup.string().required("Required"),
-	branch: yup.string().required("Required"),
-	phone: yup.string().required("Required"),
+const validateSchema = object({
+	store_name: string().required("Required"),
+	presentator: string().required("Required"),
+	email: string().email().required("Required"),
+	bank_number: number().positive().integer().required("Required"),
+	bank: string().required("Required"),
+	owner: string().required("Required"),
+	branch: string().required("Required"),
+	phone: string().required("Required"),
 });
 
-const FormContact = () => {
-	// const resolver = useYupValidationResolver(validateSchema);
+const FormContact = ({category,data, ...props}) => {
 
 	const resolver = yupResolver(validateSchema);
 
@@ -73,9 +43,9 @@ const FormContact = () => {
 	} = useForm({
 		resolver: resolver,
 		defaultValues: {
-			page: 6,
+			page: data.id,
 			category: 1,
-			phone: "+84978216729",
+			phone: "+84",
 		},
 	});
 
@@ -86,10 +56,6 @@ const FormContact = () => {
 	const handleChange = (e) => {
 		setValue(e.target.value);
 	};
-
-	// console.log(errors);
-
-	// console.log(watch());
 
 	const onChange = useCallback((event) => {
 		const value = event.target.value;
@@ -140,44 +106,24 @@ const FormContact = () => {
 							<FormControl fullWidth>
 								<InputLabel id='10'>Categogy</InputLabel>
 								<Select
+									sx={{
+										width: "100%",
+									}}
 									{...register("category")}
 									label='Categogy'
 									defaultValue={1}
-									autoWidth
+									fullWidth
 									onChange={handleChange}>
-									<MenuItem value={1}>Quán Ăn</MenuItem>
-									<MenuItem value={2}>Quán Cafe</MenuItem>
-									<MenuItem value={3}>Giải trí</MenuItem>
-									<MenuItem value={4}>Giáo dục</MenuItem>
-									<MenuItem value={5}>Baby & Toddler</MenuItem>
-									<MenuItem value={6}>Automative</MenuItem>
+									{category?.map((e) => (
+										<MenuItem
+										key={e.id}
+										value={e.id}>{e.name}</MenuItem>
+									))}
 								</Select>
 							</FormControl>
 						)}
 						defaultValue={1}
 					/>
-
-					{/* <Controller
-						name='iceCreamType'
-						render={({ field }) => (
-							<Select
-								{...field}
-								options={[
-									{ value: "chocolate", label: "Chocolate" },
-									{ value: "strawberry", label: "Strawberry" },
-									{ value: "vanilla", label: "Vanilla" },
-								]}
-							/>
-						)}
-						control={control}
-						defaultValue=''
-					/>
-					<Controller
-						name='Checkbox'
-						control={control}
-						render={({ field }) => <Checkbox {...field} />}
-					/> */}
-
 					<TextField fullWidth label='Email' id='3' {...register("email")} />
 					<TextField
 						fullWidth
@@ -205,44 +151,43 @@ const FormContact = () => {
 						{...register("phone")}
 					/>
 
-					{/* <PhoneInput
-						name='phoneInput'
-						value={value}
-						ref={ref}
-						{...register("phone", { required: true })}
-						international
-						defaultCountry='VN'
-						country='VN'
-						withCountryCallingCode
-						countryCallingCodeEditable={false}
-					/> */}
-
-					{/* <Controller
-						name='phoneInput'
-						control={control}
-						rules={{ required: true }}
-						render={({ field: { onchange, value } }) => (
-							<PhoneInput
-								value={value}
-								onChange={onchange}
-								defaultCountry='VN'
-								country='VN'
-								withCountryCallingCode
-								id='phone'
-							/>
-						)}
-					/> */}
-					{/* <CountrySelect value={value} onChange={onChange} /> */}
-
 					<Button
 						type='submit'
 						title={"Đăng Ký"}
 						isBackground={true}
-						backgroundColor={theme.palette.secondary.main}
+						backgroundColor='#F7CC15'
 						sx={{
 							paddingX: 10,
 						}}
 					/>
+					{Object.keys(errors).length !== 0 && (
+						<ErrorBox severity='error' variant='outlined' icon={false}>
+							<AlertTitle>Error</AlertTitle>
+							<ul>
+								{errors.store_name?.type === "required" && (
+									<li>Hãy điền tên quán / thương hiệu</li>
+								)}
+								{errors.presentator?.type === "required" && (
+									<li>Hãy điền tên người đại diện</li>
+								)}
+								{errors.email?.type === "required" && (
+									<li>Hãy điền email của mình</li>
+								)}
+								{errors.owner?.type === "required" && (
+									<li>Hãy điền tên chủ tài khoản</li>
+								)}
+								{errors.bank?.type === "required" && (
+									<li>Hãy điền số tài khoản</li>
+								)}
+								{errors.branch?.type === "required" && (
+									<li>Hãy điền chi nhánh</li>
+								)}
+								{errors.phone?.type === "required" && (
+									<li>Hãy điền đúng số điện thoại</li>
+								)}
+							</ul>
+						</ErrorBox>
+					)}
 				</Stack>
 			</BoxMui>
 		</ContainerBox>
@@ -259,3 +204,12 @@ const ContainerBox = styled(BoxMui)(({ theme }) => {
 		maxWidth: "100%",
 	};
 });
+
+
+const ErrorBox = styled(Alert)(({theme})=>{
+	return {
+		color:"red",
+		borderColor: 'red',
+		width: '100%'
+	}
+})

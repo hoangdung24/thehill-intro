@@ -1,7 +1,5 @@
 import { useCallback, useState } from "react";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-
-import { Container, Grid, Box, Fade, Button, Stack } from "@mui/material";
+import { Container, Grid, Box, Stack } from "@mui/material";
 
 import PartnerCategoryItem from "./components/PartnerCategoryItem";
 import Title from "./components/Title";

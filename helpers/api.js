@@ -33,3 +33,8 @@ export const FAQ_DETAIL = "faq.FAQCategoryPage";
 
 export const PARTNER_LIST = "partner.PartnerListingPage";
 export const PARTNER_DETAIL = "partner.PartnerCategoryPage";
+export const CONDITION = "policy.ConditionPage";
+
+export const POLICY = "policy.PolicyPage";
+
+export const CONTACT = "contact.ContactPage";

@@ -1,25 +1,29 @@
-import { GridContainer, ButtonShape, Theme } from "../../components";
-import { Grid, Typography, Container, Box } from "@mui/material";
-import styled from "@emotion/styled";
+import { Grid, Typography, Box, styled } from "@mui/material";
+import {ButtonShape} from "../../components"
 
-const SubHeader = ({ title }) => {
+
+const SubHeader = ({isBackground=false, background, data }) => {
 	return (
-		<Container maxWidth='xl' sx={{ padding: 20 }}>
-			<Grid container spacing={2} justifyContent='center' alignContent='center'>
+		<Wrapper isBackground={isBackground} background={background}>
+			<Grid container spacing={2} sx={{
+				justifyContent:	'center',
+				alignContent: 'center',
+				textAlign: 'center'
+			}}>
 				<Grid item xs={12} md={6} lg={6}>
 					<Box>
 						<ButtonShape
-							title={"About us"}
+							title={data.subtitle}
 							isBackground={true}
 							backgroundColor={"#0E185F"}
 						/>
 					</Box>
 				</Grid>
 				<Grid item xs={12} md={6} lg={6}>
-					<Title variant='h3'>{title}</Title>
+					<Title variant='h3'>{data.title}</Title>
 				</Grid>
 			</Grid>
-		</Container>
+		</Wrapper>
 	);
 };
 
@@ -29,6 +33,26 @@ export default SubHeader;
 
 const Title = styled(Typography)(({ theme }) => {
 	return {
-		color: Theme.palette.common.black,
+		color: theme.palette.common.black,
 	};
 });
+
+
+const Wrapper = styled(Box, {shouldForwardProp: (prop) => {
+	return prop !== "isBackground" && prop !== "background"
+}})(({theme, isBackground, background})=> {
+	let defaultStyle ={
+		padding : 60,
+	}
+
+	if (isBackground && background) {
+		return {
+			...defaultStyle,
+			background: background
+		}
+	} else {
+		return {
+			...defaultStyle,
+		}
+	}
+})

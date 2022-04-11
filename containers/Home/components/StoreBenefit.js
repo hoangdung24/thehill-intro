@@ -1,19 +1,16 @@
-import {  Grid, Typography, Box } from "@mui/material";
-import { CustomerCard} from "../../../components";
-import createDOMPurify from 'isomorphic-dompurify'
+import {  Grid, Typography, Box , styled} from "@mui/material";
+import { CustomerCard, ReaderHTML} from "../../../components";
 import {Image} from '../../../HOC'
-import Blog from "../../News/components/Blog";
-import styled from "@emotion/styled";
 const SIZE = 450
 
-const StoreBenefit = ({ store_title, store_desc, store_image, store_content, ...props }) => {
+const StoreBenefit = ({ data, ...props }) => {
 	return (
-		<Wrapper>
+		<Wrapper id="Store">
 			<Grid container spacing={2}>
 				<Grid item lg={6}>
 					<Box>
 						<Image
-							src={store_image}
+							src={data.store_image}
 							width={SIZE}
 							height={SIZE}
 							alt='store Image'
@@ -21,9 +18,13 @@ const StoreBenefit = ({ store_title, store_desc, store_image, store_content, ...
 					</Box>
 				</Grid>
 				<Grid container item lg={6} md={12} xs={12} spacing={2}>
-					<Typography variant='h3'>{store_title} </Typography>
-					<Blog about_content={store_desc} />
-					{store_content?.map((e, index) => (
+					<Typography variant='h4'>{data.store_title} </Typography>
+					<ReaderHTML content={data.store_desc} />
+					<Box sx={{
+						display: 'flex',
+						flexWrap: 'wrap',
+					}}>
+					{data.store_content?.map((e, index) => (
 						<Grid key={index} item lg={6} md={6} xs={6}>
 							<CustomerCard
 								icon={e.value.icon}
@@ -32,6 +33,7 @@ const StoreBenefit = ({ store_title, store_desc, store_image, store_content, ...
 							/>
 						</Grid>
 					))}
+					</Box>
 				</Grid>
 			</Grid>
 		</Wrapper>

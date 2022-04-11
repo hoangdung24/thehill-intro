@@ -1,6 +1,6 @@
 import DOMPurify from "isomorphic-dompurify";
 import { Fragment } from "react";
-import { ExpandMore } from "@mui/icons-material";
+import ExpandMore from "@mui/icons-material/ExpandMore";
 import { Accordion, AccordionSummary, AccordionDetails, Typography } from "@mui/material";
 
 const FaqDetail = ({ data }) => {

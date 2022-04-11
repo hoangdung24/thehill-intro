@@ -1,12 +1,11 @@
 import { Button as ButtonMui, Typography, styled } from "@mui/material";
 
-import { Theme } from "../../components";
 const TRANSITION = "all 0.5s";
 
 const Button = ({
   title,
   isBackground = false,
-  backgroundColor = Theme.palette.secondary.main,
+  backgroundColor = "secondary.main",
   ...props
 }) => {
   return (
@@ -44,7 +43,7 @@ const ButtonStyled = styled(ButtonMui, {
     position: "relative",
     transition: TRANSITION,
     "&:hover": {
-      background: Theme.palette.primary.light,
+      background: theme.palette.primary.light,
       boxShadow: "none",
     },
     "&:active": {

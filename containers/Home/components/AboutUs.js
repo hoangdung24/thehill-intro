@@ -1,27 +1,26 @@
-import { Container, Grid, Box, Typography } from "@mui/material";
-import Blog from "../../News/components/Blog";
+import { Grid, Box, Typography, styled } from "@mui/material";
 import { Image } from "../../../HOC";
-import styled from "@emotion/styled";
+import { ReaderHTML } from "../../../components";
 
 const SIZE = 450;
 
-const AboutUs = ({about_title, about_content, about_image, ...props }) => {
+const AboutUs = ({data, ...props }) => {
 	return (
-		<Wrapper>
+		<Wrapper id="About">
 			<Grid container spacing={2}>
 				<Grid item lg={6} md={12} xs={12}>
-					<Typography variant='h3'>{about_title}</Typography>
-					<Blog about_content={about_content} />
+					<Typography variant='h4'>{data.about_title}</Typography>
+					<ReaderHTML content={data.about_content} />
 				</Grid>
 				<Grid item lg={6} md={12} xs={12}>
-					<WrapperBox>
+					<Box>
 						<Image
-							src={about_image}
+							src={data.about_image}
 							height={SIZE}
 							width={SIZE}
 							alt='IMAGE ABOUT US'
 						/>
-					</WrapperBox>
+					</Box>
 				</Grid>
 			</Grid>
 		</Wrapper>
@@ -31,11 +30,6 @@ const AboutUs = ({about_title, about_content, about_image, ...props }) => {
 export default AboutUs;
 
 // styled sheet
-const WrapperBox = styled(Box)(({ theme }) => {
-	return {
-		
-	};
-});
 
 const Wrapper = styled(Box)(({theme})=> {
 	return {

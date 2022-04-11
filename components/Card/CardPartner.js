@@ -1,6 +1,4 @@
-import styled from "@emotion/styled";
-import { Avatar, Card, Box, Typography, Stack, Paper, Link } from "@mui/material";
-import { Theme } from "../../HOC";
+import { Avatar, Card, Box, Typography, Stack, Paper, Link, styled } from "@mui/material";
 import createDOMPurify from "isomorphic-dompurify";
 
 const CardPartner = ({ icon, name, description, point_content, link, ...props }) => {
@@ -13,7 +11,10 @@ const CardPartner = ({ icon, name, description, point_content, link, ...props })
       <Stack spacing={1} direction="row">
         <WrapperAva elevation={5}>
           <Link href={link}>
-            <Avatar alt="Icon" src={icon} />
+            <Avatar alt="Icon" src={icon} sx={{
+              height:46,
+              width: 46
+            }}/>
           </Link>
         </WrapperAva>
         <ContentBox>
@@ -39,22 +40,22 @@ export default CardPartner;
 
 const Title = styled(Typography)(({ theme }) => {
   return {
-    color: Theme.palette.primary.dark,
+    color: theme.palette.primary.dark,
   };
 });
 
 const Content = styled(Typography)(({ theme }) => {
   return {
-    color: Theme.palette.grey[500],
+    color: theme.palette.grey[500],
   };
 });
 
 const WrapperAva = styled(Paper)(({ theme }) => {
   return {
     borderRadius: "50%",
-    background: Theme.palette.common.white,
-    height: 50,
-    width: 50,
+    background: theme.palette.common.white,
+    height: 55,
+    width: 55,
     justifyContent: "center",
     alignItems: "center",
     display: "flex",
@@ -63,6 +64,10 @@ const WrapperAva = styled(Paper)(({ theme }) => {
 
 const ContentBox = styled(Box)(({ theme }) => {
   return {
-    margin: 50,
+    padding: "35px 35px",
+    background: theme.palette.common.white,
+    borderRadius: "0 10px 10px 10px",
+    minHeight: '200px',
+    minWidth: '280px',
   };
 });

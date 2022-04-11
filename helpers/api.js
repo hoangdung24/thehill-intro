@@ -28,5 +28,8 @@ export const QR_STORE = "/qr/store";
 
 export const QR_CUSTOMER = "/qr/customer";
 
-export const FAQ_LIST = "faq.FAQCategoryListingPage";
-export const FAQ_DETAIL = "faq.FAQCategoryPage";
+export const CONDITION = "policy.ConditionPage";
+
+export const POLICY = "policy.PolicyPage";
+
+export const CONTACT = "contact.ContactPage";

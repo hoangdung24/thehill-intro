@@ -1,13 +1,11 @@
 import CssBaseline from "@mui/material/CssBaseline";
-
-import { Layout } from "../components";
+import { Layout , ErrorFallback} from "../components";
 import { ErrorBoundary } from "react-error-boundary";
-import { ThemeProvider } from "@mui/material/styles";
-
 import createEmotionCache from "../helpers/createEmotionCache";
-
-import { Cache as EmotionCache, Theme } from "../HOC";
+import { Cache as EmotionCache, Theme as CustomMuiTheme } from "../HOC";
 import "../axios.config";
+import { SWRConfig } from "swr";
+import axios from "axios";
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -15,26 +13,27 @@ function MyApp(props) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
 
-
   return (
-    <EmotionCache emotionCache={emotionCache}>
-      <ThemeProvider theme={Theme}>
-        <ErrorBoundary
-          fallbackRender={({ error, resetErrorBoundary }) => (
-            <div role="alert">
-              <div>RUN FOR YOUR LIFE</div>
-              <pre>{error.message}</pre>
-            </div>
-          )}
-        >
-          <Layout>
-            <CssBaseline />
-            <Component {...pageProps} />
-          </Layout>
-        </ErrorBoundary>
-      </ThemeProvider>
-    </EmotionCache>
-  );
+		<EmotionCache emotionCache={emotionCache}>
+			<CustomMuiTheme>
+				<SWRConfig value={{
+          refreshInterval: 3000,
+          fetcher: async (resource, init)=> {
+            return axios.get(resource, init).then((res)=> {
+              return res.data
+            })
+          }
+        }}>
+					<ErrorBoundary FallbackComponent={ErrorFallback}>
+						<Layout>
+							<CssBaseline />
+							<Component {...pageProps} />
+						</Layout>
+					</ErrorBoundary>
+				</SWRConfig>
+			</CustomMuiTheme>
+		</EmotionCache>
+	);
 }
 
 export default MyApp;

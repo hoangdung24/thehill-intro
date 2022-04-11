@@ -1,11 +1,13 @@
 export { Layout } from "./Layout";
-export { Footer, FooterTop, FooterBottom } from "./Footer";
-export { Button, ButtonShape, ScrollButton, ButtonPop } from "./Button";
-export { Header, SubHeader } from "./Header";
-export { Navbar } from "./Navbar";
-export { QRcode } from "./QRcode";
-export { FormContact, BoxContact } from "./Form";
-export { Image, Theme } from "../HOC";
-export { Wheel, Bulb } from "./Animation";
-export { BlogCard, CardPartner , CustomerCard, Subcriber} from "./Card";
-export { CategoryList } from "./Category";
+export {Header, SubHeader} from './Header'
+export {Button, ButtonPop, ButtonShape} from './Button'
+export {QRcode} from './QRcode'
+export {CustomerCard , Subcriber, CardPartner} from './Card'
+export {Footer, FooterBottom, FooterTop} from './Footer'
+export {Navbar} from './Navbar'
+export {Bulb} from './Animation'
+export {FormContact} from './Form'
+
+
+export {default as ReaderHTML} from './ReaderHTML'
+export {default as ErrorFallback} from './ErrorFallback'

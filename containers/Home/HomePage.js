@@ -1,8 +1,8 @@
 import { Container, Box } from "@mui/material";
 import {Header, Slider2} from '../../components'
-import {AboutUs, CustomerBenefit, SliderCarousel, StoreBenefit, Tutorial} from './components'
+import {AboutUs, CustomerBenefit, SliderCarousel, StoreBenefit, TinTuc, Tutorial} from './components'
 
-const HomePage = ({ homeData, partnerData, ...props }) => {
+const HomePage = ({ homeData, partnerData, blogDetail, ...props }) => {
 	const { items } = homeData;
 	// const { dataPartner } = partnerData;
 
@@ -11,6 +11,9 @@ const HomePage = ({ homeData, partnerData, ...props }) => {
 	// console.log(items);
 
 	// console.log(customer_content)
+
+	// console.log(blogDetail)
+	// console.log(partnerData)
 
 	
 
@@ -28,7 +31,7 @@ const HomePage = ({ homeData, partnerData, ...props }) => {
 				<Tutorial data={data} />
 			</Container>
 			<SliderCarousel data={data} partnerData={partnerData} />
-			{/* <Slider2/> */}
+			<TinTuc data={blogDetail}/>
 		</Box>
 	);
 };

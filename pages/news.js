@@ -5,6 +5,7 @@ import {
 	BLOG_DETAIL,
 	BLOG_LIST,
 	PAGES,
+	TAGS
 } from "../helpers/api";
 
 const News = ({ ...props }) => {
@@ -20,6 +21,7 @@ export async function getServerSideProps({ params }) {
 			`${PAGES}?type=${BLOG_DETAIL}&fields=*`,
 			`${PAGES}?type=${BLOG_CATEGORIES}&fields=*`,
 			`${PAGES}?type=${BLOG_LIST}&fields=*`,
+			`${TAGS}`			
 		];
 
 		const reList = await Promise.all(
@@ -34,6 +36,7 @@ export async function getServerSideProps({ params }) {
 		let blogCategories;
 		let blogDetail;
 		let blogList;
+		let tags;
 
 		reList.forEach((e, index) => {
 			if (index === 0) {
@@ -42,6 +45,8 @@ export async function getServerSideProps({ params }) {
 				blogCategories = e;
 			} else if (index === 2) {
 				blogList = e;
+			} else if (index === 3){
+				tags = e
 			}
 		});
 
@@ -50,6 +55,7 @@ export async function getServerSideProps({ params }) {
 				blogDetail: blogDetail,
 				blogCategories: blogCategories,
 				blogList: blogList,
+				tags : tags,
 			},
 		};
 	} catch (e) {

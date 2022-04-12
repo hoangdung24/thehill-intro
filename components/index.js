@@ -11,3 +11,5 @@ export {FormContact} from './Form'
 
 export {default as ReaderHTML} from './ReaderHTML'
 export {default as ErrorFallback} from './ErrorFallback'
+export {default as Loading} from './Loading'
+export {default as LoadingFail} from './LoadingFail'

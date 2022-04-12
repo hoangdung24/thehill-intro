@@ -2,7 +2,7 @@ import { Grid, Container } from "@mui/material";
 import { Fragment } from "react";
 import {SubHeader} from "../../components";
 
-const NewsPage = ({ blogDetail, blogCategories, blogList, ...props }) => {
+const NewsPage = ({ blogDetail, blogCategories, blogList, tags, ...props }) => {
 	console.log(blogDetail);
 
 	// console.log(blogCategories);

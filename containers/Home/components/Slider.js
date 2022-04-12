@@ -1,27 +1,17 @@
 import React, { useState } from "react";
-import { useTheme } from "@mui/material/styles";
-import { Box, Typography , styled} from "@mui/material";
-import SwipeableViews from "react-swipeable-views";
-import { autoPlay } from "react-swipeable-views-utils";
+import { Box, Typography, styled } from "@mui/material";
 import { CardPartner } from "../../../components";
 
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
+import Slider from "react-slick";
 
-
-
-const SliderCarousel = ({partnerData, data,...props}) => {
-	const theme = useTheme();
-	const [activeStep, setActiveStep] = useState(0);
-
-	const handleStepChange = (step) => {
-		setActiveStep(step);
+const SliderCarousel = ({ partnerData, data, ...props }) => {
+	const settings = {
+		infinite: true,
+		speed: 500,
+		slidesToShow: 3,
+		slidesToScroll: 1,
+		autoplay: true,
 	};
-
-	function slideRenderer(params) {
-		const {index, key} = params
-	}
-
-	// console.log(partnerData?.items?.[0]);
 
 	return (
 		<Wrapper>
@@ -43,23 +33,18 @@ const SliderCarousel = ({partnerData, data,...props}) => {
 				}}>
 				<Title variant='h4'>{data.partner_title}</Title>
 			</Box>
-			<AutoPlaySwipeableViews
-				axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-				index={activeStep}
-				onChangeIndex={handleStepChange}
-				enableMouseEvents>
+			<Slider {...settings}>
 				{partnerData?.items?.map((e, index) => (
-					<CardsWrapper component={"div"} key={index}>
-						<CardPartner
-							icon={e.image}
-							name={e.name}
-							description={e.description}
-							point_content={e.point_content}
-							link={e.link}
-						/>
-					</CardsWrapper>
+					<CardPartner
+						key={index}
+						icon={e.image}
+						name={e.name}
+						description={e.description}
+						point_content={e.point_content}
+						link={e.link}
+					/>
 				))}
-			</AutoPlaySwipeableViews>
+			</Slider>
 		</Wrapper>
 	);
 };
@@ -92,14 +77,15 @@ const Wrapper = styled(Box, {
 		position: "relative",
 		paddingTop: theme.spacing(2),
 		paddingBottom: theme.spacing(4),
+		height: "450px",
 	};
 });
 
 const CardsWrapper = styled(Box)(({ theme }) => {
 	return {
-		alignContent: 'center',
-		display: 'flex',
-		justifyContent: 'center'
+		alignContent: "center",
+		display: "flex",
+		justifyContent: "center",
 	};
 });
 

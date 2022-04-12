@@ -4,6 +4,7 @@ import createDOMPurify from "isomorphic-dompurify";
 const CardPartner = ({ icon, name, description, point_content, link, ...props }) => {
   return (
     <Box
+    component={"div"}
       sx={{
         width: 450,
       }}

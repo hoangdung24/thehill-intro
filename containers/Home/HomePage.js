@@ -1,5 +1,5 @@
 import { Container, Box } from "@mui/material";
-import {Header} from '../../components'
+import {Header, Slider2} from '../../components'
 import {AboutUs, CustomerBenefit, SliderCarousel, StoreBenefit, Tutorial} from './components'
 
 const HomePage = ({ homeData, partnerData, ...props }) => {
@@ -28,6 +28,7 @@ const HomePage = ({ homeData, partnerData, ...props }) => {
 				<Tutorial data={data} />
 			</Container>
 			<SliderCarousel data={data} partnerData={partnerData} />
+			{/* <Slider2/> */}
 		</Box>
 	);
 };

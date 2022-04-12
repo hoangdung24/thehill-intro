@@ -1,19 +1,19 @@
-import { LoadingIcon, FailToFetchData } from "../components";
+import { LoadingFail } from "../components";
 import { Container } from "@mui/material";
 
 const LoadingData = ({ data, error, children, ...props }) => {
 	if (error) {
 		return (
 			<Container>
-				<FailToFetchData />
+				<LoadingFail />
 			</Container>
 		);
 	}
 
 	if (data === undefined) {
 		return (
-			<Container>
-				<LoadingIcon />
+			<Container maxWidth="lg">
+				<div>Loading...</div>
 			</Container>
 		);
 	}

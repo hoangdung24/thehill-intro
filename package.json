@@ -33,9 +33,11 @@
     "react-hook-form": "^7.28.1",
     "react-phone-number-input": "^3.1.47",
     "react-responsive-carousel": "^3.2.23",
+    "react-slick": "^0.28.1",
     "react-swipeable-views": "^0.14.0",
     "react-swipeable-views-utils": "^0.14.0",
     "react-use": "^17.3.2",
+    "slick-carousel": "^1.8.1",
     "swr": "^1.2.2",
     "yup": "^0.32.11"
   },

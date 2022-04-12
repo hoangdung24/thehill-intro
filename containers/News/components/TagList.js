@@ -10,7 +10,7 @@ const Tag = ({items, selectedItem, ...props}) => {
     }, [])
 
     return (
-        <Stack>
+        <Stack spacing={2} direction={"row"} flexWrap={"wrap"}>
             {items.map((e, index) => {
                 return (
                     <Chip key={index}

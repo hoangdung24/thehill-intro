@@ -5,10 +5,12 @@ const SIZE = 450
 
 const StoreBenefit = ({ data, ...props }) => {
 	return (
-		<Wrapper href="#Store">
+		<Wrapper >
 			<Grid container spacing={2}>
 				<Grid item lg={6}>
-					<Box>
+					<Box sx={{
+						pointerEvents: 'none'
+					}}>
 						<Image
 							src={data.store_image}
 							width={SIZE}

@@ -10,7 +10,8 @@ const Header = ({data, ...props }) => {
 				<Image alt="banner" src={data.banner} WrapperProps={{
 					sx: {
 						width: "100vw",
-						height: "calc(100vw * 0.8)"
+						height: "calc(100vw * 0.8)",
+						PointerEvent: 'none'
 					}
 				}} />
 			</ImageBackground>

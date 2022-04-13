@@ -6,14 +6,16 @@ const SIZE = 450;
 
 const AboutUs = ({data, ...props }) => {
 	return (
-		<Wrapper href="#About">
+		<Wrapper id="about">
 			<Grid container spacing={2}>
 				<Grid item lg={6} md={12} xs={12}>
 					<Typography variant='h4'>{data.about_title}</Typography>
 					<ReaderHTML content={data.about_content} />
 				</Grid>
 				<Grid item lg={6} md={12} xs={12}>
-					<Box>
+					<Box sx={{
+						pointerEvents: 'none'
+					}}>
 						<Image
 							src={data.about_image}
 							height={SIZE}

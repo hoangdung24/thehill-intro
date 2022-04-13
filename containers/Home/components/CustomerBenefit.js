@@ -5,8 +5,10 @@ import { Image } from "../../../HOC";
 const CustomerBenefit = ({data, ...props }) => {
 
 	return (
-		<Wrapper href='#Customer'>
-			<ImageBackground className='background customer'>
+		<Wrapper id="partner">
+			<ImageBackground className='background customer'sx={{
+				pointerEvents: 'none'
+			}}>
 				<Image
 					alt='customer image'
 					src={data.customer_image}

@@ -1,18 +1,40 @@
-import {styled, Box, Container, Grid, Typography} from '@mui/material'
+import {styled, Box, Container, Grid, Typography, Stack} from '@mui/material'
 import createDOMPurify from 'isomorphic-dompurify'
 import {useDevice} from '../../../hooks'
 
-const TinTuc = ({data, ...props}) => {
+const TinTuc = ({data, tintuc, ...props}) => {
     
     const items = data.items;
 
     const {isTablet} = useDevice();
 
-    // console.log(items)
 
     return (
-			<Wrapper href="#TinTuc">
+			<Wrapper id='blog'>
 				<Container maxWidth='lg'>
+					<Box
+						sx={{
+							display: "flex",
+							textAlign: "center",
+							justifyContent: "center",
+							flexDirection: "column",
+							padding: "20px"
+						}}>
+						<Typography
+							variant='subtitle'
+							sx={{
+								color: "#727777",
+							}}>
+							{tintuc.blog_subtitle}
+						</Typography>
+						<Typography
+							variant='h3'
+							sx={{
+								color: "#16215c",
+							}}>
+							{tintuc.blog_title}
+						</Typography>
+					</Box>
 					<Grid container spacing={4} direction='row'>
 						{items?.map((e, index) => (
 							<Grid item xs={12} md={6} lg={4} key={index}>

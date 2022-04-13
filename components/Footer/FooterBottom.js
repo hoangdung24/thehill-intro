@@ -26,9 +26,18 @@ const FooterBottom = () => {
 		working_desc
 	} = useSetting();
 
-	const handleClick = (e) => {
-		e.preventDefault();
-		router.push(href);
+
+	const handleClick = (title) => {
+		return () => {
+			const pathname = router.pathname;
+			if (title === 'Điều khoản và điều kiện'){
+				router.push(`condition`)
+			} else if (title === 'Chính sách sử dụng'){
+				router.push(`policy`)
+			} else if (title === 'Trở thành đối tác'){
+				router.push(`contact`)
+			}
+		}
 	};
     return (
 			<WrapperBottom>
@@ -37,9 +46,9 @@ const FooterBottom = () => {
 						<Title variant='h5'>{title_column_1}</Title>
 						<Stack spacing={2}>
 							{link_in_column_1?.map((el, index) => (
-								<Subtile key={index} variant='body1'>
-									{el.value.title}
-								</Subtile>
+								<Box key={index} onClick={handleClick(el.value.title)}>
+									<Subtile variant='body1'>{el.value.title}</Subtile>
+								</Box>
 							))}
 						</Stack>
 					</Grid>
@@ -47,9 +56,9 @@ const FooterBottom = () => {
 						<Title variant='h5'>{title_column_2}</Title>
 						<Stack spacing={2}>
 							{link_in_column_2?.map((el, index) => (
-								<Subtile key={index} variant='body1'>
-									{el.value.title}
-								</Subtile>
+								<Box key={index} onClick={handleClick(el.value.title)}>
+									<Subtile variant='body1'>{el.value.title}</Subtile>
+								</Box>
 							))}
 						</Stack>
 					</Grid>

@@ -9,6 +9,7 @@ import axios from "axios";
 import {SnackbarProvider} from 'notistack'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import "../styles/global.css"
 
 const clientSideEmotionCache = createEmotionCache();
 

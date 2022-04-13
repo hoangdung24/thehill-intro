@@ -1,5 +1,5 @@
 import { Container, Box } from "@mui/material";
-import {Header, Slider2} from '../../components'
+import {Header} from '../../components'
 import {AboutUs, CustomerBenefit, SliderCarousel, StoreBenefit, TinTuc, Tutorial} from './components'
 
 const HomePage = ({ homeData, partnerData, blogDetail, ...props }) => {

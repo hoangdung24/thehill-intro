@@ -11,7 +11,7 @@ const Tutorial = ({ data, ...props }) => {
 	const {isTable1200} = useDevice();
 
 	return (
-		<Wrapper id="Tutorial">
+		<Wrapper href="#Tutorial">
 			<Grid container spacing={2}>
 				<Grid item lg={6} md={12} xs={12}>
 					<Typography variant='h4'>{data.tutorial_title}</Typography>

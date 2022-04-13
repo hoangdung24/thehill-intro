@@ -3,11 +3,7 @@ import createDOMPurify from "isomorphic-dompurify";
 
 const CardPartner = ({ icon, name, description, point_content, link, ...props }) => {
   return (
-    <Box
-      sx={{
-        width: 450,
-      }}
-    >
+    <Box>
       <Stack spacing={1} direction="row">
         <WrapperAva elevation={5}>
           <Link href={link}>
@@ -67,7 +63,7 @@ const ContentBox = styled(Box)(({ theme }) => {
     padding: "35px 35px",
     background: theme.palette.common.white,
     borderRadius: "0 10px 10px 10px",
-    minHeight: '200px',
-    minWidth: '280px',
+    height: '250px',
+    width: '400px',
   };
 });

@@ -11,12 +11,16 @@ import {
 	AlertTitle
 } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import axios from "axios";
-import { Button } from "../../components";
 import { DOMAIN, SUBMISSIONS } from "../../helpers/api";
 import { number, object, string } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+
+import LoadingButton from "@mui/lab/LoadingButton";
+
+import NumberFormat from 'react-number-format'
+import {useSnackbar} from 'notistack';
 
 const URL = `${DOMAIN}${SUBMISSIONS}`;
 
@@ -24,8 +28,6 @@ const validateSchema = object({
 	store_name: string().required("Required"),
 	presentator: string().required("Required"),
 	email: string().email().required("Required"),
-	bank_number: number().positive().integer().required("Required"),
-	bank: string().required("Required"),
 	owner: string().required("Required"),
 	branch: string().required("Required"),
 	phone: string().required("Required"),
@@ -33,19 +35,22 @@ const validateSchema = object({
 
 const FormContact = ({category,data, ...props}) => {
 
+	const [loading, setLoading] = useState(false);
+
 	const resolver = yupResolver(validateSchema);
 
 	const {
 		register,
 		control,
 		handleSubmit,
+		reset,
 		formState: { errors },
 	} = useForm({
 		resolver: resolver,
 		defaultValues: {
 			page: data.id,
 			category: 1,
-			phone: "+84",
+			phone: "+84"
 		},
 	});
 
@@ -67,17 +72,30 @@ const FormContact = ({category,data, ...props}) => {
 		Authorization: process.env.NEXT_PUBLIC_ANALYTICS_ID,
 	};
 
-	const onSubmit = (data) => {
+
+	const { enqueueSnackbar } = useSnackbar();
+
+	const onSubmit = useCallback((data) => {
+		setLoading(!loading)
 		axios
 			.post(URL, data, { headers: config })
 			.then((res) => {
+				enqueueSnackbar("Đăng ký thành công", {
+					variant: "success",
+				});
+				setLoading(false)
+				reset()
 				console.log("RESONSE RECEIVED: ", res);
 			})
 			.catch((error) => {
+				enqueueSnackbar("Đăng ký thất bại", {
+					variant: "error",
+				});
+				setLoading(false)
 				console.log("ERROR: ", error);
-				console.log(error.response.data);
 			});
-	};
+	},[enqueueSnackbar, reset]);
+
 
 	return (
 		<ContainerBox className='BoxForm'>
@@ -88,12 +106,14 @@ const FormContact = ({category,data, ...props}) => {
 				<Stack direction={"column"} spacing={2} alignItems='center'>
 					<TextField
 						fullWidth
+						required={true}
 						label='Tên quán / Thương hiệu'
 						id='1'
 						{...register("store_name")}
 					/>
 					<TextField
 						fullWidth
+						required={true}
 						label='Người đại diện'
 						id='2'
 						{...register("presentator")}
@@ -115,51 +135,79 @@ const FormContact = ({category,data, ...props}) => {
 									fullWidth
 									onChange={handleChange}>
 									{category?.map((e) => (
-										<MenuItem
-										key={e.id}
-										value={e.id}>{e.name}</MenuItem>
+										<MenuItem key={e.id} value={e.id}>
+											{e.name}
+										</MenuItem>
 									))}
 								</Select>
 							</FormControl>
 						)}
 						defaultValue={1}
 					/>
-					<TextField fullWidth label='Email' id='3' {...register("email")} />
 					<TextField
+						required={true}
 						fullWidth
-						label='Số tài khoản ngân hàng'
-						id='5'
+						label='Email'
+						id='3'
+						{...register("email")}
+					/>
+					<NumberFormat
 						{...register("bank_number")}
+						id='5'
+						label='Số tài khoản ngân hàng'
+						fullWidth
+						customInput={TextField}
+						format='#### #### #### ####'
 					/>
 					<TextField fullWidth label='Bank' id='6' {...register("bank")} />
 					<TextField
+						required={true}
 						fullWidth
 						label='Chủ tài khoản'
 						id='7'
 						{...register("owner")}
 					/>
 					<TextField
+						required={true}
 						fullWidth
 						label='Chi nhánh'
 						id='8'
 						{...register("branch")}
 					/>
 					<TextField
+						required
 						fullWidth
-						label='Số điện thoại'
+						label="Số điện thoại"
 						id='9'
 						{...register("phone")}
 					/>
 
-					<Button
+	
+					{/* <Controller 
+						control={control}
+						name="phone"
+						render={() => (
+							<NumberFormat 
+							format="+84##########"
+							label="Số điện thoại"
+							{...register("phone")}
+							fullWidth
+							defaultValue={"+84978216729"}
+							customInput={TextField}
+							required
+							/>
+						)}
+					/> */}
+					<LoadingButton
 						type='submit'
-						title={"Đăng Ký"}
-						isBackground={true}
-						backgroundColor='#F7CC15'
+						loading={loading}
+						variant='contained'
 						sx={{
 							paddingX: 10,
-						}}
-					/>
+							backgroundColor: "#F7CC15",
+						}}>
+						Đăng ký
+					</LoadingButton>
 					{Object.keys(errors).length !== 0 && (
 						<ErrorBox severity='error' variant='outlined' icon={false}>
 							<AlertTitle>Error</AlertTitle>

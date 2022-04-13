@@ -2,12 +2,15 @@ import {Box, Grid, Stack, Typography, Link, styled} from '@mui/material'
 import { QRcode } from '../../components';
 import { Image } from '../../HOC';
 import { useSetting, useDevice } from '../../hooks';
+import {useRouter} from 'next/router'
 
 const SIZE = "2vw";
 
 const TRANSITION = "all 0.5s";
 
 const FooterBottom = () => {
+
+	const router = useRouter();
 
 	const {isTablet} = useDevice();
 
@@ -23,6 +26,10 @@ const FooterBottom = () => {
 		working_desc
 	} = useSetting();
 
+	const handleClick = (e) => {
+		e.preventDefault();
+		router.push(href);
+	};
     return (
 			<WrapperBottom>
 				<Grid container spacing={5}>

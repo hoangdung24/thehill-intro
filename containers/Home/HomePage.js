@@ -24,14 +24,14 @@ const HomePage = ({ homeData, partnerData, blogDetail, ...props }) => {
 	return (
 		<Box>
 			<Header data={data} />
-			<CustomerBenefit data={data} />
+			<CustomerBenefit data={data} href='#Customer' />
 			<Container maxWidth='lg'>
 				<StoreBenefit data={data} />
 				<AboutUs data={data} />
-				<Tutorial data={data} />
+				<Tutorial data={data} href='#About' />
 			</Container>
-			<SliderCarousel data={data} partnerData={partnerData} />
-			<TinTuc data={blogDetail}/>
+			<SliderCarousel data={data} partnerData={partnerData} href="#Slider"/>
+			<TinTuc data={blogDetail} />
 		</Box>
 	);
 };

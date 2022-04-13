@@ -5,7 +5,7 @@ import { Image } from "../../../HOC";
 const CustomerBenefit = ({data, ...props }) => {
 
 	return (
-		<Wrapper id='Customer'>
+		<Wrapper href='#Customer'>
 			<ImageBackground className='background customer'>
 				<Image
 					alt='customer image'

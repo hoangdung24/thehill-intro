@@ -6,7 +6,7 @@ const SIZE = 450;
 
 const AboutUs = ({data, ...props }) => {
 	return (
-		<Wrapper id="About">
+		<Wrapper href="#About">
 			<Grid container spacing={2}>
 				<Grid item lg={6} md={12} xs={12}>
 					<Typography variant='h4'>{data.about_title}</Typography>

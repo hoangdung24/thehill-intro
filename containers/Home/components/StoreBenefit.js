@@ -5,7 +5,7 @@ const SIZE = 450
 
 const StoreBenefit = ({ data, ...props }) => {
 	return (
-		<Wrapper id="Store">
+		<Wrapper href="#Store">
 			<Grid container spacing={2}>
 				<Grid item lg={6}>
 					<Box>

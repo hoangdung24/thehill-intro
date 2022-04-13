@@ -6,7 +6,7 @@ import { Cache as EmotionCache, Theme as CustomMuiTheme } from "../HOC";
 import "../axios.config";
 import { SWRConfig } from "swr";
 import axios from "axios";
-
+import {SnackbarProvider} from 'notistack'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -19,19 +19,22 @@ function MyApp(props) {
   return (
 		<EmotionCache emotionCache={emotionCache}>
 			<CustomMuiTheme>
-				<SWRConfig value={{
-          refreshInterval: 3000,
-          fetcher: async (resource, init)=> {
-            return axios.get(resource, init).then((res)=> {
-              return res.data
-            })
-          }
-        }}>
+				<SWRConfig
+					value={{
+						refreshInterval: 3000,
+						fetcher: async (resource, init) => {
+							return axios.get(resource, init).then((res) => {
+								return res.data;
+							});
+						},
+					}}>
 					<ErrorBoundary FallbackComponent={ErrorFallback}>
-						<Layout>
-							<CssBaseline />
-							<Component {...pageProps} />
-						</Layout>
+						<SnackbarProvider maxSnack={3}>
+							<Layout>
+								<CssBaseline />
+								<Component {...pageProps} />
+							</Layout>
+						</SnackbarProvider>
 					</ErrorBoundary>
 				</SWRConfig>
 			</CustomMuiTheme>

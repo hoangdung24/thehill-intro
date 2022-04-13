@@ -130,6 +130,7 @@ const BlogList = ({ blogDetail,blogCategory, tags, ...props }) => {
 							size="large"
 							onChange={(_, page) => {
 								console.log(page);
+								console.log(_);
 								paramsHandler({
 									offset: (page -1) * 6
 								})

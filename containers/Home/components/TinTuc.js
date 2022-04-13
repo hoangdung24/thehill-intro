@@ -11,7 +11,7 @@ const TinTuc = ({data, ...props}) => {
     // console.log(items)
 
     return (
-			<Wrapper>
+			<Wrapper href="#TinTuc">
 				<Container maxWidth='lg'>
 					<Grid container spacing={4} direction='row'>
 						{items?.map((e, index) => (
@@ -94,6 +94,7 @@ const WrapperContent = styled(Box, {
 		boxShadow: theme.shadows[5],
 		height: "500px",
 		width: isTablet ? "400px" : "100%",
+		borderRadius: 10
 	};
 });
 

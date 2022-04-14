@@ -6,14 +6,11 @@ import Slider from "react-slick";
 
 const SliderCarousel = ({ partnerData, data, ...props }) => {
 	const settings = {
-		// className: 'center',
-		// centerMode: true,
 		infinite: true,
 		speed: 500,
 		slidesToShow: 3,
 		slidesToScroll: 1,
 		autoplay: true,
-		// centerPadding: '60px'
 	};
 
 	return (

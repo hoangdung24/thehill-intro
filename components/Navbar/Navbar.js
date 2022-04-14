@@ -67,7 +67,6 @@ const Navbar = ({ ...props }) => {
 								mr: 2,
 								display: { xs: "none", md: "flex" },
 							}}>
-							{/* <Typography variant='h6'>LOGO</Typography> */}
 							<img
 								src={logo_header}
 								width='100px'

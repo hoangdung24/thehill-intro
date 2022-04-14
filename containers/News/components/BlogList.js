@@ -100,8 +100,8 @@ const BlogList = ({ blogDetail,blogCategory, tags, ...props }) => {
 								{({ data, chooseBlogHandler }) => {
 									return data.items.map((e) => {
 										return (
-											<Grid item xs={12} md={6} key={e.id}>
-												<BlogItems {...e} chooseBlog={chooseBlogHandler} />
+											<Grid item xs={12} md={6} key={e.id} >
+												<BlogItems {...e} chooseBlog={chooseBlogHandler}/>
 											</Grid>
 										);
 									});
@@ -138,7 +138,7 @@ const BlogList = ({ blogDetail,blogCategory, tags, ...props }) => {
 								<Typography variant='title2'>CATEGORY</Typography>
 								{blogCategories.map((e, index)=> {
 									return (
-										<Category data={e} key={index} onClick={selectedCategory(e.id)}/>
+										<Category data={e} key={index}/>
 									)
 								})}
 							</Box>

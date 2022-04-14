@@ -34,7 +34,7 @@ const SliderCarousel = ({ partnerData, data, ...props }) => {
 					}}>
 					<Title variant='h4'>{data.partner_title}</Title>
 					<Box>
-						<Button>MORE</Button>
+						<Button href="/thuong-hieu-than-quen">MORE</Button>
 					</Box>
 				</Box>
 				<Slider {...settings}>

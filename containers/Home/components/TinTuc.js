@@ -88,7 +88,7 @@ const TinTuc = ({data, tintuc, ...props}) => {
 							</Grid>
 						))}
 						<Box>
-							<Button>MORE</Button>
+							<Button href='/news'>MORE</Button>
 						</Box>
 					</Grid>
 				</Container>

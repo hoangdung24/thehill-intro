@@ -3,9 +3,12 @@ import { useCallback } from 'react'
 
 const Tag = ({items, selectedItem, ...props}) => {
 
-    const handleClick = useCallback((data)=> {
+    const onClick = useCallback((data)=> {
         return (e) => {
-            props.handleClick(e, data)
+            // console.log(data);
+            // props.handleClick(e, data)
+            props.onClick(e,data)
+            // console.log(data)
         }
     }, [])
 
@@ -17,7 +20,8 @@ const Tag = ({items, selectedItem, ...props}) => {
                     label={e}
                     variant={selectedItem === e ? "filled" : "outlined"}
                     clickable
-                    onClick={handleClick(e)}/>
+                    onClick={onClick(e)} 
+                    />
                 )
             })}
         </Stack>

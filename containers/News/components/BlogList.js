@@ -1,4 +1,4 @@
-import { Box, Grid, Pagination, styled, Typography, Stack, usePagination, PaginationItem, Button } from "@mui/material";
+import { Box, Grid, Pagination, styled, Typography, Stack, usePagination, PaginationItem, Button, Fade } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import { useToggle, useUpdateEffect } from "react-use";
 import useSWR from "swr";
@@ -27,13 +27,16 @@ const BlogList = ({ blogDetail,blogCategory, tags, ...props }) => {
 		count: blogDetail.items / 6
 	})
 
-	const [params,paramsHandler, isReady, resetParams] = useParams({initState: {
+	const [params, paramsHandler, isReady, resetParams] = useParams({initState: {
 		limit: 6,
 		offset: 0,
 		fields: "*"
 	},
 		callback: (params) => {
-		console.log(params)
+
+			console.log(params);
+
+		// console.log(params)
 	},
 });
 
@@ -61,33 +64,17 @@ const BlogList = ({ blogDetail,blogCategory, tags, ...props }) => {
 		toggle(true), setSelectedBlog(data);
 	}, []);
 
-	const chooseTagHandler = useCallback((_, data) => {
-		paramsHandler((prev) => {
-			if (prev.tags === data) {
-				updatePathname({
-					pathname: router.pathname,
-					query: {
-						tags: null,
-					},
-				});
-				return {
-					...prev,
-					tags: null,
-				};
-			} else {
-				updatePathname({
-					pathname: router.pathname,
-					query: {
-						tags: data,
-					},
-				});
-				return {
-					...prev,
-					tags: data,
-				};
-			}
-		});
-	}, []);
+	const chooseTagHandler = useCallback((_, data)=>{
+		paramsHandler({
+			tags: data
+		})
+	}, [])
+
+	const selectedCategory = useCallback((e) => {
+		paramsHandler({
+			
+		})
+	}, [] )
 
 
 	if (!isReady) {
@@ -95,76 +82,80 @@ const BlogList = ({ blogDetail,blogCategory, tags, ...props }) => {
 	}
 
 	return (
-		<Wrapper>
-			<Grid container spacing={2} direction={"row"}>
-				<Grid item xs={12} lg={9}>
-					<Grid container spacing={4}>
-						<LoadingData
-							data={resData}
-							error={error}
-							loading={loading}
-							chooseBlogHandler={chooseBlogHandler}>
-							{({ data, chooseBlogHandler }) => {
-								return data.items.map((e) => {
-									return (
-										<Grid item xs={12} md={6} key={e.id}>
-											<BlogItems {...e} chooseBlog={chooseBlogHandler} />
-										</Grid>
-									);
-								});
-							}}
-						</LoadingData>
+		<Fade
+		in={true}
+		timeout={{
+			enter: 500
+		}}>
+			<Wrapper>
+				{selectedBlog}
+				<Grid container spacing={2} direction={"row"}>
+					<Grid item xs={12} lg={9}>
+						<Grid container spacing={4}>
+							<LoadingData
+								data={resData}
+								error={error}
+								loading={loading}
+								chooseBlogHandler={chooseBlogHandler}>
+								{({ data, chooseBlogHandler }) => {
+									return data.items.map((e) => {
+										return (
+											<Grid item xs={12} md={6} key={e.id}>
+												<BlogItems {...e} chooseBlog={chooseBlogHandler} />
+											</Grid>
+										);
+									});
+								}}
+							</LoadingData>
+						</Grid>
+						<Box
+							sx={{
+								display: "flex",
+								justifyContent: "center",
+								alignContent: "center",
+								alignItems: "center",
+								paddingTop: 5,
+							}}>
+							<Pagination
+								shape='rounded'
+								count={Math.ceil(blogDetail.meta.total_count / 6)}
+								variant='outlined'
+								size='large'
+								onChange={(_, page) => {
+									paramsHandler({
+										offset: (page - 1) * 6,
+									});
+								}}></Pagination>
+						</Box>
 					</Grid>
-					<Box
-						sx={{
-							display: "flex",
-							justifyContent: "center",
-							alignContent: "center",
-							alignItems: "center",
-							paddingTop: 5,
-						}}>
-						<Pagination
-							shape='rounded'
-							count={Math.ceil(blogDetail.meta.total_count / 6)}
-							variant= "outlined"
-							size="large"
-							onChange={(_, page) => {
-								console.log(page);
-								console.log(_);
-								paramsHandler({
-									offset: (page -1) * 6
-								})
-							}}
-							>
-						</Pagination>
-					</Box>
+
+					<Grid item xs={12} lg={3}>
+						<Stack spacing={2}>
+							<Box>
+								<SearchBar />
+							</Box>
+							<Box>
+								<Typography variant='title2'>CATEGORY</Typography>
+								{blogCategories.map((e, index)=> {
+									return (
+										<Category data={e} key={index}/>
+									)
+								})}
+							</Box>
+
+							<Box>
+								<Typography variant='title2'>POPULAR TAG</Typography>
+								<Tag
+									onClick={chooseTagHandler}
+									selectedItem={params.tags}
+									{...tags}
+								/>
+							</Box>
+						</Stack>
+					</Grid>
 				</Grid>
-
-				<Grid item xs={12} lg={3}>
-					<Stack spacing={2}>
-						<Box>
-							<SearchBar />
-						</Box>
-
-						{/* <Box>
-							<Category 
-                            onClick={chooseTagHandler}
-                            selectedItem={params.tags}
-                            {...blogCategories} />
-						</Box> */}
-
-						<Box>
-							<Typography variant='title2'>POPULAR TAG</Typography>
-							<Tag
-								onClick={chooseTagHandler}
-								selectedItem={params.tags}
-								{...tags}
-							/>
-						</Box>
-					</Stack>
-				</Grid>
-			</Grid>
-		</Wrapper>
+			</Wrapper>
+		</Fade>
 	);
 };
 

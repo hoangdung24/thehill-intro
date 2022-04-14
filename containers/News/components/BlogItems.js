@@ -11,7 +11,7 @@ const BlogItems = ({ chooseBlog, ...props}) => {
 
 	// console.log(props);
 
-    const { thumbnail, title, tags, content, meta } = props;
+    const { thumbnail, title, content, meta } = props;
     const { first_published_at } = meta;
 
 	const [selectedBlog, setSelectedBlog] = useState(null);
@@ -20,13 +20,14 @@ const BlogItems = ({ chooseBlog, ...props}) => {
 
     const onClick = useCallback((data) => {
 			return (_) => {
+				// console.log(data);
 				chooseBlog(_, data)
 			};
 		}, []);
 
 
     return (
-			<Wrapper isMobile={isMobile} isTablet={isTablet}>
+			<Wrapper isMobile={isMobile} isTablet={isTablet} onClick={onClick(props)}>
 				<ImageWrapper>
 					<img
 						src={thumbnail}
@@ -50,6 +51,7 @@ const BlogItems = ({ chooseBlog, ...props}) => {
 								year: "numeric",
 							})}
 						</Typography>
+						
 					</Box>
 
 					<Box>
@@ -62,7 +64,7 @@ const BlogItems = ({ chooseBlog, ...props}) => {
 									__html: createDOMPurify
 										.sanitize(content)
 										.split(" ")
-										.splice(0, 45)
+										.splice(0, 35)
 										.join(" "),
 								}}
 								sx={{
@@ -96,14 +98,19 @@ const BlogItems = ({ chooseBlog, ...props}) => {
 										listStyleType: "none",
 									},
 								}}></Box>
-							<Box>
-								<Button
-									onClick={onClick(props)}
-									title='READ MORE'
-									isBackground={true}></Button>
-								<BlogDetail data={selectedBlog} />
-							</Box>
 						</Stack>
+						<Box
+							sx={{
+								position: "absolute",
+								bottom: 15,
+								left: 15,
+							}}>
+							<Button
+								onClick={onClick(props)}
+								title='READ MORE'
+								isBackground={true}></Button>
+							<BlogDetail data={selectedBlog} />
+						</Box>
 					</Box>
 				</ContentWrapper>
 			</Wrapper>

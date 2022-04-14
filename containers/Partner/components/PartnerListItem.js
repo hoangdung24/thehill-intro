@@ -19,8 +19,8 @@ const PartnerDetailItem = ({ data }) => {
             <Avatar
               src={data.image}
               sx={{
-                width: 80,
-                height: 80,
+                width: 90,
+                height: 90,
                 cursor: "pointer",
               }}
             />

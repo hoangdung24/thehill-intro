@@ -41,8 +41,8 @@ const PartnerList = ({ data, ...props }) => {
           </Grid>
           {data.partners.map((el, idx) => {
             return (
-              <Grid item xs={12} md={6}>
-                <PartnerListItem data={el} key={idx} />
+              <Grid item xs={12} md={6} key={idx}>
+                <PartnerListItem data={el} />
               </Grid>
             );
           })}

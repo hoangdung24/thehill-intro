@@ -28,7 +28,6 @@ const validateSchema = object({
 	store_name: string().required("Required"),
 	presentator: string().required("Required"),
 	email: string().email().required("Required"),
-	owner: string().required("Required"),
 	branch: string().required("Required"),
 	phone: string().required("Required"),
 });
@@ -72,6 +71,7 @@ const FormContact = ({category,data, ...props}) => {
 		Authorization: process.env.NEXT_PUBLIC_ANALYTICS_ID,
 	};
 
+	console.log(process.env.NEXT_PUBLIC_ANALYTICS_ID);
 
 	const { enqueueSnackbar } = useSnackbar();
 
@@ -157,11 +157,9 @@ const FormContact = ({category,data, ...props}) => {
 						label='Số tài khoản ngân hàng'
 						fullWidth
 						customInput={TextField}
-						format='#### #### #### ####'
 					/>
 					<TextField fullWidth label='Bank' id='6' {...register("bank")} />
 					<TextField
-						required={true}
 						fullWidth
 						label='Chủ tài khoản'
 						id='7'
@@ -181,23 +179,6 @@ const FormContact = ({category,data, ...props}) => {
 						id='9'
 						{...register("phone")}
 					/>
-
-	
-					{/* <Controller 
-						control={control}
-						name="phone"
-						render={() => (
-							<NumberFormat 
-							format="+84##########"
-							label="Số điện thoại"
-							{...register("phone")}
-							fullWidth
-							defaultValue={"+84978216729"}
-							customInput={TextField}
-							required
-							/>
-						)}
-					/> */}
 					<LoadingButton
 						type='submit'
 						loading={loading}
@@ -220,9 +201,6 @@ const FormContact = ({category,data, ...props}) => {
 								)}
 								{errors.email?.type === "required" && (
 									<li>Hãy điền email của mình</li>
-								)}
-								{errors.owner?.type === "required" && (
-									<li>Hãy điền tên chủ tài khoản</li>
 								)}
 								{errors.bank?.type === "required" && (
 									<li>Hãy điền số tài khoản</li>

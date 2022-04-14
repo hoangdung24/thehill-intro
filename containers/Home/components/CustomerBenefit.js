@@ -5,7 +5,7 @@ import { Image } from "../../../HOC";
 const CustomerBenefit = ({data, ...props }) => {
 
 	return (
-		<Wrapper id="partner">
+		<Wrapper>
 			<ImageBackground className='background customer'sx={{
 				pointerEvents: 'none'
 			}}>

@@ -3,33 +3,39 @@ import createDOMPurify from "isomorphic-dompurify";
 
 const CardPartner = ({ icon, name, description, point_content, link, ...props }) => {
   return (
-    <Box sx={
-      {paddingLeft: '15px'}
-    }>
-      <Stack spacing={1} direction="row">
-        <WrapperAva elevation={5}>
-          <Link href={link}>
-            <Avatar alt="Icon" src={icon} sx={{
-              height:40,
-              width: 40
-            }}/>
-          </Link>
-        </WrapperAva>
-        <ContentBox>
-          <Stack spacing={2}>
-            <Box
-              component={"div"}
-              dangerouslySetInnerHTML={{
-                __html: createDOMPurify.sanitize(point_content),
-              }}
-            ></Box>
-            <Content variant="body2">{description}</Content>
-            <Title variant="h6">{name}</Title>
-          </Stack>
-        </ContentBox>
-      </Stack>
-    </Box>
-  );
+		<Box sx={{ paddingLeft: "15px" }}>
+			<Stack spacing={1} direction='row'>
+				<WrapperAva elevation={5}>
+					<Link href={link}>
+						<Avatar
+							alt='Icon'
+							src={icon}
+							sx={{
+								height: 40,
+								width: 40,
+							}}
+						/>
+					</Link>
+				</WrapperAva>
+				<ContentBox>
+					<Stack spacing={2}>
+						<Box
+							dangerouslySetInnerHTML={{
+								__html: createDOMPurify
+									.sanitize(point_content)
+							}}></Box>
+						<Content variant='body2'>{description}</Content>
+					</Stack>
+					<Box sx={{
+            position: 'absolute',
+            bottom: 20
+          }}>
+						<Title variant='h6'>{name}</Title>
+					</Box>
+				</ContentBox>
+			</Stack>
+		</Box>
+	);
 };
 
 export default CardPartner;

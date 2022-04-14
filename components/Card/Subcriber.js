@@ -6,6 +6,9 @@ import {useForm} from 'react-hook-form'
 import SendIcon from "@mui/icons-material/Send";
 import { object, string } from "yup"
 
+import { useSnackbar } from "notistack";
+import { useCallback } from 'react';
+
 const URL = `${DOMAIN}${SUBCRIBERS}`
 
 const validateSchema = object({
@@ -15,9 +18,11 @@ const validateSchema = object({
 const Subcriber = () => {
     const resolver = yupResolver(validateSchema);
 
-    const {register, handleSubmit} = useForm({
+    const {register, handleSubmit, reset} = useForm({
         resolver: resolver
     })
+
+	const { enqueueSnackbar } = useSnackbar();
 
 
 	const config = {
@@ -25,16 +30,23 @@ const Subcriber = () => {
 		Authorization: process.env.NEXT_PUBLIC_ANALYTICS_ID,
 	};
 
-	const onSubmit = (data) => {
+	const onSubmit = useCallback((data) => {
 		axios
 			.post(URL, data, { headers: config })
 			.then((res) => {
+				enqueueSnackbar("Đăng ký thành công", {
+					variant: "success",
+				});
+				reset()
 				console.log("RESPONSE RECEIVED: ", res);
 			})
 			.catch((error) => {
+				enqueueSnackbar("Đăng ký thất bại", {
+					variant: "error",
+				});
 				console.log("ERROR: ", error);
 			});
-	};   
+	}, [enqueueSnackbar, reset])  
 
     return (
 			<Wrapper className='Wrapper Subcriber'>

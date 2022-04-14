@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Typography, styled, Container } from "@mui/material";
+import { Box, Typography, styled, Container , Button } from "@mui/material";
 import { CardPartner } from "../../../components";
 
 import Slider from "react-slick";
@@ -17,7 +17,7 @@ const SliderCarousel = ({ partnerData, data, ...props }) => {
 	};
 
 	return (
-		<Wrapper>
+		<Wrapper id='partner'>
 			<WraperImage>
 				<img
 					src={data.partner_image}
@@ -28,7 +28,7 @@ const SliderCarousel = ({ partnerData, data, ...props }) => {
 					}}
 				/>
 			</WraperImage>
-			<Container maxWidth="lg">
+			<Container maxWidth='lg'>
 				<Box
 					sx={{
 						textAlign: "center",
@@ -36,6 +36,9 @@ const SliderCarousel = ({ partnerData, data, ...props }) => {
 						paddingTop: 5,
 					}}>
 					<Title variant='h4'>{data.partner_title}</Title>
+					<Box>
+						<Button>MORE</Button>
+					</Box>
 				</Box>
 				<Slider {...settings}>
 					{partnerData?.items?.map((e, index) => (
@@ -43,7 +46,7 @@ const SliderCarousel = ({ partnerData, data, ...props }) => {
 							key={index}
 							icon={e.image}
 							name={e.name}
-							description={e.description}
+							description={e.description.substring(0, 50)}
 							point_content={e.point_content}
 							link={e.link}
 						/>

@@ -32,6 +32,5 @@ const SubTitle = styled(Typography)(({theme})=> {
 
 const Wrapper = styled(Box)(({theme})=> {
 	return {
-		
 	}
 })

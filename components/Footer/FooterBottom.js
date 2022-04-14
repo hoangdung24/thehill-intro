@@ -4,7 +4,7 @@ import { Image } from '../../HOC';
 import { useSetting, useDevice } from '../../hooks';
 import {useRouter} from 'next/router'
 
-const SIZE = "2vw";
+const SIZE = "38px";
 
 const TRANSITION = "all 0.5s";
 
@@ -46,7 +46,12 @@ const FooterBottom = () => {
 						<Title variant='h5'>{title_column_1}</Title>
 						<Stack spacing={2}>
 							{link_in_column_1?.map((el, index) => (
-								<Box key={index} onClick={handleClick(el.value.title)}>
+								<Box
+									key={index}
+									onClick={handleClick(el.value.title)}
+									sx={{
+										cursor: "pointer",
+									}}>
 									<Subtile variant='body1'>{el.value.title}</Subtile>
 								</Box>
 							))}
@@ -56,7 +61,12 @@ const FooterBottom = () => {
 						<Title variant='h5'>{title_column_2}</Title>
 						<Stack spacing={2}>
 							{link_in_column_2?.map((el, index) => (
-								<Box key={index} onClick={handleClick(el.value.title)}>
+								<Box
+									key={index}
+									onClick={handleClick(el.value.title)}
+									sx={{
+										cursor: "pointer",
+									}}>
 									<Subtile variant='body1'>{el.value.title}</Subtile>
 								</Box>
 							))}
@@ -77,9 +87,24 @@ const FooterBottom = () => {
 									</Link>
 								))}
 							</Stack>
-							<Subtile>{email}</Subtile>
-							<Subtile>{hotline}</Subtile>
-							<Subtile>{working_desc}</Subtile>
+							<Box
+								sx={{
+									cursor: "default",
+								}}>
+								<Subtile>{email}</Subtile>
+							</Box>
+							<Box
+								sx={{
+									cursor: "default",
+								}}>
+								<Subtile>{hotline}</Subtile>
+							</Box>
+							<Box
+								sx={{
+									cursor: "default",
+								}}>
+								<Subtile>{working_desc}</Subtile>
+							</Box>
 						</Stack>
 					</Grid>
 					<Grid item xs={12} md={3} lg={3}>

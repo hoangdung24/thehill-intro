@@ -45,5 +45,6 @@ const Wrapper = styled(Box)(({ theme }) => {
 	return {
 		paddingTop: theme.spacing(2),
 		paddingBottom: theme.spacing(4),
+		pointerEvents: 'none'
 	};
 });

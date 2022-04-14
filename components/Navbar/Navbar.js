@@ -26,8 +26,20 @@ const Navbar = ({ ...props }) => {
 
 	const [anchorElNav, setAnchorElNav] = useState(null);
 
-	const handleOpenNavMenu = (event) => {
-		setAnchorElNav(!anchorElNav);
+	const handleOpenNavMenu = (section, type) => {
+		return () => {
+			const pathname = router.pathname;
+			if (type === "by_section") {
+				router.push(`/#${section}`);
+				setAnchorElNav(!anchorElNav);
+			} else if (type === "by_page") {
+				router.push(`cau-hoi-thuong-gap`);
+				setAnchorElNav(!anchorElNav);
+			} else {
+				router.push(`/`);
+				setAnchorElNav(!anchorElNav);
+			}
+		};
 	};
 
 	const handleCloseNavMenu = (section, type) => {
@@ -80,12 +92,13 @@ const Navbar = ({ ...props }) => {
 							className='nav-bar-anchor'
 							sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
 							<IconButton
+
 								size='large'
 								anchorEl={anchorElNav}
 								aria-label='current user'
 								aria-controls='menu-appbar'
 								aria-haspopup='true'
-								onClick={handleOpenNavMenu}
+								onClick={handleOpenNavMenu()}
 								color='inherit'>
 								<MenuIcon />
 							</IconButton>

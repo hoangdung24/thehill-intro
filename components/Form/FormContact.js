@@ -9,23 +9,22 @@ import {
 	styled,
 	Alert,
 	AlertTitle,
-	Input,
-	Typography
 } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { useState, useCallback } from "react";
 import axios from "axios";
 import { DOMAIN, SUBMISSIONS } from "../../helpers/api";
-import { number, object, string } from "yup";
+import { object, string } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useDropzone } from "react-dropzone";
-import NumberFormat from 'react-number-format'
-import {useSnackbar} from 'notistack';
-import Captcha from "./Captcha";
+import NumberFormat from "react-number-format";
+import { useSnackbar } from "notistack";
 
 const URL = `${DOMAIN}${SUBMISSIONS}`;
+
+const instance = axios.create();
 
 const validateSchema = object({
 	store_name: string().required("Required"),
@@ -35,10 +34,8 @@ const validateSchema = object({
 	phone: string().required("Required"),
 });
 
-const FormContact = ({category,data, ...props}) => {
-
+const FormContact = ({ category, data, ...props }) => {
 	const [image, setImage] = useState(null);
-
 
 	const [loading, setLoading] = useState(false);
 
@@ -55,13 +52,11 @@ const FormContact = ({category,data, ...props}) => {
 		defaultValues: {
 			page: data.id,
 			category: 1,
-			phone: "+84"
+			phone: "+84",
 		},
 	});
 
-
-	const {acceptedFiles, getRootProps, getInputProps} = useDropzone()
-	
+	const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
 
 	const files = acceptedFiles.map((file) => (
 		<li key={file.path}>
@@ -85,45 +80,52 @@ const FormContact = ({category,data, ...props}) => {
 		Authorization: process.env.NEXT_PUBLIC_ANALYTICS_ID,
 	};
 
-
 	const { enqueueSnackbar } = useSnackbar();
 
-	const onSubmit = useCallback((data) => {
+	const onSubmit = useCallback(
+		(data) => {
+			console.log(data);
+			const formData = new FormData();
 
-		let formData = new FormData();
-		formData.append("category",{...register('category')});
-		formData.append("page", {...register('page')});
-		formData.append("phone",{...register('phone')});
-		formData.append("store_name",{...register('store_name')})
-		formData.append("presentator",{...register("presentator") });
-		formData.append("category",{...register("category")})
-		formData.append("email",{...register("email")})
-		formData.append("bank_number",{...register("bank_number")})
-		formData.append("owner",{...register("owner")})
-		formData.append('branch',{...register("branch")})
+			for (const key of Object.keys(data)) {
+				// if (key === 'file_field') {
+				// 	formData.append(key, data[key][0]);
+				// 	continue;
+				// }
 
-		console.log(formData)
-		setLoading(!loading)
-		axios
-			.post(URL, data, { headers: config })
-			.then((res) => {
-				enqueueSnackbar("Đăng ký thành công", {
-					variant: "success",
+				formData.append(key, data[key]);
+			}
+
+			console.log(formData);
+			setLoading(!loading);
+			instance
+				.post(URL, formData, {
+					headers: {
+						"content-type": "multipart/form-data",
+						Authorization: process.env.NEXT_PUBLIC_ANALYTICS_ID,
+					},
+				})
+				.then((res) => {
+					enqueueSnackbar("Đăng ký thành công", {
+						variant: "success",
+					});
+					setLoading(false);
+					reset();
+					console.log("RESONSE RECEIVED: ", res);
+				})
+				.catch((error) => {
+					enqueueSnackbar("Đăng ký thất bại", {
+						variant: "error",
+					});
+					setLoading(false);
+					console.log("ERROR: ", error);
+					console.log(error.response);
 				});
-				setLoading(false)
-				reset()
-				console.log("RESONSE RECEIVED: ", res);
-			})
-			.catch((error) => {
-				enqueueSnackbar("Đăng ký thất bại", {
-					variant: "error",
-				});
-				setLoading(false)
-				console.log("ERROR: ", error);
-				console.log(error.response)
-			});
-	},[enqueueSnackbar, reset]);
+		},
+		[enqueueSnackbar, reset]
+	);
 
+	const BankNumber = register("bank_number");
 
 	return (
 		<ContainerBox className='BoxForm'>
@@ -179,13 +181,15 @@ const FormContact = ({category,data, ...props}) => {
 						id='3'
 						{...register("email")}
 					/>
-					<NumberFormat
-						{...register("bank_number")}
-						id='5'
-						label='Số tài khoản ngân hàng'
+					<TextField
+						type="tel"
 						fullWidth
-						customInput={TextField}
+						label='Số tài khoản ngân hàng'
+						id='5'
+						{...register("bank_number")}
 					/>
+					
+					
 					<TextField fullWidth label='Bank' id='6' {...register("bank")} />
 					<TextField
 						fullWidth
@@ -207,16 +211,7 @@ const FormContact = ({category,data, ...props}) => {
 						id='9'
 						{...register("phone")}
 					/>
-					{/* <BoxMui sx={{
-						width: '100%'
-					}}>
-						<BoxMui {...getRootProps}>
-							<input {...getInputProps}/>
-						</BoxMui>
-						<Typography>Files</Typography>
-						<ul>{files}</ul>
-					</BoxMui> */}
-					{/* <input type={"file"} name='file_field' {...register("file_field")} /> */}
+					<input type='file' name='image' {...register("file_field")} />
 					{/* <Captcha/> */}
 					<LoadingButton
 						type='submit'
@@ -270,11 +265,10 @@ const ContainerBox = styled(BoxMui)(({ theme }) => {
 	};
 });
 
-
-const ErrorBox = styled(Alert)(({theme})=>{
+const ErrorBox = styled(Alert)(({ theme }) => {
 	return {
-		color:"red",
-		borderColor: 'red',
-		width: '100%'
-	}
-})
+		color: "red",
+		borderColor: "red",
+		width: "100%",
+	};
+});

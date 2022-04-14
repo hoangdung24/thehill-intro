@@ -21,7 +21,8 @@ const BlogList = ({ blogDetail,blogCategory, tags, ...props }) => {
 	const [data, setData] = useState(blogDetail?.items);
 	const [open, toggle] = useToggle(false);
 	const [loading, setLoading] = useState(false);
-	const [selectedBlog, setSelectedBlog] = useState(null);
+	const [selectedBlog, setSelectedBlog] = useState("");
+
 
 	const {itemsList} = usePagination({
 		count: blogDetail.items / 6
@@ -35,8 +36,6 @@ const BlogList = ({ blogDetail,blogCategory, tags, ...props }) => {
 		callback: (params) => {
 
 			console.log(params);
-
-		// console.log(params)
 	},
 });
 
@@ -71,9 +70,10 @@ const BlogList = ({ blogDetail,blogCategory, tags, ...props }) => {
 	}, [])
 
 	const selectedCategory = useCallback((e) => {
-		paramsHandler({
-			
-		})
+		return () => {
+			setSelectedBlog(e)
+			console.log(e)
+		}
 	}, [] )
 
 
@@ -138,11 +138,10 @@ const BlogList = ({ blogDetail,blogCategory, tags, ...props }) => {
 								<Typography variant='title2'>CATEGORY</Typography>
 								{blogCategories.map((e, index)=> {
 									return (
-										<Category data={e} key={index}/>
+										<Category data={e} key={index} onClick={selectedCategory(e.id)}/>
 									)
 								})}
 							</Box>
-
 							<Box>
 								<Typography variant='title2'>POPULAR TAG</Typography>
 								<Tag

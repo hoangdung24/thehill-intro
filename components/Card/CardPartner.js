@@ -21,17 +21,13 @@ const CardPartner = ({ icon, name, description, point_content, link, ...props })
 					<Stack spacing={2}>
 						<Box
 							dangerouslySetInnerHTML={{
-								__html: createDOMPurify
-									.sanitize(point_content)
+								__html: createDOMPurify.sanitize(point_content),
 							}}></Box>
 						<Content variant='body2'>{description}</Content>
+						<Box>
+							<Title variant='h6'>{name}</Title>
+						</Box>
 					</Stack>
-					<Box sx={{
-            position: 'absolute',
-            bottom: 20
-          }}>
-						<Title variant='h6'>{name}</Title>
-					</Box>
 				</ContentBox>
 			</Stack>
 		</Box>

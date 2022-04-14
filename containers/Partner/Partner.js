@@ -16,6 +16,7 @@ const Partner = ({ ...props }) => {
   let partnerDetailList = initPartnerDetailList?.items;
 
   const metadata = initPartnerPage?.items?.[0];
+  const thumbnail = metadata?.["all_category_thumbnail"];
 
   const selectedPartnerHandler = useCallback((id) => {
     return () => {
@@ -41,7 +42,7 @@ const Partner = ({ ...props }) => {
 
           <Grid item xs={12}>
             <Stack direction={"row"} justifyContent="space-between" flexWrap={"wrap"}>
-              {[{ id: "all", title: "Tất cả", thumbnail: DUMB_IMAGE }, ...partnerDetailList].map(
+              {[{ id: "all", title: "Tất cả", thumbnail: thumbnail }, ...partnerDetailList].map(
                 (el) => {
                   return (
                     <PartnerCategoryItem

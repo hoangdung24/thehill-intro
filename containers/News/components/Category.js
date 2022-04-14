@@ -2,12 +2,22 @@ import {styled, Stack, Box, Typography, Button} from '@mui/material'
 import { useCallback } from "react";
 
 
-const Category = ({ data, ...props }) => {
+const Category = ({ data, selectedItems,  ...props }) => {
+	
+	const onClick = useCallback((data) => {
+		return (e)=> {
+			props.onClick(e,data);
+		}
+	}, [])
+
 	return (
 		<Stack spacing={2} direction={"column"}>
-			<Wrapper>
-				<ButtonStyled variant='outlined'>{data.title}</ButtonStyled>
-			</Wrapper>
+				
+					<Wrapper >
+						<ButtonStyled  variant='outlined'>{data.title}</ButtonStyled>
+					</Wrapper>
+			
+			
 		</Stack>
 	)
 };

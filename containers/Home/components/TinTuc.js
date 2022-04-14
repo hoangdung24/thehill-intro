@@ -1,4 +1,4 @@
-import {styled, Box, Container, Grid, Typography, Stack} from '@mui/material'
+import {styled, Box, Container, Grid, Typography, Button} from '@mui/material'
 import createDOMPurify from 'isomorphic-dompurify'
 import {useDevice} from '../../../hooks'
 
@@ -87,6 +87,9 @@ const TinTuc = ({data, tintuc, ...props}) => {
 								</WrapperContent>
 							</Grid>
 						))}
+						<Box>
+							<Button>MORE</Button>
+						</Box>
 					</Grid>
 				</Container>
 			</Wrapper>
@@ -116,7 +119,7 @@ const WrapperContent = styled(Box, {
 		boxShadow: theme.shadows[5],
 		height: "500px",
 		width: isTablet ? "400px" : "100%",
-		borderRadius: 10
+		borderRadius: 10,
 	};
 });
 
@@ -143,6 +146,6 @@ const DateBox = styled(Box)(({theme}) => {
 const WrapperText = styled(Box)(({theme})=> {
     return {
 			padding: "50px 0 30px",
-			margin: 0,
+			margin: theme.spacing(2),
 		};
 })

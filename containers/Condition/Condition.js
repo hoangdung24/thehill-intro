@@ -1,7 +1,7 @@
 import {styled, Container, Box} from '@mui/material'
 import { Fragment } from 'react';
 import { SubHeader } from '../../components';
-import {ReaderHTML} from '../../components'
+import createDOMPurify from 'isomorphic-dompurify'
 
 const ConditionPage = ({dataCondition,  ...props}) => {
 
@@ -9,13 +9,16 @@ const ConditionPage = ({dataCondition,  ...props}) => {
 
     const data = items?.[0]
 
+	const content = data.content
+
     return (
 			<Fragment>
 				<SubHeader data={data} isBackground={true} background={data.banner} />
 				<Container maxWidth='lg'>
-					<Box>
-						<ReaderHTML content={data.content} />
-					</Box>
+					<Box
+						dangerouslySetInnerHTML={{
+							__html: createDOMPurify.sanitize(content),
+						}}></Box>
 				</Container>
 			</Fragment>
 		);

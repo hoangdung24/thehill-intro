@@ -1,27 +1,31 @@
-import {List, ListItem, ListItemText, Stack, Box} from '@mui/material'
+import {styled, Stack, Box, Typography, Button} from '@mui/material'
 import { useCallback } from "react";
 
 
-const Category = ({ items, selectedItem, ...props }) => {
-	const handleClick = useCallback((data) => {
-		return (e) => {
-			props.handleClick(e, data);
-		};
-	}, []);
-
+const Category = ({ data, ...props }) => {
 	return (
-		<Stack spacing={2} direction={"row"}>
-			{items.map((e, index) => {
-				return (
-						<List sx={{width: '100%'}} key={index} >
-							<ListItem key={index}>
-								<ListItemText primary={e} onClick={handleClick(e)} />
-							</ListItem>
-						</List>
-				);
-			})}
+		<Stack spacing={2} direction={"column"}>
+			<Wrapper>
+				<ButtonStyled variant='outlined'>{data.title}</ButtonStyled>
+			</Wrapper>
 		</Stack>
-	);
+	)
 };
 
 export default Category;
+
+// styled sheet
+
+const Wrapper = styled(Box)(({theme})=> {
+	return {
+		width: '100%',
+	}
+})
+
+const ButtonStyled = styled(Button)(({theme})=> {
+	return {
+		width: "100%",
+		color: theme.palette.common.black,
+		borderColor: theme.palette.action.hover
+	};
+})

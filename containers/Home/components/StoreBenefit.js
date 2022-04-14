@@ -46,6 +46,7 @@ export default StoreBenefit;
 
 const Wrapper = styled(Box)(({ theme }) => {
 	return {
+		position: 'relative',
 		paddingTop: theme.spacing(2),
 		paddingBottom: theme.spacing(4),
 	};

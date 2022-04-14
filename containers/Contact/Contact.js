@@ -8,7 +8,7 @@ const ContactPage = ({ dataContact, storeCategories , ...props }) => {
 
 	return (
 		<Box>
-			<SubHeader data={data}/>
+			<SubHeader data={data} isBackground={true} background={data.banner}/>
 			<Container
 				maxWidth='lg'
 				sx={{

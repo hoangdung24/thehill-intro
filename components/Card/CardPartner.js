@@ -3,13 +3,15 @@ import createDOMPurify from "isomorphic-dompurify";
 
 const CardPartner = ({ icon, name, description, point_content, link, ...props }) => {
   return (
-    <Box>
+    <Box sx={
+      {paddingLeft: '15px'}
+    }>
       <Stack spacing={1} direction="row">
         <WrapperAva elevation={5}>
           <Link href={link}>
             <Avatar alt="Icon" src={icon} sx={{
-              height:46,
-              width: 46
+              height:40,
+              width: 40
             }}/>
           </Link>
         </WrapperAva>
@@ -50,8 +52,8 @@ const WrapperAva = styled(Paper)(({ theme }) => {
   return {
     borderRadius: "50%",
     background: theme.palette.common.white,
-    height: 55,
-    width: 55,
+    height: 40,
+    width: 40,
     justifyContent: "center",
     alignItems: "center",
     display: "flex",
@@ -60,10 +62,10 @@ const WrapperAva = styled(Paper)(({ theme }) => {
 
 const ContentBox = styled(Box)(({ theme }) => {
   return {
-    padding: "35px 35px",
+    padding: "25px 25px",
     background: theme.palette.common.white,
     borderRadius: "0 10px 10px 10px",
-    height: '250px',
-    width: '400px',
+    height: '200px',
+    width: '350px',
   };
 });

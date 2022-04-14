@@ -11,14 +11,15 @@ const Tutorial = ({ data, ...props }) => {
 	const {isTable1200} = useDevice();
 
 	return (
-		<Wrapper href="#Tutorial">
+		<Wrapper id="tutorial">
 			<Grid container spacing={2}>
 				<Grid item lg={6} md={12} xs={12}>
 					<Typography variant='h4'>{data.tutorial_title}</Typography>
 					<ReaderHTML content={data.tutorial_content} />
 				</Grid>
 				<Grid item lg={6} md={12} xs={12}>
-					<Box sx={[
+					<Box sx={
+						[
 						isTable1200 && {
 							display: 'none'
 						}

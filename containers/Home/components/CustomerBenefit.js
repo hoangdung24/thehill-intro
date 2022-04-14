@@ -5,13 +5,23 @@ import { Image } from "../../../HOC";
 const CustomerBenefit = ({data, ...props }) => {
 
 	return (
-		<Wrapper href='#Customer'>
-			<ImageBackground className='background customer'>
-				<Image
+		<Wrapper id="partner">
+			<ImageBackground className='background customer'sx={{
+				pointerEvents: 'none'
+			}}>
+				{/* <Image
 					alt='customer image'
 					src={data.customer_image}
 					height='calc(100vw * 0.4)'
 					width='100vw'
+				/> */}
+				<img
+				src={data.customer_image}
+				style={{
+					width: '100%',
+					height: '100%',
+					objectFit: 'cover'
+				}}
 				/>
 			</ImageBackground>
 			<Container maxWidth='lg'>
@@ -48,13 +58,9 @@ export default CustomerBenefit;
 const Wrapper = styled(Box)(({ theme }) => {
 	return {
 		position: "relative",
-		display: "flex",
-		justifyContent: "center",
-		alignContent: "center",
-		width: "100%",
-		zIndex: 0,
-		paddingTop: theme.spacing(2),
+		paddingTop: theme.spacing(6),
 		paddingBottom: theme.spacing(4),
+		height: "600px",
 	};
 });
 
@@ -66,9 +72,9 @@ const ImageBackground = styled(Box, {
 	return {
 		zIndex: -1,
 		position: "absolute",
-		width: "100%",
-		height: "100%",
-		objectFit: "contain",
-		objectPosition: "center",
+		top: 0,
+		bottom: 0,
+		right: 0,
+		left: 0,
 	};
 });

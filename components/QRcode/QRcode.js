@@ -29,7 +29,9 @@ const QRcode = ({isBadge = false, left = false , right= false, content, ...props
 			<WrapperIcon isBadge={isBadge}>
 				<Image src={"/google.svg"} height={HEIGHT} width={SIZE} alt={"ICON GOOGLE"}/>
 			</WrapperIcon>
-			<Box>
+			<Box sx={{
+				pointerEvents: 'none'
+			}}>
 				<img src={src} width={SIZE} height={SIZE} alt={ALT} />
 			</Box>
 		</Wrapper>

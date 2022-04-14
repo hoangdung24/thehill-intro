@@ -10,15 +10,17 @@ const Footer = ({children, ...props}) => {
   const {logo_footer} = useSetting();
 
   return (
-		<FootWraper>
+		<FootWraper id='contact'>
 			<Container maxWidth='lg'>
-        <Box sx={{
-          paddingBottom: 2
-        }}>
-            <img src={logo_footer} height={100} width={175} alt="logo footer"/>
-        </Box>
+				<Box
+					sx={{
+						paddingBottom: 2,
+            pointerEvents: 'none'
+					}}>
+					<img src={logo_footer} height={100} width={175} alt='logo footer' />
+				</Box>
 				<FooterBottom />
-        <FooterTop />
+				<FooterTop />
 			</Container>
 		</FootWraper>
 	);

@@ -1,16 +1,19 @@
 import React, { useState } from "react";
-import { Box, Typography, styled } from "@mui/material";
+import { Box, Typography, styled, Container } from "@mui/material";
 import { CardPartner } from "../../../components";
 
 import Slider from "react-slick";
 
 const SliderCarousel = ({ partnerData, data, ...props }) => {
 	const settings = {
+		// className: 'center',
+		// centerMode: true,
 		infinite: true,
 		speed: 500,
 		slidesToShow: 3,
 		slidesToScroll: 1,
 		autoplay: true,
+		// centerPadding: '60px'
 	};
 
 	return (
@@ -25,26 +28,28 @@ const SliderCarousel = ({ partnerData, data, ...props }) => {
 					}}
 				/>
 			</WraperImage>
-			<Box
-				sx={{
-					textAlign: "center",
-					paddingBottom: 5,
-					paddingTop: 5,
-				}}>
-				<Title variant='h4'>{data.partner_title}</Title>
-			</Box>
-			<Slider {...settings}>
-				{partnerData?.items?.map((e, index) => (
-					<CardPartner
-						key={index}
-						icon={e.image}
-						name={e.name}
-						description={e.description}
-						point_content={e.point_content}
-						link={e.link}
-					/>
-				))}
-			</Slider>
+			<Container maxWidth="lg">
+				<Box
+					sx={{
+						textAlign: "center",
+						paddingBottom: 5,
+						paddingTop: 5,
+					}}>
+					<Title variant='h4'>{data.partner_title}</Title>
+				</Box>
+				<Slider {...settings}>
+					{partnerData?.items?.map((e, index) => (
+						<CardPartner
+							key={index}
+							icon={e.image}
+							name={e.name}
+							description={e.description}
+							point_content={e.point_content}
+							link={e.link}
+						/>
+					))}
+				</Slider>
+			</Container>
 		</Wrapper>
 	);
 };

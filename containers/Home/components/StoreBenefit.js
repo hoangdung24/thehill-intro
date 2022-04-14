@@ -5,12 +5,13 @@ const SIZE = 450
 
 const StoreBenefit = ({ data, ...props }) => {
 	return (
-		<Wrapper >
+		<Wrapper>
 			<Grid container spacing={2}>
 				<Grid item lg={6}>
-					<Box sx={{
-						pointerEvents: 'none'
-					}}>
+					<Box
+						sx={{
+							pointerEvents: "none",
+						}}>
 						<Image
 							src={data.store_image}
 							width={SIZE}
@@ -20,21 +21,25 @@ const StoreBenefit = ({ data, ...props }) => {
 					</Box>
 				</Grid>
 				<Grid container item lg={6} md={12} xs={12} spacing={2}>
-					<Typography variant='h4'>{data.store_title} </Typography>
-					<ReaderHTML content={data.store_desc} />
-					<Box sx={{
-						display: 'flex',
-						flexWrap: 'wrap',
-					}}>
-					{data.store_content?.map((e, index) => (
-						<Grid key={index} item lg={6} md={6} xs={6}>
-							<CustomerCard
-								icon={e.value.icon}
-								desc={e.value.desc}
-								title={e.value.title}
-							/>
-						</Grid>
-					))}
+					<Grid item lg={6} md={6} xs={12}>
+						<Typography variant='h4'>{data.store_title} </Typography>
+						<ReaderHTML content={data.store_desc} />
+					</Grid>
+
+					<Box
+						sx={{
+							display: "flex",
+							flexWrap: "wrap",
+						}}>
+						{data.store_content?.map((e, index) => (
+							<Grid key={index} item lg={6} md={6} xs={12}>
+								<CustomerCard
+									icon={e.value.icon}
+									desc={e.value.desc}
+									title={e.value.title}
+								/>
+							</Grid>
+						))}
 					</Box>
 				</Grid>
 			</Grid>
@@ -46,8 +51,7 @@ export default StoreBenefit;
 
 const Wrapper = styled(Box)(({ theme }) => {
 	return {
-		position: 'relative',
-		paddingTop: theme.spacing(2),
+		paddingTop: theme.spacing(4),
 		paddingBottom: theme.spacing(4),
 	};
 });

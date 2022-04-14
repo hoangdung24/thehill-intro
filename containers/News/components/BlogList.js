@@ -34,10 +34,16 @@ const BlogList = ({ blogDetail,blogCategory, tags, ...props }) => {
 		fields: "*"
 	},
 		callback: (params) => {
-
 			console.log(params);
 	},
-});
+});	
+
+	const handleSearch = (content) => {
+		return () => {
+			const pathname = router.pathname;
+			router.push(`/search=${content}`)
+		}
+	}
 
 	
 
@@ -60,7 +66,8 @@ const BlogList = ({ blogDetail,blogCategory, tags, ...props }) => {
 	}, [resData, data]);
 
 	const chooseBlogHandler = useCallback((_, data) => {
-		toggle(true), setSelectedBlog(data);
+		toggle(true),
+		setSelectedBlog(data)
 	}, []);
 
 	const chooseTagHandler = useCallback((_, data)=>{

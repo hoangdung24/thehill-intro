@@ -8,19 +8,22 @@ import {
 	FormControl,
 	styled,
 	Alert,
-	AlertTitle
+	AlertTitle,
+	Input,
+	Typography
 } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import axios from "axios";
 import { DOMAIN, SUBMISSIONS } from "../../helpers/api";
 import { number, object, string } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import LoadingButton from "@mui/lab/LoadingButton";
-
+import { useDropzone } from "react-dropzone";
 import NumberFormat from 'react-number-format'
 import {useSnackbar} from 'notistack';
+import Captcha from "./Captcha";
 
 const URL = `${DOMAIN}${SUBMISSIONS}`;
 
@@ -33,6 +36,9 @@ const validateSchema = object({
 });
 
 const FormContact = ({category,data, ...props}) => {
+
+	const [image, setImage] = useState(null);
+
 
 	const [loading, setLoading] = useState(false);
 
@@ -53,7 +59,15 @@ const FormContact = ({category,data, ...props}) => {
 		},
 	});
 
-	const ref = useRef("");
+
+	const {acceptedFiles, getRootProps, getInputProps} = useDropzone()
+	
+
+	const files = acceptedFiles.map((file) => (
+		<li key={file.path}>
+			{file.path} - {file.size} bytes
+		</li>
+	));
 
 	const [value, setValue] = useState("");
 
@@ -67,15 +81,28 @@ const FormContact = ({category,data, ...props}) => {
 	}, []);
 
 	const config = {
-		"Content-Type": "application/json",
+		"Content-Type": "multipart/form-data",
 		Authorization: process.env.NEXT_PUBLIC_ANALYTICS_ID,
 	};
 
-	console.log(process.env.NEXT_PUBLIC_ANALYTICS_ID);
 
 	const { enqueueSnackbar } = useSnackbar();
 
 	const onSubmit = useCallback((data) => {
+
+		let formData = new FormData();
+		formData.append("category",{...register('category')});
+		formData.append("page", {...register('page')});
+		formData.append("phone",{...register('phone')});
+		formData.append("store_name",{...register('store_name')})
+		formData.append("presentator",{...register("presentator") });
+		formData.append("category",{...register("category")})
+		formData.append("email",{...register("email")})
+		formData.append("bank_number",{...register("bank_number")})
+		formData.append("owner",{...register("owner")})
+		formData.append('branch',{...register("branch")})
+
+		console.log(formData)
 		setLoading(!loading)
 		axios
 			.post(URL, data, { headers: config })
@@ -93,6 +120,7 @@ const FormContact = ({category,data, ...props}) => {
 				});
 				setLoading(false)
 				console.log("ERROR: ", error);
+				console.log(error.response)
 			});
 	},[enqueueSnackbar, reset]);
 
@@ -175,10 +203,21 @@ const FormContact = ({category,data, ...props}) => {
 					<TextField
 						required
 						fullWidth
-						label="Số điện thoại"
+						label='Số điện thoại'
 						id='9'
 						{...register("phone")}
 					/>
+					{/* <BoxMui sx={{
+						width: '100%'
+					}}>
+						<BoxMui {...getRootProps}>
+							<input {...getInputProps}/>
+						</BoxMui>
+						<Typography>Files</Typography>
+						<ul>{files}</ul>
+					</BoxMui> */}
+					{/* <input type={"file"} name='file_field' {...register("file_field")} /> */}
+					{/* <Captcha/> */}
 					<LoadingButton
 						type='submit'
 						loading={loading}

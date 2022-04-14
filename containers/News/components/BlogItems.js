@@ -14,18 +14,14 @@ const BlogItems = ({ chooseBlog, ...props}) => {
     const { thumbnail, title, content, meta } = props;
     const { first_published_at } = meta;
 
-	const [selectedBlog, setSelectedBlog] = useState(null);
-
 	const {isMobile, isTablet} = useDevice()
 
     const onClick = useCallback((data) => {
 			return (_) => {
-				// console.log(data);
 				chooseBlog(_, data)
 			};
 		}, []);
-
-
+	
     return (
 			<Wrapper isMobile={isMobile} isTablet={isTablet} onClick={onClick(props)}>
 				<ImageWrapper>
@@ -109,7 +105,8 @@ const BlogItems = ({ chooseBlog, ...props}) => {
 								onClick={onClick(props)}
 								title='READ MORE'
 								isBackground={true}></Button>
-							<BlogDetail data={selectedBlog} />
+							{/* <BlogDetail data={selectedBlog} /> */}
+							
 						</Box>
 					</Box>
 				</ContentWrapper>

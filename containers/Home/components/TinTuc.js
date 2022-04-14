@@ -18,7 +18,7 @@ const TinTuc = ({data, tintuc, ...props}) => {
 							textAlign: "center",
 							justifyContent: "center",
 							flexDirection: "column",
-							padding: "20px"
+							padding: "20px",
 						}}>
 						<Typography
 							variant='subtitle'
@@ -34,62 +34,62 @@ const TinTuc = ({data, tintuc, ...props}) => {
 							}}>
 							{tintuc.blog_title}
 						</Typography>
-					</Box>
-					<Grid container spacing={4} direction='row'>
-						{items?.map((e, index) => (
-							<Grid item xs={12} md={6} lg={4} key={index}>
-								<WrapperContent isTablet={isTablet}>
-									<WrapperImage>
-										<img
-											src={e.thumbnail}
-											width={"100%"}
-											height={"270px"}
-											alt={"Thumbnail Image"}
-											style={{
-												borderRadius: "6px",
-											}}
-										/>
-									</WrapperImage>
-									<DateBox>
-										{new Date(e.meta.first_published_at).toLocaleDateString(
-											"vi-VN",
-											{
-												day: "2-digit",
-												month: "2-digit",
-												year: "numeric",
-											}
-										)}
-									</DateBox>
-									<WrapperText>
-										<Typography
-											variant='h4'
-											sx={{
-												color: "#000629",
-											}}>
-											{e.title}
-										</Typography>
-										<Box
-											dangerouslySetInnerHTML={{
-												__html: createDOMPurify
-													.sanitize(e.content)
-													.split(" ")
-													.splice(0, 10)
-													.join(" "),
-											}}
-											sx={{
-												"& p": {
-													fontSize: "14px",
-													fontWeight: 400,
-													color: "#727777",
-												},
-											}}></Box>
-									</WrapperText>
-								</WrapperContent>
-							</Grid>
-						))}
 						<Box>
 							<Button href='/news'>MORE</Button>
 						</Box>
+					</Box>
+					<Grid container direction='row' spacing={1}>
+							{items?.map((e, index) => (
+								<Grid item xs={12} md={6} lg={4} key={index}>
+									<WrapperContent isTablet={isTablet}>
+										<WrapperImage>
+											<img
+												src={e.thumbnail}
+												width={"100%"}
+												height={"270px"}
+												alt={"Thumbnail Image"}
+												style={{
+													borderRadius: "6px",
+												}}
+											/>
+										</WrapperImage>
+										<DateBox>
+											{new Date(e.meta.first_published_at).toLocaleDateString(
+												"vi-VN",
+												{
+													day: "2-digit",
+													month: "2-digit",
+													year: "numeric",
+												}
+											)}
+										</DateBox>
+										<WrapperText>
+											<Typography
+												variant='h4'
+												sx={{
+													color: "#000629",
+												}}>
+												{e.title}
+											</Typography>
+											<Box
+												dangerouslySetInnerHTML={{
+													__html: createDOMPurify
+														.sanitize(e.content)
+														.split(" ")
+														.splice(0, 10)
+														.join(" "),
+												}}
+												sx={{
+													"& p": {
+														fontSize: "14px",
+														fontWeight: 400,
+														color: "#727777",
+													},
+												}}></Box>
+										</WrapperText>
+									</WrapperContent>
+								</Grid>
+							))}
 					</Grid>
 				</Container>
 			</Wrapper>
@@ -102,8 +102,7 @@ export default TinTuc;
 
 const Wrapper = styled(Box)(({theme})=> {
     return {
-        width: "100%",
-        padding: 20,
+        width: "100%",		
     }
 })
 
@@ -118,7 +117,7 @@ const WrapperContent = styled(Box, {
 		marginBottom: 30,
 		boxShadow: theme.shadows[5],
 		height: "500px",
-		width: isTablet ? "400px" : "100%",
+		width: isTablet ? "390px" : "100%",
 		borderRadius: 10,
 	};
 });

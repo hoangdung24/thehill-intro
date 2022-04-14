@@ -17,7 +17,6 @@ import { useState } from "react";
 import { NAVBAR } from "../../helpers/router";
 import { useSetting } from "../../hooks";
 
-
 const Navbar = ({ ...props }) => {
 	const { header, logo_header } = useSetting();
 
@@ -28,27 +27,29 @@ const Navbar = ({ ...props }) => {
 	const [anchorElNav, setAnchorElNav] = useState(null);
 
 	const handleOpenNavMenu = (event) => {
-		setAnchorElNav(event.currentTarget);
+		setAnchorElNav(!anchorElNav);
 	};
 
-	const handleCloseNavMenu = (section , type) => {
+	const handleCloseNavMenu = (section, type) => {
 		return () => {
 			const pathname = router.pathname;
-			if (type === 'by_section'){
+			if (type === "by_section") {
 				router.push(`/#${section}`);
-			} else if (type === "by_page"){
-				router.push(`cau-hoi-thuong-gap`)
+				setAnchorElNav(!anchorElNav);
+			} else if (type === "by_page") {
+				router.push(`cau-hoi-thuong-gap`);
+				setAnchorElNav(!anchorElNav);
 			} else {
-				router.push(`/`)
+				router.push(`/`);
+				setAnchorElNav(!anchorElNav);
 			}
-			
-		}
+		};
 	};
 
 	const handleClick = (e) => {
-		e.preventDefault()
-		router.push(href)
-	}
+		e.preventDefault();
+		router.push(href);
+	};
 
 	return (
 		<Box sx={{ flexGrow: 1, width: "100%" }}>
@@ -80,6 +81,7 @@ const Navbar = ({ ...props }) => {
 							sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
 							<IconButton
 								size='large'
+								anchorEl={anchorElNav}
 								aria-label='current user'
 								aria-controls='menu-appbar'
 								aria-haspopup='true'
@@ -89,9 +91,8 @@ const Navbar = ({ ...props }) => {
 							</IconButton>
 							<Menu
 								id='menu-appbar'
-								anchorEl={anchorElNav}
 								anchorOrigin={{
-									vertical: "bottom",
+									vertical: "top",
 									horizontal: "left",
 								}}
 								keepMounted
@@ -100,9 +101,16 @@ const Navbar = ({ ...props }) => {
 									horizontal: "left",
 								}}
 								open={Boolean(anchorElNav)}
-								onClose={handleCloseNavMenu}
+								onClose={handleCloseNavMenu()}
 								sx={{
-									display: { xs: "block", md: "none" },
+									display: {
+										xs: "block",
+										md: "none",
+									},
+									"& .MuiMenu-paper": {
+										top: "55px !important",
+										left: "55px !important",
+									},
 								}}>
 								{header?.slice(0, -1).map((page, index) => (
 									<MenuItem
@@ -127,7 +135,6 @@ const Navbar = ({ ...props }) => {
 								flexGrow: 1,
 								display: { xs: "flex", md: "none" },
 							}}>
-							{/* <Typography variant='h6'>LOGO</Typography> */}
 							<img
 								src={logo_header}
 								width='100px'
@@ -169,8 +176,8 @@ export default Navbar;
 
 // styled sheet
 
-const NavMo = styled(Box)(({theme})=> {
+const NavMo = styled(Box)(({ theme }) => {
 	return {
-		justifyContent: 'flex-end',
-	}
-})
+		justifyContent: "flex-end",
+	};
+});

@@ -7,6 +7,8 @@ const HomePage = ({ homeData, partnerData, blogDetail, ...props }) => {
 	// const { dataPartner } = partnerData;
 
 	const data = items?.[0]
+
+	// console.log(data)
 	// console.log(partnerData);
 	// console.log(items);
 

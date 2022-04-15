@@ -1,23 +1,26 @@
-import { TextField } from '@mui/material'
-import axios from 'axios';
-import { useEffect, useState } from 'react'
-import {PAGES, BLOG_DETAIL} from '../../../helpers/api'
+import { TextField } from "@mui/material";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { PAGES, BLOG_DETAIL } from "../../../helpers/api";
 
-const SearchBar = ({contentSearch,...props}) => {
+const SearchBar = ({ contentSearch, ...props }) => {
+  const [searchInput, setSearchInput] = useState("");
 
+  useEffect(() => {
+    axios.get(`${PAGES}?type=${BLOG_DETAIL}&search=${searchInput}`);
+  });
 
-    const [searchInput, setSearchInput] = useState('');
+  const searchItems = () => {
+    setSearchInput(searchInput);
+  };
 
-    useEffect(() => {
-        axios.get(`${PAGES}?type=${BLOG_DETAIL}&search=${searchInput}`)
-    })
+  return (
+    <TextField
+      fullWidth
+      placeholder="Enter your keywords"
+      onChange={(e) => searchItems(e.target.value)}
+    ></TextField>
+  );
+};
 
-
-    const searchItems = () => {
-        setSearchInput(searchInput)
-    }
-
-    return <TextField fullWidth placeholder='Enter your keywords' onChange={(e) => searchItems(e.target.value)}></TextField>
-}
-
-export default SearchBar
+export default SearchBar;

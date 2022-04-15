@@ -1,18 +1,18 @@
-import { Grid, Container } from "@mui/material";
+import { Container } from "@mui/material";
 import { Fragment } from "react";
-import {SubHeader} from "../../components";
+
 import Banner from "./components/Banner";
-import BlogList from './components/BlogList'
+import BlogList from "./components/BlogList";
 
 const NewsPage = ({ blogDetail, blogCategories, blogList, tags, ...props }) => {
-	return (
-		<Fragment>
-			<Banner blogList={blogList?.items?.[0]} />
-			<Container maxWidth='lg'>
-				<BlogList blogDetail={blogDetail} tags={tags} blogCategory={blogCategories} />
-			</Container>
-		</Fragment>
-	);
+  return (
+    <Fragment>
+      <Banner blogList={blogList?.items?.[0]} />
+      <Container maxWidth="lg">
+        <BlogList blogDetail={blogDetail} tags={tags} blogCategory={blogCategories} />
+      </Container>
+    </Fragment>
+  );
 };
 
 export default NewsPage;

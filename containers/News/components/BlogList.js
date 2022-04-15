@@ -4,16 +4,7 @@ import { useRouter } from "next/router";
 import React, { useCallback, useState } from "react";
 import { useToggle, useUpdateEffect } from "react-use";
 
-import {
-  Box,
-  Grid,
-  Pagination,
-  styled,
-  Typography,
-  Stack,
-  usePagination,
-  Fade,
-} from "@mui/material";
+import { Box, Grid, Pagination, styled, Typography, Stack, Fade } from "@mui/material";
 
 import isEqual from "lodash/isEqual";
 

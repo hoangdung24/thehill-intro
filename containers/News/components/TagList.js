@@ -1,26 +1,25 @@
 import { Chip, Stack } from "@mui/material";
-import { useCallback } from "react";
 
-const Tag = ({ items, selectedItem, ...props }) => {
-  const onClick = useCallback((data) => {
-    return (e) => {
-      // console.log(data);
-      // props.handleClick(e, data)
-      props.onClick(e, data);
-      // console.log(data)
-    };
-  }, []);
-
+const TagList = ({ items, selectedItem, selectTagHandler, ...props }) => {
   return (
-    <Stack spacing={2} direction={"row"} flexWrap={"wrap"}>
-      {items.map((e, index) => {
+    <Stack direction={"row"} flexWrap={"wrap"} justifyContent="flex-start">
+      {items.map((el, index) => {
         return (
           <Chip
             key={index}
-            label={e}
-            variant={selectedItem === e ? "filled" : "outlined"}
+            label={el}
+            variant={selectedItem === el ? "filled" : "outlined"}
             clickable
-            onClick={onClick(e)}
+            onClick={selectTagHandler(el)}
+            sx={{
+              marginBottom: "8px !important",
+              marginRight: "8px !important",
+              backgroundColor: (theme) => {
+                if (selectedItem === el) {
+                  return theme.palette.primary.main;
+                }
+              },
+            }}
           />
         );
       })}
@@ -28,4 +27,4 @@ const Tag = ({ items, selectedItem, ...props }) => {
   );
 };
 
-export default Tag;
+export default TagList;

@@ -7,9 +7,9 @@ import omit from "lodash/omit";
 import isEqual from "lodash/isEqual";
 
 export const useParams = ({
-  initState = { use_cache: false },
+  initState = {},
   callback = () => {},
-  keys = [],
+  excludeKeys = [],
   isUpdateRouter = true,
 }) => {
   const router = useRouter();
@@ -32,11 +32,7 @@ export const useParams = ({
       return;
     }
 
-    const urlParams = omit(params, [
-      ...["fields"],
-    ]);
-
-
+    const urlParams = omit(params, [...excludeKeys]);
 
     const stringifyParams = queryString.stringify(urlParams);
     const pathname = `${router.pathname}?${stringifyParams}`;

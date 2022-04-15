@@ -1,161 +1,165 @@
-import { Typography, Box, Button, TextField, Grid, styled} from '@mui/material'
-import { DOMAIN, SUBCRIBERS } from '../../helpers/api';
-import {yupResolver} from '@hookform/resolvers/yup'
-import axios from 'axios';
-import {useForm} from 'react-hook-form'
-import SendIcon from "@mui/icons-material/Send";
-import { object, string } from "yup"
-
+import axios from "axios";
+import { object, string } from "yup";
 import { useSnackbar } from "notistack";
-import { useCallback } from 'react';
+import { useForm } from "react-hook-form";
+import { useCallback, useState } from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
 
-const URL = `${DOMAIN}${SUBCRIBERS}`
+import SendIcon from "@mui/icons-material/Send";
+
+import { DOMAIN, SUBCRIBERS } from "../../helpers/api";
+
+import {
+  Typography,
+  Box,
+  Button,
+  TextField,
+  styled,
+  Stack,
+  FormHelperText,
+  alpha,
+} from "@mui/material";
+
+import LoadingButton from "@mui/lab/LoadingButton";
+
+const URL = `${DOMAIN}${SUBCRIBERS}`;
 
 const validateSchema = object({
-	email: string().email().required("Required"),
+  email: string().email("Vui lòng nhập email hợp lệ").required(),
 });
 
+const defaultValues = {
+  email: "",
+};
+
 const Subcriber = () => {
-    const resolver = yupResolver(validateSchema);
+  const resolver = yupResolver(validateSchema);
 
-    const {register, handleSubmit, reset} = useForm({
-        resolver: resolver
-    })
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver,
+    defaultValues,
+  });
 
-	const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
+  const [loading, setLoading] = useState(false);
 
+  const onSubmit = useCallback((data) => {
+    setLoading(true);
 
-	const config = {
-		"Content-Type": "application/json",
-		Authorization: process.env.NEXT_PUBLIC_ANALYTICS_ID,
-	};
+    axios
+      .post(URL, data)
+      .then((res) => {
+        console.log(res);
 
-	const onSubmit = useCallback((data) => {
-		axios
-			.post(URL, data, { headers: config })
-			.then((res) => {
-				enqueueSnackbar("Đăng ký thành công", {
-					variant: "success",
-				});
-				reset()
-				console.log("RESPONSE RECEIVED: ", res);
-			})
-			.catch((error) => {
-				enqueueSnackbar("Đăng ký thất bại", {
-					variant: "error",
-				});
-				console.log("ERROR: ", error);
-			});
-	}, [enqueueSnackbar, reset])  
+        enqueueSnackbar("Đăng ký thành công", {
+          variant: "success",
+        });
+        reset(defaultValues, {
+          keepDirty: false,
+        });
+      })
+      .catch((error) => {
+        if (error.response) {
+          enqueueSnackbar("Đăng ký thất bại", {
+            variant: "error",
+          });
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
 
-    return (
-			<Wrapper className='Wrapper Subcriber'>
-				<Grid
-					container
-					spacing={2}
-					direction='row'
-					justifyContent={"center"}
-					alignItems={"center"}>
-					<Grid item lg={4} md={4} xs={12}>
-						<ContentBox>
-							<Title variant='h4'>SUBCRIBE</Title>
-						</ContentBox>
-					</Grid>
-					<Grid item lg={8} md={8} xs={12}>
-						<SubcriberBox
-							className='Subcriber Form'
-							component='form'
-							onSubmit={handleSubmit(onSubmit)}
-							>
-							<InputEmail
-								InputProps={{
-									sx: {
-										"& .MuiOutlinedInput-notchedOutline": {
-											border: "none",
-										},
-									},
-								}}
-								className='Input Form'
-								variant='outlined'
-								margin='normal'
-								placeholder='Your email address'
-								fullWidth
-								id='1'
-								{...register("email")}
-							/>
-							<Box
-								sx={{
-									display: "flex",
-									alignItems: "center",
-									justifyContent: "center",
-									marginLeft: "15px",
-								}}>
-								<StyledButton type='submit'>
-									<SendIcon className='Icon' color='info' />
-								</StyledButton>
-							</Box>
-						</SubcriberBox>
-					</Grid>
-				</Grid>
-			</Wrapper>
-		);
-}
+  return (
+    <Stack direction="column" spacing={2} justifyContent="space-between" alignItems="flex-start">
+      <Title variant="h6">Đăng ký nhận thông tin</Title>
+      <Stack width="100%" direction="row" spacing={1.5}>
+        <InputEmail
+          InputProps={{
+            sx: {
+              "& .MuiOutlinedInput-notchedOutline": {
+                border: "none",
+              },
+            },
+          }}
+          inputProps={{
+            sx: {
+              paddingBottom: 1.5,
+              paddingTop: 1.5,
+            },
+          }}
+          className="Input Form"
+          variant="outlined"
+          placeholder="Your email address"
+          fullWidth
+          {...register("email")}
+        />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <LoadingButton
+            loading={loading}
+            disabled={loading}
+            onClick={handleSubmit(onSubmit)}
+            disableRipple
+            endIcon={<SendIcon />}
+            sx={{
+              height: "100%",
+              whiteSpace: "nowrap",
+              borderRadius: "6px",
+              backgroundColor: "common.white",
+              color: "primary.color",
+              paddingX: 2,
+              "&:hover": {
+                backgroundColor: alpha("#FFF", 0.8),
+                boxShadow: "none",
+              },
+            }}
+          >
+            Đăng ký
+          </LoadingButton>
+        </Box>
+      </Stack>
+      {!!errors.email && <FormHelperText error children={errors.email.message} />}
+    </Stack>
+  );
+};
 
 export default Subcriber;
 
-const Wrapper = styled(Box)(({theme}) => {
-    return {
-			backgroundColor: theme.palette.primary.dark,
-            borderRadius: 20,
-            padding: "45px 40px",
-		};
-})
+const Title = styled(Typography)(({ theme }) => {
+  return {
+    color: theme.palette.common.black,
+  };
+});
 
-const ContentBox = styled(Box)(({theme}) => {
-    return {
-        boxSizing: 'border-box',
-        outline: 'none'
-    }
-})
+const InputEmail = styled(TextField)(({ theme }) => {
+  return {
+    backgroundColor: theme.palette.common.white,
+    borderRadius: 6,
+  };
+});
 
-const Title = styled(Typography)(({theme}) => {
-    return {
-        color: theme.palette.common.black
-    }
-})
+// const StyledButton = styled(Box)(({ theme }) => {
+//   return {
+//     borderRadius: "6px",
+//     height: "100%",
 
-
-const InputEmail = styled(TextField)(({theme})=> {
-    return {
-			backgroundColor: theme.palette.common.white,
-			borderRadius: 50,
-            height: 55,
-		};
-})
-
-const SubcriberBox = styled(Box)(({theme})=>{
-    return {
-			display: "flex",
-			"& .MuiFormControl-root": {
-				marginTop: 0,
-				marginBottom: 0,
-			},
-		};
-})
-
-const StyledButton = styled(Button)(({theme})=> {
-    return {
-        borderRadius: '50px',
-        height: 55,
-        width: 85,
-		backgroundColor: theme.palette.secondary.main,
-		transition: "all 0.3s",
-        "&:hover" :{
-            backgroundColor: theme.palette.common.white,
-            boxShadow: 'none',
-        },
-		"&:hover .Icon":{
-			color: theme.palette.common.black
-		}
-	};
-})
+//     whiteSpace: "nowrap",
+//     backgroundColor: theme.palette.common.white,
+//     transition: "all 0.3s",
+//     "&:hover": {
+//       backgroundColor: theme.palette.common.white,
+//       boxShadow: "none",
+//     },
+//   };
+// });

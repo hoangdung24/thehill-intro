@@ -1,150 +1,242 @@
 import useSWR from "swr";
 import queryString from "query-string";
-import { useRouter } from "next/router";
-import React, { useCallback, useState } from "react";
-import { useToggle, useUpdateEffect } from "react-use";
 
-import { Box, Grid, Pagination, styled, Typography, Stack, Fade } from "@mui/material";
+import { useUpdateEffect } from "react-use";
+import { useCallback, useState, useEffect } from "react";
 
-import isEqual from "lodash/isEqual";
+import { Box, Grid, Pagination, styled, Typography, Stack } from "@mui/material";
+
+import unset from "lodash/unset";
 
 import { BLOG_DETAIL, PAGES } from "../../../helpers/api";
 import { LoadingData } from "../../../HOC";
-
 import { useParams } from "../../../hooks";
 
-import Tag from "./TagList";
+import { Loading2 } from "../../../components";
+
+import TagList from "./TagList";
 import SearchBar from "./SearchBar";
 import Category from "./Category";
-
-import BlogItems from "./BlogItems";
+import BlogItem from "./BlogItem";
 
 const BlogList = ({ blogDetail, blogCategory, tags, ...props }) => {
   const blogCategories = blogCategory?.items;
   const [data, setData] = useState(blogDetail?.items);
-  const [open, toggle] = useToggle(false);
-  const [loading, setLoading] = useState(false);
-  const [selectedBlog, setSelectedBlog] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedTag, setSelectedTag] = useState(null);
+  const [minHeight, setMinHeight] = useState(0);
+  const [initState, setInitState] = useState(false);
 
-  const [params, paramsHandler, isReady, resetParams] = useParams({
+  const [url, setUrl] = useState(PAGES);
+
+  const { data: resData, error } = useSWR(() => {
+    return url;
+  });
+
+  const [params, setParams, isReady] = useParams({
     initState: {
       limit: 6,
       offset: 0,
       fields: "*",
+      type: BLOG_DETAIL,
     },
     callback: (params) => {
-      console.log(params);
+      if (params.search === null) {
+        unset(params, "search");
+      }
+
+      setUrl(`${PAGES}?${queryString.stringify(params)}`);
     },
-  });
-
-  const { data: resData, error } = useSWR(() => {
-    const stringifyParams = queryString.stringify(params);
-
-    return `${PAGES}?type=${BLOG_DETAIL}&fields=*&${stringifyParams}`;
+    excludeKeys: ["type", "fields"],
   });
 
   useUpdateEffect(() => {
-    if (resData?.items?.length === 0 && data?.items?.length === 0) {
-      setLoading(false);
-    }
-
-    if (isEqual(resData?.items, data)) {
+    if (initState) {
       return;
     }
+
+    const { tags, child_of } = params;
+
+    if (tags) {
+      setSelectedTag(tags);
+    }
+
+    if (child_of) {
+      setSelectedCategory(child_of);
+    }
+
+    setInitState(true);
+  }, [params, initState]);
+
+  useEffect(() => {
     setData(resData?.items);
-    setLoading(false);
-  }, [resData, data]);
+  }, [resData]);
 
-  const chooseBlogHandler = useCallback((_, data) => {
-    toggle(true), setSelectedBlog(data);
-  }, []);
-
-  const chooseTagHandler = useCallback((_, data) => {
-    paramsHandler({
-      tags: data,
+  const minHeightHandler = useCallback((data) => {
+    setMinHeight((prev) => {
+      if (isNaN(data)) {
+        return prev;
+      }
+      return Math.max(prev, data);
     });
   }, []);
 
-  const selectedCategory = useCallback((e) => {
+  const selectTagHandler = useCallback((data) => {
     return () => {
-      setSelectedBlog(e);
+      setSelectedTag((prev) => {
+        if (data === prev) {
+          setParams({
+            tags: undefined,
+            child_of: undefined,
+            offset: 0,
+          });
+
+          return null;
+        }
+
+        setParams({
+          tags: data,
+          child_of: undefined,
+          offset: 0,
+        });
+
+        return data;
+      });
     };
   }, []);
 
-  if (!isReady) {
-    return "Loading...";
-  }
-  return (
-    <Fade
-      in={true}
-      timeout={{
-        enter: 500,
-      }}
-    >
-      <Wrapper>
-        <Grid container spacing={3}>
-          <Grid item xs={12} lg={9}>
-            <Grid container spacing={3}>
-              <LoadingData
-                data={resData}
-                error={error}
-                loading={loading}
-                chooseBlogHandler={chooseBlogHandler}
-              >
-                {({ data, chooseBlogHandler }) => {
-                  return data.items.map((el) => {
-                    return (
-                      <Grid item xs={12} md={6} key={el.id}>
-                        <BlogItems {...el} chooseBlog={chooseBlogHandler} />
-                      </Grid>
-                    );
-                  });
-                }}
-              </LoadingData>
-            </Grid>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignContent: "center",
-                alignItems: "center",
-                paddingTop: 5,
-              }}
-            >
-              <Pagination
-                shape="rounded"
-                count={Math.ceil(blogDetail.meta.total_count / 6)}
-                variant="outlined"
-                size="large"
-                onChange={(_, page) => {
-                  paramsHandler({
-                    offset: (page - 1) * 6,
-                  });
-                }}
-              ></Pagination>
-            </Box>
-          </Grid>
+  const selectCategoryHandler = useCallback((data) => {
+    setSelectedCategory((prev) => {
+      if (data === prev) {
+        setParams({
+          child_of: undefined,
+          tags: undefined,
+          offset: 0,
+        });
 
-          <Grid item xs={12} lg={3}>
-            <Stack spacing={2}>
-              <Box>
-                <SearchBar />
-              </Box>
-              <Box>
-                <Typography variant="title2">CATEGORY</Typography>
-                {blogCategories.map((e, index) => {
-                  return <Category data={e} key={index} onClick={selectedCategory(e.id)} />;
+        return null;
+      }
+
+      setParams({
+        child_of: data,
+        tags: undefined,
+        offset: 0,
+      });
+
+      return data;
+    });
+  }, []);
+
+  const searchHandler = useCallback((data) => {
+    let search = data;
+
+    if (data === "") {
+      search = undefined;
+    }
+
+    setParams({
+      search,
+      tags: undefined,
+      child_of: undefined,
+    });
+  }, []);
+
+  if (!isReady) {
+    return <Loading2 />;
+  }
+
+  return (
+    <Wrapper>
+      <Grid container spacing={3}>
+        <Grid item xs={12} lg={9}>
+          <Grid container spacing={3}>
+            <LoadingData data={data} error={error}>
+              {({ data }) => {
+                return data.map((el) => {
+                  return (
+                    <Grid item xs={12} md={6} key={el.id}>
+                      <BlogItem {...el} minHeight={minHeight} setMinHeight={minHeightHandler} />
+                    </Grid>
+                  );
+                });
+              }}
+            </LoadingData>
+          </Grid>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignContent: "center",
+              alignItems: "center",
+              paddingTop: 5,
+            }}
+          >
+            <Pagination
+              shape="rounded"
+              count={Math.ceil(resData?.meta?.total_count / 6) || 0}
+              variant="outlined"
+              size="large"
+              onChange={(_, page) => {
+                setParams({
+                  offset: (page - 1) * 6,
+                });
+              }}
+              page={Number(params.offset) / Number(params.limit) + 1}
+            />
+          </Box>
+        </Grid>
+
+        <Grid item xs={12} lg={3}>
+          <Grid container spacing={4}>
+            <Grid item xs={12}>
+              <SearchBar searchHandler={searchHandler} initState={params.search || null} />
+            </Grid>
+
+            <Grid item xs={12}>
+              <Grid container spacing={2} width="100%" marginLeft={0}>
+                <Grid
+                  item
+                  xs={12}
+                  sx={{
+                    paddingLeft: "0px !important",
+                  }}
+                >
+                  <Typography variant="title2">Category</Typography>
+                </Grid>
+
+                {blogCategories.map((el) => {
+                  return (
+                    <Grid
+                      sx={{
+                        paddingLeft: "0px !important",
+                      }}
+                      item
+                      xs={6}
+                      sm={4}
+                      lg={12}
+                      key={el.id}
+                    >
+                      <Category
+                        data={el}
+                        selectCategoryHandler={selectCategoryHandler}
+                        selectedItem={selectedCategory}
+                      />
+                    </Grid>
+                  );
                 })}
-              </Box>
-              <Box>
-                <Typography variant="title2">POPULAR TAG</Typography>
-                <Tag onClick={chooseTagHandler} selectedItem={params.tags} {...tags} />
-              </Box>
-            </Stack>
+              </Grid>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Stack spacing={2}>
+                <Typography variant="title2">Popular Tag</Typography>
+                <TagList selectTagHandler={selectTagHandler} selectedItem={selectedTag} {...tags} />
+              </Stack>
+            </Grid>
           </Grid>
         </Grid>
-      </Wrapper>
-    </Fade>
+      </Grid>
+    </Wrapper>
   );
 };
 
@@ -153,7 +245,7 @@ export default BlogList;
 // styled sheet
 const Wrapper = styled(Box)(({ theme }) => {
   return {
-    paddingTop: 80,
-    paddingBottom: 80,
+    paddingTop: 60,
+    paddingBottom: 60,
   };
 });

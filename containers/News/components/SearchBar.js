@@ -1,26 +1,37 @@
+import { useDebounce } from "react-use";
+import { useCallback, useState } from "react";
+
 import { TextField } from "@mui/material";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { PAGES, BLOG_DETAIL } from "../../../helpers/api";
 
-const SearchBar = ({ contentSearch, ...props }) => {
-  const [searchInput, setSearchInput] = useState("");
+const SearchBar = ({ searchHandler, initState }) => {
+  const [searchInput, setSearchInput] = useState(initState);
 
-  useEffect(() => {
-    axios.get(`${PAGES}?type=${BLOG_DETAIL}&search=${searchInput}`);
-  });
+  useDebounce(
+    () => {
+      if (initState === searchInput) {
+        return;
+      }
 
-  const searchItems = () => {
-    setSearchInput(searchInput);
-  };
+      searchHandler(searchInput);
+    },
+    500,
+    [searchInput]
+  );
+
+  const onChangeHandler = useCallback((e) => {
+    setSearchInput(e.target.value);
+  }, []);
 
   return (
     <TextField
       fullWidth
       placeholder="Enter your keywords"
-      onChange={(e) => searchItems(e.target.value)}
-    ></TextField>
+      label="Tìm kiếm"
+      onChange={onChangeHandler}
+      defaultValue={searchInput || undefined}
+    />
   );
 };
 
 export default SearchBar;
+//   onChange={(e) => searchItems(e.target.value)}

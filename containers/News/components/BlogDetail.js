@@ -2,12 +2,23 @@ import createDOMPurify from 'isomorphic-dompurify'
 import { Fragment } from 'react';
 import { Image } from '../../../HOC';
 import {Box} from '@mui/material'
+import { useRouter } from 'next/router';
 
 const BlogDetail = ({data}) => {
     if (data === null){
         return null;
     }
-    
+	
+	// const router = useRouter();
+
+	// const handlerPath = (id) => {
+	// 	return () => {
+	// 		const pathname = router.pathname;
+	// 		router.push(`${pathname}/${id}`);
+	// 	};
+	// }
+
+
     const items = data.items;
 
     return (

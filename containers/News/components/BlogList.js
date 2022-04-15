@@ -34,10 +34,16 @@ const BlogList = ({ blogDetail,blogCategory, tags, ...props }) => {
 		fields: "*"
 	},
 		callback: (params) => {
-
 			console.log(params);
 	},
-});
+});	
+
+	const handleSearch = (content) => {
+		return () => {
+			const pathname = router.pathname;
+			router.push(`/search=${content}`)
+		}
+	}
 
 	
 
@@ -60,7 +66,8 @@ const BlogList = ({ blogDetail,blogCategory, tags, ...props }) => {
 	}, [resData, data]);
 
 	const chooseBlogHandler = useCallback((_, data) => {
-		toggle(true), setSelectedBlog(data);
+		toggle(true),
+		setSelectedBlog(data)
 	}, []);
 
 	const chooseTagHandler = useCallback((_, data)=>{
@@ -100,8 +107,8 @@ const BlogList = ({ blogDetail,blogCategory, tags, ...props }) => {
 								{({ data, chooseBlogHandler }) => {
 									return data.items.map((e) => {
 										return (
-											<Grid item xs={12} md={6} key={e.id}>
-												<BlogItems {...e} chooseBlog={chooseBlogHandler} />
+											<Grid item xs={12} md={6} key={e.id} >
+												<BlogItems {...e} chooseBlog={chooseBlogHandler}/>
 											</Grid>
 										);
 									});
@@ -138,7 +145,7 @@ const BlogList = ({ blogDetail,blogCategory, tags, ...props }) => {
 								<Typography variant='title2'>CATEGORY</Typography>
 								{blogCategories.map((e, index)=> {
 									return (
-										<Category data={e} key={index} onClick={selectedCategory(e.id)}/>
+										<Category data={e} key={index}/>
 									)
 								})}
 							</Box>

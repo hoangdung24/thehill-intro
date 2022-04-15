@@ -24,10 +24,10 @@ const CardPartner = ({ icon, name, description, point_content, link, ...props })
 								__html: createDOMPurify.sanitize(point_content),
 							}}></Box>
 						<Content variant='body2'>{description}</Content>
-						<Box>
-							<Title variant='h6'>{name}</Title>
-						</Box>
 					</Stack>
+					<Box>
+						<Title variant='h6'>{name}</Title>
+					</Box>
 				</ContentBox>
 			</Stack>
 		</Box>
@@ -64,10 +64,13 @@ const WrapperAva = styled(Paper)(({ theme }) => {
 
 const ContentBox = styled(Box)(({ theme }) => {
   return {
-    padding: "25px 25px",
+    padding: "15px 15px",
     background: theme.palette.common.white,
     borderRadius: "0 10px 10px 10px",
     height: '200px',
     width: '350px',
+	display: 'flex',
+	flexDirection: 'column',
+	justifyContent: 'space-between'
   };
 });

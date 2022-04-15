@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react'
 import {PAGES, BLOG_DETAIL} from '../../../helpers/api'
 
-const SearchBar = ({...props}) => {
+const SearchBar = ({contentSearch,...props}) => {
 
 
     const [searchInput, setSearchInput] = useState('');
@@ -15,7 +15,6 @@ const SearchBar = ({...props}) => {
 
     const searchItems = () => {
         setSearchInput(searchInput)
-        
     }
 
     return <TextField fullWidth placeholder='Enter your keywords' onChange={(e) => searchItems(e.target.value)}></TextField>

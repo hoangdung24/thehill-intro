@@ -1,11 +1,16 @@
 import {Box, Typography, Stack, styled} from '@mui/material'
 import {ButtonPop} from '../../components'
- 
+
+import {useDevice} from '../../hooks'
 
 const CustomerCard = ({icon, title, desc, ...props}) => {
 
+	const {isMobile} = useDevice();
+
     return (
-			<Wrapper>
+			<Wrapper isMobile={isMobile} sx={{
+				
+			}}>
 				<Stack spacing={2}>
 					<ButtonPop isSpecial={true} svg={icon} />
 					<Title variant='h5'>{title}</Title>
@@ -30,7 +35,12 @@ const SubTitle = styled(Typography)(({theme})=> {
     }
 })
 
-const Wrapper = styled(Box)(({theme})=> {
-	return {
+const Wrapper = styled(Box , {
+	shouldForwardProp: (prop) => {
+		return prop !== "isMobile"
+	}
+})(({theme, isMobile})=> {
+	return{
+		margin: isMobile ? "20px": '0px'
 	}
 })

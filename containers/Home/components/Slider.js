@@ -4,6 +4,8 @@ import { CardPartner } from "../../../components";
 
 import Slider from "react-slick";
 
+import { useDevice } from "../../../hooks";
+
 const SliderCarousel = ({ partnerData, data, ...props }) => {
 	const settings = {
 		infinite: true,
@@ -12,6 +14,16 @@ const SliderCarousel = ({ partnerData, data, ...props }) => {
 		slidesToScroll: 1,
 		autoplay: true,
 	};
+
+	const {isMobile} = useDevice();
+
+	const settingsMobile = {
+		infinite: true,
+		speed: 500,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+		autoplay: true
+	}
 
 	return (
 		<Wrapper id='partner'>
@@ -34,21 +46,37 @@ const SliderCarousel = ({ partnerData, data, ...props }) => {
 					}}>
 					<Title variant='h4'>{data.partner_title}</Title>
 					<Box>
-						<Button>MORE</Button>
+						<Button href='/thuong-hieu-than-quen'>MORE</Button>
 					</Box>
 				</Box>
-				<Slider {...settings}>
-					{partnerData?.items?.map((e, index) => (
-						<CardPartner
-							key={index}
-							icon={e.image}
-							name={e.name}
-							description={e.description.substring(0, 50)}
-							point_content={e.point_content}
-							link={e.link}
-						/>
-					))}
-				</Slider>
+
+				{isMobile ? (
+					<Slider {...settingsMobile}>
+						{partnerData?.items?.map((e, index) => (
+							<CardPartner
+								key={index}
+								icon={e.image}
+								name={e.name}
+								description={e.description.substring(0, 50)}
+								point_content={e.point_content}
+								link={e.link}
+							/>
+						))}
+					</Slider>
+				) : (
+					<Slider {...settings}>
+						{partnerData?.items?.map((e, index) => (
+							<CardPartner
+								key={index}
+								icon={e.image}
+								name={e.name}
+								description={e.description.substring(0, 50)}
+								point_content={e.point_content}
+								link={e.link}
+							/>
+						))}
+					</Slider>
+				)}
 			</Container>
 		</Wrapper>
 	);

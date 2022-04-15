@@ -1,20 +1,12 @@
 import { Grid, Typography , Box, styled, Container } from "@mui/material";
 import { CustomerCard, ReaderHTML } from "../../../components";
-import { Image } from "../../../HOC";
 
 const CustomerBenefit = ({data, ...props }) => {
-
 	return (
 		<Wrapper>
 			<ImageBackground className='background customer'sx={{
 				pointerEvents: 'none'
 			}}>
-				{/* <Image
-					alt='customer image'
-					src={data.customer_image}
-					height='calc(100vw * 0.4)'
-					width='100vw'
-				/> */}
 				<img
 				src={data.customer_image}
 				style={{
@@ -37,7 +29,7 @@ const CustomerBenefit = ({data, ...props }) => {
 								flexWrap: "wrap",
 							}}>
 							{data.customer_content?.map((e, index) => (
-								<Grid key={index} item lg={6} md={6} xs={6}>
+								<Grid key={index} item lg={6} md={6} xs={12}>
 									<CustomerCard
 										icon={e.value.icon}
 										desc={e.value.desc}
@@ -60,7 +52,6 @@ const Wrapper = styled(Box)(({ theme }) => {
 		position: "relative",
 		paddingTop: theme.spacing(6),
 		paddingBottom: theme.spacing(4),
-		height: "600px",
 	};
 });
 

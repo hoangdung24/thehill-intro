@@ -18,6 +18,13 @@ const ConditionPage = ({dataCondition,  ...props}) => {
 					<Box
 						dangerouslySetInnerHTML={{
 							__html: createDOMPurify.sanitize(content),
+						}}
+						sx={{
+							"& img":{
+								height: '100%',
+								width: '100%',
+								objectFit: 'cover'
+							}
 						}}></Box>
 				</Container>
 			</Fragment>

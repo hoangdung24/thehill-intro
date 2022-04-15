@@ -8,21 +8,23 @@ import {
 	FormControl,
 	styled,
 	Alert,
-	AlertTitle
+	AlertTitle,
 } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import axios from "axios";
 import { DOMAIN, SUBMISSIONS } from "../../helpers/api";
-import { number, object, string } from "yup";
+import { object, string } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import LoadingButton from "@mui/lab/LoadingButton";
-
-import NumberFormat from 'react-number-format'
-import {useSnackbar} from 'notistack';
+import { useDropzone } from "react-dropzone";
+import NumberFormat from "react-number-format";
+import { useSnackbar } from "notistack";
 
 const URL = `${DOMAIN}${SUBMISSIONS}`;
+
+const instance = axios.create();
 
 const validateSchema = object({
 	store_name: string().required("Required"),
@@ -32,7 +34,8 @@ const validateSchema = object({
 	phone: string().required("Required"),
 });
 
-const FormContact = ({category,data, ...props}) => {
+const FormContact = ({ category, data, ...props }) => {
+	const [image, setImage] = useState(null);
 
 	const [loading, setLoading] = useState(false);
 
@@ -49,11 +52,17 @@ const FormContact = ({category,data, ...props}) => {
 		defaultValues: {
 			page: data.id,
 			category: 1,
-			phone: "+84"
+			phone: "+84",
 		},
 	});
 
-	const ref = useRef("");
+	const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
+
+	const files = acceptedFiles.map((file) => (
+		<li key={file.path}>
+			{file.path} - {file.size} bytes
+		</li>
+	));
 
 	const [value, setValue] = useState("");
 
@@ -67,35 +76,56 @@ const FormContact = ({category,data, ...props}) => {
 	}, []);
 
 	const config = {
-		"Content-Type": "application/json",
+		"Content-Type": "multipart/form-data",
 		Authorization: process.env.NEXT_PUBLIC_ANALYTICS_ID,
 	};
 
-	console.log(process.env.NEXT_PUBLIC_ANALYTICS_ID);
-
 	const { enqueueSnackbar } = useSnackbar();
 
-	const onSubmit = useCallback((data) => {
-		setLoading(!loading)
-		axios
-			.post(URL, data, { headers: config })
-			.then((res) => {
-				enqueueSnackbar("Đăng ký thành công", {
-					variant: "success",
-				});
-				setLoading(false)
-				reset()
-				console.log("RESONSE RECEIVED: ", res);
-			})
-			.catch((error) => {
-				enqueueSnackbar("Đăng ký thất bại", {
-					variant: "error",
-				});
-				setLoading(false)
-				console.log("ERROR: ", error);
-			});
-	},[enqueueSnackbar, reset]);
+	const onSubmit = useCallback(
+		(data) => {
+			console.log(data);
+			const formData = new FormData();
 
+			for (const key of Object.keys(data)) {
+				// if (key === 'file_field') {
+				// 	formData.append(key, data[key][0]);
+				// 	continue;
+				// }
+
+				formData.append(key, data[key]);
+			}
+
+			console.log(formData);
+			setLoading(!loading);
+			instance
+				.post(URL, formData, {
+					headers: {
+						"content-type": "multipart/form-data",
+						Authorization: process.env.NEXT_PUBLIC_ANALYTICS_ID,
+					},
+				})
+				.then((res) => {
+					enqueueSnackbar("Đăng ký thành công", {
+						variant: "success",
+					});
+					setLoading(false);
+					reset();
+					console.log("RESONSE RECEIVED: ", res);
+				})
+				.catch((error) => {
+					enqueueSnackbar("Đăng ký thất bại", {
+						variant: "error",
+					});
+					setLoading(false);
+					console.log("ERROR: ", error);
+					console.log(error.response);
+				});
+		},
+		[enqueueSnackbar, reset]
+	);
+
+	const BankNumber = register("bank_number");
 
 	return (
 		<ContainerBox className='BoxForm'>
@@ -151,13 +181,15 @@ const FormContact = ({category,data, ...props}) => {
 						id='3'
 						{...register("email")}
 					/>
-					<NumberFormat
-						{...register("bank_number")}
-						id='5'
-						label='Số tài khoản ngân hàng'
+					<TextField
+						type="tel"
 						fullWidth
-						customInput={TextField}
+						label='Số tài khoản ngân hàng'
+						id='5'
+						{...register("bank_number")}
 					/>
+					
+					
 					<TextField fullWidth label='Bank' id='6' {...register("bank")} />
 					<TextField
 						fullWidth
@@ -175,10 +207,12 @@ const FormContact = ({category,data, ...props}) => {
 					<TextField
 						required
 						fullWidth
-						label="Số điện thoại"
+						label='Số điện thoại'
 						id='9'
 						{...register("phone")}
 					/>
+					<input type='file' name='image' {...register("file_field")} />
+					{/* <Captcha/> */}
 					<LoadingButton
 						type='submit'
 						loading={loading}
@@ -231,11 +265,10 @@ const ContainerBox = styled(BoxMui)(({ theme }) => {
 	};
 });
 
-
-const ErrorBox = styled(Alert)(({theme})=>{
+const ErrorBox = styled(Alert)(({ theme }) => {
 	return {
-		color:"red",
-		borderColor: 'red',
-		width: '100%'
-	}
-})
+		color: "red",
+		borderColor: "red",
+		width: "100%",
+	};
+});

@@ -2,17 +2,17 @@ import { Container } from "@mui/material";
 import { Fragment } from "react";
 
 import Banner from "./components/Banner";
-import BlogList from "./components/BlogList";
+import Blog from "./components/Blog";
 
-const NewsPage = ({ blogDetail, blogCategories, blogList, tags, ...props }) => {
+const BlogList = ({ blogDetail, blogCategories, blogList, tags, ...props }) => {
   return (
     <Fragment>
       <Banner blogList={blogList?.items?.[0]} />
       <Container maxWidth="lg">
-        <BlogList blogDetail={blogDetail} tags={tags} blogCategory={blogCategories} />
+        <Blog blogDetail={blogDetail} tags={tags} blogCategory={blogCategories} />
       </Container>
     </Fragment>
   );
 };
 
-export default NewsPage;
+export default BlogList;

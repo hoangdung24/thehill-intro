@@ -1,57 +1,82 @@
-import {  Grid, Typography, Box , styled} from "@mui/material";
-import { CustomerCard, ReaderHTML} from "../../../components";
-import {Image} from '../../../HOC'
-const SIZE = 450
+import { Grid, Typography, Box, Container } from "@mui/material";
+import { CustomerCard, ReaderHTML } from "../../../components";
+import { Image } from "../../../HOC";
+const SIZE = 300;
+
+import Wrapper from "./Wrapper";
 
 const StoreBenefit = ({ data, ...props }) => {
-	return (
-		<Wrapper>
-			<Grid container spacing={2}>
-				<Grid item lg={6}>
-					<Box
-						sx={{
-							pointerEvents: "none",
-						}}>
-						<Image
-							src={data.store_image}
-							width={SIZE}
-							height={SIZE}
-							alt='store Image'
-						/>
-					</Box>
-				</Grid>
-				<Grid container item lg={6} md={12} xs={12} spacing={2}>
-					<Grid item lg={6} md={6} xs={12}>
-						<Typography variant='h4'>{data.store_title} </Typography>
-						<ReaderHTML content={data.store_desc} />
-					</Grid>
+  return (
+    <Wrapper>
+      <Container maxWidth="lg">
+        <Grid container spacing={3}>
+          <Grid
+            item
+            lg={6}
+            sx={{
+              paddingLeft: {
+                xs: "0px !important",
+                lg: "24px !important",
+              },
+            }}
+          >
+            <Box
+              sx={{
+                pointerEvents: "none",
+                overflow: "hidden",
+                width: {
+                  lg: "100%",
+                },
+              }}
+            >
+              <Image
+                src={data.store_image}
+                WrapperProps={{
+                  sx: {
+                    width: {
+                      lg: "100%",
+                      xs: "calc(100vw + 24px)",
+                    },
+                  },
+                }}
+                height={SIZE}
+                objectFit="cover"
+              />
+            </Box>
+          </Grid>
 
-					<Box
-						sx={{
-							display: "flex",
-							flexWrap: "wrap",
-						}}>
-						{data.store_content?.map((e, index) => (
-							<Grid key={index} item lg={6} md={6} xs={12}>
-								<CustomerCard
-									icon={e.value.icon}
-									desc={e.value.desc}
-									title={e.value.title}
-								/>
-							</Grid>
-						))}
-					</Box>
-				</Grid>
-			</Grid>
-		</Wrapper>
-	);
+          <Grid item lg={6}>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <Typography
+                  variant="h4"
+                  sx={{
+                    fontWeight: 700,
+                  }}
+                >
+                  {data.store_title}
+                </Typography>
+                <ReaderHTML content={data.store_desc} />
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container spacing={3}>
+                  {data.store_content?.map((el, index) => {
+                    const { value } = el;
+
+                    return (
+                      <Grid key={index} item xs={12} sm={6}>
+                        <CustomerCard icon={value.icon} desc={value.desc} title={value.title} />
+                      </Grid>
+                    );
+                  })}
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Container>
+    </Wrapper>
+  );
 };
 
 export default StoreBenefit;
-
-const Wrapper = styled(Box)(({ theme }) => {
-	return {
-		paddingTop: theme.spacing(4),
-		paddingBottom: theme.spacing(4),
-	};
-});

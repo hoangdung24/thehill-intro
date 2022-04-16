@@ -20,6 +20,7 @@
     "@mui/styles": "^5.5.1",
     "@next/bundle-analyzer": "^12.1.4",
     "axios": "^0.26.1",
+    "chance": "^1.1.8",
     "dompurify": "^2.3.6",
     "isomorphic-dompurify": "^0.18.0",
     "lodash": "^4.17.21",

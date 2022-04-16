@@ -12,12 +12,11 @@ import { BLOG_DETAIL, PAGES } from "../../../helpers/api";
 import { LoadingData } from "../../../HOC";
 import { useParams } from "../../../hooks";
 
-import { Loading2 } from "../../../components";
+import { Loading2, BlogItem } from "../../../components";
 
 import TagList from "./TagList";
 import SearchBar from "./SearchBar";
 import Category from "./Category";
-import BlogItem from "./BlogItem";
 
 const BlogList = ({ blogDetail, blogCategory, tags, ...props }) => {
   const blogCategories = blogCategory?.items;
@@ -155,7 +154,13 @@ const BlogList = ({ blogDetail, blogCategory, tags, ...props }) => {
                 return data.map((el) => {
                   return (
                     <Grid item xs={12} md={6} key={el.id}>
-                      <BlogItem {...el} minHeight={minHeight} setMinHeight={minHeightHandler} />
+                      <BlogItem
+                        {...{
+                          minHeight,
+                          setMinHeight: minHeightHandler,
+                          ...el,
+                        }}
+                      />
                     </Grid>
                   );
                 });

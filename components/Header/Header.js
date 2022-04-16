@@ -1,86 +1,82 @@
-import {Box, Container, Grid, Typography,styled } from "@mui/material";
-import {Button, QRcode} from '../../components'
+import { Box, Container, Stack, Typography, styled, Button } from "@mui/material";
 
+import { Image } from "../../HOC";
+import { useGlobal, useDevice } from "../../hooks";
 
-const Header = ({data, ...props }) => {
-	return (
-		<Wraper component={"div"} className='header'>
-			<ImageBackground className='background Banner'>
-				{/* <Image alt="banner" src={data.banner} WrapperProps={{
-					sx: {
-						width: "100vw",
-						height: "calc(100vw * 0.8)",
-						PointerEvent: 'none'
-					}
-				}} /> */}
-				<img src={data.banner}
-				style={{
-					width: "100%",
-					height: '100%',
-					objectFit: 'cover'
-				}}/>
-			</ImageBackground>
-			<Container maxWidth="lg">
-				<Box
-					className='Box Header'
-					sx={{
-						padding: "290px 0 225px",
-						position: "relative",
-						zIndex: 0,
-						overflow: "hidden",
-					}}>
-					<Grid
-						container
-						spacing={2}
-						justifyContent='center'
-						alignContent='center'>
-						<Grid item xs={12} lg={6}>
-							<Box>
-								<Typography variant='h1'>{data.subtitle}</Typography>
-								<Button
-									title={"Send App To Your Phone"}
-									isBackground={true}
-									backgroundColor={"#F56D91"}
-									sx={{
-										paddingX: 5,
-									}}
-								/>
-								<QRcode left={true}/>
-							</Box>
-						</Grid>
-						<Grid item xs={12} lg={6}>
-							<Box></Box>
-						</Grid>
-					</Grid>
-				</Box>
-			</Container>
-		</Wraper>
-	);
+const Header = ({ data, ...props }) => {
+  const global = useGlobal();
+  const { isMobile } = useDevice();
+
+  return (
+    <Wrapper headerHeight={global.state.headerHeight || 0}>
+      <Background>
+        <Image
+          alt="banner"
+          src={data.banner}
+          WrapperProps={{
+            sx: {
+              width: "100%",
+              height: "100%",
+            },
+          }}
+          objectFit="cover"
+        />
+      </Background>
+
+      <Container
+        maxWidth="lg"
+        sx={{
+          height: 1,
+        }}
+      >
+        <Stack
+          spacing={5}
+          sx={{
+            height: 1,
+            justifyContent: "center",
+            alignItems: "flex-start",
+          }}
+        >
+          <Typography
+            variant={isMobile ? "h4" : "h3"}
+            sx={{
+              fontWeight: 700,
+              maxWidth: 400,
+            }}
+          >
+            {data.subtitle}
+          </Typography>
+          <Button variant="contained" disableElevation>
+            Send App To Your Phone
+          </Button>
+        </Stack>
+      </Container>
+    </Wrapper>
+  );
 };
 
 export default Header;
 
+const Wrapper = styled(Box, {
+  shouldForwardProp: (prop) => {
+    return prop !== "headerHeight";
+  },
+})(({ theme, headerHeight }) => {
+  return {
+    position: "relative",
+    width: "100vw",
+    height: `calc(100vh - ${headerHeight}px)`,
+    overflow: "hidden",
+  };
+});
 
-const Wraper = styled(Box)(({theme})=> {
-	return {
-		position: "relative",
-		paddingTop: theme.spacing(2),
-		paddingBottom: theme.spacing(4),
-		height: "900px",
-	};
-})
-
-const ImageBackground = styled(Box, {
-	shouldForwardProp: (prop) => {
-		return prop !== "banner";
-	},
-})(({ theme }) => {
-	return {
-		zIndex: -1,
-		position: "absolute",
-		top: 0,
-		bottom: 0,
-		right: 0,
-		left: 0,
-	};
+const Background = styled(Box)(() => {
+  return {
+    width: "100%",
+    height: "100%",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    zIndex: -1,
+  };
 });

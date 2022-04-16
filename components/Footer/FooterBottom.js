@@ -3,7 +3,7 @@ import { Box, Grid, Stack, Typography, Link, styled } from "@mui/material";
 
 import { Image } from "../../HOC";
 import { QRcode } from "../../components";
-import { useSetting, useDevice } from "../../hooks";
+import { useSetting } from "../../hooks";
 
 const SIZE = "38px";
 const TRANSITION = "all 0.5s";
@@ -26,11 +26,11 @@ const FooterBottom = () => {
   const handleClick = (title) => {
     return () => {
       if (title === "Điều khoản và điều kiện") {
-        router.push(`condition`);
+        router.push(`/dieu-khoan-dieu-kien`);
       } else if (title === "Chính sách sử dụng") {
-        router.push(`policy`);
+        router.push(`/chinh-sach-su-dung`);
       } else if (title === "Trở thành đối tác") {
-        router.push(`contact`);
+        router.push(`/dang-ky-quan`);
       }
     };
   };

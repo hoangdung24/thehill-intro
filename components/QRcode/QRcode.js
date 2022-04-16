@@ -12,7 +12,7 @@ const SIZE = "120px";
 
 const HEIGHT = "35px";
 
-const QRcode = ({ isBadge = false }) => {
+const QRcode = () => {
   const [src, setSrc] = useState("");
 
   useEffect(() => {

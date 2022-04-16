@@ -1,5 +1,7 @@
-import { useState, useCallback } from "react";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import { useMeasure } from "react-use";
+import { useState, useCallback, useMemo, Fragment, useEffect } from "react";
 
 import {
   AppBar,
@@ -16,132 +18,82 @@ import {
 
 import MenuIcon from "@mui/icons-material/Menu";
 
-import { useSetting } from "../../hooks";
+import { useSetting, useDevice, useGlobal } from "../../hooks";
+import { Image } from "../../HOC";
 
 const Navbar = ({ ...props }) => {
+  const global = useGlobal();
+  const router = useRouter();
+  const { isDesktop } = useDevice();
+  const [ref, { height }] = useMeasure();
+  const { header, logo_header } = useSetting();
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const { header, logo_header } = useSetting();
-
-  const router = useRouter();
+  useEffect(() => {
+    global.set({
+      headerHeight: height,
+    });
+  }, [height]);
 
   const handleOpenNavMenu = useCallback((e) => {
     setAnchorEl(e.currentTarget);
   }, []);
 
-  const navigationHandler = useCallback((section, type) => {
+  const navigationHandler = useCallback((type, data) => {
     return (e) => {
       if (type === "by_section") {
-        router.push(`/#${section}`);
+        router.push(`/#${data.section}`);
       } else if (type === "by_page") {
-        router.push(`cau-hoi-thuong-gap`);
-      } else {
-        router.push(`/`);
+        if (data.page.includes("faq")) {
+          router.push(`/cau-hoi-thuong-gap`);
+        } else if (data.page.includes("home")) {
+          router.push("/");
+        }
       }
-
       setAnchorEl(null);
     };
   }, []);
 
-  return (
-    <Box sx={{ flexGrow: 1, width: "100%" }}>
-      <AppBar
-        position="static"
-        sx={{
-          backgroundColor: "transparent",
-        }}
-      >
-        <Container maxWidth="lg">
-          <Toolbar disableGutters>
-            <Box
-              component={"div"}
-              sx={{
-                cursor: "pointer",
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-              }}
-            >
-              <img src={logo_header} width="100px" height="100px" alt="logo header" />
-            </Box>
+  const children = useMemo(() => {
+    if (isDesktop) {
+      return (
+        <Fragment>
+          <Box
+            onClick={navigationHandler("by_page", {
+              page: "home",
+            })}
+            sx={{
+              cursor: "pointer",
+            }}
+          >
+            <Image width={90} height={90} src={logo_header} />
+          </Box>
 
-            <Box
-              className="nav-bar-anchor"
-              sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
-            >
-              <IconButton size="large" onClick={handleOpenNavMenu} color="inherit">
-                <MenuIcon />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                open={!!anchorEl}
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
-                onClose={navigationHandler()}
-                sx={{
-                  display: {
-                    xs: "block",
-                    md: "none",
-                  },
-                  "& .MuiMenu-paper": {
-                    top: "55px !important",
-                    left: "55px !important",
-                  },
-                }}
-              >
-                {header?.slice(0, -1).map((page, index) => (
-                  <MenuItem
-                    key={index}
-                    onClick={navigationHandler(page.value.section, page.block_type)}
-                  >
-                    <Typography textAlign="center">{page.value.title}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
-            </Box>
+          <Box
+            className="navbar-full"
+            sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, justifyContent: "flex-end" }}
+          >
+            {header?.slice(0, -1).map((page, index) => {
+              const { block_type, value } = page;
+              return (
+                <Button
+                  key={index}
+                  disableRipple
+                  onClick={navigationHandler(block_type, value)}
+                  sx={{
+                    "&:hover": {
+                      color: alpha("#F6CB18", 0.8),
+                      backgroundColor: "unset",
+                    },
+                  }}
+                >
+                  {value.title}
+                </Button>
+              );
+            })}
 
-            <Box
-              onClick={navigationHandler()}
-              component={"div"}
-              sx={{
-                cursor: "pointer",
-                flexGrow: 1,
-                display: { xs: "flex", md: "none" },
-              }}
-            >
-              <img src={logo_header} width="100px" height="100px" alt="logo header" />
-            </Box>
-            <Box
-              className="navbar-full"
-              sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, justifyContent: "flex-end" }}
-            >
-              {header?.slice(0, -1).map((page, index) => {
-                return (
-                  <Button
-                    key={index}
-                    disableRipple
-                    onClick={navigationHandler(page.value.section, page.block_type)}
-                    sx={{
-                      "&:hover": {
-                        color: alpha("#F6CB18", 0.8),
-                        backgroundColor: "unset",
-                      },
-                    }}
-                  >
-                    {page.value.title}
-                  </Button>
-                );
-              })}
-
+            <Link href="/dang-ky-quan" passHref>
               <Button
-                href="/contact"
                 sx={{
                   color: "common.white",
                   backgroundColor: "#F6CB18",
@@ -153,11 +105,94 @@ const Navbar = ({ ...props }) => {
               >
                 Đăng ký
               </Button>
-            </Box>
-          </Toolbar>
-        </Container>
-      </AppBar>
-    </Box>
+            </Link>
+          </Box>
+        </Fragment>
+      );
+    } else {
+      return (
+        <Fragment>
+          <Box className="nav-bar-anchor">
+            <IconButton size="large" onClick={handleOpenNavMenu} color="inherit">
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              open={!!anchorEl}
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              onClose={navigationHandler(null)}
+              sx={{
+                display: {
+                  xs: "block",
+                  md: "none",
+                },
+                "& .MuiMenu-paper": {
+                  top: "55px !important",
+                  left: "55px !important",
+                },
+              }}
+            >
+              {header?.slice(0, -1).map((page, index) => {
+                const { block_type, value } = page;
+
+                return (
+                  <MenuItem key={index} onClick={navigationHandler(block_type, value)}>
+                    <Typography textAlign="center">{value.title}</Typography>
+                  </MenuItem>
+                );
+              })}
+            </Menu>
+          </Box>
+
+          <Box
+            onClick={navigationHandler("by_page", {
+              page: "home",
+            })}
+            sx={{
+              cursor: "pointer",
+            }}
+          >
+            <Image width={90} height={90} src={logo_header} />
+          </Box>
+          <Box
+            sx={{
+              width: "48px",
+              height: "48px",
+            }}
+          ></Box>
+        </Fragment>
+      );
+    }
+  }, [isDesktop, anchorEl]);
+
+  return (
+    <AppBar
+      ref={ref}
+      position="static"
+      sx={{
+        backgroundColor: "transparent",
+      }}
+    >
+      <Container maxWidth="lg">
+        <Toolbar
+          disableGutters
+          sx={{
+            justifyContent: "space-between",
+          }}
+        >
+          {children}
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 };
 export default Navbar;

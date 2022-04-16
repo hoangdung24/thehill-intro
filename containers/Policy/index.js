@@ -1,1 +1,1 @@
-export {default as PolicyPage} from './Policy'
+export { default as PolicyPage } from "./Policy";

@@ -1,41 +1,66 @@
-import { Grid, Box, Typography, styled } from "@mui/material";
+import { Grid, Box, Typography, Container } from "@mui/material";
 import { Image } from "../../../HOC";
 import { ReaderHTML } from "../../../components";
 
-const SIZE = 450;
+import Wrapper from "./Wrapper";
 
-const AboutUs = ({data, ...props }) => {
-	return (
-		<Wrapper id="about">
-			<Grid container spacing={2}>
-				<Grid item lg={6} md={12} xs={12}>
-					<Typography variant='h4'>{data.about_title}</Typography>
-					<ReaderHTML content={data.about_content} />
-				</Grid>
-				<Grid item lg={6} md={12} xs={12}>
-					<Box sx={{
-						pointerEvents: 'none'
-					}}>
-						<Image
-							src={data.about_image}
-							height={SIZE}
-							width={SIZE}
-							alt='IMAGE ABOUT US'
-						/>
-					</Box>
-				</Grid>
-			</Grid>
-		</Wrapper>
-	);
+const SIZE = 300;
+
+const AboutUs = ({ data, ...props }) => {
+  return (
+    <Wrapper id="about">
+      <Container maxWidth="lg">
+        <Grid container spacing={3}>
+          <Grid item lg={6}>
+            <Typography
+              variant="h4"
+              sx={{
+                fontWeight: 700,
+              }}
+            >
+              {data.about_title}
+            </Typography>
+            <ReaderHTML content={data.about_content} />
+          </Grid>
+          <Grid
+            item
+            lg={6}
+            sx={{
+              paddingLeft: {
+                xs: "0px !important",
+                lg: "24px !important",
+              },
+            }}
+          >
+            <Box
+              sx={{
+                pointerEvents: "none",
+                overflow: "hidden",
+                width: {
+                  lg: "100%",
+                },
+              }}
+            >
+              <Image
+                src={data.about_image}
+                height={SIZE}
+                objectFit="cover"
+                alt="IMAGE ABOUT US"
+                WrapperProps={{
+                  sx: {
+                    width: {
+                      lg: "100%",
+                      xs: "calc(100vw + 24px)",
+                    },
+                  },
+                }}
+              />
+            </Box>
+          </Grid>
+        </Grid>
+      </Container>
+    </Wrapper>
+  );
 };
 
 export default AboutUs;
-
-// styled sheet
-
-const Wrapper = styled(Box)(({theme})=> {
-	return {
-		paddingTop: theme.spacing(2),
-		paddingBottom: theme.spacing(4),
-	}
-})

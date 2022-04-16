@@ -1,50 +1,66 @@
-import { Grid, Box, Typography, styled } from "@mui/material";
+import { Grid, Box, Typography, styled, Container } from "@mui/material";
 import { Image } from "../../../HOC";
 import { ReaderHTML } from "../../../components";
-import { useDevice } from "../../../hooks";
 
+import Wrapper from "./Wrapper";
 
-const SIZE = 450;
+const SIZE = 300;
 
 const Tutorial = ({ data, ...props }) => {
-
-	const {isTable1200} = useDevice();
-
-	return (
-		<Wrapper id="tutorial">
-			<Grid container spacing={2}>
-				<Grid item lg={6} md={12} xs={12}>
-					<Typography variant='h4'>{data.tutorial_title}</Typography>
-					<ReaderHTML content={data.tutorial_content} />
-				</Grid>
-				<Grid item lg={6} md={12} xs={12}>
-					<Box sx={
-						[
-						isTable1200 && {
-							display: 'none'
-						}
-					]}>
-						<Image
-							src={data.tutorial_image}
-							height={SIZE}
-							width={SIZE}	
-							alt='IMAGE Hướng dẫn'
-						/>
-					</Box>
-				</Grid>
-			</Grid>
-		</Wrapper>
-	);
+  return (
+    <Wrapper id="tutorial">
+      <Container maxWidth="lg">
+        <Grid container spacing={3}>
+          <Grid item lg={6}>
+            <Typography
+              variant="h4"
+              sx={{
+                fontWeight: 700,
+              }}
+            >
+              {data.tutorial_title}
+            </Typography>
+            <ReaderHTML content={data.tutorial_content} />
+          </Grid>
+          <Grid
+            item
+            lg={6}
+            sx={{
+              paddingLeft: {
+                xs: "0px !important",
+                lg: "24px !important",
+              },
+            }}
+          >
+            <Box
+              sx={{
+                pointerEvents: "none",
+                overflow: "hidden",
+                width: {
+                  lg: "100%",
+                },
+              }}
+            >
+              <Image
+                src={data.tutorial_image}
+                height={SIZE}
+                alt="IMAGE Hướng dẫn"
+                WrapperProps={{
+                  sx: {
+                    width: {
+                      lg: "100%",
+                      xs: "calc(100vw + 24px)",
+                    },
+                  },
+                }}
+                objectFit="cover"
+              />
+            </Box>
+          </Grid>
+        </Grid>
+      </Container>
+    </Wrapper>
+  );
 };
 
 export default Tutorial;
-
-// styled sheet
-
-const Wrapper = styled(Box)(({ theme }) => {
-	return {
-		paddingTop: theme.spacing(2),
-		paddingBottom: theme.spacing(4),
-		pointerEvents: 'none'
-	};
-});

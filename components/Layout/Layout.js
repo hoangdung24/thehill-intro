@@ -19,16 +19,18 @@ const Layout = ({ children }) => {
       }}
     >
       <SettingConfig>
-        <Navbar />
-        <Box
-          sx={{
-            flexGrow: 1,
-            width: "100%",
-          }}
-        >
-          {children}
-        </Box>
-        <Footer />
+        <GlobalConfig>
+          <Navbar />
+          <Box
+            sx={{
+              flexGrow: 1,
+              width: "100%",
+            }}
+          >
+            {children}
+          </Box>
+          <Footer />
+        </GlobalConfig>
       </SettingConfig>
     </Box>
   );

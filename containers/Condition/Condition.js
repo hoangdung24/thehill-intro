@@ -1,35 +1,34 @@
-import {styled, Container, Box} from '@mui/material'
-import { Fragment } from 'react';
-import { SubHeader } from '../../components';
-import createDOMPurify from 'isomorphic-dompurify'
+import { Container, Box, Grid } from "@mui/material";
+import { Fragment } from "react";
+import { SubHeader } from "../../components";
+import createDOMPurify from "isomorphic-dompurify";
 
-const ConditionPage = ({dataCondition,  ...props}) => {
+const ConditionPage = ({ dataCondition, ...props }) => {
+  const { items } = dataCondition;
+  const data = items?.[0];
+  const content = data.content;
 
-    const {items} = dataCondition
+  return (
+    <Fragment>
+      <SubHeader data={data} background={data.banner} />
 
-    const data = items?.[0]
-
-	const content = data.content
-
-    return (
-			<Fragment>
-				<SubHeader data={data} isBackground={true} background={data.banner} />
-				<Container maxWidth='lg'>
-					<Box
-						dangerouslySetInnerHTML={{
-							__html: createDOMPurify.sanitize(content),
-						}}
-						sx={{
-							"& img":{
-								height: '100%',
-								width: '100%',
-								objectFit: 'cover'
-							}
-						}}></Box>
-				</Container>
-			</Fragment>
-		);
-}
+      <Container maxWidth="lg">
+        <Grid container justifyContent={"center"}>
+          <Grid item xs={12} md={9}>
+            <Box
+              sx={{
+                overflow: "hidden",
+              }}
+              dangerouslySetInnerHTML={{
+                __html: createDOMPurify.sanitize(content),
+              }}
+            ></Box>
+          </Grid>
+        </Grid>
+      </Container>
+    </Fragment>
+  );
+};
 
 export default ConditionPage;
 

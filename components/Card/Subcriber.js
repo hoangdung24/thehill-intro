@@ -1,4 +1,5 @@
 import axios from "axios";
+import Chance from "chance";
 import { object, string } from "yup";
 import { useSnackbar } from "notistack";
 import { useForm } from "react-hook-form";
@@ -28,8 +29,10 @@ const validateSchema = object({
   email: string().email("Vui lòng nhập email hợp lệ").required(),
 });
 
+const chance = new Chance();
+
 const defaultValues = {
-  email: "",
+  email: chance.email(),
 };
 
 const Subcriber = () => {
@@ -54,18 +57,17 @@ const Subcriber = () => {
     axios
       .post(URL, data)
       .then((res) => {
-        console.log(res);
-
         enqueueSnackbar("Đăng ký thành công", {
           variant: "success",
         });
+
         reset(defaultValues, {
           keepDirty: false,
         });
       })
       .catch((error) => {
         if (error.response) {
-          enqueueSnackbar("Đăng ký thất bại", {
+          enqueueSnackbar(error.response.data.message, {
             variant: "error",
           });
         }

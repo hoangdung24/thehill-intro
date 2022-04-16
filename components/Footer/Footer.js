@@ -20,6 +20,10 @@ const Footer = ({ children, ...props }) => {
                   xs: "center",
                   lg: "flex-start",
                 },
+                justifyContent: {
+                  xs: "center",
+                  lg: "flex-start",
+                },
               }}
             >
               <img src={logo_footer} height={"auto"} width={"150px"} alt="logo footer" />

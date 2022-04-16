@@ -1,5 +1,5 @@
-import NextImage from "next/image";
 import { Box } from "@mui/material";
+import NextImage from "next/image";
 
 const Image = ({ WrapperProps = {}, src, width, height, layout = "fill", ...props }) => {
   const loader = ({ src, width, quality }) => {
@@ -7,6 +7,10 @@ const Image = ({ WrapperProps = {}, src, width, height, layout = "fill", ...prop
   };
 
   const { sx = {}, ...restWrapperProps } = WrapperProps;
+
+  if (!src) {
+    return null;
+  }
 
   if (layout === "fill") {
     return (

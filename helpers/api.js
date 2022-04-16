@@ -10,7 +10,7 @@ export const BANKS = "/api/v2/banks/";
 
 export const STORE_CATEGORIES = "/api/v2/store-categories/";
 
-export const SUBCRIBERS = "/api/v2/subcribers/"; // WITH POST METHOD
+export const SUBSCRIBERS = "/api/v2/subscribers/"; // WITH POST METHOD
 
 export const SUBMISSIONS = "/api/v2/submissions/"; // WITH POST METHOD
 

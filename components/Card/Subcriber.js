@@ -8,7 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import SendIcon from "@mui/icons-material/Send";
 
-import { DOMAIN, SUBCRIBERS } from "../../helpers/api";
+import { DOMAIN, SUBSCRIBERS } from "../../helpers/api";
 
 import {
   Typography,
@@ -23,7 +23,7 @@ import {
 
 import LoadingButton from "@mui/lab/LoadingButton";
 
-const URL = `${DOMAIN}${SUBCRIBERS}`;
+const URL = `${DOMAIN}${SUBSCRIBERS}`;
 
 const validateSchema = object({
   email: string().email("Vui lòng nhập email hợp lệ").required(),

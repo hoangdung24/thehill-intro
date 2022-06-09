@@ -9,11 +9,18 @@ import { useForm, Controller } from "react-hook-form";
 import last from "lodash/last";
 
 import { useState, useCallback, useEffect } from "react";
-import { TextField, Stack, Select, MenuItem, InputLabel, FormControl } from "@mui/material";
+import {
+  TextField,
+  Stack,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
+} from "@mui/material";
 
 import LoadingButton from "@mui/lab/LoadingButton";
 
-import { DOMAIN, SUBMISSIONS } from "../../helpers/api";
+import { DOMAIN, SUBMISSIONS } from "../../apis";
 import Upload from "./Upload";
 
 import { Loading2 } from "../../components";
@@ -132,10 +139,11 @@ const TargetElement = ({ category, data, defaultValues }) => {
   const [loading, setLoading] = useState(false);
   const resolver = yupResolver(validateSchema);
   const [mutationObj, setMutationObj] = useState({});
-  const { register, control, handleSubmit, reset, setError, clearErrors, setValue } = useForm({
-    resolver: resolver,
-    defaultValues,
-  });
+  const { register, control, handleSubmit, reset, setError, clearErrors, setValue } =
+    useForm({
+      resolver: resolver,
+      defaultValues,
+    });
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -210,7 +218,12 @@ const TargetElement = ({ category, data, defaultValues }) => {
         label="Tên quán / Thương hiệu"
         {...register("store_name")}
       />
-      <TextField fullWidth required={true} label="Người đại diện" {...register("presentator")} />
+      <TextField
+        fullWidth
+        required={true}
+        label="Người đại diện"
+        {...register("presentator")}
+      />
 
       <Controller
         name="category"

@@ -1,6 +1,6 @@
 import QRCode from "qrcode";
 import { useEffect, useState } from "react";
-import { DOMAIN, QR_CUSTOMER } from "../../helpers/api";
+import { DOMAIN, QR_CUSTOMER } from "../../apis";
 import { Box, Stack } from "@mui/material";
 import { Image } from "../../HOC";
 

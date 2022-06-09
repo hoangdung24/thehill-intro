@@ -8,7 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import SendIcon from "@mui/icons-material/Send";
 
-import { DOMAIN, SUBSCRIBERS } from "../../helpers/api";
+import { DOMAIN, SUBSCRIBERS } from "../../apis";
 
 import {
   Typography,
@@ -78,7 +78,12 @@ const Subcriber = () => {
   }, []);
 
   return (
-    <Stack direction="column" spacing={2} justifyContent="space-between" alignItems="flex-start">
+    <Stack
+      direction="column"
+      spacing={2}
+      justifyContent="space-between"
+      alignItems="flex-start"
+    >
       <Title variant="h6">Đăng ký nhận thông tin</Title>
       <Stack width="100%" direction="row" spacing={1.5}>
         <InputEmail

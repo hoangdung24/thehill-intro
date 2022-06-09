@@ -1,6 +1,6 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import createEmotionServer from "@emotion/server/create-instance";
-import createEmotionCache from "../helpers/createEmotionCache";
+import createEmotionCache from "../libs/createEmotionCache";
 
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -44,13 +44,17 @@ class MyDocument extends Document {
         <Head>
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
+
           <link
-            href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
             rel="stylesheet"
           />
 
           {process.env.NODE_ENV === "production" && (
-            <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"></meta>
+            <meta
+              http-equiv="Content-Security-Policy"
+              content="upgrade-insecure-requests"
+            ></meta>
           )}
           {this.props.emotionStyleTags}
         </Head>

@@ -8,7 +8,7 @@ import { Box, Grid, Pagination, styled, Typography, Stack } from "@mui/material"
 
 import unset from "lodash/unset";
 
-import { BLOG_DETAIL, PAGES } from "../../../helpers/api";
+import { BLOG_DETAIL, PAGES } from "../../../apis";
 import { LoadingData } from "../../../HOC";
 import { useParams } from "../../../hooks";
 
@@ -194,7 +194,10 @@ const BlogList = ({ blogDetail, blogCategory, tags, ...props }) => {
         <Grid item xs={12} lg={3}>
           <Grid container spacing={4}>
             <Grid item xs={12}>
-              <SearchBar searchHandler={searchHandler} initState={params.search || null} />
+              <SearchBar
+                searchHandler={searchHandler}
+                initState={params.search || null}
+              />
             </Grid>
 
             <Grid item xs={12}>
@@ -235,7 +238,11 @@ const BlogList = ({ blogDetail, blogCategory, tags, ...props }) => {
             <Grid item xs={12}>
               <Stack spacing={2}>
                 <Typography variant="title2">Popular Tag</Typography>
-                <TagList selectTagHandler={selectTagHandler} selectedItem={selectedTag} {...tags} />
+                <TagList
+                  selectTagHandler={selectTagHandler}
+                  selectedItem={selectedTag}
+                  {...tags}
+                />
               </Stack>
             </Grid>
           </Grid>

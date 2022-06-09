@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BlogList } from "../../containers";
-import { BLOG_CATEGORIES, BLOG_DETAIL, BLOG_LIST, PAGES, TAGS } from "../../helpers/api";
+import { BLOG_CATEGORIES, BLOG_DETAIL, BLOG_LIST, PAGES, TAGS } from "../../apis";
 
 const News = ({ ...props }) => {
   return <BlogList {...props} />;

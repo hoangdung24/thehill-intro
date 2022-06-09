@@ -1,14 +1,11 @@
-import axios from "axios";
-import CssBaseline from "@mui/material/CssBaseline";
-import { SWRConfig } from "swr";
-import { ErrorBoundary } from "react-error-boundary";
-import createEmotionCache from "../helpers/createEmotionCache";
-
 import { SnackbarProvider } from "notistack";
+import CssBaseline from "@mui/material/CssBaseline";
+import { ErrorBoundary } from "react-error-boundary";
+import createEmotionCache from "../libs/createEmotionCache";
 
-import { Layout, ErrorFallback } from "../components";
 import { useRouting } from "../hooks";
-import { Cache as EmotionCache, Theme as CustomMuiTheme } from "../HOC";
+import { Layout, ErrorFallback } from "../components";
+import { Cache as EmotionCache, Theme as CustomMuiTheme, SWR } from "../HOC";
 
 import "../axios.config";
 import "../styles/global.css";
@@ -25,25 +22,16 @@ function MyApp(props) {
   return (
     <EmotionCache emotionCache={emotionCache}>
       <CustomMuiTheme>
-        <SWRConfig
-          value={{
-            refreshInterval: 3000,
-            fetcher: async (resource, init) => {
-              return axios.get(resource, init).then((res) => {
-                return res.data;
-              });
-            },
-          }}
-        >
-          <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <SWR fallback={pageProps?.fallback}>
             <SnackbarProvider autoHideDuration={4000} maxSnack={3}>
               <Layout>
                 <CssBaseline />
                 <Component {...pageProps} />
               </Layout>
             </SnackbarProvider>
-          </ErrorBoundary>
-        </SWRConfig>
+          </SWR>
+        </ErrorBoundary>
       </CustomMuiTheme>
     </EmotionCache>
   );

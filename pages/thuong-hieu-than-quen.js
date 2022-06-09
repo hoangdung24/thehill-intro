@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { PAGES, PARTNER_DETAIL, PARTNER_LIST } from "../helpers/api";
+import { PAGES, PARTNER_DETAIL, PARTNER_LIST } from "../apis";
 import { Partner } from "../containers";
 
 const PartnerPage = ({ ...props }) => {

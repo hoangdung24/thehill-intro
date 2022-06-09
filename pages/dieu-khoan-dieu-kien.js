@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ConditionPage } from "../containers";
-import { CONDITION, PAGES } from "../helpers/api";
+import { CONDITION, PAGES } from "../apis";
 
 const Condition = ({ ...props }) => {
   return <ConditionPage {...props} />;

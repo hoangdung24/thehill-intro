@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useMeasure } from "react-use";
+import { useRouter } from "next/router";
 import { useState, useCallback, useMemo, Fragment, useEffect } from "react";
 
 import {
@@ -14,6 +14,7 @@ import {
   Box,
   Button,
   alpha,
+  useTheme,
 } from "@mui/material";
 
 import MenuIcon from "@mui/icons-material/Menu";
@@ -22,6 +23,7 @@ import { useSetting, useDevice, useGlobal } from "../../hooks";
 import { Image } from "../../HOC";
 
 const Navbar = ({ ...props }) => {
+  const theme = useTheme();
   const global = useGlobal();
   const router = useRouter();
   const { isDesktop } = useDevice();
@@ -71,7 +73,11 @@ const Navbar = ({ ...props }) => {
 
           <Box
             className="navbar-full"
-            sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, justifyContent: "flex-end" }}
+            sx={{
+              flexGrow: 1,
+              display: { xs: "none", md: "flex" },
+              justifyContent: "flex-end",
+            }}
           >
             {header?.slice(0, -1).map((page, index) => {
               const { block_type, value } = page;
@@ -82,7 +88,7 @@ const Navbar = ({ ...props }) => {
                   onClick={navigationHandler(block_type, value)}
                   sx={{
                     "&:hover": {
-                      color: alpha("#F6CB18", 0.8),
+                      color: alpha(theme.palette.primary.main, 0.8),
                       backgroundColor: "unset",
                     },
                   }}
@@ -93,18 +99,7 @@ const Navbar = ({ ...props }) => {
             })}
 
             <Link href="/dang-ky-quan" passHref>
-              <Button
-                sx={{
-                  color: "common.white",
-                  backgroundColor: "#F6CB18",
-                  paddingX: 2,
-                  "&:hover": {
-                    backgroundColor: alpha("#F6CB18", 0.8),
-                  },
-                }}
-              >
-                Đăng ký
-              </Button>
+              <Button variant="contained">Đăng ký</Button>
             </Link>
           </Box>
         </Fragment>

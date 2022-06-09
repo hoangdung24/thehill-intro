@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { PAGES, FAQ_LIST, FAQ_DETAIL } from "../helpers/api";
+import { PAGES, FAQ_LIST, FAQ_DETAIL } from "../apis";
 import { Faq } from "../containers";
 
 const FAQPage = ({ ...props }) => {
@@ -11,7 +11,10 @@ export default FAQPage;
 
 export async function getServerSideProps({ params, query }) {
   try {
-    const urls = [`${PAGES}?type=${FAQ_LIST}&fields=*`, `${PAGES}?type=${FAQ_DETAIL}&fields=*`];
+    const urls = [
+      `${PAGES}?type=${FAQ_LIST}&fields=*`,
+      `${PAGES}?type=${FAQ_DETAIL}&fields=*`,
+    ];
 
     const resList = await Promise.all(
       urls.map((url) =>

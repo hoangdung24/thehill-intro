@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ContactPage } from "../containers";
-import { CONTACT, PAGES, STORE_CATEGORIES } from "../helpers/api";
+import { CONTACT, PAGES, STORE_CATEGORIES } from "../apis";
 
 const Contact = ({ ...props }) => {
   return <ContactPage {...props} />;

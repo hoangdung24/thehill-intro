@@ -1,6 +1,7 @@
 import { HomePage } from "../containers";
-import { HOME_PAGE, PAGES, PARTNER, BLOG_DETAIL } from "../helpers/api";
-import axios from "axios";
+import { HOME_PAGE, PAGES, PARTNER, BLOG_DETAIL } from "../apis";
+
+import { transformUrl, prefetchData } from "../libs/";
 
 const Home = ({ ...props }) => {
   return <HomePage {...props} />;
@@ -11,43 +12,35 @@ export default Home;
 export async function getServerSideProps({ params }) {
   try {
     const urls = [
-      `${PAGES}?type=${HOME_PAGE}&fields=*`,
-      `${PARTNER}?fields=*&is_on_homepage=true&limit=9`,
-      `${PAGES}?type=${BLOG_DETAIL}&fields=*&limit=3&is_on_homepage=true`,
+      transformUrl(PAGES, {
+        type: HOME_PAGE,
+        fields: "*",
+      }),
+      transformUrl(PARTNER, {
+        fields: "*",
+        is_on_homepage: true,
+        limit: 9,
+      }),
+      transformUrl(PAGES, {
+        type: BLOG_DETAIL,
+        fields: "*",
+        is_on_homepage: true,
+        limit: 3,
+      }),
     ];
-    const resList = await Promise.all(
-      urls.map(async (url) => {
-        return axios.get(url).then(function ({ data }) {
-          return data;
-        });
-      })
-    );
 
-    let homeData;
-    let partnerData;
-    let blogDetail;
-
-    resList.forEach((e, index) => {
-      if (index === 0) {
-        homeData = e;
-      } else if (index === 1) {
-        partnerData = e;
-      } else if (index === 2) {
-        blogDetail = e;
-      }
-    });
+    const { resList, fallback } = await prefetchData(urls);
 
     return {
       props: {
-        homeData: homeData,
-        partnerData: partnerData,
-        blogDetail: blogDetail,
+        initData: resList,
+        fallback,
       },
     };
   } catch (e) {
     return {
       redirect: {
-        destination: "/",
+        destination: "/404",
         permanent: false,
       },
     };

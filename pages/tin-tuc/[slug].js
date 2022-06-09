@@ -1,5 +1,5 @@
 import axios from "axios";
-import { PAGES } from "../../helpers/api";
+import { PAGES } from "../../apis";
 
 import { BlogDetail } from "../../containers";
 

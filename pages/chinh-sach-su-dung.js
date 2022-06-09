@@ -1,6 +1,6 @@
 import axios from "axios";
 import { PolicyPage } from "../containers/Policy";
-import { POLICY, PAGES } from "../helpers/api";
+import { POLICY, PAGES } from "../apis";
 
 const Policy = ({ ...props }) => {
   return <PolicyPage {...props} />;

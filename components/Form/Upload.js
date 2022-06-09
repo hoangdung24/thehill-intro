@@ -46,7 +46,12 @@ const Upload = ({ control, name, passHandler = () => {} }) => {
       <FormControl fullWidth>
         <label htmlFor={name}>
           <input id={name} {...getInputProps()} />
-          <Button variant="contained" component="span" sx={{}} startIcon={<AttachFileIcon />}>
+          <Button
+            variant="contained"
+            component="span"
+            sx={{}}
+            startIcon={<AttachFileIcon />}
+          >
             <span>File đính kèm</span>
           </Button>
         </label>

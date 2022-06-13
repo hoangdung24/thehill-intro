@@ -32,7 +32,7 @@ const defaultTheme = createTheme({
       black: "#2B2B2B",
       white: "#FFFFFF",
       natural1: "#2B2B2B",
-      natural2: "#777E91",
+      natural2: "#777E90",
       natural3: "#B1B5C4",
       natural4: "#E6E8EC",
       natural5: "#F4F5F6",
@@ -135,6 +135,12 @@ const defaultTheme = createTheme({
     hairline2: {
       fontSize: "12px",
       lineHeight: "12px",
+      fontWeight: 400,
+      textTransform: "uppercase",
+    },
+    hairline4: {
+      fontSize: "32px",
+      lineHeight: "40px",
       fontWeight: 400,
       textTransform: "uppercase",
     },

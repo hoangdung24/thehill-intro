@@ -39,6 +39,49 @@ html {
   animation-delay: -0.8s;
 }
 
+/* >>>>>>>> Css của Slick */
+.slide img {
+  width: 20rem;
+  margin: 0 auto;
+}
+
+.slide {
+  transform: scale(1);
+  transition: transform 300ms;
+  opacity: 01;
+}
+
+.activeSlide {
+  transform: scale(1.3);
+  opacity: 1;
+}
+
+.arrow {
+  background-color: #fff;
+  position: absolute;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.arrow svg {
+  transition: color 300ms;
+}
+
+.arrow svg:hover {
+  color: #68edff;
+}
+
+.next {
+  right: 0%;
+  top: 50%;
+}
+
+.prev {
+  left: 0%;
+  top: 50%;
+}
+/* <<<<<<<< */
+
 @-webkit-keyframes sk-stretchdelay {
   0%,
   40%,

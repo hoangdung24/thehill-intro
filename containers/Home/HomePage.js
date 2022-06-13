@@ -1,5 +1,4 @@
-import { Fragment } from "react";
-
+import { Box } from "@mui/material";
 import {
   AboutUs,
   CustomerBenefit,
@@ -9,7 +8,12 @@ import {
   Tutorial,
 } from "./components";
 
-import { Header } from "../../components";
+import ExchangePointsHome from "./components/ ExchangePointsHome";
+import HomeNews from "./components/HomeNews";
+import HomeFeature from "./components/HomeFeature";
+import HomeBrand from "./components/HomeBrand";
+import HomeBenefit from "./components/HomeBenefit";
+import HomeBanner from "./components/HomeBanner";
 
 const HomePage = ({ initData, ...props }) => {
   // const [] = initData;
@@ -18,7 +22,16 @@ const HomePage = ({ initData, ...props }) => {
 
   // const data = items?.[0];
 
-  return null;
+  return (
+    <Box>
+      <HomeBanner />
+      <HomeBenefit />
+      <HomeBrand />
+      {/* <ExchangePointsHome /> */}
+      <HomeFeature />
+      <HomeNews />
+    </Box>
+  );
 
   // return (
   //   <Fragment>

@@ -1,7 +1,14 @@
 import { Box } from "@mui/material";
 import NextImage from "next/image";
 
-const Image = ({ WrapperProps = {}, src, width, height, layout = "fill", ...props }) => {
+const Image = ({
+  WrapperProps = {},
+  src,
+  width,
+  height,
+  layout = "fill",
+  ...props
+}) => {
   const loader = ({ src, width, quality }) => {
     return `${src}?w=${width}&q=${quality || 75}`;
   };

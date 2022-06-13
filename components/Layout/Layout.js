@@ -20,7 +20,7 @@ const Layout = ({ children }) => {
     >
       <SettingConfig>
         <GlobalConfig>
-          <Navbar />
+          {/* <Navbar /> */}
           <Box
             sx={{
               flexGrow: 1,

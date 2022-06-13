@@ -11,8 +11,8 @@ const CustomerBenefit = ({ data, ...props }) => {
       <ImageBackground>
         <Image
           {...{
-            src: data.customer_image,
-            width: "100%",
+            src: "/img/avt-05 1 1 (1).png",
+            width: "90%",
             height: "100%",
             objectFit: "cover",
           }}
@@ -35,13 +35,13 @@ const CustomerBenefit = ({ data, ...props }) => {
                   fontWeight: 700,
                 }}
               >
-                {data.customer_title}
+                sadasdas
               </Typography>
-              <ReaderHTML content={data.customer_subtitle} />
+              {/* <ReaderHTML content={data.customer_subtitle} /> */}
             </Box>
           </Grid>
           <Grid item md={12} lg={6}>
-            <Grid container spacing={3}>
+            {/* <Grid container spacing={3}>
               {data.customer_content?.map((el, index) => {
                 const { value } = el;
 
@@ -51,7 +51,7 @@ const CustomerBenefit = ({ data, ...props }) => {
                   </Grid>
                 );
               })}
-            </Grid>
+            </Grid> */}
           </Grid>
         </Grid>
       </Container>

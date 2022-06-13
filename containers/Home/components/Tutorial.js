@@ -9,6 +9,7 @@ const SIZE = 300;
 const Tutorial = ({ data, ...props }) => {
   return (
     <Wrapper id="tutorial">
+      dasdasdasdd
       <Container maxWidth="lg">
         <Grid container spacing={3}>
           <Grid item lg={6}>
@@ -18,9 +19,9 @@ const Tutorial = ({ data, ...props }) => {
                 fontWeight: 700,
               }}
             >
-              {data.tutorial_title}
+              {data?.tutorial_title}
             </Typography>
-            <ReaderHTML content={data.tutorial_content} />
+            <ReaderHTML content={data?.tutorial_content} />
           </Grid>
           <Grid
             item
@@ -42,7 +43,7 @@ const Tutorial = ({ data, ...props }) => {
               }}
             >
               <Image
-                src={data.tutorial_image}
+                src={data?.tutorial_image}
                 height={SIZE}
                 alt="IMAGE Hướng dẫn"
                 WrapperProps={{

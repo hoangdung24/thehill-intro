@@ -31,7 +31,6 @@ export default function FooterContent() {
     hotline,
     working_desc,
   } = useSetting();
-  console.log("    title_column_1", setting);
 
   return (
     <Fragment>
@@ -84,6 +83,7 @@ export default function FooterContent() {
               display: "flex",
               alignItems: "center",
               width: "100%",
+              marginBottom: "2.3rem",
             }}
           >
             <InputBase
@@ -99,18 +99,24 @@ export default function FooterContent() {
               <ArrowCircleRightIcon />
             </IconButton>
           </Paper>
-          <Grid container>
-            <Grid item xs={6}>
-              <Image
-                layout="fill"
-                width="100%"
-                height="100%"
-                objectFit="cover"
-                src="/img/image 6.png"
-                alt="icon"
-              />
-            </Grid>
-          </Grid>
+          <Stack direction="row" spacing={2} sx={{ height: "3rem" }}>
+            <Image
+              {...{
+                src: "/img/image 6.png",
+                width: "100%",
+                height: "100%",
+                objectFit: "container",
+              }}
+            />
+            <Image
+              {...{
+                src: "/img/image 7.png",
+                width: "100%",
+                height: "100%",
+                objectFit: "container",
+              }}
+            />
+          </Stack>
         </Box>
       </Grid>
     </Fragment>

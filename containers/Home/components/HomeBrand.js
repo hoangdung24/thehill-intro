@@ -54,7 +54,7 @@ export default function HomeBrand() {
           margin: "0 auto",
         }}
       >
-        <LineTitle data={valuelineTitle} />
+        <LineTitle data={valuelineTitle} type="left" />
         <Grid
           container
           columnSpacing={10}

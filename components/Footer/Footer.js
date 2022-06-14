@@ -16,12 +16,11 @@ import FooterContent from "./FooterContent";
 
 const Footer = ({ children, ...props }) => {
   const theme = useTheme();
-  const { logo_footer } = useSetting();
 
   return (
     <Box sx={{ width: "80vw" }}>
       <Grid container sx={{ marginBottom: "4rem" }} spacing={3}>
-        <FooterContent />
+        {/* <FooterContent /> */}
       </Grid>
 
       <Stack

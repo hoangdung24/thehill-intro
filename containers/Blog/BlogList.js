@@ -9,7 +9,8 @@ const BlogList = ({ blogDetail, blogCategories, blogList, tags, ...props }) => {
     <Fragment>
       <Banner blogList={blogList?.items?.[0]} />
       <Container maxWidth="lg">
-        <Blog blogDetail={blogDetail} tags={tags} blogCategory={blogCategories} />
+        {/* <Blog blogDetail={blogDetail} tags={tags} blogCategory={blogCategories} /> */}
+        <Blog />
       </Container>
     </Fragment>
   );

@@ -52,6 +52,20 @@ const generatePathname = (data) => {
   return `${arr.join("/")}`;
 };
 
+export const types = {
+  homePage: "home.HomePage",
+  constructionListingPage: "construction.ConstructionListingPage",
+  constructionDetailPage: "construction.ConstructionDetailPage",
+  designListingPage: "design.DesignListingPage",
+  designDetailPage: "design.DesignDetailPage",
+  contactPage: "contact.ContactPage",
+  newsListingPage: "news.NewsListingPage",
+  newsDetailPage: "news.NewsDetailPage",
+  operationPolicy: "policy.OperationPolicyPage",
+  paymentPolicy: "policy.PaymentPolicyPage",
+  servicePage: "service.ServicePage",
+};
+
 // ?type={str}
 
 // export const types = {

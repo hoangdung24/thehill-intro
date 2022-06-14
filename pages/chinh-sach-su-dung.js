@@ -9,7 +9,9 @@ const Policy = ({ ...props }) => {
 export default Policy;
 
 export async function getServerSideProps({ params }) {
-  const url = `${PAGES}?type=${POLICY}&fields=*`;
+  // const url = `${PAGES}?type=${POLICY}&fields=*`;
+  const url =
+    "https://maxhouse.t-solution.vn/api/v2/pages/?type=policy.PaymentPolicyPage&fields=*";
 
   const response = await axios.get(url);
 

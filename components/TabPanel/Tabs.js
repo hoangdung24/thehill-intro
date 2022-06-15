@@ -26,7 +26,6 @@ const Tabs = ({ value, changeTab, data }) => {
 
   return (
     <MuiTabs
-      className="dasdasdadadad"
       TabIndicatorProps={{
         sx: {
           display: "none",
@@ -39,8 +38,8 @@ const Tabs = ({ value, changeTab, data }) => {
         {
           width: "75vw",
           margin: "0 auto",
-          marginTop: "5.5rem",
-          marginBottom: isSmUp ? "5.5rem" : "2rem",
+          marginTop: "2.25rem",
+          marginBottom: isSmUp ? "2.25rem" : "2rem",
         },
         {
           "& .MuiTabs-flexContainer": {

@@ -81,7 +81,6 @@ const CardBrand = ({ data, ...props }) => {
               }}
             >
               <Box
-                className="opopopo"
                 sx={{
                   marginBottom: "1rem",
                   "& .MuiBox-root": {
@@ -93,7 +92,6 @@ const CardBrand = ({ data, ...props }) => {
                 }}
               >
                 <Image
-                  className="homeNew"
                   layout="fill"
                   src={data.img}
                   width="50%"

@@ -14,6 +14,7 @@ import MuiAccordion from "@mui/material/Accordion";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
+import useMedia from "../../hooks/useMedia";
 
 const valuelineTitle = {
   title: "FAQ",
@@ -58,6 +59,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 }));
 
 export default function FaqDetail() {
+  const { isSmUp, isSmDown, isMdUp } = useMedia();
   const theme = useTheme();
   const [expanded, setExpanded] = useState("panel1");
 
@@ -70,7 +72,12 @@ export default function FaqDetail() {
       <Container maxWidth="lg">
         <LineTitle data={valuelineTitle} type="center" />
 
-        <Button sx={{ marginTop: "5.5rem", marginBottom: "1rem" }}>
+        <Button
+          sx={[
+            { marginTop: "5.5rem", marginBottom: "1rem" },
+            isSmDown && { marginTop: "4rem", marginBottom: "1rem" },
+          ]}
+        >
           <Typography
             variant="button2"
             sx={{

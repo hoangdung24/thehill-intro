@@ -1,5 +1,5 @@
 import { Box, Typography, Stack, styled } from "@mui/material";
-import { ButtonPop } from "../../components";
+import { ButtonPop } from "..";
 
 import { useDevice } from "../../hooks";
 

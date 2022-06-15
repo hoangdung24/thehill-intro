@@ -2,6 +2,7 @@ import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import React from "react";
 import CardItem from "../../../components/Card/CardItem";
 import LineTitle from "../../../components/LineTitle/LineTitle";
+import useMedia from "../../../hooks/useMedia";
 
 const arrayHomeNews = [
   {
@@ -29,10 +30,16 @@ const valuelineTitle = {
 };
 
 export default function HomeNews() {
+  const { isMdUp, isSmDown, isSmUp } = useMedia();
   const renderHomeNew = () => {
     return arrayHomeNews.map((data, index) => {
       return (
-        <Grid item xs={4}>
+        <Grid
+          item
+          xs={12}
+          md={4}
+          sx={[isSmDown && { marginBottom: "1.75rem" }]}
+        >
           <CardItem data={data} />
         </Grid>
       );
@@ -40,18 +47,18 @@ export default function HomeNews() {
   };
   return (
     <Box
-      sx={{
-        textAlign: "center",
-        margin: "0 auto",
-        marginBottom: "8rem",
-        width: "80vw",
-      }}
+      sx={[
+        {
+          textAlign: "center",
+          margin: "0 auto",
+          marginBottom: "8rem",
+          width: "80vw",
+        },
+        isSmDown && { marginBottom: "3.5rem" },
+      ]}
     >
       <LineTitle data={valuelineTitle} type="right" />
       <Grid container columnSpacing={7} sx={{ marginTop: "2rem" }}>
-        {/* <Grid item xs={4}>
-          <CardItem />
-              </Grid> */}
         {renderHomeNew()}
       </Grid>
 

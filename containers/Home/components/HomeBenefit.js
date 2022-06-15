@@ -89,7 +89,7 @@ export default function HomeBenefit() {
             />
           </Box>
           <Box sx={{ width: "50%", padding: "4.3rem" }}>
-            <Grid container className="plplplp" sx={{ height: "25%" }}>
+            <Grid container sx={{ height: "25%" }}>
               {renderIconBenefit()}
             </Grid>
           </Box>

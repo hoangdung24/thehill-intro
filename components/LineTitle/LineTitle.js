@@ -1,8 +1,11 @@
 import { Box, Stack, Typography, useTheme } from "@mui/material";
 import React, { Fragment } from "react";
+import useMedia from "../../hooks/useMedia";
 
 const LineTitle = ({ data, type }) => {
+  const { isSmUp, isSmDown, isMdUp } = useMedia();
   const theme = useTheme();
+
   if (type === "right") {
     return (
       <Fragment>
@@ -103,10 +106,16 @@ const LineTitle = ({ data, type }) => {
       <Fragment>
         <Stack
           direction="row"
+          justifyContent={isSmDown ? "center" : "normal"}
           alignItems="center"
-          sx={{ paddingTop: "2.5rem" }}
+          sx={[{ paddingTop: "2.5rem" }, isSmDown && { paddingTop: "2rem" }]}
         >
-          <Box sx={{ marginRight: "40px", flexGrow: "1" }}>
+          <Box
+            sx={[
+              { marginRight: "2.5rem", flexGrow: "1" },
+              isSmDown && { display: "none" },
+            ]}
+          >
             <Box
               sx={{
                 color: theme.palette.secondary.main,
@@ -126,15 +135,20 @@ const LineTitle = ({ data, type }) => {
               }}
             ></Box>
           </Box>
-          <Box sx={{ marginRight: "40px" }}>
+          <Box>
             <Typography
-              variant="h3"
+              variant="hairline4"
               sx={{ color: theme.palette.secondary.main }}
             >
               {data.title}
             </Typography>
           </Box>
-          <Box sx={{ flexGrow: "1" }}>
+          <Box
+            sx={[
+              { flexGrow: "1", marginLeft: "2.5rem" },
+              isSmDown && { display: "none" },
+            ]}
+          >
             <Box
               sx={{
                 color: theme.palette.secondary.main,

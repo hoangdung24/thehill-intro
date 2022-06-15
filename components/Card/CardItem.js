@@ -56,15 +56,15 @@ const CardItem = ({ ...props }) => {
   }, [windowWidth, windowHeight, width, height]);
 
   return (
-    <Box className="slider-wrapper" sx={{ borderRadius: "8px" }}>
+    <Box className="slider-wrapper" sx={[{ borderRadius: "8px" }]}>
       <Box
         ref={ref}
         sx={{
-          borderRadius: "0.25rem",
+          borderRadius: "8px",
           background:
             "linear-gradient(rgba(244, 244, 244, 0.4), rgba(244, 244, 244, 0.2))",
           backdropFilter: "blur(4px)",
-          border: "1px solid rgba(255, 255, 255, 0.2)",
+          border: "2px solid rgba(177, 181, 195, 0.1)",
         }}
       >
         <Box
@@ -79,7 +79,6 @@ const CardItem = ({ ...props }) => {
               }}
             >
               <Box
-                className="opopopo"
                 sx={{
                   marginBottom: "1rem",
                   "& .MuiBox-root": {
@@ -91,7 +90,6 @@ const CardItem = ({ ...props }) => {
                 }}
               >
                 <Image
-                  className="homeNew"
                   src="/img/Rectangle 5.jpg"
                   width={imageSize.width}
                   height={imageSize.height}
@@ -107,7 +105,6 @@ const CardItem = ({ ...props }) => {
               sx={{
                 marginTop: 1,
                 cursor: "pointer",
-                minHeight: contentHeight,
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "flex-start",
@@ -118,7 +115,6 @@ const CardItem = ({ ...props }) => {
                 variant="body2_bold"
                 sx={{
                   color: theme.palette.secondary.main,
-                  flexGrow: 1,
                   marginBottom: "8px",
                 }}
               >
@@ -129,11 +125,15 @@ const CardItem = ({ ...props }) => {
                 variant="caption2"
                 sx={{
                   marginBottom: "8px",
+                  color: theme.palette.secondary.light,
                 }}
               >
                 31/12/2022
               </Typography>
-              <Typography variant="body2" sx={{ textAlign: "left" }}>
+              <Typography
+                variant="body2"
+                sx={{ textAlign: "left", color: theme.palette.common.natural3 }}
+              >
                 Lorem ipsum dolor sit amet consectetur adipiscing elit.Lorem
                 ipsum dolor sit amet consectetur adipiscing elit.
               </Typography>

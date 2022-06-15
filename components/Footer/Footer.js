@@ -13,34 +13,41 @@ import { FooterTop, FooterBottom } from "../../components";
 import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FooterContent from "./FooterContent";
+import useMedia from "../../hooks/useMedia";
+import { Fragment } from "react";
 
 const Footer = ({ children, ...props }) => {
+  const { isSmUp, isSmDown, isMdUp } = useMedia();
   const theme = useTheme();
 
   return (
-    <Box sx={{ width: "80vw" }}>
-      <Grid container sx={{ marginBottom: "4rem" }} spacing={3}>
-        {/* <FooterContent /> */}
-      </Grid>
+    <Fragment>
+      <Box sx={{ width: "80vw" }}>
+        <Grid container sx={{ marginBottom: "4rem" }} columnSpacing={3}>
+          {/* <FooterContent /> */}
+        </Grid>
 
-      <Stack
-        direction="row"
-        spacing={3}
-        justifyContent="center"
-        sx={{ marginBottom: "1.6rem", color: theme.palette.primary.main }}
-      >
-        <FacebookRoundedIcon />
-        <FacebookRoundedIcon />
-        <InstagramIcon />
-        <InstagramIcon />
-      </Stack>
-
+        <Stack
+          direction="row"
+          spacing={3}
+          justifyContent="center"
+          sx={{ marginBottom: "1.6rem", color: theme.palette.primary.main }}
+        >
+          <FacebookRoundedIcon />
+          <FacebookRoundedIcon />
+          <InstagramIcon />
+          <InstagramIcon />
+        </Stack>
+      </Box>
       <Box
-        sx={{
-          margin: "0 auto",
-          width: "70vw",
-          borderTop: `1px solid ${theme.palette.common.natural4}`,
-        }}
+        sx={[
+          {
+            margin: "0 auto",
+            width: "70vw",
+            borderTop: `1px solid ${theme.palette.common.natural4}`,
+          },
+          isSmDown && { width: "100vw" },
+        ]}
       >
         <Typography
           variant="hairline2"
@@ -54,52 +61,8 @@ const Footer = ({ children, ...props }) => {
           Copyright © 2022 Đổi Điểm. All rights reserved
         </Typography>
       </Box>
-    </Box>
+    </Fragment>
   );
 };
 
 export default Footer;
-
-// Styled Sheet
-
-// const FootWraper = styled(Box)(({ theme }) => {
-//   return {
-//     alignItems: "center",
-//     width: "100%",
-//   };
-// });
-
-// <Box id="contact">
-//   <Container maxWidth="lg">
-//     <Grid container spacing={3}>
-//       <Grid item xs={12}>
-//         <Box
-//           sx={{
-//             paddingBottom: 2,
-//             pointerEvents: "none",
-//             display: "flex",
-//             justifyContent: "center",
-//             alignItems: {
-//               xs: "center",
-//               lg: "flex-start",
-//             },
-//             justifyContent: {
-//               xs: "center",
-//               lg: "flex-start",
-//             },
-//           }}
-//         >
-//           <img src={logo_footer} height={"auto"} width={"150px"} alt="logo footer" />
-//         </Box>
-//       </Grid>
-
-//       <Grid item xs={12}>
-//         <FooterBottom />
-//       </Grid>
-
-//       <Grid item xs={12}>
-//         <FooterTop />
-//       </Grid>
-//     </Grid>
-//   </Container>
-// </Box>

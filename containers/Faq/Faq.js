@@ -3,6 +3,7 @@ import React from "react";
 import BannerTop from "../../components/BannerTop/BannerTop";
 import LineTitle from "../../components/LineTitle/LineTitle";
 import { Image } from "../../HOC";
+import useMedia from "../../hooks/useMedia";
 
 const valuelineTitle = {
   title: "FAQ",
@@ -38,10 +39,11 @@ const cardFAQ = [
 ];
 
 export default function FAQ() {
+  const { isSmUp, isSmDown, isMdUp } = useMedia();
   const renderCardFAQ = () => {
     return cardFAQ.map((item, index) => {
       return (
-        <Grid item xs={4}>
+        <Grid item xs={12} sm={6} md={4}>
           <Box
             sx={{
               borderRadius: "8px",
@@ -78,7 +80,16 @@ export default function FAQ() {
       <BannerTop />
       <Box sx={{ width: "80vw", margin: "0 auto" }}>
         <LineTitle data={valuelineTitle} type="center" />
-        <Grid container spacing={7} sx={{ marginTop: "2rem" }}>
+        <Grid
+          container
+          spacing={7}
+          sx={[
+            { marginTop: "2rem" },
+            isSmDown && {
+              marginTop: "0.5rem",
+            },
+          ]}
+        >
           {renderCardFAQ()}
         </Grid>
       </Box>

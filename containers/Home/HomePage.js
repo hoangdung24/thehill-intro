@@ -25,9 +25,9 @@ const HomePage = ({ initData, ...props }) => {
   return (
     <Box>
       <HomeBanner />
+      <ExchangePointsHome />
       <HomeBenefit />
       <HomeBrand />
-      {/* <ExchangePointsHome /> */}
       <HomeFeature />
       <HomeNews />
     </Box>

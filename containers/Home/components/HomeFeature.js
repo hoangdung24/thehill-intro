@@ -1,22 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Slider from "react-slick";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import { Image } from "../../../HOC";
 import { Box, useTheme } from "@mui/system";
+import LineTitle from "../../../components/LineTitle/LineTitle";
+import { Container } from "@mui/material";
+import { useMeasure } from "react-use";
 
 const images = [
-  "/phone/Đăng nhập.jpg",
-  "/phone/Frame 1.png",
-  "/phone/Home.png",
-  "/phone/Menu Quán.png",
-  "/phone/Thành Viên 2.png",
-  "/phone/Thành Viên.png",
-  "/phone/Tìm kiếm quán.png",
-  "/phone/Tìm kiếm quán.png",
+  "/phone/Untitled-1-02.png",
+  "/phone/Untitled-1-02.png",
+  "/phone/Untitled-1-02.png",
+  "/phone/Untitled-1-02.png",
+  "/phone/Untitled-1-02.png",
+  "/phone/Untitled-1-02.png",
+  "/phone/Untitled-1-02.png",
+  "/phone/Untitled-1-02.png",
+  "/phone/Untitled-1-02.png",
 ];
 
+const valuelineTitle = {
+  title: "Vé Đổi Điểm",
+  subTitle:
+    "Sơ lược những tính năng giúp khách hàng có thể ăn uống và mua sắm thỏa thích",
+};
+
 export default function HomeFeature() {
+  const inputRef = useRef(null);
   const theme = useTheme();
+
+  const [Ref, { width, height }] = useMeasure();
+  console.log("stickyRef", height);
+
   // Mũi tên của Slick
   const NextArrow = ({ onClick }) => {
     return (
@@ -56,21 +71,90 @@ export default function HomeFeature() {
         marginBottom: "5.5rem",
       }}
     >
-      <Slider {...settings}>
-        {images.map((img, idx) => (
-          <Box
-            className={idx === imageIndex ? "slide activeSlide hello" : "slide"}
+      <Box sx={{ width: "80vw", margin: "0 auto" }}>
+        <LineTitle data={valuelineTitle} type="left" />
+        <Box
+          sx={{
+            position: "relative",
+            ["& .slick-list"]: {
+              // overflowY: "unset",
+              // overflowX: "hidden",
+            },
+            ["& .slick-center"]: {
+              transition: "500ms",
+              transform: "scale(1.1)",
+              position: "relative",
+              ["&::before"]: {
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                zIndex: 900,
+                content: '""',
+                backgroundImage: "url('/phone/borderPhone.png')",
+                backgroundSize: "cover",
+                transform: "scale(1.1)",
+              },
+            },
+          }}
+        >
+          <Slider {...settings} className="classCHinhchinh">
+            {images.map((img, idx) => (
+              <Box
+                key={idx}
+                // ref={inputRef}
+                ref={Ref}
+                sx={{ height: "60vh" }}
+                className={
+                  idx === imageIndex ? "slide activeSlide hello" : "slide"
+                }
+              >
+                <Image
+                  // ref={Ref}
+                  src={img}
+                  alt={img}
+                  layout="fill"
+                  width="100%"
+                  height="100%"
+                  objectFit="cover"
+                />
+
+                {/* <Image
+                  {...{
+                    
+                    src: img,
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                  }}
+                /> */}
+              </Box>
+            ))}
+          </Slider>
+          {/* <Box
+            sx={{
+              position: "absolute",
+              top: 0,
+              height: height,
+              width: "100%",
+              "& div span img": {
+                transform: "scale(1)",
+              },
+            }}
+            className="sdasdadadasdasdasdsadasdad"
           >
             <Image
-              src={img}
-              alt={img}
-              layout="fill"
-              width="100%"
-              height="400px"
+              {...{
+                src: "/phone/borderPhone.png",
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+              }}
             />
-          </Box>
-        ))}
-      </Slider>
+          </Box> */}
+        </Box>
+      </Box>
     </Box>
   );
 }

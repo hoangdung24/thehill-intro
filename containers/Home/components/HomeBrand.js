@@ -1,7 +1,8 @@
-import { Box, Grid, Stack, useTheme } from "@mui/material";
+import { Box, Button, Grid, Stack, useTheme } from "@mui/material";
 import React from "react";
 import CardBrand from "../../../components/Card/CardBrand";
 import LineTitle from "../../../components/LineTitle/LineTitle";
+import Link from "../../../components/Link";
 
 const arrayHomeNews = [
   {
@@ -27,9 +28,8 @@ const arrayHomeNews = [
 ];
 const valuelineTitle = {
   title: "Vé Đổi Điểm",
-  subTitle:
-    "Sơ lược những tính năng giúp khách hàng có thể ăn uống và mua sắm thỏa thích",
 };
+
 export default function HomeBrand() {
   const theme = useTheme();
   const renderCardBrand = () => {
@@ -46,6 +46,7 @@ export default function HomeBrand() {
       sx={{
         backgroundColor: theme.palette.common.natural3,
         marginBottom: "5.5rem",
+        textAlign: "center",
       }}
     >
       <Box
@@ -60,14 +61,17 @@ export default function HomeBrand() {
           columnSpacing={10}
           sx={{
             paddingTop: "2rem",
-            marginBottom: "3.5rem",
-            paddingBottom: "3.5rem",
             height: "100%",
           }}
         >
           {renderCardBrand()}
         </Grid>
       </Box>
+      <Link href="/tin-tuc">
+        <Button sx={{ marginTop: "2rem", marginBottom: "2.5rem" }}>
+          XEM THÊM
+        </Button>
+      </Link>
     </Box>
   );
 }

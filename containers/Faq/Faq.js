@@ -43,7 +43,7 @@ export default function FAQ() {
   const renderCardFAQ = () => {
     return cardFAQ.map((item, index) => {
       return (
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid item key={index} xs={12} sm={6} md={4}>
           <Box
             sx={{
               borderRadius: "8px",

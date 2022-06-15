@@ -43,7 +43,10 @@ const faq = ({ ...props }) => {
             faqDetailList.map((el) => {
               return (
                 <Grid item xs={12} md={6} lg={4} key={el.id}>
-                  <Box sx={{ cursor: "pointer" }} onClick={selectedFaqHandler(el)}>
+                  <Box
+                    sx={{ cursor: "pointer" }}
+                    onClick={selectedFaqHandler(el)}
+                  >
                     <Card data={el} />
                   </Box>
                 </Grid>

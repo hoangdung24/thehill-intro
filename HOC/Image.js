@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import NextImage from "next/image";
+import { useMeasure } from "react-use";
 
 const Image = ({
   WrapperProps = {},
@@ -9,6 +10,8 @@ const Image = ({
   layout = "fill",
   ...props
 }) => {
+  const [Ref, { widthq, heightq }] = useMeasure();
+  console.log("stickyRef", heightq);
   const loader = ({ src, width, quality }) => {
     return `${src}?w=${width}&q=${quality || 75}`;
   };
@@ -33,6 +36,7 @@ const Image = ({
         {...restWrapperProps}
       >
         <NextImage
+          ref={Ref}
           {...{
             src,
             layout,

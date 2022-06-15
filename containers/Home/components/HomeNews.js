@@ -35,6 +35,7 @@ export default function HomeNews() {
     return arrayHomeNews.map((data, index) => {
       return (
         <Grid
+          key={index}
           item
           xs={12}
           md={4}

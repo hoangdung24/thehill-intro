@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { Tab, Tabs as MuiTabs, useTheme } from "@mui/material";
 import useMedia from "../../hooks/useMedia";
+import { Box } from "@mui/system";
 
 const Tabs = ({ value, changeTab, data }) => {
   const { isSmUp } = useMedia();
@@ -24,39 +25,74 @@ const Tabs = ({ value, changeTab, data }) => {
     });
   }, [data, isSmUp]);
 
-  return (
-    <MuiTabs
-      TabIndicatorProps={{
-        sx: {
-          display: "none",
-        },
-      }}
-      value={value}
-      onChange={changeTab}
-      variant={isSmUp ? "standard" : "fullWidth"}
-      sx={[
-        {
-          width: "75vw",
-          margin: "0 auto",
-          marginTop: "2.25rem",
-          marginBottom: isSmUp ? "2.25rem" : "2rem",
-        },
-        {
-          "& .MuiTabs-flexContainer": {
-            justifyContent: "center",
-            width: "100%",
+  if (isSmUp) {
+    return (
+      <MuiTabs
+        TabIndicatorProps={{
+          sx: {
+            display: "none",
+          },
+        }}
+        value={value}
+        onChange={changeTab}
+        variant={isSmUp ? "standard" : "fullWidth"}
+        sx={[
+          {
+            width: "75vw",
             margin: "0 auto",
+            marginTop: "2.25rem",
+            marginBottom: isSmUp ? "2.25rem" : "2rem",
             [theme.breakpoints.down("sm")]: {
-              display: "flex",
-              flexWrap: "wrap",
+              width: "100%",
             },
           },
-        },
-      ]}
-    >
-      {renderTab}
-    </MuiTabs>
-  );
+
+          {
+            "& .MuiTabs-flexContainer": {
+              justifyContent: "center",
+              width: "100%",
+              margin: "0 auto",
+              [theme.breakpoints.down("sm")]: {
+                display: "flex",
+                overflow: "auto",
+              },
+            },
+          },
+        ]}
+      >
+        {renderTab}
+      </MuiTabs>
+    );
+  } else {
+    return (
+      <MuiTabs
+        TabIndicatorProps={{
+          sx: {
+            display: "none",
+          },
+        }}
+        value={value}
+        onChange={changeTab}
+        variant={isSmUp ? "standard" : "fullWidth"}
+        sx={{
+          width: "90%",
+          marginLeft: "auto",
+          marginTop: "2.25rem",
+          marginBottom: "2.25rem",
+          display: "flex",
+
+          ["& .MuiTabs-flexContainer"]: {
+            overflowX: "auto",
+            "&::-webkit-scrollbar": {
+              display: "none",
+            },
+          },
+        }}
+      >
+        {renderTab}
+      </MuiTabs>
+    );
+  }
 };
 
 export default Tabs;

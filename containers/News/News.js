@@ -162,7 +162,7 @@ export default function News() {
                   xs={12}
                   sm={6}
                   md={4}
-                  sx={[isSmUp && { marginBottom: "1.75rem" }]}
+                  sx={{ marginBottom: isSmDown ? "1.75rem" : "3.25rem" }}
                 >
                   <CardItem data={el} />
                 </Grid>
@@ -199,8 +199,20 @@ export default function News() {
       <Container maxWidth="lg">
         <LineTitle data={valuelineTitle} type="center" />
         <InputSearch />
-        {renderTabs}
-        {renderTabPanel}
+      </Container>
+
+      {renderTabs}
+      <Container maxWidth="lg">
+        <Box
+          sx={{
+            [theme.breakpoints.down("sm")]: {
+              width: isSmDown ? "75vw" : "100%",
+              margin: "0 auto",
+            },
+          }}
+        >
+          {renderTabPanel}
+        </Box>
         {renderPagination}
       </Container>
     </Box>

@@ -11,12 +11,8 @@ import {
   Button,
   useTheme,
   Stack,
-  Slide,
-  Popper,
-  IconButton,
-  Fade,
-  Paper,
 } from "@mui/material";
+import Fade from "@mui/material/Fade";
 
 // import {
 //   usePopupState,
@@ -55,11 +51,11 @@ const Header = ({}) => {
   useEffect(() => {
     // popupState.close();
 
-    if (y > 500 && !animationState) {
+    if (y > 50 && !animationState) {
       setAnimationState(true);
     }
 
-    if (y < 500 && animationState) {
+    if (y < 50 && animationState) {
       setAnimationState(false);
     }
   }, [y, animationState]);
@@ -79,6 +75,7 @@ const Header = ({}) => {
 
     return (
       <Container
+        id="Home"
         maxWidth="lg"
         sx={{
           paddingX: "0 !important",
@@ -144,7 +141,9 @@ const Header = ({}) => {
           </Box>
 
           <Button>
-            <Typography variant="button2">TRỞ THÀNH ĐỐI TÁC</Typography>
+            <Link href="/dang-ky" sx={{ textDecoration: "none" }}>
+              <Typography variant="button2">TRỞ THÀNH ĐỐI TÁC</Typography>
+            </Link>
           </Button>
         </Stack>
       </Container>
@@ -152,13 +151,13 @@ const Header = ({}) => {
   }, [NAVBAR, router]);
 
   const staticNav = useMemo(() => {
-    if (y < 50) {
+    if (y > 115) {
       return (
         <AppBar
           sx={{
-            position: "absolute",
-            backgroundColor: "transparent",
-            paddingY: 2,
+            position: "fixed",
+            backgroundColor: "white",
+            top: 0,
           }}
           elevation={0}
         >
@@ -175,27 +174,25 @@ const Header = ({}) => {
       return (
         <Fragment>
           {Navbar}
-          {/* <Slide
+          <Fade
             in={animationState}
-            direction="down"
             mountOnEnter
             unmountOnExit
             timeout={{
-              enter: 300,
-              exit: 150,
+              enter: 600,
+              exit: 300,
             }}
           >
             <AppBar
               sx={{
                 position: "fixed",
                 backgroundColor: theme.palette.common.white,
-                paddingY: 2,
               }}
             >
-              {Navbar}
+              {staticNav}
             </AppBar>
-          </Slide> */}
-          {/* {staticNav} */}
+          </Fade>
+          {/* <Fade in={animationState}>{staticNav}</Fade> */}
         </Fragment>
       );
     } else {
@@ -209,14 +206,14 @@ const Header = ({}) => {
           justifyContent="space-between"
           alignItems="center"
         >
-          <Box sx={{ width: "35%", height: "8vh" }}>
+          <Box sx={{ width: "17%", height: "9vh" }}>
             <Link href="/">
               <Image
                 layout="fill"
                 src="/img/Logo-theHill.png"
                 width="100%"
                 height="100%"
-                objectFit="contain"
+                // objectFit="contain"
               />
             </Link>
           </Box>
@@ -236,9 +233,8 @@ const Header = ({}) => {
             {TopNav}
           </Container>
 
-          {/* <Slide
+          <Fade
             in={animationState}
-            direction="down"
             mountOnEnter
             unmountOnExit
             timeout={{
@@ -255,7 +251,7 @@ const Header = ({}) => {
             >
               {TopNav}
             </AppBar>
-          </Slide> */}
+          </Fade>
 
           <ModalMenu open={isToggle} toggle={setIsToggle}>
             <Container>
@@ -325,8 +321,6 @@ const Header = ({}) => {
         background: "white",
         width: "100vw",
         boxShadow: " 0px 2px 20px 0 rgba(0, 0, 0, 0.3)",
-        position: y > 1 ? "fixed" : "none",
-        top: 0,
         zIndex: 10,
       }}
     >

@@ -1,11 +1,13 @@
-import { Box, Grid } from "@mui/material";
+import { Box, Container, Grid, useTheme } from "@mui/material";
 import React, { Fragment, useCallback, useMemo, useState } from "react";
 import BannerTop from "../../components/BannerTop/BannerTop";
 import CardBrand from "../../components/Card/CardBrand";
+import CardBrandLogo from "../../components/Card/CardBrandLogo";
 import LineTitle from "../../components/LineTitle/LineTitle";
 import TabPanel from "../../components/TabPanel/TabPanel";
 import Tabs from "../../components/TabPanel/Tabs";
 import { Image } from "../../HOC";
+import useMedia from "../../hooks/useMedia";
 
 const valuelineTitle = {
   title: "Đối Tác",
@@ -80,6 +82,8 @@ const partnerValue = [
 ];
 
 export default function Partner() {
+  const theme = useTheme();
+  const { isSmUp, isSmDown, isMdUp } = useMedia();
   console.log("partnerValue", partnerValue[0].id);
   const [currentTab, setCurrentTab] = useState(partnerValue[0].id);
   const [animationState, setAnimationState] = useState(true);
@@ -144,7 +148,7 @@ export default function Partner() {
           >
             {filteredData.map((el, i) => {
               return (
-                <Grid item key={index} xs={3}>
+                <Grid item key={index} xs={12} md={3}>
                   <CardBrand data={el} />
                 </Grid>
               );
@@ -160,10 +164,19 @@ export default function Partner() {
   return (
     <Box>
       <BannerTop />
-      <Box sx={{ width: "80vw", margin: "0 auto" }}>
+
+      <Container maxWidth="lg">
         <LineTitle data={valuelineTitle} type="center" />
-        {renderTabs}
-        <Box sx={{ height: "25rem", marginBottom: "6rem" }}>
+      </Container>
+      {renderTabs}
+      <Container maxWidth="lg">
+        <Box
+          sx={{
+            height: "25rem",
+            marginBottom: "6rem",
+            display: isSmDown ? "none" : "block",
+          }}
+        >
           <Image
             {...{
               src: "/img/Rectangle 5.jpg",
@@ -173,9 +186,17 @@ export default function Partner() {
             }}
           />
         </Box>
-
-        {renderTabPanel}
-      </Box>
+        <Box
+          sx={{
+            [theme.breakpoints.down("sm")]: {
+              width: isSmDown ? "75vw" : "100%",
+              margin: "0 auto",
+            },
+          }}
+        >
+          {renderTabPanel}
+        </Box>
+      </Container>
     </Box>
   );
 }

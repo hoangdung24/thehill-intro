@@ -22,9 +22,9 @@ const Footer = ({ children, ...props }) => {
 
   return (
     <Fragment>
-      <Box sx={{ width: "80vw" }}>
+      <Box sx={{ width: "80vw" }} id="lien-he">
         <Grid container sx={{ marginBottom: "4rem" }} columnSpacing={3}>
-          {/* <FooterContent /> */}
+          <FooterContent />
         </Grid>
 
         <Stack

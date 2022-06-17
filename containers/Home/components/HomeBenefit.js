@@ -1,7 +1,15 @@
-import { Box, Stack, Grid, Typography, useTheme } from "@mui/material";
-import React from "react";
+import {
+  Grid,
+  Typography,
+  Box,
+  Container,
+  Stack,
+  useTheme,
+} from "@mui/material";
+import { CustomerCard, ReaderHTML } from "../../../components";
 import LineTitle from "../../../components/LineTitle/LineTitle";
 import { Image } from "../../../HOC";
+const SIZE = 300;
 
 const arrayHomeNews = [
   {
@@ -24,22 +32,41 @@ const valuelineTitle = {
     "Sơ lược những tính năng giúp khách hàng có thể ăn uống và mua sắm thỏa thích",
 };
 
-export default function HomeBenefit() {
+const HomeBenefit = ({ data, ...props }) => {
+  const theme = useTheme();
+
   const renderIconBenefit = () => {
     return arrayHomeNews.map((item, index) => {
       return (
-        <Grid item xs={12} sx={{ height: "100%" }} key={index}>
-          <Stack direction="row" alignItems="center" sx={{ height: "100%" }}>
-            <Box sx={{ width: "40%", height: "100%" }}>
+        <Grid
+          key={index}
+          item
+          xs={12}
+          sx={{
+            // marginBottom: "3rem",
+            height: "22%",
+            "&:last-child": {
+              marginBottom: "0",
+            },
+          }}
+          className="gridItemd"
+        >
+          <Stack
+            direction="row"
+            spacing={3}
+            sx={{ height: "100%", alignItems: "center" }}
+          >
+            <Box sx={{ width: "27%", height: "100%" }}>
               <Image
                 layout="fill"
                 src={item.img}
                 width="100%"
                 height="100%"
-                objectFit="none"
+                objectFit="cover"
               />
             </Box>
-            <Box sx={{ width: "60%" }}>
+
+            <Box sx={{ width: "73%" }}>
               <Typography
                 variant="h4"
                 sx={{
@@ -50,7 +77,7 @@ export default function HomeBenefit() {
                 Tích Điểm
               </Typography>
               <Typography variant="body2">
-                Lorem ipsum dolor sit amet consectetur adipiscing elit.
+                Lorem ipsum dolor sit ametsdsssd consectetur adipiscing elit
               </Typography>
             </Box>
           </Stack>
@@ -58,43 +85,49 @@ export default function HomeBenefit() {
       );
     });
   };
-  const theme = useTheme();
-  return (
-    <Box
-      sx={{
-        width: "80vw",
 
-        margin: "0 auto",
-        marginBottom: "3rem",
-      }}
-    >
-      <LineTitle data={valuelineTitle} type="right" />
-      <Box
+  return (
+    <Box sx={{ marginBottom: "3rem" }}>
+      <Container maxWidth="lg">
+        <LineTitle data={valuelineTitle} type="right" />
+      </Container>
+
+      <Container
+        maxWidth="lg"
         sx={{
-          marginTop: "4.5rem",
-          height: "51.6rem",
-          border: "2px solid rgba(244, 244, 244, 0.6)",
+          border: "2px solid rgba(177, 181, 195, 0.1)",
           borderRadius: "1rem",
-          backgroundImage:
-            "linear-gradient(145.36deg, rgba(244, 244, 244, 0.4) -4.23%, rgba(244, 244, 244, 0.2) 102.58%)",
+          backgroundColor: "rgba(244, 244, 244, 0.6)",
+          marginTop: "4.5rem",
         }}
       >
-        <Stack direction="row" sx={{ height: "100%" }}>
-          <Box item sx={{ width: "50%", height: "100%" }}>
+        <Stack
+          direction="row"
+          spacing={10}
+          justifyContent="center"
+          sx={{ height: "90vh" }}
+        >
+          <Box item sx={{ width: "40%", height: "100%" }}>
             <Image
-              src="/img/Mockup 1.png"
+              src="/img/phonethehill-04.png"
               width="100%"
               height="100%"
-              objectFit="contain"
+              // objectFit="contain"
             />
           </Box>
-          <Box sx={{ width: "50%", padding: "4.3rem" }}>
-            <Grid container sx={{ height: "25%" }}>
+          <Box sx={{ width: "35%", padding: "0" }}>
+            <Grid
+              container
+              className="sadasdaadadadadad"
+              sx={{ height: "100%", alignContent: "center" }}
+            >
               {renderIconBenefit()}
             </Grid>
           </Box>
         </Stack>
-      </Box>
+      </Container>
     </Box>
   );
-}
+};
+
+export default HomeBenefit;

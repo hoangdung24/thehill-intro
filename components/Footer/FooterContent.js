@@ -6,14 +6,10 @@ import {
   Grid,
   Typography,
   Stack,
-  InputBase,
-  Paper,
-  IconButton,
 } from "@mui/material";
 import React, { Fragment } from "react";
 import { Image } from "../../HOC";
 import { useSetting } from "../../hooks";
-import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import useMedia from "../../hooks/useMedia";
 import InputSendMail from "../Input/InputSendMail";
 const SIZE = "100px";
@@ -21,19 +17,19 @@ const SIZE = "100px";
 export default function FooterContent() {
   const { isSmUp, isSmDown, isMdUp } = useMedia();
   const theme = useTheme();
-  const setting = useSetting();
-  const {
-    logo_footer,
-    title_column_1,
-    title_column_2,
-    title_column_3,
-    link_in_column_1,
-    link_in_column_2,
-    social_icons,
-    email,
-    hotline,
-    working_desc,
-  } = useSetting();
+  // const setting = useSetting();
+  // const {
+  //   logo_footer,
+  //   title_column_1,
+  //   title_column_2,
+  //   title_column_3,
+  //   link_in_column_1,
+  //   link_in_column_2,
+  //   social_icons,
+  //   email,
+  //   hotline,
+  //   working_desc,
+  // } = useSetting();
 
   return (
     <Fragment>
@@ -48,7 +44,7 @@ export default function FooterContent() {
         >
           <Image
             {...{
-              src: logo_footer,
+              src: "/img/Logo-theHill.png",
               width: "100%",
               height: "100%",
               objectFit: "contain",
@@ -63,19 +59,17 @@ export default function FooterContent() {
             variant="body2_bold"
             sx={[isSmDown && { marginBottom: "1.5rem" }]}
           >
-            {title_column_1}
+            Về Chúng Tôi
           </Title>
-          {link_in_column_1?.map((el, index) => (
-            <Content key={index}>{el.value.title}</Content>
-          ))}
+          <Content>Điều khoản và điều kiện</Content>
+          <Content>Điều khoản và điều kiện</Content>
         </Box>
       </Grid>
       <Grid item xs={12} md={2} sx={[isSmDown && { marginBottom: "2rem" }]}>
         <Box>
-          <Title variant="body2_bold">{title_column_2}</Title>
-          {link_in_column_2?.map((el, index) => (
-            <Content key={index}>{el.value.title}</Content>
-          ))}
+          <Title variant="body2_bold">Về Chúng Tôi</Title>
+          <Content>Điều khoản và điều kiện</Content>
+          <Content>Điều khoản và điều kiện</Content>
         </Box>
       </Grid>
       <Grid item xs={12} md={3} sx={[isSmDown && { marginBottom: "2rem" }]}>
@@ -87,7 +81,7 @@ export default function FooterContent() {
           </Content>
           <Content>MST: 123456789</Content>
           <Content>SĐT: 0909999999</Content>
-          <Content>Email: {email}</Content>
+          <Content>Email:asdfsdfsdfsd</Content>
         </Box>
       </Grid>
       <Grid item xs={12} md={3}>

@@ -56,9 +56,9 @@ const InputSelect = ({
           {
             padding: "0",
           },
-        "& .MuiOutlinedInput-root input": {
+        "& .MuiOutlinedInput-root .MuiSelect-select": {
           fontSize: "15px",
-          padding: "9.5px 14px",
+          padding: "8.5px 14px",
         },
       }}
     >

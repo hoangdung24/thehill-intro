@@ -82,6 +82,13 @@ const defaultTheme = createTheme({
       letterSpacing: "-1%",
     },
 
+    h6: {
+      fontSize: "24px",
+      lineHeight: "40px",
+      fontWeight: 700,
+      letterSpacing: "-1%",
+    },
+
     body1: {
       fontSize: "24px",
       lineHeight: "32px",

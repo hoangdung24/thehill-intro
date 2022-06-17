@@ -5,7 +5,7 @@ import { useMeasure, useWindowSize, useUpdateEffect } from "react-use";
 import useMedia from "../../hooks/useMedia";
 import { Image } from "../../HOC";
 
-const CardBrand = ({ data, ...props }) => {
+const CardBrandLogo = ({ ...props }) => {
   const theme = useTheme();
   const [minWrapperHeight, setMinWrapperHeight] = useState(0);
   const { isMdUp, isSmUp } = useMedia();
@@ -51,23 +51,20 @@ const CardBrand = ({ data, ...props }) => {
   useUpdateEffect(() => {
     setImageSize({
       width: width,
-      height: (width * 1.4) / 4,
+      height: (width * 3) / 4,
     });
   }, [windowWidth, windowHeight, width, height]);
+
   return (
-    <Box
-      className="slider-wrapper"
-      sx={{ borderRadius: "8px", marginBottom: "4rem" }}
-    >
+    <Box className="slider-wrapper" sx={[{ borderRadius: "8px" }]}>
       <Box
         ref={ref}
         sx={{
-          borderRadius: "0.62rem",
+          borderRadius: "8px",
           background:
             "linear-gradient(rgba(244, 244, 244, 0.4), rgba(244, 244, 244, 0.2))",
           backdropFilter: "blur(4px)",
-          border: "1px solid rgba(255, 255, 255, 0.2)",
-          boxShadow: " 0px 4px 10px rgba(0, 0, 0, 0.15)",
+          border: "2px solid rgba(177, 181, 195, 0.1)",
         }}
       >
         <Box
@@ -78,13 +75,12 @@ const CardBrand = ({ data, ...props }) => {
           <Fragment>
             <Box
               sx={{
-                width: "50%",
-                margin: "0 auto",
                 overflow: "hidden",
               }}
             >
               <Box
                 sx={{
+                  marginBottom: "1rem",
                   "& .MuiBox-root": {
                     width: "100%",
                   },
@@ -94,9 +90,8 @@ const CardBrand = ({ data, ...props }) => {
                 }}
               >
                 <Image
-                  layout="fill"
-                  src={data.img}
-                  width="50%"
+                  src="/img/Rectangle 5.jpg"
+                  width={imageSize.width}
                   height={imageSize.height}
                   objectFit="cover"
                   onLoadingComplete={() => {
@@ -110,26 +105,37 @@ const CardBrand = ({ data, ...props }) => {
               sx={{
                 marginTop: 1,
                 cursor: "pointer",
-                minHeight: contentHeight,
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "center",
+                alignItems: "flex-start",
               }}
               ref={contentRef}
             >
               <Typography
                 variant="body2_bold"
                 sx={{
-                  color: theme.palette.primary.light,
-                  flexGrow: 1,
+                  color: theme.palette.secondary.main,
                   marginBottom: "8px",
                 }}
               >
-                {data.title}
+                Awesome collection
               </Typography>
 
-              <Typography variant="body2" sx={{ textAlign: "left" }}>
-                {data.text}
+              <Typography
+                variant="caption2"
+                sx={{
+                  marginBottom: "8px",
+                  color: theme.palette.secondary.light,
+                }}
+              >
+                31/12/2022
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ textAlign: "left", color: theme.palette.common.natural3 }}
+              >
+                Lorem ipsum dolor sit amet consectetur adipiscing elit.Lorem
+                ipsum dolor sit amet consectetur adipiscing elit.
               </Typography>
             </Box>
           </Fragment>
@@ -139,4 +145,4 @@ const CardBrand = ({ data, ...props }) => {
   );
 };
 
-export default CardBrand;
+export default CardBrandLogo;

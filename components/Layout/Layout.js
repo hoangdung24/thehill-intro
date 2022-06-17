@@ -3,6 +3,7 @@ import { Box } from "@mui/material";
 
 import { SettingConfig, GlobalConfig } from "../../context";
 import Header from "../Header/Header";
+import BackToTop from "../BackToTop/BackToTop";
 
 const Layout = ({ children }) => {
   return (
@@ -29,6 +30,7 @@ const Layout = ({ children }) => {
               width: "100%",
             }}
           >
+            <BackToTop />
             {children}
           </Box>
           <Footer />

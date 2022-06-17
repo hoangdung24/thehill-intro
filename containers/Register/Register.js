@@ -13,6 +13,8 @@ import InputSelect from "../../components/Input/InputSelect";
 import LineTitle from "../../components/LineTitle/LineTitle";
 import { Image } from "../../HOC";
 import useMedia from "../../hooks/useMedia";
+import { styled } from "@mui/material/styles";
+import UploadFileOutlinedIcon from "@mui/icons-material/UploadFileOutlined";
 
 const valuelineTitle = {
   title: "Đăng Ký",
@@ -22,9 +24,14 @@ const valuelineTitle2 = {
   title: "Quét Để Trải Nghiệm",
 };
 
+const InputFile = styled("input")({
+  display: "none",
+});
+
 export default function Register() {
   const { isSmUp, isSmDown, isMdUp, isMdDown } = useMedia();
   const theme = useTheme();
+
   return (
     <Box>
       <BannerTop />
@@ -56,6 +63,29 @@ export default function Register() {
           <Input label="Chủ tài khoản" />
           <Input label="Chi nhánh" />
           <Input label="Số điện thoại" required />
+          <Box>
+            <label htmlFor="contained-button-file">
+              <InputFile
+                accept="image/*"
+                id="contained-button-file"
+                multiple
+                type="file"
+              />
+              <Button variant="outlined" component="span">
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <UploadFileOutlinedIcon
+                    sx={{ color: theme.palette.common.natural2 }}
+                  />
+                  <Typography
+                    variant="button2"
+                    sx={{ color: theme.palette.common.natural2 }}
+                  >
+                    TỆP TIN ĐÍNH KÈM
+                  </Typography>
+                </Stack>
+              </Button>
+            </label>
+          </Box>
 
           <Typography
             variant="caption2"

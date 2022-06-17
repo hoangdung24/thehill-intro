@@ -11,7 +11,6 @@ const Image = ({
   ...props
 }) => {
   const [Ref, { widthq, heightq }] = useMeasure();
-  console.log("stickyRef", heightq);
   const loader = ({ src, width, quality }) => {
     return `${src}?w=${width}&q=${quality || 75}`;
   };

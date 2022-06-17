@@ -28,6 +28,7 @@ const HomePage = ({ initData, ...props }) => {
       <ExchangePointsHome />
       <HomeBenefit />
       <HomeBrand />
+      <StoreBenefit />
       <HomeFeature />
       <HomeNews />
     </Box>

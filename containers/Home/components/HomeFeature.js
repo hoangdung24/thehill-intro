@@ -30,7 +30,6 @@ export default function HomeFeature() {
   const theme = useTheme();
 
   const [Ref, { width, height }] = useMeasure();
-  console.log("stickyRef", height);
 
   // Mũi tên của Slick
   const NextArrow = ({ onClick }) => {
@@ -66,6 +65,7 @@ export default function HomeFeature() {
 
   return (
     <Box
+      id="review-app"
       sx={{
         backgroundColor: theme.palette.common.natural3,
         marginBottom: "5.5rem",

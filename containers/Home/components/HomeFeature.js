@@ -4,7 +4,6 @@ import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import { Image } from "../../../HOC";
 import { Box, useTheme } from "@mui/system";
 import LineTitle from "../../../components/LineTitle/LineTitle";
-import { Container } from "@mui/material";
 import { useMeasure } from "react-use";
 
 const images = [
@@ -76,10 +75,7 @@ export default function HomeFeature() {
         <Box
           sx={{
             position: "relative",
-            ["& .slick-list"]: {
-              // overflowY: "unset",
-              // overflowX: "hidden",
-            },
+            ["& .slick-list"]: {},
             ["& .slick-center"]: {
               transition: "500ms",
               transform: "scale(1.1)",
@@ -142,7 +138,6 @@ export default function HomeFeature() {
                 transform: "scale(1)",
               },
             }}
-            className="sdasdadadasdasdasdsadasdad"
           >
             <Image
               {...{

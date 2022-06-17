@@ -6,10 +6,9 @@ import {
   Stack,
   useTheme,
 } from "@mui/material";
-import { CustomerCard, ReaderHTML } from "../../../components";
 import LineTitle from "../../../components/LineTitle/LineTitle";
 import { Image } from "../../../HOC";
-const SIZE = 300;
+import useMedia from "../../../hooks/useMedia";
 
 const arrayHomeNews = [
   {
@@ -33,6 +32,7 @@ const valuelineTitle = {
 };
 
 const HomeBenefit = ({ data, ...props }) => {
+  const { isSmDown } = useMedia();
   const theme = useTheme();
 
   const renderIconBenefit = () => {
@@ -43,20 +43,22 @@ const HomeBenefit = ({ data, ...props }) => {
           item
           xs={12}
           sx={{
-            // marginBottom: "3rem",
             height: "22%",
             "&:last-child": {
               marginBottom: "0",
+            },
+            [theme.breakpoints.down("sm")]: {
+              marginBottom: "3rem",
             },
           }}
           className="gridItemd"
         >
           <Stack
             direction="row"
-            spacing={3}
-            sx={{ height: "100%", alignItems: "center" }}
+            spacing={isSmDown ? 2 : 3}
+            sx={{ height: isSmDown ? "20vh" : "100%", alignItems: "center" }}
           >
-            <Box sx={{ width: "27%", height: "100%" }}>
+            <Box sx={{ width: isSmDown ? "35%" : "27%", height: "100%" }}>
               <Image
                 layout="fill"
                 src={item.img}
@@ -66,7 +68,7 @@ const HomeBenefit = ({ data, ...props }) => {
               />
             </Box>
 
-            <Box sx={{ width: "73%" }}>
+            <Box sx={{ width: isSmDown ? "65%" : "73%" }}>
               <Typography
                 variant="h4"
                 sx={{
@@ -95,19 +97,37 @@ const HomeBenefit = ({ data, ...props }) => {
       <Container
         maxWidth="lg"
         sx={{
-          border: "2px solid rgba(177, 181, 195, 0.1)",
-          borderRadius: "1rem",
-          backgroundColor: "rgba(244, 244, 244, 0.6)",
-          marginTop: "4.5rem",
+          marginTop: "3rem",
+          [theme.breakpoints.down("sm")]: {
+            background: "none",
+            border: "none",
+          },
         }}
       >
         <Stack
-          direction="row"
-          spacing={10}
+          direction={isSmDown ? "column" : "row"}
+          alignItems={isSmDown ? "center" : "none"}
+          spacing={isSmDown ? 5 : 0}
           justifyContent="center"
-          sx={{ height: "90vh" }}
+          sx={{
+            borderRadius: "1rem",
+            height: isSmDown ? "auto" : "65vh",
+            border: "2px solid rgba(177, 181, 195, 0.1)",
+            backgroundColor: "rgba(244, 244, 244, 0.6)",
+
+            [theme.breakpoints.down("sm")]: {
+              background: "none",
+              border: "none",
+            },
+          }}
         >
-          <Box item sx={{ width: "40%", height: "100%" }}>
+          <Box
+            item
+            sx={{
+              width: isSmDown ? "100%" : "50%",
+              height: isSmDown ? "95vh" : "100%",
+            }}
+          >
             <Image
               src="/img/phonethehill-04.png"
               width="100%"
@@ -115,12 +135,8 @@ const HomeBenefit = ({ data, ...props }) => {
               // objectFit="contain"
             />
           </Box>
-          <Box sx={{ width: "35%", padding: "0" }}>
-            <Grid
-              container
-              className="sadasdaadadadadad"
-              sx={{ height: "100%", alignContent: "center" }}
-            >
+          <Box sx={{ width: isSmDown ? "80vw" : "40%", padding: "0" }}>
+            <Grid container sx={{ height: "100%", alignContent: "center" }}>
               {renderIconBenefit()}
             </Grid>
           </Box>

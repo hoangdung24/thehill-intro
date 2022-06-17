@@ -2,6 +2,7 @@ import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import React from "react";
 import CardItem from "../../../components/Card/CardItem";
 import LineTitle from "../../../components/LineTitle/LineTitle";
+import Link from "../../../components/Link";
 import useMedia from "../../../hooks/useMedia";
 
 const arrayHomeNews = [
@@ -63,9 +64,11 @@ export default function HomeNews() {
         {renderHomeNew()}
       </Grid>
 
-      <Button sx={{ marginTop: "2rem" }}>
-        <Typography variant="button2">Xem Thêm</Typography>
-      </Button>
+      <Link href="/tin-tuc" sx={{ textDecoration: "none" }}>
+        <Button sx={{ marginTop: "2rem" }}>
+          <Typography variant="button2">Xem Thêm</Typography>
+        </Button>
+      </Link>
     </Box>
   );
 }

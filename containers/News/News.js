@@ -194,7 +194,7 @@ export default function News() {
   }, [arrayHomeNews, currentPage, isSmUp, currentTab]);
 
   return (
-    <Box>
+    <Box sx={{ marginBottom: isSmDown ? "4rem" : "6.6rem" }}>
       <BannerTop />
       <Container maxWidth="lg">
         <LineTitle data={valuelineTitle} type="center" />

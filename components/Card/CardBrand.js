@@ -54,14 +54,13 @@ const CardBrand = ({ data, ...props }) => {
       height: (width * 1.4) / 4,
     });
   }, [windowWidth, windowHeight, width, height]);
+
   return (
-    <Box
-      className="slider-wrapper"
-      sx={{ borderRadius: "8px", marginBottom: "4rem" }}
-    >
+    <Box className="slider-wrapper" sx={{ borderRadius: "8px" }}>
       <Box
         ref={ref}
         sx={{
+          margin: "15px",
           borderRadius: "0.62rem",
           background:
             "linear-gradient(rgba(244, 244, 244, 0.4), rgba(244, 244, 244, 0.2))",
@@ -73,6 +72,10 @@ const CardBrand = ({ data, ...props }) => {
         <Box
           sx={{
             padding: 1,
+
+            [theme.breakpoints.down("sm")]: {
+              width: "50vw",
+            },
           }}
         >
           <Fragment>
@@ -110,7 +113,7 @@ const CardBrand = ({ data, ...props }) => {
               sx={{
                 marginTop: 1,
                 cursor: "pointer",
-                minHeight: contentHeight,
+                // minHeight: contentHeight,
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
@@ -121,7 +124,7 @@ const CardBrand = ({ data, ...props }) => {
                 variant="body2_bold"
                 sx={{
                   color: theme.palette.primary.light,
-                  flexGrow: 1,
+                  // flexGrow: 1,
                   marginBottom: "8px",
                 }}
               >

@@ -2,7 +2,6 @@ import { Box, Container, Grid, useTheme } from "@mui/material";
 import React, { Fragment, useCallback, useMemo, useState } from "react";
 import BannerTop from "../../components/BannerTop/BannerTop";
 import CardBrand from "../../components/Card/CardBrand";
-import CardBrandLogo from "../../components/Card/CardBrandLogo";
 import LineTitle from "../../components/LineTitle/LineTitle";
 import TabPanel from "../../components/TabPanel/TabPanel";
 import Tabs from "../../components/TabPanel/Tabs";

@@ -4,8 +4,6 @@ import CardBrand from "../../../components/Card/CardBrand";
 import LineTitle from "../../../components/LineTitle/LineTitle";
 import Link from "../../../components/Link";
 import useMedia from "../../../hooks/useMedia";
-import Slider from "react-slick";
-import { width } from "@mui/system";
 
 const arrayHomeNews = [
   {
@@ -45,8 +43,9 @@ const settings = {
 };
 
 export default function HomeBrand() {
-  const { isSmUp, isSmDown, isMdUp } = useMedia();
+  const { isSmDown, isMdUp } = useMedia();
   const theme = useTheme();
+
   const renderCardBrand = () => {
     return arrayHomeNews.map((item, index) => {
       if (isMdUp) {
@@ -56,15 +55,15 @@ export default function HomeBrand() {
           </Grid>
         );
       } else {
-        return <CardBrand data={item} />;
+        return <CardBrand data={item} key={index} />;
       }
     });
   };
+
   return (
     <Box
       sx={{
-        backgroundColor: theme.palette.common.natural3,
-        marginBottom: "5.5rem",
+        backgroundColor: isSmDown ? "white" : theme.palette.common.natural3,
         textAlign: "center",
       }}
     >
@@ -90,15 +89,25 @@ export default function HomeBrand() {
         ) : (
           <Stack
             direction="row"
-            spacing={2}
-            className="asdasdasdadasdadadada"
-            sx={{ display: "flex", width: "90vw", overflowX: "auto" }}
+            // spacing={isSmDown ? 5 : 3}
+            sx={{
+              marginTop: "3rem",
+              display: "flex",
+              width: "90vw",
+              overflowX: "auto",
+              "& .slider-wrapper": {
+                marginBottom: 0,
+              },
+              "&::-webkit-scrollbar": {
+                display: "none",
+              },
+            }}
           >
             {renderCardBrand()}
           </Stack>
         )}
       </Box>
-      <Link href="/tin-tuc">
+      <Link href="/tin-tuc" sx={{ textDecoration: "none" }}>
         <Button sx={{ marginTop: "2rem", marginBottom: "2.5rem" }}>
           XEM THÊM
         </Button>

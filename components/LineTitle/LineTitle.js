@@ -47,7 +47,6 @@ const LineTitle = ({ data, type }) => {
           </Box>
           <Box sx={{ marginLeft: 0 }}>
             <Typography
-              className="adadadadadada"
               variant={isSmDown ? "h6" : "h4"}
               sx={{ color: theme.palette.secondary.main }}
             >

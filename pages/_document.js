@@ -62,7 +62,7 @@ class MyDocument extends Document {
           )}
           {this.props.emotionStyleTags}
         </Head>
-        <body>
+        <body id="Home">
           <Main />
           <NextScript />
         </body>

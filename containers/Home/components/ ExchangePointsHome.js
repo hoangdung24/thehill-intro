@@ -56,7 +56,6 @@ export default function ExchangePointsHome({ data }) {
         container
         sx={{
           marginTop: "4.5rem",
-          marginBottom: "5.5rem",
         }}
         columnSpacing={11}
       >

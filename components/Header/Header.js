@@ -100,9 +100,12 @@ const Header = ({}) => {
           >
             {NAVBAR.map((el, index) => {
               return (
-                <Box className={el.type === "logo" ? "headerLogo" : ""}>
+                <Box
+                  className={el.type === "logo" ? "headerLogo" : ""}
+                  key={index}
+                >
                   {el.type === "logo" ? (
-                    <Link key={index} href={el.link}>
+                    <Link href={el.link}>
                       <Image
                         src="/img/Logo-theHill.png"
                         width="100%"
@@ -158,6 +161,7 @@ const Header = ({}) => {
             position: "fixed",
             backgroundColor: "white",
             top: 0,
+            boxShadow: " 0px 2px 20px 0 rgba(0, 0, 0, 0.3)",
           }}
           elevation={0}
         >

@@ -1,8 +1,10 @@
 import { Box, Stack, Typography, useTheme, styled } from "@mui/material";
 import React from "react";
 import { Image } from "../../../HOC";
+import useMedia from "../../../hooks/useMedia";
 
 export default function HomeBanner() {
+  const { isSmDown } = useMedia();
   const theme = useTheme();
   return (
     <Box
@@ -28,14 +30,19 @@ export default function HomeBanner() {
           top: 0,
           left: "50%",
           transform: "translateX(-50%)",
-          height: "100%",
+          height: isSmDown ? "auto" : "100%",
           width: "80vw",
-          padding: "3rem",
+          padding: isSmDown ? 0 : "3rem",
+          [theme.breakpoints.down("sm")]: {
+            display: "block",
+            top: "50%",
+            transform: "translateY(-50%) translateX(-50%)",
+          },
         }}
       >
         <Box
           sx={{
-            width: "50%",
+            width: isSmDown ? "100%" : "50%",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
@@ -54,11 +61,15 @@ export default function HomeBanner() {
             </Typography>
           </Box>
 
-          <Stack direction="row" spacing={3} sx={{ height: "30%" }}>
+          <Stack
+            direction="row"
+            spacing={3}
+            sx={{ height: isSmDown ? "10vh" : "30%" }}
+          >
             <Image
               {...{
                 src: "/img/image 3.png",
-                width: "30%",
+                width: isSmDown ? "50%" : "30%",
                 height: "100%",
                 objectFit: "contain",
               }}
@@ -66,14 +77,23 @@ export default function HomeBanner() {
             <Image
               {...{
                 src: "/img/image 4 (1).png",
-                width: "30%",
+                width: isSmDown ? "50%" : "30%",
                 height: "100%",
                 objectFit: "contain",
               }}
             />
           </Stack>
         </Box>
-        <Box sx={{ width: "50%" }}>
+
+        {/* //phone 3d */}
+        <Box
+          sx={{
+            width: isSmDown ? "100%" : "50%",
+            [theme.breakpoints.down("sm")]: {
+              display: "none",
+            },
+          }}
+        >
           <Image
             {...{
               src: "/img/Vector.png",

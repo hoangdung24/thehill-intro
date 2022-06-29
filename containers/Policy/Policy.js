@@ -5,26 +5,17 @@ import { Fragment } from "react";
 import BannerTop from "../../components/BannerTop/BannerTop";
 import LineTitle from "../../components/LineTitle/LineTitle";
 
-const valuelineTitle = {
-  title: "Chính Sách Sử Dụng",
-  subTitle:
-    "Sơ lược những tính năng giúp khách hàng có thể ăn uống và mua sắm thỏa thích",
-};
-
-const PolicyPage = ({ dataPolicy, ...props }) => {
-  const { items } = dataPolicy;
-
-  const data = items?.[0];
-  const content = data.body;
+const PolicyPage = ({ initData }) => {
+  const data = initData[0].items[0];
+  const content = data.content[0].value;
   return (
     <Fragment>
-      {/* <SubHeader data={data} background={data.banner} /> */}
-      <BannerTop />
+      <BannerTop data={data.banner} />
 
-      <Container maxWidth="lg">
-        <LineTitle data={valuelineTitle} type="center" />
+      <Container maxWidth="lg" sx={{ marginBottom: "15rem" }}>
+        <LineTitle titleData={data.title} type="center" />
         <Grid container justifyContent={"center"} sx={{ marginTop: "5.5rem" }}>
-          <Grid item xs={12} md={9}>
+          <Grid item xs={12} sx={{ textAlign: "justify" }}>
             <Box
               sx={{
                 overflow: "hidden",

@@ -5,7 +5,8 @@ import { useMeasure, useWindowSize, useUpdateEffect } from "react-use";
 import useMedia from "../../hooks/useMedia";
 import { Image } from "../../HOC";
 
-const CardItem = ({ ...props }) => {
+const CardItem = ({ data }) => {
+  // console.log("CardItem", data);
   const theme = useTheme();
   const [minWrapperHeight, setMinWrapperHeight] = useState(0);
   const { isMdUp, isSmUp } = useMedia();
@@ -90,7 +91,7 @@ const CardItem = ({ ...props }) => {
                 }}
               >
                 <Image
-                  src="/img/Rectangle 5.jpg"
+                  src={data.banner ? data.banner : "/img/Rectangle 5.jpg"}
                   width={imageSize.width}
                   height={imageSize.height}
                   objectFit="cover"
@@ -118,7 +119,10 @@ const CardItem = ({ ...props }) => {
                   marginBottom: "8px",
                 }}
               >
-                Awesome collection
+                {/* {data.title} */}
+                {data.title?.length > 25
+                  ? data.title.substr(0, 25) + "..."
+                  : data.title}
               </Typography>
 
               <Typography
@@ -128,14 +132,13 @@ const CardItem = ({ ...props }) => {
                   color: theme.palette.secondary.light,
                 }}
               >
-                31/12/2022
+                {data.last_published_at}
               </Typography>
               <Typography
                 variant="body2"
                 sx={{ textAlign: "left", color: theme.palette.common.natural3 }}
               >
-                Lorem ipsum dolor sit amet consectetur adipiscing elit.Lorem
-                ipsum dolor sit amet consectetur adipiscing elit.
+                {data.short_description}
               </Typography>
             </Box>
           </Fragment>

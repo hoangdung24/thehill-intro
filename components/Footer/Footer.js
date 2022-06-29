@@ -15,28 +15,69 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import FooterContent from "./FooterContent";
 import useMedia from "../../hooks/useMedia";
 import { Fragment } from "react";
+import { Image } from "../../HOC";
 
 const Footer = ({ children, ...props }) => {
   const { isSmUp, isSmDown, isMdUp } = useMedia();
   const theme = useTheme();
+  const setting = useSetting();
 
+  if (!setting) {
+    return null;
+  }
+  // console.log("setting", setting);
+  const { social_icons } = setting;
+  // console.log("settingsetting", setting);
   return (
     <Fragment>
       <Box sx={{ width: "80vw" }} id="lien-he">
         <Grid container sx={{ marginBottom: "4rem" }} columnSpacing={3}>
-          <FooterContent />
+          <FooterContent setting={setting} />
+          {/* <Typography>{setting.address}</Typography> */}
         </Grid>
 
         <Stack
+          className="iconne"
           direction="row"
           spacing={3}
           justifyContent="center"
-          sx={{ marginBottom: "1.6rem", color: theme.palette.primary.main }}
+          sx={{
+            marginBottom: "1.6rem",
+            color: theme.palette.primary.main,
+            height: "8vh",
+            width: "15vw",
+            margin: "0 auto",
+            marginBottom: "1.6rem !important",
+          }}
         >
-          <FacebookRoundedIcon />
+          {social_icons.map((item, index) => {
+            return (
+              <Image
+                key={index}
+                {...{
+                  src: item.value.icon || "/img/Rectangle 5.jpg",
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                }}
+              />
+            );
+          })}
+
+          {/* {social_icons.map((item, index) => {
+            // <Image
+            //   {...{
+            //     src: "/img/Rectangle 5.jpg",
+            //     width: "100%",
+            //     height: "100%",
+            //     objectFit: "cover",
+            //   }}
+            // />;
+          })} */}
+          {/* <FacebookRoundedIcon />
           <FacebookRoundedIcon />
           <InstagramIcon />
-          <InstagramIcon />
+          <InstagramIcon /> */}
         </Stack>
       </Box>
       <Box

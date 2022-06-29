@@ -1,6 +1,7 @@
 import axios from "axios";
 import { ConditionPage } from "../containers";
-import { CONDITION, PAGES } from "../apis";
+import { CONDITION, PAGES, types } from "../apis";
+import { prefetchData, transformUrl } from "../libs";
 // const url = `${PAGES}?type=${CONDITION}&fields=*`;
 
 const Condition = ({ ...props }) => {
@@ -10,15 +11,28 @@ const Condition = ({ ...props }) => {
 export default Condition;
 
 export async function getServerSideProps({ params }) {
-  // const url = `${PAGES}?type=${CONDITION}&fields=*`;
+  try {
+    const urls = [
+      transformUrl(PAGES, {
+        type: types.conditionPage,
+        fields: "*",
+      }),
+    ];
 
-  const url =
-    "https://maxhouse.t-solution.vn/api/v2/pages/?type=policy.PaymentPolicyPage&fields=*";
+    const { resList, fallback } = await prefetchData(urls);
 
-  const response = await axios.get(url);
-  const dataCondition = await response.data;
-
-  return {
-    props: { dataCondition },
-  };
+    return {
+      props: {
+        initData: resList,
+        fallback,
+      },
+    };
+  } catch (e) {
+    return {
+      redirect: {
+        destination: "/404",
+        permanent: false,
+      },
+    };
+  }
 }

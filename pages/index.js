@@ -9,40 +9,42 @@ const Home = ({ ...props }) => {
 
 export default Home;
 
-// export async function getServerSideProps({ params }) {
-//   try {
-//     const urls = [
-//       transformUrl(PAGES, {
-//         type: HOME_PAGE,
-//         fields: "*",
-//       }),
-//       transformUrl(PARTNER, {
-//         fields: "*",
-//         is_on_homepage: true,
-//         limit: 9,
-//       }),
-//       transformUrl(PAGES, {
-//         type: BLOG_DETAIL,
-//         fields: "*",
-//         is_on_homepage: true,
-//         limit: 3,
-//       }),
-//     ];
+export async function getServerSideProps({ params }) {
+  try {
+    const urls = [
+      transformUrl(PAGES, {
+        type: HOME_PAGE,
+        fields: "*",
+      }),
 
-//     const { resList, fallback } = await prefetchData(urls);
+      transformUrl(PAGES, {
+        type: BLOG_DETAIL,
+        fields: "*",
+        is_on_homepage: true,
+        limit: 3,
+      }),
 
-//     return {
-//       props: {
-//         initData: resList,
-//         fallback,
-//       },
-//     };
-//   } catch (e) {
-//     return {
-//       redirect: {
-//         destination: "/404",
-//         permanent: false,
-//       },
-//     };
-//   }
-// }
+      transformUrl(PARTNER, {
+        fields: "*",
+        is_on_homepage: true,
+        limit: 4,
+      }),
+    ];
+
+    const { resList, fallback } = await prefetchData(urls);
+
+    return {
+      props: {
+        initData: resList,
+        fallback,
+      },
+    };
+  } catch (e) {
+    return {
+      redirect: {
+        destination: "/404",
+        permanent: false,
+      },
+    };
+  }
+}

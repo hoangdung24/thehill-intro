@@ -1,5 +1,5 @@
 import { useWindowScroll, useToggle } from "react-use";
-import { useIntl, FormattedMessage } from "react-intl";
+// import { useIntl, FormattedMessage } from "react-intl";
 import { useEffect, useState, Fragment, useMemo, useCallback } from "react";
 
 import { useRouter } from "next/router";
@@ -122,16 +122,21 @@ const Header = ({}) => {
                       <Button
                         sx={{
                           my: 2,
-                          color:
-                            el.link === router.pathname
-                              ? theme.palette.primary.main
-                              : theme.palette.common.black, // Nếu vào trang nào thì chỉ hiện màu ở title ở header đó
+                          // color:
+                          //   el.link === router.pathname
+                          //     ? theme.palette.primary.main
+                          //     : theme.palette.common.black, // Nếu vào trang nào thì chỉ hiện màu ở title ở header đó
                           display: "block",
                         }}
                       >
                         <Typography
                           variant="button2"
-                          sx={{ color: theme.palette.common.natural2 }}
+                          sx={{
+                            color:
+                              el.link === router.pathname
+                                ? "red"
+                                : theme.palette.common.natural2, // Nếu vào trang nào thì chỉ hiện màu ở title ở header đó
+                          }}
                         >
                           {el.name}
                         </Typography>
@@ -154,7 +159,7 @@ const Header = ({}) => {
   }, [NAVBAR, router]);
 
   const staticNav = useMemo(() => {
-    if (y > 115) {
+    if (y > 150) {
       return (
         <AppBar
           sx={{
@@ -183,8 +188,8 @@ const Header = ({}) => {
             mountOnEnter
             unmountOnExit
             timeout={{
-              enter: 600,
-              exit: 300,
+              enter: 1000,
+              exit: 100,
             }}
           >
             <AppBar

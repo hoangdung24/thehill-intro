@@ -5,7 +5,7 @@ import {
   useTheme,
   Divider as MuiDivider,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import BannerTop from "../../components/BannerTop/BannerTop";
 import LineTitle from "../../components/LineTitle/LineTitle";
 import { styled } from "@mui/material/styles";
@@ -15,6 +15,11 @@ import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import useMedia from "../../hooks/useMedia";
+import { useRouter } from "next/router";
+import useSWR from "swr";
+import { PAGES } from "../../apis";
+import { transformUrl } from "../../libs";
+import { ReaderHTML } from "../../components";
 
 const valuelineTitle = {
   title: "FAQ",
@@ -58,20 +63,83 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: "1px solid rgba(0, 0, 0, .125)",
 }));
 
-export default function FaqDetail() {
-  const { isSmUp, isSmDown, isMdUp } = useMedia();
+export default function FaqDetail({ initData }) {
+  const [listingFAQ, detailFAQ] = initData;
+  const [expanded, setExpanded] = useState("panel2");
+  const [question, setQuestion] = useState();
+
   const theme = useTheme();
-  const [expanded, setExpanded] = useState("panel1");
+  const { isSmUp, isSmDown, isMdUp } = useMedia();
+  const router = useRouter();
+
+  const { data: resData } = useSWR(
+    transformUrl(`${PAGES}${router.query.id}`, {})
+  );
+
+  useEffect(() => {
+    if (resData === undefined) {
+      return;
+    }
+    setQuestion(resData.questions);
+  });
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
+
+  const renderAccordition = () => {
+    if (!question) {
+      return null;
+    } else {
+      return question?.map((item, index) => {
+        return (
+          <Fragment key={index}>
+            <Accordion
+              expanded={expanded === "panel1"}
+              onChange={handleChange("panel1")}
+              sx={{ border: "none" }}
+            >
+              <AccordionSummary
+                aria-controls="panel1d-content"
+                id="panel1d-header"
+                sx={{
+                  flexDirection: "row",
+                  padding: 0,
+                  background: "none",
+                  "& .MuiAccordionSummary-expandIconWrapper .MuiSvgIcon-root": {
+                    color: theme.palette.secondary.main,
+                  },
+                  "& .MuiAccordionSummary-content": {
+                    margin: 0,
+                  },
+                }}
+              >
+                <Typography
+                  variant="hairline1"
+                  sx={{ color: theme.palette.secondary.main }}
+                >
+                  {item?.value.question}
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails sx={{ border: "none", paddingLeft: 0 }}>
+                <ReaderHTML content={item.value.answer} />
+              </AccordionDetails>
+            </Accordion>
+            <Border />
+          </Fragment>
+        );
+      });
+    }
+  };
+  //   console.log(resData.title);
   return (
     <Box>
       <BannerTop />
       <Container maxWidth="lg">
-        <LineTitle data={valuelineTitle} type="center" />
-
+        <LineTitle
+          titleData={resData === undefined ? "TÊN DANH MỤC" : resData.title}
+          type="center"
+        />
         <Button
           sx={[
             { marginTop: "5.5rem", marginBottom: "1rem" },
@@ -88,125 +156,7 @@ export default function FaqDetail() {
           </Typography>
         </Button>
 
-        <Box>
-          <Accordion
-            expanded={expanded === "panel1"}
-            onChange={handleChange("panel1")}
-            sx={{ border: "none" }}
-          >
-            <AccordionSummary
-              aria-controls="panel1d-content"
-              id="panel1d-header"
-              sx={{
-                flexDirection: "row",
-                padding: 0,
-                background: "none",
-                "& .MuiAccordionSummary-expandIconWrapper .MuiSvgIcon-root": {
-                  color: theme.palette.secondary.main,
-                },
-                "& .MuiAccordionSummary-content": {
-                  margin: 0,
-                },
-              }}
-            >
-              <Typography
-                variant="hairline1"
-                sx={{ color: theme.palette.secondary.main }}
-              >
-                Collapsible Group Item #1
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails sx={{ border: "none", paddingLeft: 0 }}>
-              <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-                eget. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-                eget.
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-
-          <Border />
-
-          <Accordion
-            expanded={expanded === "panel2"}
-            onChange={handleChange("panel2")}
-            sx={{ border: "none" }}
-          >
-            <AccordionSummary
-              aria-controls="panel1d-content"
-              id="panel1d-header"
-              sx={{
-                flexDirection: "row",
-                padding: 0,
-                background: "none",
-                "& .MuiAccordionSummary-expandIconWrapper .MuiSvgIcon-root": {
-                  color: theme.palette.secondary.main,
-                },
-                "& .MuiAccordionSummary-content": {
-                  margin: 0,
-                },
-              }}
-            >
-              <Typography
-                variant="hairline1"
-                sx={{ color: theme.palette.secondary.main }}
-              >
-                Collapsible Group Item #1
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails sx={{ border: "none", paddingLeft: 0 }}>
-              <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-                eget. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-                eget.
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-
-          <Border />
-
-          <Accordion
-            expanded={expanded === "panel3"}
-            onChange={handleChange("panel3")}
-            sx={{ border: "none" }}
-          >
-            <AccordionSummary
-              aria-controls="panel1d-content"
-              id="panel1d-header"
-              sx={{
-                flexDirection: "row",
-                padding: 0,
-                background: "none",
-                "& .MuiAccordionSummary-expandIconWrapper .MuiSvgIcon-root": {
-                  color: theme.palette.secondary.main,
-                },
-                "& .MuiAccordionSummary-content": {
-                  margin: 0,
-                },
-              }}
-            >
-              <Typography
-                variant="hairline1"
-                sx={{ color: theme.palette.secondary.main }}
-              >
-                Collapsible Group Item #1
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails sx={{ border: "none", paddingLeft: 0 }}>
-              <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-                eget. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-                eget.
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-        </Box>
+        <Box sx={{ marginBottom: "8.5rem" }}>{renderAccordition()}</Box>
       </Container>
     </Box>
   );

@@ -30,10 +30,13 @@ const valuelineTitle = {
   title: "Vé Đổi Điểm",
 };
 
-export default function HomeNews() {
+export default function HomeNews({ data, blogHomeData }) {
+  const { blog_title } = data;
+  console.log("data", blogHomeData);
+
   const { isMdUp, isSmDown, isSmUp } = useMedia();
   const renderHomeNew = () => {
-    return arrayHomeNews.map((data, index) => {
+    return blogHomeData.map((data, index) => {
       return (
         <Grid
           key={index}
@@ -59,7 +62,7 @@ export default function HomeNews() {
         isSmDown && { marginBottom: "3.5rem" },
       ]}
     >
-      <LineTitle data={valuelineTitle} type="right" />
+      <LineTitle titleData={blog_title} type="right" />
       <Grid container columnSpacing={7} sx={{ marginTop: "2rem" }}>
         {renderHomeNew()}
       </Grid>

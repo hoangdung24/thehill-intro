@@ -32,6 +32,7 @@ const valuelineTitle = {
 };
 
 const HomeBenefit = ({ data, ...props }) => {
+  const { store_title, store_subtitle } = data;
   const { isSmDown } = useMedia();
   const theme = useTheme();
 
@@ -91,7 +92,11 @@ const HomeBenefit = ({ data, ...props }) => {
   return (
     <Box sx={{ marginBottom: "3rem" }}>
       <Container maxWidth="lg">
-        <LineTitle data={valuelineTitle} type="right" />
+        <LineTitle
+          titleData={store_title}
+          subtitleData={store_subtitle}
+          type="right"
+        />
       </Container>
 
       <Container

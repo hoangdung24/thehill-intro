@@ -91,7 +91,10 @@ const partnerValue = [
   { id: 5, name: "Tất Cả" },
 ];
 
-export default function News() {
+export default function News({ initData }) {
+  const [blogListingPage, blogCategoryPage, blogDetailPage] = initData;
+  console.log("blogListingPageblogListingPage", blogCategoryPage);
+
   const [currentTab, setCurrentTab] = useState(partnerValue[0].id);
   const [currentPage, setCurrentPage] = useState(1);
   const [animationState, setAnimationState] = useState(true);
@@ -118,7 +121,7 @@ export default function News() {
   }, []);
 
   const renderTabs = useMemo(() => {
-    if (!partnerValue) {
+    if (!blogCategoryPage) {
       return null;
     }
 
@@ -126,7 +129,7 @@ export default function News() {
       <Tabs
         value={currentTab}
         changeTab={changeTabHandler}
-        data={partnerValue}
+        data={blogCategoryPage}
       />
     );
   }, [partnerValue, currentTab]);
@@ -195,9 +198,9 @@ export default function News() {
 
   return (
     <Box sx={{ marginBottom: isSmDown ? "4rem" : "6.6rem" }}>
-      <BannerTop />
+      <BannerTop data={blogListingPage.items[0].banner} />
       <Container maxWidth="lg">
-        <LineTitle data={valuelineTitle} type="center" />
+        <LineTitle titleData={blogListingPage.items[0].title} type="center" />
         <InputSearch />
       </Container>
 

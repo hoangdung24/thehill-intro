@@ -26,6 +26,8 @@ const arrayExchangePoint = [
 ];
 
 export default function ExchangePointsHome({ data }) {
+  const { about_title } = data;
+  console.log("eeeeee", about_title);
   const renderContent = () => {
     return arrayExchangePoint.map((item, index) => {
       return (
@@ -51,7 +53,7 @@ export default function ExchangePointsHome({ data }) {
 
   return (
     <Container maxWidth="lg">
-      <LineTitle type="left" data={valuelineTitle} />
+      <LineTitle type="left" titleData={about_title} />
       <Grid
         container
         sx={{

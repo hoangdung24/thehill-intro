@@ -1,11 +1,15 @@
 import { Footer, Navbar } from "../../components";
 import { Box } from "@mui/material";
+import { useRouter } from "next/router";
 
 import { SettingConfig, GlobalConfig } from "../../context";
 import Header from "../Header/Header";
 import BackToTop from "../BackToTop/BackToTop";
+import { useMemo } from "react";
 
 const Layout = ({ children }) => {
+  const router = useRouter();
+
   return (
     <Box
       sx={{

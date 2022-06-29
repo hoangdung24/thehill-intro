@@ -1,37 +1,54 @@
-import { Avatar, Card, Box, Typography, Stack, Paper, Link, styled } from "@mui/material";
+import {
+  Avatar,
+  Card,
+  Box,
+  Typography,
+  Stack,
+  Paper,
+  Link,
+  styled,
+} from "@mui/material";
 import createDOMPurify from "isomorphic-dompurify";
 
-const CardPartner = ({ icon, name, description, point_content, link, ...props }) => {
+const CardPartner = ({
+  icon,
+  name,
+  description,
+  point_content,
+  link,
+  ...props
+}) => {
   return (
-		<Box sx={{ paddingLeft: "15px" }}>
-			<Stack spacing={1} direction='row'>
-				<WrapperAva elevation={5}>
-					<Link href={link}>
-						<Avatar
-							alt='Icon'
-							src={icon}
-							sx={{
-								height: 40,
-								width: 40,
-							}}
-						/>
-					</Link>
-				</WrapperAva>
-				<ContentBox>
-					<Stack spacing={2}>
-						<Box
-							dangerouslySetInnerHTML={{
-								__html: createDOMPurify.sanitize(point_content),
-							}}></Box>
-						<Content variant='body2'>{description}</Content>
-					</Stack>
-					<Box>
-						<Title variant='h6'>{name}</Title>
-					</Box>
-				</ContentBox>
-			</Stack>
-		</Box>
-	);
+    <Box sx={{ paddingLeft: "15px" }}>
+      <Stack spacing={1} direction="row">
+        <WrapperAva elevation={5}>
+          <Link href={link}>
+            <Avatar
+              alt="Icon"
+              src={icon}
+              sx={{
+                height: 40,
+                width: 40,
+              }}
+            />
+          </Link>
+        </WrapperAva>
+        <ContentBox>
+          <Stack spacing={2}>
+            <Box
+              dangerouslySetInnerHTML={{
+                __html: createDOMPurify.sanitize(point_content),
+              }}
+            ></Box>
+            <Content variant="body2">{description}</Content>
+          </Stack>
+          <Box>
+            <Title variant="h6">{name}</Title>
+          </Box>
+        </ContentBox>
+      </Stack>
+    </Box>
+  );
 };
 
 export default CardPartner;
@@ -67,10 +84,10 @@ const ContentBox = styled(Box)(({ theme }) => {
     padding: "15px 15px",
     background: theme.palette.common.white,
     borderRadius: "0 10px 10px 10px",
-    height: '200px',
-    width: '350px',
-	display: 'flex',
-	flexDirection: 'column',
-	justifyContent: 'space-between'
+    height: "200px",
+    width: "350px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
   };
 });

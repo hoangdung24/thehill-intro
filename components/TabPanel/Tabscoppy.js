@@ -3,17 +3,16 @@ import { Tab, Tabs as MuiTabs, useTheme } from "@mui/material";
 import useMedia from "../../hooks/useMedia";
 import { Box } from "@mui/system";
 
-const Tabs = ({ value, changeTab, data }) => {
+const Tabscoppy = ({ value, changeTab, data }) => {
   const { isSmUp } = useMedia();
   const theme = useTheme();
 
   const renderTab = useMemo(() => {
-    return data.items.map((el) => {
-      console.log("first", el.id);
+    return data.map((el) => {
       return (
         <Tab
           key={el.id}
-          label={el.title}
+          label={el.name}
           value={el.id}
           disableRipple
           sx={[
@@ -96,4 +95,4 @@ const Tabs = ({ value, changeTab, data }) => {
   }
 };
 
-export default Tabs;
+export default Tabscoppy;

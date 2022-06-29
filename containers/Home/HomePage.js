@@ -12,23 +12,24 @@ import Home3D from "./components/Home3D";
 
 const HomePage = ({ initData, ...props }) => {
   const { isSmUp, isSmDown, isMdUp } = useMedia();
-  // const [] = initData;
+  const [homeData, blogHome, brandHome] = initData;
+  console.log("initData", brandHome);
 
-  // console.log(initData);
-
-  // const data = items?.[0];
+  const data = homeData.items?.[0];
+  const blogHomeData = blogHome.items;
+  const brandHomeData = brandHome.items;
 
   return (
     <Box>
       <HomeBanner />
       {isSmDown ? <Home3D /> : null}
 
-      <ExchangePointsHome />
-      <HomeBenefit />
-      <HomeBrand />
-      <StoreBenefit />
-      <HomeFeature />
-      <HomeNews />
+      <ExchangePointsHome data={data} />
+      <HomeBenefit data={data} />
+      <HomeBrand data={data} brandHomeData={brandHomeData} />
+      <StoreBenefit data={data} />
+      <HomeFeature data={data} />
+      <HomeNews data={data} blogHomeData={blogHomeData} />
     </Box>
   );
 

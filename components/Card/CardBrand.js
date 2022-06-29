@@ -6,6 +6,7 @@ import useMedia from "../../hooks/useMedia";
 import { Image } from "../../HOC";
 
 const CardBrand = ({ data, ...props }) => {
+  // console.log("CardBrand", data);
   const theme = useTheme();
   const [minWrapperHeight, setMinWrapperHeight] = useState(0);
   const { isMdUp, isSmUp } = useMedia();
@@ -98,7 +99,7 @@ const CardBrand = ({ data, ...props }) => {
               >
                 <Image
                   layout="fill"
-                  src={data.img}
+                  src={data.image}
                   width="50%"
                   height={imageSize.height}
                   objectFit="cover"
@@ -128,11 +129,13 @@ const CardBrand = ({ data, ...props }) => {
                   marginBottom: "8px",
                 }}
               >
-                {data.title}
+                Điểm Tích Luỹ: {data.point}
               </Typography>
 
               <Typography variant="body2" sx={{ textAlign: "left" }}>
-                {data.text}
+                {data.description?.length > 60
+                  ? data.description.substr(0, 60) + "..."
+                  : data.description}
               </Typography>
             </Box>
           </Fragment>

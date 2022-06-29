@@ -24,7 +24,8 @@ const valuelineTitle = {
     "Sơ lược những tính năng giúp khách hàng có thể ăn uống và mua sắm thỏa thích",
 };
 
-export default function HomeFeature() {
+export default function HomeFeature({ data }) {
+  const { tutorial_title, tutorial_subtitle } = data;
   const inputRef = useRef(null);
   const theme = useTheme();
 
@@ -71,7 +72,11 @@ export default function HomeFeature() {
       }}
     >
       <Box sx={{ width: "80vw", margin: "0 auto" }}>
-        <LineTitle data={valuelineTitle} type="left" />
+        <LineTitle
+          titleData={tutorial_title}
+          subtitleData={tutorial_subtitle}
+          type="left"
+        />
         <Box
           sx={{
             position: "relative",

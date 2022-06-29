@@ -1,4 +1,5 @@
 import { Box, Grid, Typography } from "@mui/material";
+import { useRouter } from "next/router";
 import React from "react";
 import BannerTop from "../../components/BannerTop/BannerTop";
 import LineTitle from "../../components/LineTitle/LineTitle";
@@ -38,14 +39,39 @@ const cardFAQ = [
   },
 ];
 
-export default function FAQ() {
+export default function FAQ({ initData }) {
+  const router = useRouter();
+  const [listingFAQ, detailFAQ] = initData;
+  const { banner, title } = listingFAQ.items[0];
+  const listData = detailFAQ.items;
+  console.log("initData", router);
+
   const { isSmUp, isSmDown, isMdUp } = useMedia();
+
+  const handleFAQ = (id) => {
+    console.log("handleFAQ", router.pathname);
+    router.push(`${router.pathname}/${id}`);
+  };
+
   const renderCardFAQ = () => {
-    return cardFAQ.map((item, index) => {
+    if (!listData) {
+      return null;
+    }
+
+    return listData.map((item, index) => {
+      // console.log("first", item.id);
       return (
-        <Grid item key={index} xs={12} sm={6} md={4}>
+        <Grid
+          item
+          key={index}
+          xs={12}
+          sm={6}
+          md={4}
+          onClick={() => handleFAQ(item.id)}
+        >
           <Box
             sx={{
+              cursor: "pointer",
               borderRadius: "8px",
               position: "relative",
               height: "16rem",
@@ -57,7 +83,7 @@ export default function FAQ() {
           >
             <Image
               {...{
-                src: item.img,
+                src: item.thumbnail,
                 width: "100%",
                 height: "100%",
                 objectFit: "cover",
@@ -77,9 +103,9 @@ export default function FAQ() {
 
   return (
     <Box sx={{ marginBottom: "7.8rem" }}>
-      <BannerTop />
+      <BannerTop data={banner} />
       <Box sx={{ width: "80vw", margin: "0 auto" }}>
-        <LineTitle data={valuelineTitle} type="center" />
+        <LineTitle titleData={title} type="center" />
         <Grid
           container
           spacing={7}

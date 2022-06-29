@@ -42,12 +42,12 @@ const settings = {
   slidesToScroll: 1,
 };
 
-export default function HomeBrand() {
+export default function HomeBrand({ data, brandHomeData }) {
+  const { partner_title } = data;
   const { isSmDown, isMdUp } = useMedia();
   const theme = useTheme();
-
   const renderCardBrand = () => {
-    return arrayHomeNews.map((item, index) => {
+    return brandHomeData.map((item, index) => {
       if (isMdUp) {
         return (
           <Grid item key={index} xs={3}>
@@ -73,7 +73,7 @@ export default function HomeBrand() {
           margin: "0 auto",
         }}
       >
-        <LineTitle data={valuelineTitle} type="left" />
+        <LineTitle titleData={partner_title} type="left" />
 
         {isMdUp ? (
           <Grid

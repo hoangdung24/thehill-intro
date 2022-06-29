@@ -54,16 +54,19 @@ const generatePathname = (data) => {
 
 export const types = {
   homePage: "home.HomePage",
-  constructionListingPage: "construction.ConstructionListingPage",
-  constructionDetailPage: "construction.ConstructionDetailPage",
-  designListingPage: "design.DesignListingPage",
-  designDetailPage: "design.DesignDetailPage",
-  contactPage: "contact.ContactPage",
-  newsListingPage: "news.NewsListingPage",
-  newsDetailPage: "news.NewsDetailPage",
-  operationPolicy: "policy.OperationPolicyPage",
-  paymentPolicy: "policy.PaymentPolicyPage",
-  servicePage: "service.ServicePage",
+  partnerListingPage: "partner.PartnerListingPage",
+  partnerDetailPage: "partner.PartnerCategoryPage",
+
+  blogListingPage: "blog.BlogListingPage",
+  blogCategoryPage: "blog.BlogCategoryPage",
+  blogDetailPage: "blog.BlogDetailPage",
+
+  policyPage: "policy.PolicyPage",
+
+  conditionPage: "policy.ConditionPage",
+
+  faqListingPage: "faq.FAQCategoryListingPage",
+  faqDetailPage: "faq.FAQCategoryPage",
 };
 
 // ?type={str}

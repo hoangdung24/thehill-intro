@@ -126,7 +126,12 @@ const FooterBottom = () => {
               <Stack spacing={2} direction="row">
                 {social_icons?.map((el, index) => (
                   <Link key={index} href={el.value.link} underline="none">
-                    <Image src={el.value.icon} width={SIZE} height={SIZE} alt="icon" />
+                    <Image
+                      src={el.value.icon}
+                      width={SIZE}
+                      height={SIZE}
+                      alt="icon"
+                    />
                   </Link>
                 ))}
               </Stack>

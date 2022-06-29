@@ -1,10 +1,13 @@
 import { Box, Stack, Typography, useTheme } from "@mui/material";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import useMedia from "../../hooks/useMedia";
 
-const LineTitle = ({ data, type }) => {
+const LineTitle = ({ titleData, subtitleData, type }) => {
   const { isSmUp, isSmDown, isMdUp } = useMedia();
   const theme = useTheme();
+  // useEffect(() => {
+  //   console.log("object");
+  // });
 
   if (type === "right") {
     return (
@@ -50,11 +53,21 @@ const LineTitle = ({ data, type }) => {
               variant={isSmDown ? "h6" : "h4"}
               sx={{ color: theme.palette.secondary.main }}
             >
-              LỢI ÍCH CỦA KHÁCH HÀNG
+              {titleData}
             </Typography>
           </Box>
         </Stack>
-        {data.subTitle ? (
+        <Typography
+          variant="body1"
+          sx={{
+            color: theme.palette.secondary.light,
+            textAlign: "right",
+            display: isSmDown ? "none" : "block",
+          }}
+        >
+          {subtitleData}
+        </Typography>
+        {/* {data.subTitle ? (
           <Typography
             variant="body1"
             sx={{
@@ -67,7 +80,7 @@ const LineTitle = ({ data, type }) => {
           </Typography>
         ) : (
           ""
-        )}
+        )} */}
       </Fragment>
     );
   } else if (type === "left") {
@@ -89,7 +102,7 @@ const LineTitle = ({ data, type }) => {
               variant={isSmDown ? "h6" : "h4"}
               sx={{ color: theme.palette.primary.main }}
             >
-              {data.title}
+              {titleData}
             </Typography>
           </Box>
           <Box sx={{ flexGrow: "1", display: isSmDown ? "none" : "block" }}>
@@ -113,7 +126,17 @@ const LineTitle = ({ data, type }) => {
             ></Box>
           </Box>
         </Stack>
-        {data.subTitle ? (
+        <Typography
+          variant="body1"
+          sx={{
+            color: theme.palette.primary.main,
+            textAlign: "left",
+            display: isSmDown ? "none" : "block",
+          }}
+        >
+          {subtitleData}
+        </Typography>
+        {/* {data.subTitle ? (
           <Typography
             variant="body1"
             sx={{
@@ -125,7 +148,7 @@ const LineTitle = ({ data, type }) => {
           </Typography>
         ) : (
           ""
-        )}
+        )} */}
       </Fragment>
     );
   } else if (type === "center") {
@@ -167,7 +190,7 @@ const LineTitle = ({ data, type }) => {
               variant="hairline4"
               sx={{ color: theme.palette.secondary.main }}
             >
-              {data.title}
+              {titleData}
             </Typography>
           </Box>
           <Box

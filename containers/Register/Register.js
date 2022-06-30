@@ -28,15 +28,17 @@ const InputFile = styled("input")({
   display: "none",
 });
 
-export default function Register() {
+export default function Register({ initData }) {
+  const { banner, title } = initData[0].items[0];
+  console.log("Register", initData[0].items[0]);
   const { isSmUp, isSmDown, isMdUp, isMdDown } = useMedia();
   const theme = useTheme();
 
   return (
     <Box>
-      <BannerTop />
+      <BannerTop data={banner} />
       <Container maxWidth="lg">
-        <LineTitle data={valuelineTitle} type="center" />
+        <LineTitle titleData={title} type="center" />
 
         <Box
           sx={[
@@ -100,7 +102,7 @@ export default function Register() {
         </Box>
 
         <Box sx={{ marginTop: "2.25rem" }}>
-          <LineTitle data={valuelineTitle2} type="center" />
+          <LineTitle titleData={valuelineTitle2.title} type="center" />
         </Box>
 
         {/* Phan QRCode */}
@@ -109,7 +111,7 @@ export default function Register() {
             {
               boxShadow: " 0px 8px 24px 0 rgba(0, 0, 0, 0.15)",
               borderRadius: "12px",
-              width: "20vw",
+              width: "40%",
               height: "52vh",
               margin: "0 auto",
               marginTop: "5.5rem",

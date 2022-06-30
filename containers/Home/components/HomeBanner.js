@@ -1,9 +1,12 @@
 import { Box, Stack, Typography, useTheme, styled } from "@mui/material";
 import React from "react";
+import { ReaderHTML } from "../../../components";
 import { Image } from "../../../HOC";
 import useMedia from "../../../hooks/useMedia";
 
-export default function HomeBanner() {
+export default function HomeBanner({ data }) {
+  const { banner, subtitle } = data;
+  // console.log("bannerbanner", banner);
   const { isSmDown } = useMedia();
   const theme = useTheme();
   return (
@@ -17,7 +20,7 @@ export default function HomeBanner() {
     >
       <Image
         {...{
-          src: "/img/Rectangle 5.jpg",
+          src: banner,
           width: "100%",
           height: "100%",
           objectFit: "cover",
@@ -48,8 +51,9 @@ export default function HomeBanner() {
             justifyContent: "center",
           }}
         >
-          <Box sx={{ height: "20%" }}>
-            <Typography variant="hairline1">TIÊU XÀI THỎA THÍCH</Typography>
+          <Box sx={{}}>
+            <ReaderHTML content={subtitle} />
+            {/* <Typography variant="hairline1">TIÊU XÀI THỎA THÍCH</Typography>
             <Content>
               <Typography variant="hairline2">
                 Tích bao nhiêu điểm Đổi bấy nhiêu tiền
@@ -58,7 +62,7 @@ export default function HomeBanner() {
 
             <Typography variant="body2_bold">
               Ăn uống và mua sắm thả ga cùng với ứng dụng ĐỔI ĐIỂM
-            </Typography>
+            </Typography> */}
           </Box>
 
           <Stack

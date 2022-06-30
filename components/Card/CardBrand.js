@@ -9,7 +9,7 @@ const CardBrand = ({ data, ...props }) => {
   // console.log("CardBrand", data);
   const theme = useTheme();
   const [minWrapperHeight, setMinWrapperHeight] = useState(0);
-  const { isMdUp, isSmUp } = useMedia();
+  const { isMdUp, isSmUp, isSmDown } = useMedia();
   const [isCompleteLoaded, setIsCompleteLoaded] = useState(false);
   const { width: windowWidth, height: windowHeight } = useWindowSize();
 
@@ -61,13 +61,16 @@ const CardBrand = ({ data, ...props }) => {
       <Box
         ref={ref}
         sx={{
-          margin: "15px",
+          // margin: isSmDown ? "15px" : 0,
           borderRadius: "0.62rem",
           background:
             "linear-gradient(rgba(244, 244, 244, 0.4), rgba(244, 244, 244, 0.2))",
           backdropFilter: "blur(4px)",
           border: "1px solid rgba(255, 255, 255, 0.2)",
           boxShadow: " 0px 4px 10px rgba(0, 0, 0, 0.15)",
+          [theme.breakpoints.down("sm")]: {
+            marginBottom: "4rem",
+          },
         }}
       >
         <Box
@@ -75,7 +78,7 @@ const CardBrand = ({ data, ...props }) => {
             padding: 1,
 
             [theme.breakpoints.down("sm")]: {
-              width: "50vw",
+              // width: "50vw",
             },
           }}
         >
@@ -132,11 +135,13 @@ const CardBrand = ({ data, ...props }) => {
                 Điểm Tích Luỹ: {data.point}
               </Typography>
 
-              <Typography variant="body2" sx={{ textAlign: "left" }}>
-                {data.description?.length > 60
-                  ? data.description.substr(0, 60) + "..."
-                  : data.description}
-              </Typography>
+              <Box sx={{ height: "4.6rem" }}>
+                <Typography variant="body2" sx={{ textAlign: "left" }}>
+                  {data.description?.length > 60
+                    ? data.description.substr(0, 60) + "..."
+                    : data.description}
+                </Typography>
+              </Box>
             </Box>
           </Fragment>
         </Box>

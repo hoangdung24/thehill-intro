@@ -7,3 +7,5 @@ export const NAVBAR = [
   { name: "LIÊN HỆ", link: "#lien-he", key: "contact" },
   { name: "FAQ", link: "/faq", key: "faq" },
 ];
+
+export const POST_LIMIT = 5;

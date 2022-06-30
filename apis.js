@@ -67,6 +67,8 @@ export const types = {
 
   faqListingPage: "faq.FAQCategoryListingPage",
   faqDetailPage: "faq.FAQCategoryPage",
+
+  contactPage: "contact.ContactPage",
 };
 
 // ?type={str}

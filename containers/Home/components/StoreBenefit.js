@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import LineTitle from "../../../components/LineTitle/LineTitle";
 import { Image } from "../../../HOC";
+import { useSetting } from "../../../hooks";
 import useMedia from "../../../hooks/useMedia";
 
 const arrayHomeNews = [
@@ -25,19 +26,15 @@ const arrayHomeNews = [
   },
 ];
 
-const valuelineTitle = {
-  title: "Vé Đổi Điểm",
-  subTitle:
-    "Sơ lược những tính năng giúp khách hàng có thể ăn uống và mua sắm thỏa thích",
-};
-
-const HomeBenefit = ({ data, ...props }) => {
-  const { store_title, store_subtitle } = data;
+const StoreBenefit = ({ data, ...props }) => {
+  const { store_title, store_subtitle, store_content, store_image } = data;
   const { isSmDown } = useMedia();
   const theme = useTheme();
+  const setting = useSetting();
 
+  console.log("setting", data);
   const renderIconBenefit = () => {
-    return arrayHomeNews.map((item, index) => {
+    return store_content.map((item, index) => {
       return (
         <Grid
           key={index}
@@ -62,7 +59,7 @@ const HomeBenefit = ({ data, ...props }) => {
             <Box sx={{ width: isSmDown ? "35%" : "27%", height: "100%" }}>
               <Image
                 layout="fill"
-                src={item.img}
+                src={item.value.icon}
                 width="100%"
                 height="100%"
                 objectFit="cover"
@@ -77,11 +74,9 @@ const HomeBenefit = ({ data, ...props }) => {
                   marginBottom: "1rem",
                 }}
               >
-                Tích Điểm
+                {item.value.title}
               </Typography>
-              <Typography variant="body2">
-                Lorem ipsum dolor sit asdasdasdasdasd asdas asdelit
-              </Typography>
+              <Typography variant="body2">{item.value.description}</Typography>
             </Box>
           </Stack>
         </Grid>
@@ -112,16 +107,21 @@ const HomeBenefit = ({ data, ...props }) => {
         <Stack
           direction={isSmDown ? "column" : "row"}
           alignItems={isSmDown ? "center" : "none"}
-          spacing={isSmDown ? 5 : 0}
+          spacing={isSmDown ? 1 : 0}
           justifyContent="center"
           sx={{
             borderRadius: "1rem",
-            height: isSmDown ? "auto" : "90vh",
+            height: isSmDown ? "auto" : "65vh",
             border: "2px solid rgba(177, 181, 195, 0.1)",
             backgroundColor: "rgba(244, 244, 244, 0.6)",
+
+            [theme.breakpoints.down("sm")]: {
+              background: "none",
+              border: "none",
+            },
           }}
         >
-          <Box sx={{ width: isSmDown ? "80vw" : "35%", padding: "0" }}>
+          <Box sx={{ width: isSmDown ? "80vw" : "40%", padding: "0" }}>
             <Grid container sx={{ height: "100%", alignContent: "center" }}>
               {renderIconBenefit()}
             </Grid>
@@ -130,11 +130,12 @@ const HomeBenefit = ({ data, ...props }) => {
             item
             sx={{
               width: isSmDown ? "100%" : "50%",
-              height: isSmDown ? "95vh" : "100%",
+              height: isSmDown ? "70vh" : "100%",
             }}
           >
             <Image
-              src="/img/phonethehill-04.png"
+              // src="/img/phonethehill-04.png"
+              src={store_image}
               width="100%"
               height="100%"
               // objectFit="contain"
@@ -146,4 +147,4 @@ const HomeBenefit = ({ data, ...props }) => {
   );
 };
 
-export default HomeBenefit;
+export default StoreBenefit;

@@ -29,6 +29,7 @@ export async function getServerSideProps({ params }) {
         is_on_homepage: true,
         limit: 4,
       }),
+      transformUrl(`${PAGES}4`, {}),
     ];
 
     const { resList, fallback } = await prefetchData(urls);

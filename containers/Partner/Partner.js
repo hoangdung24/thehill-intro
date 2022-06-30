@@ -1,20 +1,15 @@
 import { Box, Container, Grid, Typography, useTheme } from "@mui/material";
-import { set } from "lodash";
 import { useRouter } from "next/router";
-import React, {
-  Fragment,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
-import { PAGES, SETTINGS } from "../../apis";
+import { PAGES } from "../../apis";
 import BannerTop from "../../components/BannerTop/BannerTop";
 import CardBrand from "../../components/Card/CardBrand";
 import LineTitle from "../../components/LineTitle/LineTitle";
+import Pagination from "../../components/Pagination";
 import TabPanel from "../../components/TabPanel/TabPanel";
 import Tabs from "../../components/TabPanel/Tabs";
+import { POST_LIMIT } from "../../constants";
 import { Image } from "../../HOC";
 import useMedia from "../../hooks/useMedia";
 import { transformUrl } from "../../libs";
@@ -105,7 +100,7 @@ export default function Partner({ initData }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [idAPI, setIdAPI] = useState(17);
   const [array, setArray] = useState([]);
-  console.log("arrayarrayarrayarray", array);
+  // console.log("arrayarrayarrayarray", array);
 
   const animationHandler = useCallback(() => {
     setAnimationState(false);
@@ -161,35 +156,73 @@ export default function Partner({ initData }) {
     }
     // FORMULA: OFFSET = (PAGE - 1) * LIMIT
     // FORMULA PAGE = (OFFSET / LIMIT) + 1
+    if (isSmUp) {
+      return partnerTabs.items.map((item, index) => {
+        return (
+          <TabPanel key={index} value={currentTab} index={item.id}>
+            <Grid
+              container
+              spacing={10}
+              sx={{
+                marginBottom: "3.5rem",
+                paddingBottom: "3.5rem",
+                height: "100%",
+              }}
+            >
+              {array.map((el, i) => {
+                return (
+                  <Grid
+                    item
+                    key={index}
+                    xs={12}
+                    sm={6}
+                    md={3}
+                    className="sadsadsadsadasdsadsadasd"
+                  >
+                    <CardBrand data={el} />
+                  </Grid>
+                );
+              })}
+            </Grid>
+          </TabPanel>
+        );
+      });
+    } else {
+      const offset = (currentPage - 1) * POST_LIMIT;
+      const data = array.slice(offset, offset + POST_LIMIT);
 
-    return partnerTabs.items.map((item, index) => {
-      return (
-        <TabPanel key={index} value={currentTab} index={item.id}>
-          <Grid
-            container
-            columnSpacing={10}
-            sx={{
-              marginBottom: "3.5rem",
-              paddingBottom: "3.5rem",
-              height: "100%",
-            }}
-          >
-            {array.map((el, i) => {
-              return (
-                <Grid item key={index} xs={12} md={3}>
-                  <CardBrand data={el} />
-                </Grid>
-              );
+      return partnerTabs.items.map((item, index) => {
+        return (
+          <TabPanel key={index} value={currentTab} index={item.id}>
+            {data.map((el, i) => {
+              return <CardBrand data={el} />;
             })}
-          </Grid>
-        </TabPanel>
-      );
-    });
+          </TabPanel>
+        );
+      });
+    }
 
     //
   }, [array, currentTab, currentPage]);
 
-  console.log("reder laij gai dien");
+  const renderPagination = useMemo(() => {
+    if (isSmUp) {
+      return null;
+    }
+
+    return (
+      <Pagination
+        data={array}
+        currentPage={currentPage}
+        onChange={(_, newPage) => {
+          console.log("newPage", newPage);
+          setCurrentPage(newPage);
+          animationHandler();
+        }}
+      />
+    );
+  }, [array, currentPage, isSmUp, currentTab]);
+
   return (
     <Box>
       <BannerTop data={partnerListing.items[0].banner} />
@@ -224,6 +257,7 @@ export default function Partner({ initData }) {
           }}
         >
           {renderTabPanel}
+          <Box>{renderPagination}</Box>
         </Box>
       </Container>
     </Box>

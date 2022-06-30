@@ -12,8 +12,9 @@ import Home3D from "./components/Home3D";
 
 const HomePage = ({ initData, ...props }) => {
   const { isSmUp, isSmDown, isMdUp } = useMedia();
-  const [homeData, blogHome, brandHome] = initData;
-  console.log("initData", brandHome);
+  const [homeData, blogHome, brandHome, benefitHome] = initData;
+  console.log("initData", homeData);
+  const { blog_title } = benefitHome;
 
   const data = homeData.items?.[0];
   const blogHomeData = blogHome.items;
@@ -21,7 +22,7 @@ const HomePage = ({ initData, ...props }) => {
 
   return (
     <Box>
-      <HomeBanner />
+      <HomeBanner data={benefitHome} />
       {isSmDown ? <Home3D /> : null}
 
       <ExchangePointsHome data={data} />
@@ -32,18 +33,6 @@ const HomePage = ({ initData, ...props }) => {
       <HomeNews data={data} blogHomeData={blogHomeData} />
     </Box>
   );
-
-  // return (
-  //   <Fragment>
-  //     <Header data={data} />
-  //     <CustomerBenefit data={data} />
-  //     <StoreBenefit data={data} />
-  //     <AboutUs data={data} />
-  //     <Tutorial data={data} />
-  //     <Partner data={data} partnerData={partnerData} />
-  //     <Blog blogList={blogDetail} data={data} />
-  //   </Fragment>
-  // );
 };
 
 export default HomePage;

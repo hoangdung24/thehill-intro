@@ -1,6 +1,6 @@
 import { Container, Grid, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import BannerTop from "../../components/BannerTop/BannerTop";
 import InputSearch from "../../components/Input/InputSearch";
 import LineTitle from "../../components/LineTitle/LineTitle";
@@ -9,6 +9,9 @@ import Tabs from "../../components/TabPanel/Tabs";
 import useMedia from "../../hooks/useMedia";
 import CardItem from "../../components/Card/CardItem";
 import Pagination from "../../components/Pagination";
+import useSWR from "swr";
+import { transformUrl } from "../../libs";
+import { PAGES } from "../../apis";
 
 const valuelineTitle = {
   title: "Tin Tức",
@@ -93,14 +96,28 @@ const partnerValue = [
 
 export default function News({ initData }) {
   const [blogListingPage, blogCategoryPage, blogDetailPage] = initData;
-  console.log("blogListingPageblogListingPage", blogCategoryPage);
 
-  const [currentTab, setCurrentTab] = useState(partnerValue[0].id);
+  const [currentTab, setCurrentTab] = useState(blogCategoryPage.items[0].id);
   const [currentPage, setCurrentPage] = useState(1);
   const [animationState, setAnimationState] = useState(true);
-
+  const [array, setArray] = useState([]);
+  const [idAPI, setIdAPI] = useState(blogCategoryPage.items[0].id);
+  console.log("blogCategoryPageblogCategoryPage", array);
   const theme = useTheme();
   const { isSmUp, isSmDown, isMdUp } = useMedia();
+  const { data: resData } = useSWR(
+    transformUrl(PAGES, {
+      child_of: idAPI,
+      fields: "*",
+    })
+  );
+
+  useEffect(() => {
+    if (resData === undefined) {
+      return;
+    }
+    setArray(resData.items);
+  });
 
   const animationHandler = useCallback(() => {
     setAnimationState(false);
@@ -115,9 +132,10 @@ export default function News({ initData }) {
   }, []);
   const changeTabHandler = useCallback((event, newValue) => {
     setCurrentTab(newValue);
-    console.log("newValue", newValue);
+    // console.log("newValue", newValue);
     setCurrentPage(1);
     animationHandler();
+    setIdAPI(newValue);
   }, []);
 
   const renderTabs = useMemo(() => {
@@ -132,24 +150,18 @@ export default function News({ initData }) {
         data={blogCategoryPage}
       />
     );
-  }, [partnerValue, currentTab]);
+  }, [blogCategoryPage, currentTab]);
 
   const renderTabPanel = useMemo(() => {
-    if (!partnerValue) {
+    if (!blogCategoryPage) {
       return null;
     }
     // FORMULA: OFFSET = (PAGE - 1) * LIMIT
     // FORMULA PAGE = (OFFSET / LIMIT) + 1
 
-    let filteredData = arrayHomeNews.filter((el) => {
-      return el.category == currentTab;
-    });
-
-    // console.log("filteredData", filteredData[0].title);/
-
-    return partnerValue.map((item, index) => {
+    return blogCategoryPage.items.map((item, index) => {
       return (
-        <TabPanel key={index} value={currentTab} index={index}>
+        <TabPanel key={index} value={currentTab} index={item.id}>
           <Grid
             container
             columnSpacing={7}
@@ -157,7 +169,7 @@ export default function News({ initData }) {
               height: "100%",
             }}
           >
-            {filteredData.map((el, i) => {
+            {array.map((el, i) => {
               return (
                 <Grid
                   item
@@ -177,16 +189,12 @@ export default function News({ initData }) {
     });
 
     //
-  }, [arrayHomeNews, currentTab, currentPage]);
+  }, [array, currentTab, currentPage]);
 
   const renderPagination = useMemo(() => {
-    let filteredData = arrayHomeNews.filter((el) => {
-      return el.category == currentTab;
-    });
-
     return (
       <Pagination
-        data={filteredData}
+        data={array}
         currentPage={currentPage}
         onChange={(_, newPage) => {
           setCurrentPage(newPage);

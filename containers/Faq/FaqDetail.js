@@ -67,6 +67,7 @@ export default function FaqDetail({ initData }) {
   const [listingFAQ, detailFAQ] = initData;
   const [expanded, setExpanded] = useState("panel2");
   const [question, setQuestion] = useState();
+  const { banner } = listingFAQ.items[0];
 
   const theme = useTheme();
   const { isSmUp, isSmDown, isMdUp } = useMedia();
@@ -134,7 +135,7 @@ export default function FaqDetail({ initData }) {
   //   console.log(resData.title);
   return (
     <Box>
-      <BannerTop />
+      <BannerTop data={banner} />
       <Container maxWidth="lg">
         <LineTitle
           titleData={resData === undefined ? "TÊN DANH MỤC" : resData.title}

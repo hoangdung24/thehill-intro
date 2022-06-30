@@ -18,7 +18,7 @@ import { Fragment } from "react";
 import { Image } from "../../HOC";
 
 const Footer = ({ children, ...props }) => {
-  const { isSmUp, isSmDown, isMdUp } = useMedia();
+  const { isSmUp, isSmDown, isMdUp, isMdDown } = useMedia();
   const theme = useTheme();
   const setting = useSetting();
 
@@ -33,7 +33,6 @@ const Footer = ({ children, ...props }) => {
       <Box sx={{ width: "80vw" }} id="lien-he">
         <Grid container sx={{ marginBottom: "4rem" }} columnSpacing={3}>
           <FooterContent setting={setting} />
-          {/* <Typography>{setting.address}</Typography> */}
         </Grid>
 
         <Stack
@@ -44,8 +43,8 @@ const Footer = ({ children, ...props }) => {
           sx={{
             marginBottom: "1.6rem",
             color: theme.palette.primary.main,
-            height: "8vh",
-            width: "15vw",
+            height: isMdDown ? (isSmDown ? "4vh" : "4vh") : "5vh",
+            width: isMdDown ? (isSmDown ? "50%" : "40%") : "20%",
             margin: "0 auto",
             marginBottom: "1.6rem !important",
           }}
@@ -63,21 +62,6 @@ const Footer = ({ children, ...props }) => {
               />
             );
           })}
-
-          {/* {social_icons.map((item, index) => {
-            // <Image
-            //   {...{
-            //     src: "/img/Rectangle 5.jpg",
-            //     width: "100%",
-            //     height: "100%",
-            //     objectFit: "cover",
-            //   }}
-            // />;
-          })} */}
-          {/* <FacebookRoundedIcon />
-          <FacebookRoundedIcon />
-          <InstagramIcon />
-          <InstagramIcon /> */}
         </Stack>
       </Box>
       <Box

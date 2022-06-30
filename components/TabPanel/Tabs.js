@@ -9,7 +9,6 @@ const Tabs = ({ value, changeTab, data }) => {
 
   const renderTab = useMemo(() => {
     return data.items.map((el) => {
-      console.log("first", el.id);
       return (
         <Tab
           key={el.id}

@@ -50,7 +50,7 @@ const LineTitle = ({ titleData, subtitleData, type }) => {
           </Box>
           <Box sx={{ marginLeft: 0 }}>
             <Typography
-              variant={isSmDown ? "h6" : "h4"}
+              variant={isSmDown ? "h3" : "h4"}
               sx={{ color: theme.palette.secondary.main }}
             >
               {titleData}
@@ -99,7 +99,7 @@ const LineTitle = ({ titleData, subtitleData, type }) => {
         >
           <Box>
             <Typography
-              variant={isSmDown ? "h6" : "h4"}
+              variant={isSmDown ? "h3" : "h4"}
               sx={{ color: theme.palette.primary.main }}
             >
               {titleData}
@@ -136,19 +136,6 @@ const LineTitle = ({ titleData, subtitleData, type }) => {
         >
           {subtitleData}
         </Typography>
-        {/* {data.subTitle ? (
-          <Typography
-            variant="body1"
-            sx={{
-              color: theme.palette.primary.light,
-              display: isSmDown ? "none" : "block",
-            }}
-          >
-            {data.subTitle}
-          </Typography>
-        ) : (
-          ""
-        )} */}
       </Fragment>
     );
   } else if (type === "center") {
@@ -187,8 +174,8 @@ const LineTitle = ({ titleData, subtitleData, type }) => {
           </Box>
           <Box>
             <Typography
-              variant="hairline4"
-              sx={{ color: theme.palette.secondary.main }}
+              variant={isSmDown ? "h3" : "h4"}
+              sx={{ color: theme.palette.secondary.main, textAlign: "center" }}
             >
               {titleData}
             </Typography>

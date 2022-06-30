@@ -1,38 +1,12 @@
-import { Box, Button, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, Stack, Typography } from "@mui/material";
 import React from "react";
 import CardItem from "../../../components/Card/CardItem";
 import LineTitle from "../../../components/LineTitle/LineTitle";
 import Link from "../../../components/Link";
 import useMedia from "../../../hooks/useMedia";
 
-const arrayHomeNews = [
-  {
-    img: "/img/Rectangle 5.jpg",
-    title: "Awesome collection",
-    date: "31/12/2022",
-    text: "Lorem ipsum dolor sit amet consectetur adipiscing elit.Loremipsum dolor sit amet consectetur adipiscing elit.",
-  },
-  {
-    img: "/img/Rectangle 5.jpg",
-    title: "Awesome collection",
-    date: "31/12/2022",
-    text: "Lorem ipsum dolor sit amet consectetur adipiscing elit.Loremipsum dolor sit amet consectetur adipiscing elit.",
-  },
-  {
-    img: "/img/Rectangle 5.jpg",
-    title: "Awesome collection",
-    date: "31/12/2022",
-    text: "Lorem ipsum dolor sit amet consectetur adipiscing elit.Loremipsum dolor sit amet consectetur adipiscing elit.",
-  },
-];
-
-const valuelineTitle = {
-  title: "Vé Đổi Điểm",
-};
-
 export default function HomeNews({ data, blogHomeData }) {
   const { blog_title } = data;
-  console.log("data", blogHomeData);
 
   const { isMdUp, isSmDown, isSmUp } = useMedia();
   const renderHomeNew = () => {
@@ -51,13 +25,13 @@ export default function HomeNews({ data, blogHomeData }) {
     });
   };
   return (
-    <Box
+    <Container
       sx={[
         {
           textAlign: "center",
           margin: "0 auto",
           marginBottom: "8rem",
-          width: "80vw",
+          // width: "80vw",
         },
         isSmDown && { marginBottom: "3.5rem" },
       ]}
@@ -72,7 +46,7 @@ export default function HomeNews({ data, blogHomeData }) {
           <Typography variant="button2">Xem Thêm</Typography>
         </Button>
       </Link>
-    </Box>
+    </Container>
   );
 }
 

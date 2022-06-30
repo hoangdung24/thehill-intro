@@ -4,9 +4,7 @@ import { useMeasure, useWindowSize, useUpdateEffect } from "react-use";
 
 import useMedia from "../../hooks/useMedia";
 import { Image } from "../../HOC";
-
 const CardItem = ({ data }) => {
-  // console.log("CardItem", data);
   const theme = useTheme();
   const [minWrapperHeight, setMinWrapperHeight] = useState(0);
   const { isMdUp, isSmUp } = useMedia();
@@ -134,12 +132,19 @@ const CardItem = ({ data }) => {
               >
                 {data.last_published_at}
               </Typography>
-              <Typography
+              {/* <Typography
                 variant="body2"
                 sx={{ textAlign: "left", color: theme.palette.common.natural3 }}
               >
                 {data.short_description}
-              </Typography>
+              </Typography> */}
+              <Box sx={{ height: "4.5rem" }}>
+                <Typography variant="body2" sx={{ textAlign: "left" }}>
+                  {data.meta.slug?.length > 70
+                    ? data.meta.slug.substr(0, 75) + "..."
+                    : data.meta.slug}
+                </Typography>
+              </Box>
             </Box>
           </Fragment>
         </Box>

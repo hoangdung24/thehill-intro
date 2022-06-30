@@ -104,9 +104,22 @@ export default function FooterContent({ setting }) {
           <Content>Đăng ký với chung tôi để nhận ưu đãi mỗi ngày.</Content>
           <InputSendMail />
           <Stack
+            className="plplplplplplplplplpl"
             direction="row"
             spacing={2}
-            sx={[{ height: "3rem" }, isSmDown && { height: "4rem" }]}
+            sx={[
+              {
+                height: "3rem",
+                [theme.breakpoints.down("md")]: {
+                  height: "6rem",
+                },
+                [theme.breakpoints.down("sm")]: {
+                  width: "80%",
+                  height: "4rem",
+                },
+              },
+              isSmDown && { height: "4rem" },
+            ]}
           >
             <Image
               {...{

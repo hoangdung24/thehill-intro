@@ -8,36 +8,44 @@ import {
 } from "@mui/material";
 import LineTitle from "../../../components/LineTitle/LineTitle";
 import { Image } from "../../../HOC";
+import { useSetting } from "../../../hooks";
 import useMedia from "../../../hooks/useMedia";
 
-const arrayHomeNews = [
-  {
-    img: "/benefitUser/The Hill Member Landing Page (2)/Rectangle 5-2.png",
-  },
-  {
-    img: "/benefitUser/The Hill Member Landing Page (2)/Rectangle 5-1.png",
-  },
-  {
-    img: "/benefitUser/The Hill Member Landing Page (2)/Rectangle 5-3.png",
-  },
-  {
-    img: "/benefitUser/The Hill Member Landing Page (2)/Rectangle 5.png",
-  },
-];
+// const arrayHomeNews = [
+//   {
+//     img: "/benefitUser/The Hill Member Landing Page (2)/Rectangle 5-2.png",
+//   },
+//   {
+//     img: "/benefitUser/The Hill Member Landing Page (2)/Rectangle 5-1.png",
+//   },
+//   {
+//     img: "/benefitUser/The Hill Member Landing Page (2)/Rectangle 5-3.png",
+//   },
+//   {
+//     img: "/benefitUser/The Hill Member Landing Page (2)/Rectangle 5.png",
+//   },
+// ];
 
-const valuelineTitle = {
-  title: "Vé Đổi Điểm",
-  subTitle:
-    "Sơ lược những tính năng giúp khách hàng có thể ăn uống và mua sắm thỏa thích",
-};
+// const valuelineTitle = {
+//   title: "Vé Đổi Điểm",
+//   subTitle:
+//     "Sơ lược những tính năng giúp khách hàng có thể ăn uống và mua sắm thỏa thích",
+// };
 
 const HomeBenefit = ({ data, ...props }) => {
-  const { customer_title, customer_subtitle } = data;
+  const {
+    customer_title,
+    customer_subtitle,
+    customer_content,
+    customer_image,
+  } = data;
   const { isSmDown } = useMedia();
   const theme = useTheme();
+  const setting = useSetting();
 
+  console.log("setting", customer_image);
   const renderIconBenefit = () => {
-    return arrayHomeNews.map((item, index) => {
+    return customer_content.map((item, index) => {
       return (
         <Grid
           key={index}
@@ -62,7 +70,7 @@ const HomeBenefit = ({ data, ...props }) => {
             <Box sx={{ width: isSmDown ? "35%" : "27%", height: "100%" }}>
               <Image
                 layout="fill"
-                src={item.img}
+                src={item.value.icon}
                 width="100%"
                 height="100%"
                 objectFit="cover"
@@ -77,11 +85,9 @@ const HomeBenefit = ({ data, ...props }) => {
                   marginBottom: "1rem",
                 }}
               >
-                Tích Điểm
+                {item.value.title}
               </Typography>
-              <Typography variant="body2">
-                Lorem ipsum dolor sit ametsdsssd consectetur adipiscing elit
-              </Typography>
+              <Typography variant="body2">{item.value.description}</Typography>
             </Box>
           </Stack>
         </Grid>
@@ -112,7 +118,7 @@ const HomeBenefit = ({ data, ...props }) => {
         <Stack
           direction={isSmDown ? "column" : "row"}
           alignItems={isSmDown ? "center" : "none"}
-          spacing={isSmDown ? 5 : 0}
+          spacing={isSmDown ? 1 : 0}
           justifyContent="center"
           sx={{
             borderRadius: "1rem",
@@ -130,11 +136,12 @@ const HomeBenefit = ({ data, ...props }) => {
             item
             sx={{
               width: isSmDown ? "100%" : "50%",
-              height: isSmDown ? "95vh" : "100%",
+              height: isSmDown ? "70vh" : "100%",
             }}
           >
             <Image
-              src="/img/phonethehill-04.png"
+              // src="/img/phonethehill-04.png"
+              src={customer_image}
               width="100%"
               height="100%"
               // objectFit="contain"

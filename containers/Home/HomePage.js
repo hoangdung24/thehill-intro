@@ -13,7 +13,6 @@ import Home3D from "./components/Home3D";
 const HomePage = ({ initData, ...props }) => {
   const { isSmUp, isSmDown, isMdUp } = useMedia();
   const [homeData, blogHome, brandHome, benefitHome] = initData;
-  console.log("initData", homeData);
   const { blog_title } = benefitHome;
 
   const data = homeData.items?.[0];

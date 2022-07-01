@@ -12,7 +12,6 @@ const settings = {
 };
 
 export default function SlideBrand(data) {
-  console.log("datadata", data);
   return (
     <Slider {...settings}>
       <CardBrand data={data} />

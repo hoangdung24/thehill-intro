@@ -5,7 +5,6 @@ import useMedia from "../../hooks/useMedia";
 
 export default function BannerTop(innitData) {
   const data = innitData;
-  // console.log("BannerTop", data);
   const { isSmUp, isSmDown, isMdUp } = useMedia();
   return (
     <Box sx={[{ height: "28.8rem" }, isSmDown && { height: "14.4rem" }]}>

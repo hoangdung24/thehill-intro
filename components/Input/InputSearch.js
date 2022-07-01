@@ -4,12 +4,11 @@ import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import useMedia from "../../hooks/useMedia";
 
-export default function InputSearch() {
+export default function InputSearch({ name, aaaa, ...props }) {
   const theme = useTheme();
   const { isSmUp, isSmDown, isMdUp } = useMedia();
   return (
     <Paper
-      component="form"
       sx={[
         {
           boxShadow: "none",
@@ -26,6 +25,7 @@ export default function InputSearch() {
       ]}
     >
       <InputBase
+        name={name}
         sx={{
           ml: 1,
           flex: 1,

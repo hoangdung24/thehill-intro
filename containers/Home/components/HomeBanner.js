@@ -6,7 +6,6 @@ import useMedia from "../../../hooks/useMedia";
 
 export default function HomeBanner({ data }) {
   const { banner, subtitle } = data;
-  // console.log("bannerbanner", banner);
   const { isSmDown } = useMedia();
   const theme = useTheme();
   return (

@@ -132,7 +132,6 @@ export default function FaqDetail({ initData }) {
       });
     }
   };
-  //   console.log(resData.title);
   return (
     <Box>
       <BannerTop data={banner} />

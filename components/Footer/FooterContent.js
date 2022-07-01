@@ -28,8 +28,8 @@ export default function FooterContent({ setting }) {
     title_column_3,
     link_in_column_1,
     link_in_column_2,
+    logo_footer,
   } = setting;
-  // console.log("footer", setting);
   return (
     <Fragment>
       <Grid
@@ -43,7 +43,7 @@ export default function FooterContent({ setting }) {
         >
           <Image
             {...{
-              src: "/img/Logo-theHill.png",
+              src: logo_footer,
               width: "100%",
               height: "100%",
               objectFit: "contain",

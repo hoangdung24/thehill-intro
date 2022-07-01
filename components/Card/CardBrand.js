@@ -6,7 +6,6 @@ import useMedia from "../../hooks/useMedia";
 import { Image } from "../../HOC";
 
 const CardBrand = ({ data, ...props }) => {
-  // console.log("CardBrand", data);
   const theme = useTheme();
   const [minWrapperHeight, setMinWrapperHeight] = useState(0);
   const { isMdUp, isSmUp, isSmDown } = useMedia();
@@ -14,6 +13,7 @@ const CardBrand = ({ data, ...props }) => {
   const { width: windowWidth, height: windowHeight } = useWindowSize();
 
   const [ref, { width, height }] = useMeasure();
+  const [refText, { width: witha, height: heighta }] = useMeasure();
 
   const [imageSize, setImageSize] = useState({
     width: 0,
@@ -85,15 +85,18 @@ const CardBrand = ({ data, ...props }) => {
           <Fragment>
             <Box
               sx={{
-                width: "50%",
+                // width: "50%",
                 margin: "0 auto",
                 overflow: "hidden",
+                // height: "5rem",
               }}
             >
               <Box
                 sx={{
+                  height: "5rem",
                   "& .MuiBox-root": {
                     width: "100%",
+                    height: "100%",
                   },
                   "& .homeNew": {
                     borderRadius: "8px !important ",
@@ -105,7 +108,7 @@ const CardBrand = ({ data, ...props }) => {
                   src={data.image}
                   width="50%"
                   height={imageSize.height}
-                  objectFit="cover"
+                  objectFit="contain"
                   onLoadingComplete={() => {
                     setIsCompleteLoaded(true);
                   }}
@@ -116,8 +119,6 @@ const CardBrand = ({ data, ...props }) => {
             <Box
               sx={{
                 marginTop: 1,
-                cursor: "pointer",
-                // minHeight: contentHeight,
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
@@ -132,13 +133,19 @@ const CardBrand = ({ data, ...props }) => {
                   marginBottom: "8px",
                 }}
               >
-                Điểm Tích Luỹ: {data.point}
+                {data.is_point_earned === true
+                  ? `Điểm Tích Luỹ: ${data.point}`
+                  : "Không Tích Điểm"}
               </Typography>
 
-              <Box sx={{ height: "4.6rem" }}>
-                <Typography variant="body2" sx={{ textAlign: "left" }}>
-                  {data.description?.length > 60
-                    ? data.description.substr(0, 60) + "..."
+              <Box sx={{ height: heighta }}>
+                <Typography
+                  variant="body2"
+                  sx={{ textAlign: "left" }}
+                  ref={refText}
+                >
+                  {data.description?.length > 50
+                    ? data.description.substr(0, 50) + "..."
                     : data.description}
                 </Typography>
               </Box>

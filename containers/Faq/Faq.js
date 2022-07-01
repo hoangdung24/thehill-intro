@@ -44,12 +44,10 @@ export default function FAQ({ initData }) {
   const [listingFAQ, detailFAQ] = initData;
   const { banner, title } = listingFAQ.items[0];
   const listData = detailFAQ.items;
-  // console.log("initData", listingFAQ);
 
   const { isSmUp, isSmDown, isMdUp } = useMedia();
 
   const handleFAQ = (id) => {
-    // console.log("handleFAQ", router.pathname);
     router.push(`${router.pathname}/${id}`);
   };
 
@@ -59,7 +57,6 @@ export default function FAQ({ initData }) {
     }
 
     return listData.map((item, index) => {
-      // console.log("first", item.id);
       return (
         <Grid
           item

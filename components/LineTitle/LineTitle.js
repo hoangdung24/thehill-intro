@@ -5,9 +5,6 @@ import useMedia from "../../hooks/useMedia";
 const LineTitle = ({ titleData, subtitleData, type }) => {
   const { isSmUp, isSmDown, isMdUp } = useMedia();
   const theme = useTheme();
-  // useEffect(() => {
-  //   console.log("object");
-  // });
 
   if (type === "right") {
     return (

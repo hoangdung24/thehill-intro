@@ -9,8 +9,6 @@ const LIMIT = 6;
 const Pagination = ({ data, onChange, currentPage }) => {
   const theme = useTheme();
   const count = Math.round(data.length / LIMIT);
-  console.log("countcountcount", count);
-  console.log("data.length ", data.length);
   return (
     <MuiPagination
       count={Math.round(data.length / LIMIT)}

@@ -1,6 +1,14 @@
 import { Box, Container, Grid, Typography, useTheme } from "@mui/material";
+import Fade from "@mui/material/Fade";
+
 import { useRouter } from "next/router";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import useSWR from "swr";
 import { PAGES } from "../../apis";
 import BannerTop from "../../components/BannerTop/BannerTop";
@@ -9,98 +17,21 @@ import LineTitle from "../../components/LineTitle/LineTitle";
 import Pagination from "../../components/Pagination";
 import TabPanel from "../../components/TabPanel/TabPanel";
 import Tabs from "../../components/TabPanel/Tabs";
-import { POST_LIMIT } from "../../constants";
+import { PARTNER_LIMIT } from "../../constants";
 import { Image } from "../../HOC";
 import useMedia from "../../hooks/useMedia";
 import { transformUrl } from "../../libs";
 
-const valuelineTitle = {
-  title: "Đối Tác",
-  subTitle:
-    "Sơ lược những tính năng giúp khách hàng có thể ăn uống và mua sắm thỏa thích",
-};
-
-const arrayHomeNews = [
-  {
-    img: "/logoBrand/image 8-1.png",
-    title: "Điểm Tích Lũy: 10",
-    text: "Lorem ipsum dolor sit amet consectetur adipiscing elit.",
-    category: 0,
-  },
-  {
-    img: "/logoBrand/image 8-1.png",
-    title: "Điểm Tích Lũy: 10",
-    text: "Lorem ipsum dolor sit amet consectetur adipiscing elit.",
-    category: 0,
-  },
-  {
-    img: "/logoBrand/image 8-1.png",
-    title: "Điểm Tích Lũy: 10",
-    text: "Lorem ipsum dolor sit amet consectetur adipiscing elit.",
-    category: 0,
-  },
-  {
-    img: "/logoBrand/image 8-1.png",
-    title: "Điểm Tích Lũy: 10",
-    text: "Lorem ipsum dolor sit amet consectetur adipiscing elit.",
-    category: 0,
-  },
-  {
-    img: "/logoBrand/image 8-2.png",
-    title: "Điểm Tích Lũy: 11",
-    text: "Lorem ipsum dolor sit amet consectetur adipiscing elit.",
-    category: 1,
-  },
-  {
-    img: "/logoBrand/image 8-3.png",
-    title: "Điểm Tích Lũy: 12",
-    text: "Lorem ipsum dolor sit amet consectetur adipiscing elit.",
-    category: 2,
-  },
-  {
-    img: "/logoBrand/image 8.png",
-    title: "Điểm Tích Lũy: 13",
-    text: "Lorem ipsum dolor sit amet consectetur adipiscing elit.",
-    category: 3,
-  },
-  {
-    img: "/logoBrand/image 8.png",
-    title: "Điểm Tích Lũy: 14",
-    text: "Lorem ipsum dolor sit amet consectetur adipiscing elit.",
-    category: 4,
-  },
-  {
-    img: "/logoBrand/image 8.png",
-    title: "Điểm Tích Lũy: 15",
-    text: "Lorem ipsum dolor sit amet consectetur adipiscing elit.",
-    category: 5,
-  },
-];
-
-const partnerValue = [
-  { id: 0, name: "Tất Cả" },
-  { id: 1, name: "Tất Cả" },
-  { id: 2, name: "Tất Cả" },
-  { id: 3, name: "Tất Cả" },
-  { id: 4, name: "Tất Cả" },
-  { id: 5, name: "Tất Cả" },
-];
-
-export default function Partner({ initData }) {
+const Partner = forwardRef(({ initData }, ref) => {
   const router = useRouter();
   const [partnerBrand, partnerTabs, partnerListing] = initData;
-  // console.log("partnerBrand", partnerTabs.items);
-  // console.log("partnerTabs", partnerTabs.items[0].id);
-
   const theme = useTheme();
   const { isSmUp, isSmDown, isMdUp } = useMedia();
-  // console.log("partnerValue", partnerValue[0].id);
   const [currentTab, setCurrentTab] = useState(partnerTabs.items[0].id);
   const [animationState, setAnimationState] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [idAPI, setIdAPI] = useState(17);
   const [array, setArray] = useState([]);
-  // console.log("arrayarrayarrayarray", array);
 
   const animationHandler = useCallback(() => {
     setAnimationState(false);
@@ -125,21 +56,17 @@ export default function Partner({ initData }) {
   const changeTabHandler = useCallback(
     (event, newValue) => {
       setCurrentTab(newValue);
-      console.log("newValue", newValue);
       setCurrentPage(1);
       animationHandler();
       setIdAPI(newValue);
-      // setArray(resData.partners);
     },
     [idAPI]
   );
-  // console.log("partner", resData);
 
   const renderTabs = useMemo(() => {
     if (!partnerTabs) {
       return null;
     }
-    // console.log("renderTabs", resData);
 
     return (
       <Tabs
@@ -171,14 +98,7 @@ export default function Partner({ initData }) {
             >
               {array.map((el, i) => {
                 return (
-                  <Grid
-                    item
-                    key={index}
-                    xs={12}
-                    sm={6}
-                    md={3}
-                    className="sadsadsadsadasdsadsadasd"
-                  >
+                  <Grid item key={i} xs={12} sm={6} md={3}>
                     <CardBrand data={el} />
                   </Grid>
                 );
@@ -188,14 +108,14 @@ export default function Partner({ initData }) {
         );
       });
     } else {
-      const offset = (currentPage - 1) * POST_LIMIT;
-      const data = array.slice(offset, offset + POST_LIMIT);
+      const offset = (currentPage - 1) * PARTNER_LIMIT;
+      const data = array.slice(offset, offset + PARTNER_LIMIT);
 
       return partnerTabs.items.map((item, index) => {
         return (
           <TabPanel key={index} value={currentTab} index={item.id}>
             {data.map((el, i) => {
-              return <CardBrand data={el} />;
+              return <CardBrand key={i} data={el} />;
             })}
           </TabPanel>
         );
@@ -215,7 +135,6 @@ export default function Partner({ initData }) {
         data={array}
         currentPage={currentPage}
         onChange={(_, newPage) => {
-          console.log("newPage", newPage);
           setCurrentPage(newPage);
           animationHandler();
         }}
@@ -224,7 +143,13 @@ export default function Partner({ initData }) {
   }, [array, currentPage, isSmUp, currentTab]);
 
   return (
-    <Box>
+    <Box
+      sx={{
+        [theme.breakpoints.down("sm")]: {
+          marginBottom: "3.5rem",
+        },
+      }}
+    >
       <BannerTop data={partnerListing.items[0].banner} />
 
       <Container maxWidth="lg">
@@ -235,13 +160,13 @@ export default function Partner({ initData }) {
         <Box
           sx={{
             height: "25rem",
-            marginBottom: "6rem",
-            display: isSmDown ? "none" : "block",
+            marginBottom: "3.5rem",
+            // display: isSmDown ? "none" : "block",
           }}
         >
           <Image
             {...{
-              src: "/img/Rectangle 5.jpg",
+              src: partnerListing.items[0].all_category_thumbnail,
               width: "100%",
               height: "100%",
               objectFit: "cover",
@@ -251,15 +176,25 @@ export default function Partner({ initData }) {
         <Box
           sx={{
             [theme.breakpoints.down("sm")]: {
-              width: isSmDown ? "75vw" : "100%",
+              width: isSmDown ? "65vw" : "100%",
               margin: "0 auto",
             },
           }}
         >
-          {renderTabPanel}
+          <Fade
+            in={animationState}
+            timeout={{
+              enter: 500,
+            }}
+          >
+            <Box>{renderTabPanel}</Box>
+          </Fade>
+
           <Box>{renderPagination}</Box>
         </Box>
       </Container>
     </Box>
   );
-}
+});
+
+export default Partner;

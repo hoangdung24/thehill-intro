@@ -32,7 +32,6 @@ const StoreBenefit = ({ data, ...props }) => {
   const theme = useTheme();
   const setting = useSetting();
 
-  console.log("setting", data);
   const renderIconBenefit = () => {
     return store_content.map((item, index) => {
       return (

@@ -27,7 +27,6 @@ const arrayExchangePoint = [
 
 export default function ExchangePointsHome({ data }) {
   const { about_title } = data;
-  // console.log("eeeeee", about_title);
   const renderContent = () => {
     return arrayExchangePoint.map((item, index) => {
       return (

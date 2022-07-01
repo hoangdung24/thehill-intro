@@ -43,7 +43,6 @@ const HomeBenefit = ({ data, ...props }) => {
   const theme = useTheme();
   const setting = useSetting();
 
-  console.log("setting", customer_image);
   const renderIconBenefit = () => {
     return customer_content.map((item, index) => {
       return (

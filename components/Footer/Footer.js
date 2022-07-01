@@ -1,17 +1,12 @@
 import {
   Divider as MuiDivider,
-  Container,
   Box,
-  styled,
   Grid,
   useTheme,
   Typography,
   Stack,
 } from "@mui/material";
 import { useSetting } from "../../hooks";
-import { FooterTop, FooterBottom } from "../../components";
-import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
-import InstagramIcon from "@mui/icons-material/Instagram";
 import FooterContent from "./FooterContent";
 import useMedia from "../../hooks/useMedia";
 import { Fragment } from "react";
@@ -25,9 +20,7 @@ const Footer = ({ children, ...props }) => {
   if (!setting) {
     return null;
   }
-  // console.log("setting", setting);
   const { social_icons } = setting;
-  // console.log("settingsetting", setting);
   return (
     <Fragment>
       <Box sx={{ width: "80vw" }} id="lien-he">
@@ -44,7 +37,7 @@ const Footer = ({ children, ...props }) => {
             marginBottom: "1.6rem",
             color: theme.palette.primary.main,
             height: isMdDown ? (isSmDown ? "4vh" : "4vh") : "5vh",
-            width: isMdDown ? (isSmDown ? "50%" : "40%") : "20%",
+            width: isMdDown ? (isSmDown ? "70%" : "40%") : "25%",
             margin: "0 auto",
             marginBottom: "1.6rem !important",
           }}

@@ -9,13 +9,20 @@ const CardItem = ({ data }) => {
   const [minWrapperHeight, setMinWrapperHeight] = useState(0);
   const { isMdUp, isSmUp } = useMedia();
   const [isCompleteLoaded, setIsCompleteLoaded] = useState(false);
+  const [aaaa, setaaaa] = useState("2rem");
   const { width: windowWidth, height: windowHeight } = useWindowSize();
 
+  console.log("object", data.meta.slug.length);
+
   const [ref, { width, height }] = useMeasure();
+  const [refText, { width: witha, height: heighta }] = useMeasure();
 
   const [imageSize, setImageSize] = useState({
     width: 0,
     height: 0,
+  });
+  useEffect(() => {
+    setaaaa(heighta);
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -23,6 +30,34 @@ const CardItem = ({ data }) => {
   const contentRef = useRef(null);
 
   const [contentHeight, setContentHeight] = useState(48);
+
+  const render = () => {
+    if (!data) {
+      return null;
+    }
+
+    if (data.meta.slug?.length > 15) {
+      return (
+        <Box sx={{ height: aaaa }}>
+          <Typography variant="body2" sx={{ textAlign: "left" }} ref={refText}>
+            {data.meta.slug?.length > 50
+              ? data.meta.slug.substr(0, 50) + "..."
+              : data.meta.slug}
+          </Typography>
+        </Box>
+      );
+    } else {
+      return (
+        <Box sx={{ height: "2rem" }}>
+          <Typography variant="body2" sx={{ textAlign: "left" }} ref={refText}>
+            {data.meta.slug?.length > 50
+              ? data.meta.slug.substr(0, 50) + "..."
+              : data.meta.slug}
+          </Typography>
+        </Box>
+      );
+    }
+  };
 
   useEffect(() => {
     if (contentRef.current) {
@@ -64,6 +99,9 @@ const CardItem = ({ data }) => {
             "linear-gradient(rgba(244, 244, 244, 0.4), rgba(244, 244, 244, 0.2))",
           backdropFilter: "blur(4px)",
           border: "2px solid rgba(177, 181, 195, 0.1)",
+          [theme.breakpoints.down("sm")]: {
+            marginBottom: "4rem",
+          },
         }}
       >
         <Box
@@ -132,19 +170,33 @@ const CardItem = ({ data }) => {
               >
                 {data.last_published_at}
               </Typography>
-              {/* <Typography
-                variant="body2"
-                sx={{ textAlign: "left", color: theme.palette.common.natural3 }}
-              >
-                {data.short_description}
-              </Typography> */}
-              <Box sx={{ height: "4.5rem" }}>
-                <Typography variant="body2" sx={{ textAlign: "left" }}>
-                  {data.meta.slug?.length > 70
-                    ? data.meta.slug.substr(0, 75) + "..."
-                    : data.meta.slug}
-                </Typography>
-              </Box>
+              {render()}
+
+              {/* {data.meta.slug.length > 5 ? (
+                <Box sx={{ height: heighta }}>
+                  <Typography
+                    variant="body2"
+                    sx={{ textAlign: "left" }}
+                    ref={refText}
+                  >
+                    {data.meta.slug?.length > 50
+                      ? data.meta.slug.substr(0, 50) + "..."
+                      : data.meta.slug}
+                  </Typography>
+                </Box>
+              ) : (
+                <Box sx={{ height: "2rem" }}>
+                  <Typography
+                    variant="body2"
+                    sx={{ textAlign: "left" }}
+                    ref={refText}
+                  >
+                    {data.meta.slug?.length > 50
+                      ? data.meta.slug.substr(0, 50) + "..."
+                      : data.meta.slug}
+                  </Typography>
+                </Box>
+              )} */}
             </Box>
           </Fragment>
         </Box>

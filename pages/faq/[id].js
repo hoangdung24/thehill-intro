@@ -3,8 +3,6 @@ import React from "react";
 import { PAGES, types } from "../../apis";
 import FaqDetail from "../../containers/Faq/FaqDetail";
 import { prefetchData, transformUrl } from "../../libs";
-// const router = useRouter();
-// console.log("routerrouterroutersdd232", router.query.id);
 export default function PageFAQ({ ...props }) {
   return <FaqDetail {...props} />;
 }

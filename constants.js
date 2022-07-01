@@ -8,4 +8,6 @@ export const NAVBAR = [
   { name: "FAQ", link: "/faq", key: "faq" },
 ];
 
-export const POST_LIMIT = 5;
+export const PARTNER_LIMIT = 5;
+export const NEWPC_LIMIT = 9;
+export const POSTMOBILE_LIMIT = 9;

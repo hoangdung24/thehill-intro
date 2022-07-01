@@ -11,11 +11,21 @@ const Tabs = ({ value, changeTab, data }) => {
     return data.items.map((el) => {
       return (
         <Tab
+          className="asdasdadd"
           key={el.id}
           label={el.title}
           value={el.id}
           disableRipple
           sx={[
+            {
+              [theme.breakpoints.down("sm")]: {
+                paddingLeft: 0,
+                paddingRight: 0,
+                "&:not(:first-child)": {
+                  marginLeft: 2,
+                },
+              },
+            },
             isSmUp && {
               minWidth: "120px",
             },

@@ -12,8 +12,6 @@ const CardItem = ({ data }) => {
   const [aaaa, setaaaa] = useState("2rem");
   const { width: windowWidth, height: windowHeight } = useWindowSize();
 
-  console.log("object", data.meta.slug.length);
-
   const [ref, { width, height }] = useMeasure();
   const [refText, { width: witha, height: heighta }] = useMeasure();
 
@@ -30,34 +28,6 @@ const CardItem = ({ data }) => {
   const contentRef = useRef(null);
 
   const [contentHeight, setContentHeight] = useState(48);
-
-  const render = () => {
-    if (!data) {
-      return null;
-    }
-
-    if (data.meta.slug?.length > 15) {
-      return (
-        <Box sx={{ height: aaaa }}>
-          <Typography variant="body2" sx={{ textAlign: "left" }} ref={refText}>
-            {data.meta.slug?.length > 50
-              ? data.meta.slug.substr(0, 50) + "..."
-              : data.meta.slug}
-          </Typography>
-        </Box>
-      );
-    } else {
-      return (
-        <Box sx={{ height: "2rem" }}>
-          <Typography variant="body2" sx={{ textAlign: "left" }} ref={refText}>
-            {data.meta.slug?.length > 50
-              ? data.meta.slug.substr(0, 50) + "..."
-              : data.meta.slug}
-          </Typography>
-        </Box>
-      );
-    }
-  };
 
   useEffect(() => {
     if (contentRef.current) {
@@ -170,33 +140,20 @@ const CardItem = ({ data }) => {
               >
                 {data.last_published_at}
               </Typography>
-              {render()}
 
-              {/* {data.meta.slug.length > 5 ? (
-                <Box sx={{ height: heighta }}>
-                  <Typography
-                    variant="body2"
-                    sx={{ textAlign: "left" }}
-                    ref={refText}
-                  >
-                    {data.meta.slug?.length > 50
-                      ? data.meta.slug.substr(0, 50) + "..."
-                      : data.meta.slug}
-                  </Typography>
-                </Box>
-              ) : (
-                <Box sx={{ height: "2rem" }}>
-                  <Typography
-                    variant="body2"
-                    sx={{ textAlign: "left" }}
-                    ref={refText}
-                  >
-                    {data.meta.slug?.length > 50
-                      ? data.meta.slug.substr(0, 50) + "..."
-                      : data.meta.slug}
-                  </Typography>
-                </Box>
-              )} */}
+              <Box
+                sx={{ height: data.meta.slug.length < 20 ? "3rem" : heighta }}
+              >
+                <Typography
+                  variant="body2"
+                  sx={{ textAlign: "left" }}
+                  ref={refText}
+                >
+                  {data.meta.slug?.length > 50
+                    ? data.meta.slug.substr(0, 50) + "..."
+                    : data.meta.slug}
+                </Typography>
+              </Box>
             </Box>
           </Fragment>
         </Box>

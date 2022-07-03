@@ -36,7 +36,7 @@ const Footer = ({ children, ...props }) => {
           sx={{
             marginBottom: "1.6rem",
             color: theme.palette.primary.main,
-            height: isMdDown ? (isSmDown ? "4vh" : "4vh") : "5vh",
+            height: isMdDown ? (isSmDown ? "4vh" : "4vh") : "6vh",
             width: isMdDown ? (isSmDown ? "70%" : "40%") : "25%",
             margin: "0 auto",
             marginBottom: "1.6rem !important",

@@ -4,7 +4,7 @@ import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import useMedia from "../../hooks/useMedia";
 
-export default function InputSearch({ name, aaaa, ...props }) {
+export default function InputSearch({ name, changeInput, aaaa, ...props }) {
   const theme = useTheme();
   const { isSmUp, isSmDown, isMdUp } = useMedia();
   return (
@@ -36,6 +36,7 @@ export default function InputSearch({ name, aaaa, ...props }) {
         placeholder="Tìm kiếm..."
       />
       <IconButton
+        type="submit"
         color="primary"
         sx={{
           p: "10px",

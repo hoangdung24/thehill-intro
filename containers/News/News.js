@@ -28,7 +28,7 @@ export default function News({ initData }) {
 
   const { register, handleSubmit, reset, control, setError } = useForm({
     defaultValues: {
-      search: "bill",
+      search: "bài",
     },
   });
 
@@ -71,10 +71,19 @@ export default function News({ initData }) {
   const handleDetailNew = (id) => {
     router.push(`${router.pathname}/${id}`);
   };
-
-  const onSubmit = useCallback((data) => {
-    console.log("data", data);
-  }, []);
+  const onSubmit = useCallback(
+    (data) => {
+      const timkiem = "b";
+      // console.log("data", data);
+      console.log("data", array);
+      const dataSearch = array.filter((item) =>
+        item.title.toLowerCase().includes(timkiem)
+      );
+      setArray(dataSearch);
+      console.log("timkien", dataSearch);
+    },
+    [array]
+  );
 
   const renderTabs = useMemo(() => {
     if (!blogCategoryPage) {

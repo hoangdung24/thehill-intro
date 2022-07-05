@@ -9,33 +9,33 @@ const FAQPage = ({ ...props }) => {
 
 export default FAQPage;
 
-// export async function getServerSideProps({ params, query }) {
-//   try {
-//     const urls = [
-//       `${PAGES}?type=${FAQ_LIST}&fields=*`,
-//       `${PAGES}?type=${FAQ_DETAIL}&fields=*`,
-//     ];
+export async function getServerSideProps({ params, query }) {
+  try {
+    const urls = [
+      `${PAGES}?type=${FAQ_LIST}&fields=*`,
+      `${PAGES}?type=${FAQ_DETAIL}&fields=*`,
+    ];
 
-//     const resList = await Promise.all(
-//       urls.map((url) =>
-//         axios.get(url).then(({ data }) => {
-//           return data;
-//         })
-//       )
-//     );
+    const resList = await Promise.all(
+      urls.map((url) =>
+        axios.get(url).then(({ data }) => {
+          return data;
+        })
+      )
+    );
 
-//     return {
-//       props: {
-//         initFaqPage: resList[0],
-//         initFaqDetailList: resList[1],
-//       },
-//     };
-//   } catch {
-//     return {
-//       redirect: {
-//         destination: "/404",
-//         permanent: false,
-//       },
-//     };
-//   }
-// }
+    return {
+      props: {
+        initFaqPage: resList[0],
+        initFaqDetailList: resList[1],
+      },
+    };
+  } catch {
+    return {
+      redirect: {
+        destination: "/404",
+        permanent: false,
+      },
+    };
+  }
+}

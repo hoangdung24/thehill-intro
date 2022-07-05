@@ -1,4 +1,5 @@
-import { Box, Button, Container, Grid, Stack, Typography } from "@mui/material";
+import { Button, Container, Grid, Typography } from "@mui/material";
+import { useRouter } from "next/router";
 import React from "react";
 import CardItem from "../../../components/Card/CardItem";
 import LineTitle from "../../../components/LineTitle/LineTitle";
@@ -7,12 +8,18 @@ import useMedia from "../../../hooks/useMedia";
 
 export default function HomeNews({ data, blogHomeData }) {
   const { blog_title } = data;
+  const router = useRouter();
+  console.log(router.pathname);
+  const { isSmDown } = useMedia();
 
-  const { isMdUp, isSmDown, isSmUp } = useMedia();
+  const handleDetailNew = (id) => {
+    router.push(`tin-tuc/${id}`);
+  };
   const renderHomeNew = () => {
     return blogHomeData.map((data, index) => {
       return (
         <Grid
+          onClick={() => handleDetailNew(data.id)}
           key={index}
           item
           xs={12}

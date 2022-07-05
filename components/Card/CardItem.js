@@ -16,6 +16,8 @@ const CardItem = ({ data }) => {
 
   const [ref, { width, height }] = useMeasure();
   const [refText, { width: witha, height: heighta }] = useMeasure();
+  const [refTun, { width: withb, height: heightb }] = useMeasure();
+  console.log("refTunrefTun", heightb);
 
   const [imageSize, setImageSize] = useState({
     width: 0,
@@ -120,18 +122,22 @@ const CardItem = ({ data }) => {
               }}
               ref={contentRef}
             >
-              <Typography
-                variant="body2_bold"
-                sx={{
-                  color: theme.palette.secondary.main,
-                  marginBottom: "8px",
-                }}
-              >
-                {/* {data.title} */}
-                {data.title?.length > 25
-                  ? data.title.substr(0, 25) + "..."
-                  : data.title}
-              </Typography>
+              <Box sx={{ height: data.title.length < 20 ? "3rem" : heightb }}>
+                <Typography
+                  ref={refTun}
+                  variant="body2_bold"
+                  sx={{
+                    display: "block",
+                    color: theme.palette.secondary.main,
+                    marginBottom: "8px",
+                  }}
+                >
+                  {/* {data.title} */}
+                  {data.title?.length > 40
+                    ? data.title.substr(0, 55) + "..."
+                    : data.title}
+                </Typography>
+              </Box>
 
               <Typography
                 variant="caption2"

@@ -21,7 +21,7 @@ const Tabs = ({ value, changeTab, data }) => {
               [theme.breakpoints.down("sm")]: {
                 paddingLeft: 0,
                 paddingRight: 0,
-                "&:not(:first-child)": {
+                "&:not(:first-of-type)": {
                   marginLeft: 2,
                 },
               },

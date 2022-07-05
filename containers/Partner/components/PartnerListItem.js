@@ -1,5 +1,14 @@
 import DOMPurify from "isomorphic-dompurify";
-import { Typography, Card, CardContent, Avatar, Divider, Stack, Box } from "@mui/material";
+import {
+  Typography,
+  Card,
+  CardContent,
+  Avatar,
+  Divider,
+  Stack,
+  Box,
+} from "@mui/material";
+import Link from "../../../components/Link";
 
 const PartnerDetailItem = ({ data }) => {
   if (data === null) {
@@ -15,7 +24,7 @@ const PartnerDetailItem = ({ data }) => {
     >
       <CardContent>
         <Stack direction="row" spacing={3} alignItems="center">
-          <a href={data.link}>
+          <Link href={data.link}>
             <Avatar
               src={data.image}
               sx={{
@@ -24,7 +33,7 @@ const PartnerDetailItem = ({ data }) => {
                 cursor: "pointer",
               }}
             />
-          </a>
+          </Link>
           <Box>
             <Typography>{data.name}</Typography>
             <Box
@@ -43,7 +52,9 @@ const PartnerDetailItem = ({ data }) => {
           </Box>
         </Stack>
 
-        <Divider sx={{ height: "1px", marginY: 3, backgroundColor: "common.black" }} />
+        <Divider
+          sx={{ height: "1px", marginY: 3, backgroundColor: "common.black" }}
+        />
         <Typography>{data.description}</Typography>
       </CardContent>
     </Card>

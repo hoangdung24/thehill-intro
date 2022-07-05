@@ -13,6 +13,7 @@ import useSWR from "swr";
 import { PAGES } from "../../apis";
 import BannerTop from "../../components/BannerTop/BannerTop";
 import CardBrand from "../../components/Card/CardBrand";
+import InputPageNew from "../../components/Input/InputPageNew";
 import LineTitle from "../../components/LineTitle/LineTitle";
 import Pagination from "../../components/Pagination";
 import TabPanel from "../../components/TabPanel/TabPanel";
@@ -50,6 +51,7 @@ const Partner = forwardRef(({ initData }, ref) => {
     if (resData === undefined) {
       return;
     }
+
     setArray(resData.partners);
   });
 
@@ -87,6 +89,22 @@ const Partner = forwardRef(({ initData }, ref) => {
       return partnerTabs.items.map((item, index) => {
         return (
           <TabPanel key={index} value={currentTab} index={item.id}>
+            <Box
+              sx={{
+                height: "25rem",
+                marginBottom: "3.5rem",
+                // display: isSmDown ? "none" : "block",
+              }}
+            >
+              <Image
+                {...{
+                  src: resData?.thumbnail,
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                }}
+              />
+            </Box>
             <Grid
               container
               spacing={10}
@@ -144,6 +162,7 @@ const Partner = forwardRef(({ initData }, ref) => {
 
   return (
     <Box
+      ref={ref}
       sx={{
         [theme.breakpoints.down("sm")]: {
           marginBottom: "3.5rem",
@@ -157,7 +176,7 @@ const Partner = forwardRef(({ initData }, ref) => {
       </Container>
       {renderTabs}
       <Container maxWidth="lg">
-        <Box
+        {/* <Box
           sx={{
             height: "25rem",
             marginBottom: "3.5rem",
@@ -172,7 +191,7 @@ const Partner = forwardRef(({ initData }, ref) => {
               objectFit: "cover",
             }}
           />
-        </Box>
+        </Box> */}
         <Box
           sx={{
             [theme.breakpoints.down("sm")]: {

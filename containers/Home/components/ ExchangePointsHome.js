@@ -26,24 +26,29 @@ const arrayExchangePoint = [
 ];
 
 export default function ExchangePointsHome({ data }) {
-  const { about_title } = data;
+  const { about_title, about_content } = data;
   const renderContent = () => {
-    return arrayExchangePoint.map((item, index) => {
+    return about_content.map((item, index) => {
       return (
         <Grid item xs={12} md={4} key={index}>
-          <Image
-            {...{
-              src: item.img,
-              width: "100%",
-              height: "50vh",
-              objectFit: "cover",
-            }}
-          />
+          <Box sx={{ width: "100%", height: "26.2rem" }}>
+            <Image
+              {...{
+                src: item.value.image,
+                width: "100%",
+                height: "100%",
+                objectFit: "fill",
+              }}
+            />
+          </Box>
+
           <Typography
             variant="body2"
             sx={{ marginTop: "1.5rem", textAlign: "justify !important" }}
           >
-            {item.subtitle}
+            {item.value.description.length > 150
+              ? item.value.description.substr(0, 175) + "..."
+              : item.value.description}
           </Typography>
         </Grid>
       );

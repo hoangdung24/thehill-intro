@@ -1,8 +1,7 @@
-import { Container, Fade, Grid, useTheme } from "@mui/material";
+import { Container, Fade, Grid, TextField, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import BannerTop from "../../components/BannerTop/BannerTop";
-import InputSearch from "../../components/Input/InputSearch";
 import LineTitle from "../../components/LineTitle/LineTitle";
 import TabPanel from "../../components/TabPanel/TabPanel";
 import Tabs from "../../components/TabPanel/Tabs";
@@ -11,10 +10,12 @@ import CardItem from "../../components/Card/CardItem";
 import Pagination from "../../components/Pagination";
 import useSWR from "swr";
 import { transformUrl } from "../../libs";
-import { PAGES } from "../../apis";
+import { PAGES, types } from "../../apis";
 import { NEWPC_LIMIT } from "../../constants";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
+import InputPageNew from "../../components/Input/InputPageNew";
+import { defaultValuesPageNew } from "../../libs/yupRegister";
 
 export default function News({ initData }) {
   const [blogListingPage, blogCategoryPage, blogDetailPage] = initData;
@@ -24,12 +25,9 @@ export default function News({ initData }) {
   const [animationState, setAnimationState] = useState(true);
   const [array, setArray] = useState([]);
   const [idAPI, setIdAPI] = useState(blogCategoryPage.items[0].id);
-  const [search, setSearch] = useState("hello");
 
-  const { register, handleSubmit, reset, control, setError } = useForm({
-    defaultValues: {
-      search: "bài",
-    },
+  const { handleSubmit, reset, control, setError } = useForm({
+    defaultValuesPageNew,
   });
 
   const theme = useTheme();
@@ -40,6 +38,7 @@ export default function News({ initData }) {
     transformUrl(PAGES, {
       child_of: idAPI,
       fields: "*",
+      type: types.blogDetailPage,
     })
   );
 
@@ -73,14 +72,17 @@ export default function News({ initData }) {
   };
   const onSubmit = useCallback(
     (data) => {
-      const timkiem = "b";
-      // console.log("data", data);
-      console.log("data", array);
+      // console.log("data", typeof data.search);
+      // console.log("data", array);
       const dataSearch = array.filter((item) =>
-        item.title.toLowerCase().includes(timkiem)
+        item.title.toLowerCase().includes(data.search)
       );
       setArray(dataSearch);
       console.log("timkien", dataSearch);
+
+      reset(defaultValuesPageNew, {
+        keepDirty: false,
+      });
     },
     [array]
   );
@@ -109,6 +111,7 @@ export default function News({ initData }) {
     if (isSmUp) {
       const offset = (currentPage - 1) * NEWPC_LIMIT;
       const data = array.slice(offset, offset + NEWPC_LIMIT);
+
       return blogCategoryPage.items.map((item, index) => {
         return (
           <TabPanel key={index} value={currentTab} index={item.id}>
@@ -177,7 +180,13 @@ export default function News({ initData }) {
       <Container maxWidth="lg">
         <LineTitle titleData={blogListingPage.items[0].title} type="center" />
         <Box component={"form"} onSubmit={handleSubmit(onSubmit)}>
-          <InputSearch name="search" />
+          <InputPageNew
+            control={control}
+            name="search"
+            InputProps={{
+              placeholder: "Tìm kiếm",
+            }}
+          />
         </Box>
       </Container>
 

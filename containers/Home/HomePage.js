@@ -14,7 +14,7 @@ const HomePage = ({ initData, ...props }) => {
   const { isSmUp, isSmDown, isMdUp } = useMedia();
   const [homeData, blogHome, brandHome, benefitHome] = initData;
   const { blog_title } = benefitHome;
-
+  console.log("initData", initData);
   const data = homeData.items?.[0];
   const blogHomeData = blogHome.items;
   const brandHomeData = brandHome.items;

@@ -15,10 +15,12 @@ import { Image } from "../../HOC";
 import useMedia from "../../hooks/useMedia";
 import { styled } from "@mui/material/styles";
 import UploadFileOutlinedIcon from "@mui/icons-material/UploadFileOutlined";
-
-const valuelineTitle = {
-  title: "Đăng Ký",
-};
+import { useForm } from "react-hook-form";
+import { schema, defaultValues } from "../../libs/yupRegister";
+import { useCallback } from "react";
+import InputFiles from "../../components/Input/InputFile";
+import { yupResolver } from "@hookform/resolvers/yup";
+import InputPhoneNumber from "../../components/Input/InputPhoneNumber";
 
 const valuelineTitle2 = {
   title: "Quét Để Trải Nghiệm",
@@ -30,9 +32,24 @@ const InputFile = styled("input")({
 
 export default function Register({ initData }) {
   const { banner, title } = initData[0].items[0];
-  console.log("Register", initData[0].items[0]);
   const { isSmUp, isSmDown, isMdUp, isMdDown } = useMedia();
   const theme = useTheme();
+  const {
+    handleSubmit,
+    reset,
+    control,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues,
+  });
+  console.log("errors", errors);
+  const onSubmit = useCallback((data) => {
+    console.log(data);
+    reset(defaultValues, {
+      keepDirty: false,
+    });
+  }, []);
 
   return (
     <Box>
@@ -41,6 +58,8 @@ export default function Register({ initData }) {
         <LineTitle titleData={title} type="center" />
 
         <Box
+          onSubmit={handleSubmit(onSubmit)}
+          component={"form"}
           sx={[
             {
               width: "40vw",
@@ -55,19 +74,46 @@ export default function Register({ initData }) {
             },
           ]}
         >
-          <Input label="Tên quán / Thương hiệu" />
-          <Input label="Người đại diện" required />
-          <InputSelect label="Danh mục quán" />
-          <Input label="Tên quán / Thương hiệu" />
-          <Input label="Email" required />
-          <Input label="Số tài khoản ngân hàng" />
-          <Input label="Tên ngân hàng" />
-          <Input label="Chủ tài khoản" />
-          <Input label="Chi nhánh" />
-          <Input label="Số điện thoại" required />
-          <Box>
+          <Input
+            control={control}
+            name="store_name"
+            label="Tên quán / Thương hiệu"
+          />
+          {/* <InputSelect label="Danh mục quán" /> */}
+          <Input
+            control={control}
+            name="presentator"
+            label="Người đại diện"
+            required
+          />
+          <Input control={control} name="email" label="Email" required />
+          <Input
+            control={control}
+            name="bank_number"
+            label="Số tài khoản ngân hàng"
+          />
+          <Input control={control} name="bank" label="Tên ngân hàng" />
+          <Input control={control} name="owner" label="Chủ tài khoản" />
+          {/* <InputPhoneNumber
+            control={control}
+            name="phone"
+            label="Số điện thoại"
+            required
+          /> */}
+          {/* <Input
+            control={control}
+            name="phone"
+            label="Số điện thoại"
+            required
+          /> */}
+
+          <Input control={control} name="branch" label="Chi nhánh" />
+          <InputFiles control={control} name="files" label="TỆP TIN ĐÍNH KÈM" />
+          {/* <Box>
             <label htmlFor="contained-button-file">
               <InputFile
+                control={control}
+                name="files"
                 accept="image/*"
                 id="contained-button-file"
                 multiple
@@ -87,16 +133,17 @@ export default function Register({ initData }) {
                 </Stack>
               </Button>
             </label>
+          </Box> */}
+          <Box>
+            <Typography
+              variant="caption2"
+              sx={{ textAlign: "left", color: theme.palette.common.natural3 }}
+            >
+              Lưu ý: File đính kèm không vượt quá 20MB
+            </Typography>
           </Box>
 
-          <Typography
-            variant="caption2"
-            sx={{ textAlign: "left", color: theme.palette.common.natural3 }}
-          >
-            Lưu ý: File đính kèm không vượt quá 20MB
-          </Typography>
-
-          <Button sx={{ width: "100%", marginTop: "1rem" }}>
+          <Button type="submit" sx={{ width: "100%", marginTop: "1rem" }}>
             <Typography variant="button2">ĐĂNG KÝ</Typography>
           </Button>
         </Box>

@@ -1,10 +1,12 @@
 import { useState, useEffect, Fragment, useRef } from "react";
 import { Box, Typography, useTheme } from "@mui/material";
 import { useMeasure, useWindowSize, useUpdateEffect } from "react-use";
+import { format, parseISO } from "date-fns";
 
 import useMedia from "../../hooks/useMedia";
 import { Image } from "../../HOC";
 const CardItem = ({ data }) => {
+  // console.log("datadatadata", data);
   const theme = useTheme();
   const [minWrapperHeight, setMinWrapperHeight] = useState(0);
   const { isMdUp, isSmUp } = useMedia();
@@ -97,7 +99,7 @@ const CardItem = ({ data }) => {
                 }}
               >
                 <Image
-                  src={data.banner ? data.banner : "/img/Rectangle 5.jpg"}
+                  src={data.thumbnail ? data.thumbnail : "/img/Rectangle 5.jpg"}
                   width={imageSize.width}
                   height={imageSize.height}
                   objectFit="cover"
@@ -138,7 +140,7 @@ const CardItem = ({ data }) => {
                   color: theme.palette.secondary.light,
                 }}
               >
-                {data.last_published_at}
+                {format(parseISO(data.last_published_at), "dd/MM/yyyy")}
               </Typography>
 
               <Box

@@ -22,6 +22,7 @@ const Image = forwardRef(
     if (layout === "fill") {
       return (
         <Box
+          ref={ref}
           sx={{
             ...{
               position: "relative",
@@ -33,7 +34,6 @@ const Image = forwardRef(
           {...restWrapperProps}
         >
           <NextImage
-            ref={Ref}
             {...{
               src,
               layout,
@@ -57,6 +57,7 @@ const Image = forwardRef(
     } else {
       return (
         <NextImage
+          ref={ref}
           {...{
             src,
             layout,

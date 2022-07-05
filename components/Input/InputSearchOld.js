@@ -1,10 +1,9 @@
 import { IconButton, InputBase, Paper, useTheme } from "@mui/material";
 import React from "react";
-// import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import SearchIcon from "@mui/icons-material/Search";
 import useMedia from "../../hooks/useMedia";
 
-export default function InputSearch({ name, changeInput, aaaa, ...props }) {
+export default function InputSearchOld({ name, changeInput, aaaa, ...props }) {
   const theme = useTheme();
   const { isSmUp, isSmDown, isMdUp } = useMedia();
   return (

@@ -1,5 +1,5 @@
 import React from "react";
-import { PAGES, types } from "../../apis";
+import { PAGES, STORE_CATEGORIES, types } from "../../apis";
 import Register from "../../containers/Register/Register";
 import { prefetchData, transformUrl } from "../../libs";
 
@@ -14,6 +14,7 @@ export async function getServerSideProps({ params }) {
         type: types.contactPage,
         fields: "*",
       }),
+      transformUrl(STORE_CATEGORIES, {}),
     ];
 
     const { resList, fallback } = await prefetchData(urls);

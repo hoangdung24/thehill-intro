@@ -21,6 +21,7 @@ const Input = ({ required, label, control, name }) => {
             sx={{ marginBottom: "1.6rem" }}
           >
             <TextField
+              id="outlined-required"
               value={value || ""}
               onChange={onChange}
               required={required}
@@ -29,6 +30,11 @@ const Input = ({ required, label, control, name }) => {
               color="secondary"
               focused
               sx={{
+                transition: "all 0.5s",
+                "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
+                  {
+                    borderColor: `${theme.palette.common.natural3} !important`,
+                  },
                 "& .MuiInputLabel-root.Mui-focused": {
                   color: !!error
                     ? `${theme.palette.error.main} !important`

@@ -17,7 +17,6 @@ const CardItem = ({ data }) => {
   const [ref, { width, height }] = useMeasure();
   const [refText, { width: witha, height: heighta }] = useMeasure();
   const [refTun, { width: withb, height: heightb }] = useMeasure();
-  console.log("refTunrefTun", heightb);
 
   const [imageSize, setImageSize] = useState({
     width: 0,
@@ -119,10 +118,15 @@ const CardItem = ({ data }) => {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "flex-start",
+                textAlign: "left",
               }}
               ref={contentRef}
             >
-              <Box sx={{ height: data.title.length < 20 ? "3rem" : heightb }}>
+              <Box
+                sx={{
+                  height: data.title.length < 20 ? "3rem" : heightb,
+                }}
+              >
                 <Typography
                   ref={refTun}
                   variant="body2_bold"

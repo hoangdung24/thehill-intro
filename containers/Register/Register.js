@@ -9,31 +9,33 @@ import {
 import React from "react";
 import BannerTop from "../../components/BannerTop/BannerTop";
 import Input from "../../components/Input/Input";
-import InputSelect from "../../components/Input/InputSelect";
+// import InputSelect from "../../components/Input/InputSelect";
 import LineTitle from "../../components/LineTitle/LineTitle";
 import { Image } from "../../HOC";
 import useMedia from "../../hooks/useMedia";
 import { styled } from "@mui/material/styles";
-import UploadFileOutlinedIcon from "@mui/icons-material/UploadFileOutlined";
+// import UploadFileOutlinedIcon from "@mui/icons-material/UploadFileOutlined";
 import { useForm } from "react-hook-form";
 import { schema, defaultValues } from "../../libs/yupRegister";
 import { useCallback } from "react";
 import InputFiles from "../../components/Input/InputFile";
 import { yupResolver } from "@hookform/resolvers/yup";
-import InputPhoneNumber from "../../components/Input/InputPhoneNumber";
-
-const valuelineTitle2 = {
-  title: "Quét Để Trải Nghiệm",
-};
+import { DOMAIN, SUBMISSIONS } from "../../apis";
+import axios from "../../axios.config";
+import { useSetting } from "../../hooks";
+import InputSelect from "../../components/Input/InputSelect";
 
 const InputFile = styled("input")({
   display: "none",
 });
 
 export default function Register({ initData }) {
-  const { banner, title } = initData[0].items[0];
+  const [contactPage, storeCategories] = initData;
+  const { banner, title, subtitle } = contactPage.items[0];
   const { isSmUp, isSmDown, isMdUp, isMdDown } = useMedia();
   const theme = useTheme();
+  console.log("initDatainitData", storeCategories);
+
   const {
     handleSubmit,
     reset,
@@ -43,12 +45,17 @@ export default function Register({ initData }) {
     resolver: yupResolver(schema),
     defaultValues,
   });
-  console.log("errors", errors);
-  const onSubmit = useCallback((data) => {
+
+  const onSubmit = useCallback(async (data) => {
     console.log(data);
     reset(defaultValues, {
       keepDirty: false,
     });
+    try {
+      await axios.post(`${SUBMISSIONS}`, data);
+    } catch (err) {
+      console.log("lỗi", err);
+    }
   }, []);
 
   return (
@@ -79,7 +86,12 @@ export default function Register({ initData }) {
             name="store_name"
             label="Tên quán / Thương hiệu"
           />
-          {/* <InputSelect label="Danh mục quán" /> */}
+          <InputSelect
+            control={control}
+            name="category"
+            label="Danh mục quán"
+            data={storeCategories}
+          />
           <Input
             control={control}
             name="presentator"
@@ -149,7 +161,7 @@ export default function Register({ initData }) {
         </Box>
 
         <Box sx={{ marginTop: "2.25rem" }}>
-          <LineTitle titleData={valuelineTitle2.title} type="center" />
+          <LineTitle titleData={subtitle} type="center" />
         </Box>
 
         {/* Phan QRCode */}
@@ -159,15 +171,16 @@ export default function Register({ initData }) {
               boxShadow: " 0px 8px 24px 0 rgba(0, 0, 0, 0.15)",
               borderRadius: "12px",
               width: "40%",
-              height: "52vh",
+              height: "45vh",
               margin: "0 auto",
               marginTop: "5.5rem",
               marginBottom: "2.5rem",
-              padding: "3.2rem",
+              padding: "2rem",
             },
             isSmDown && {
               width: "80vw",
-              padding: "2rem",
+              height: "500px",
+              padding: "2.5rem",
             },
             isMdDown && {
               width: "80vw",
@@ -187,7 +200,7 @@ export default function Register({ initData }) {
 
         <Box
           sx={[
-            { width: "18vw", margin: "0 auto", marginBottom: "16rem" },
+            { width: "30vw", margin: "0 auto", marginBottom: "16rem" },
             isSmDown && {
               width: "75vw",
               marginBottom: "5.5rem",

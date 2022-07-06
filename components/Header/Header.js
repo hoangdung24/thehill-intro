@@ -30,23 +30,27 @@ import HamburgerIcon from "../HamburgerIcon";
 import { NAVBAR } from "../../constants";
 import { Image } from "../../HOC";
 import useMedia from "../../hooks/useMedia";
+import { useSetting } from "../../hooks";
+
+const objLogo = {
+  block_type: "by_link",
+  value: {
+    title: "Logo",
+    img: "/img/Logo-theHill.png",
+    link: "/",
+  },
+};
 
 const Header = ({}) => {
   const theme = useTheme();
   const router = useRouter();
-  //   const { messages } = useIntl();
-
-  //   const popupState = usePopupState({
-  //     variant: "popper",
-  //     popupId: "languagesPopper",
-  //   });
-
+  const { header } = useSetting();
   const [isToggle, setIsToggle] = useToggle(false);
-
   const { isMdUp } = useMedia();
   const { y } = useWindowScroll();
 
   const [animationState, setAnimationState] = useState(false);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     // popupState.close();
@@ -66,13 +70,20 @@ const Header = ({}) => {
     }
   }, [isMdUp]);
 
+  useEffect(() => {
+    if (!header) {
+      return null;
+    }
+    header.splice(3, 0, objLogo);
+    setData(header);
+  }, []);
+
   const Navbar = useMemo(() => {
-    // if (!setting) {
-    //   return null;
-    // }
-
+    if (!data) {
+      return null;
+    }
     // const { logo_1 } = setting;
-
+    // console.log("header", data);
     return (
       <Container
         id="Home"
@@ -98,16 +109,16 @@ const Header = ({}) => {
               },
             }}
           >
-            {NAVBAR.map((el, index) => {
+            {data.map((el, index) => {
               return (
                 <Box
-                  className={el.type === "logo" ? "headerLogo" : ""}
+                  className={el.value.title === "Logo" ? "headerLogo" : ""}
                   key={index}
                 >
-                  {el.type === "logo" ? (
-                    <Link href={el.link}>
+                  {el.value.title === "Logo" ? (
+                    <Link href="/">
                       <Image
-                        src="/img/Logo-theHill.png"
+                        src={el.value.img}
                         width="100%"
                         height="100%"
                         objectFit="contain"
@@ -116,7 +127,11 @@ const Header = ({}) => {
                   ) : (
                     <Link
                       key={index}
-                      href={el.link}
+                      href={
+                        el.block_type === "by_section"
+                          ? `#${el.value.section}`
+                          : el.value.link
+                      }
                       sx={{ textDecoration: "none" }}
                     >
                       <Button
@@ -131,14 +146,17 @@ const Header = ({}) => {
                       >
                         <Typography
                           variant="button2"
-                          sx={{
-                            color:
-                              el.link === router.pathname
-                                ? "red"
-                                : theme.palette.common.natural2, // Nếu vào trang nào thì chỉ hiện màu ở title ở header đó
-                          }}
+                          sx={
+                            {
+                              // color:
+                              //   el.link === router.pathname
+                              //     ? "red"
+                              //     : theme.palette.common.natural2,
+                              // Nếu vào trang nào thì chỉ hiện màu ở title ở header đó
+                            }
+                          }
                         >
-                          {el.name}
+                          {el.value.title}
                         </Typography>
                       </Button>
                     </Link>
@@ -148,15 +166,15 @@ const Header = ({}) => {
             })}
           </Box>
 
-          <Button>
+          {/* <Button>
             <Link href="/dang-ky" sx={{ textDecoration: "none" }}>
               <Typography variant="button2">TRỞ THÀNH ĐỐI TÁC</Typography>
             </Link>
-          </Button>
+          </Button> */}
         </Stack>
       </Container>
     );
-  }, [NAVBAR, router]);
+  }, [NAVBAR, router, header, data]);
 
   const staticNav = useMemo(() => {
     if (y > 150) {

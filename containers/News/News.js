@@ -1,4 +1,4 @@
-import { Container, Fade, Grid, TextField, useTheme } from "@mui/material";
+import { Container, Fade, Grid, Typography, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import BannerTop from "../../components/BannerTop/BannerTop";
@@ -24,6 +24,8 @@ export default function News({ initData }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [animationState, setAnimationState] = useState(true);
   const [array, setArray] = useState([]);
+  const [isArray, setIsArray] = useState(true);
+  const [defaulArray, setdefaulArray] = useState([]);
   const [idAPI, setIdAPI] = useState(blogCategoryPage.items[0].id);
 
   const { handleSubmit, reset, control, setError } = useForm({
@@ -47,7 +49,8 @@ export default function News({ initData }) {
       return;
     }
     setArray(resData.items);
-  });
+    setdefaulArray(resData.items);
+  }, [resData]);
 
   const animationHandler = useCallback(() => {
     setAnimationState(false);
@@ -65,6 +68,7 @@ export default function News({ initData }) {
     setCurrentPage(1);
     animationHandler();
     setIdAPI(newValue);
+    console.log("newValue", newValue);
   }, []);
 
   const handleDetailNew = (id) => {
@@ -72,17 +76,26 @@ export default function News({ initData }) {
   };
   const onSubmit = useCallback(
     (data) => {
-      // console.log("data", typeof data.search);
-      // console.log("data", array);
-      const dataSearch = array.filter((item) =>
-        item.title.toLowerCase().includes(data.search)
-      );
-      setArray(dataSearch);
-      console.log("timkien", dataSearch);
+      // reset(defaultValuesPageNew, {
+      //   keepDirty: false,
+      // });
 
-      reset(defaultValuesPageNew, {
-        keepDirty: false,
-      });
+      if (data.search == "") {
+        setArray(defaulArray);
+        setIsArray(true);
+      } else {
+        const dataSearch = defaulArray.filter((item) =>
+          item.title.toLowerCase().includes(data.search)
+        );
+
+        if (dataSearch.length > 0) {
+          setArray(dataSearch);
+          setIsArray(true);
+        } else {
+          setIsArray(false);
+          setArray(dataSearch);
+        }
+      }
     },
     [array]
   );
@@ -107,43 +120,45 @@ export default function News({ initData }) {
     }
     // FORMULA: OFFSET = (PAGE - 1) * LIMIT
     // FORMULA PAGE = (OFFSET / LIMIT) + 1
-
     if (isSmUp) {
       const offset = (currentPage - 1) * NEWPC_LIMIT;
       const data = array.slice(offset, offset + NEWPC_LIMIT);
-
-      return blogCategoryPage.items.map((item, index) => {
-        return (
-          <TabPanel key={index} value={currentTab} index={item.id}>
-            <Grid
-              container
-              columnSpacing={7}
-              sx={{
-                height: "100%",
-              }}
-            >
-              {data.map((el, i) => {
-                return (
-                  <Grid
-                    onClick={() => handleDetailNew(el.id)}
-                    item
-                    key={i}
-                    xs={12}
-                    sm={6}
-                    md={4}
-                    sx={{
-                      marginBottom: isSmDown ? "1.75rem" : "3.25rem",
-                      cursor: "pointer",
-                    }}
-                  >
-                    <CardItem data={el} />
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </TabPanel>
-        );
-      });
+      if (isArray === true) {
+        return blogCategoryPage.items.map((item, index) => {
+          return (
+            <TabPanel key={index} value={currentTab} index={item.id}>
+              <Grid
+                container
+                columnSpacing={7}
+                sx={{
+                  height: "100%",
+                }}
+              >
+                {data.map((el, i) => {
+                  return (
+                    <Grid
+                      onClick={() => handleDetailNew(el.id)}
+                      item
+                      key={i}
+                      xs={12}
+                      sm={6}
+                      md={4}
+                      sx={{
+                        marginBottom: isSmDown ? "1.75rem" : "3.25rem",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <CardItem data={el} />
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </TabPanel>
+          );
+        });
+      } else if (isArray === false) {
+        return <Typography>Không tìm thấy bài viết</Typography>;
+      }
     } else {
       const offset = (currentPage - 1) * NEWPC_LIMIT;
       const data = array.slice(offset, offset + NEWPC_LIMIT);
@@ -159,7 +174,7 @@ export default function News({ initData }) {
     }
 
     //
-  }, [array, currentTab, currentPage]);
+  }, [array, currentTab, currentPage, isArray]);
 
   const renderPagination = useMemo(() => {
     return (

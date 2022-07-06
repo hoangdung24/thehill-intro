@@ -6,7 +6,7 @@ import useMedia from "../../hooks/useMedia";
 
 export default function InputPageNew({ control, name, InputProps }) {
   const theme = useTheme();
-  const { isSmUp, isSmDown, isMdUp } = useMedia();
+  const { isSmDown } = useMedia();
   return (
     <Controller
       control={control}

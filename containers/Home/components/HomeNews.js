@@ -9,7 +9,6 @@ import useMedia from "../../../hooks/useMedia";
 export default function HomeNews({ data, blogHomeData }) {
   const { blog_title } = data;
   const router = useRouter();
-  console.log(router.pathname);
   const { isSmDown } = useMedia();
 
   const handleDetailNew = (id) => {

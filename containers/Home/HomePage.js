@@ -9,6 +9,7 @@ import HomeBenefit from "./components/HomeBenefit";
 import HomeBanner from "./components/HomeBanner";
 import useMedia from "../../hooks/useMedia";
 import Home3D from "./components/Home3D";
+import useDebounce from "../../hooks/useDebounce";
 
 const HomePage = ({ initData, ...props }) => {
   const { isSmDown } = useMedia();
@@ -17,15 +18,19 @@ const HomePage = ({ initData, ...props }) => {
   const blogHomeData = blogHome.items;
   const brandHomeData = brandHome.items;
 
+  const scrollWithMoreDebounce = useDebounce(() => {
+    console.log("Scrolled with debounce firing every 1000ms");
+  });
+
   return (
     <Box>
       <HomeBanner data={benefitHome} />
       {isSmDown ? <Home3D /> : null}
-
+      {scrollWithMoreDebounce()}
       <ExchangePointsHome data={data} />
       <HomeBenefit data={data} />
       <HomeBrand data={data} brandHomeData={brandHomeData} />
-      <StoreBenefit data={data} />
+      {/* <StoreBenefit data={data} /> */}
       <HomeFeature data={data} />
       <HomeNews data={data} blogHomeData={blogHomeData} />
     </Box>

@@ -6,7 +6,6 @@ import {
   useTheme,
 } from "@mui/material";
 import { Controller } from "react-hook-form";
-import PhoneInput from "react-phone-number-input/input";
 
 const InputSelect = ({ data, required, label, control, name }) => {
   const theme = useTheme();
@@ -20,7 +19,7 @@ const InputSelect = ({ data, required, label, control, name }) => {
           <FormControl
             fullWidth
             error={!!error ? true : false}
-            sx={{ marginBottom: "1.6rem" }}
+            // sx={{ marginBottom: "1.6rem" }}
           >
             <TextField
               value={value || ""}

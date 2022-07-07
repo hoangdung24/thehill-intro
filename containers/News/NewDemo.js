@@ -16,7 +16,6 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import InputPageNew from "../../components/Input/InputPageNew";
 import { defaultValuesPageNew } from "../../libs/yupRegister";
-import useDebounce from "../../hooks/useDebounce";
 
 export default function News({ initData }) {
   const [blogListingPage, blogCategoryPage, blogDetailPage] = initData;
@@ -26,17 +25,15 @@ export default function News({ initData }) {
   const [animationState, setAnimationState] = useState(true);
   const [array, setArray] = useState([]);
   const [isArray, setIsArray] = useState(true);
+  const [defaulArray, setdefaulArray] = useState([]);
   const [idAPI, setIdAPI] = useState(blogCategoryPage.items[0].id);
-
-  const [search, setSearch] = useState(null);
-  const [isSearch, setIsSearch] = useState(true);
 
   const { handleSubmit, reset, control, setError } = useForm({
     defaultValuesPageNew,
   });
 
   const theme = useTheme();
-  const { isSmUp, isSmDown } = useMedia();
+  const { isSmUp, isSmDown, isMdUp } = useMedia();
   const router = useRouter();
 
   const { data: resData } = useSWR(
@@ -46,27 +43,22 @@ export default function News({ initData }) {
       type: types.blogDetailPage,
     })
   );
+
   const { data: searchData } = useSWR(
     transformUrl(PAGES, {
       child_of: idAPI,
-      search: search,
-      fields: "*",
+      search: "2",
       type: types.blogDetailPage,
     })
   );
 
   useEffect(() => {
-    if (isSearch) {
-      if (resData === undefined) {
-        return;
-      }
-      setArray(resData?.items);
-    } else if (isSearch == false) {
-      if (searchData === undefined) {
-        return;
-      }
-      setArray(searchData?.items);
+    console.log("searchDatasearchData", searchData);
+    if (resData === undefined) {
+      return;
     }
+    setArray(resData.items);
+    setdefaulArray(resData.items);
   });
 
   const animationHandler = useCallback(() => {
@@ -91,23 +83,31 @@ export default function News({ initData }) {
   const handleDetailNew = (id) => {
     router.push(`${router.pathname}/${id}`);
   };
+  const onSubmit = useCallback(
+    (data) => {
+      // reset(defaultValuesPageNew, {
+      //   keepDirty: false,
+      // });
 
-  const onSubmit = useCallback((data) => {
-    // console.log("search", data);
+      if (data.search == "") {
+        setArray(defaulArray);
+        setIsArray(true);
+      } else {
+        const dataSearch = defaulArray.filter((item) =>
+          item.title.toLowerCase().includes(data.search)
+        );
 
-    if (data.search === "") {
-      setIsSearch(true);
-    } else {
-      const scrollWithMoreDebounce = useDebounce(() => {
-        setSearch(data.search);
-        setIsSearch(false);
-      }, 500);
-      scrollWithMoreDebounce();
-      reset(defaultValuesPageNew, {
-        keepDirty: false,
-      });
-    }
-  });
+        if (dataSearch.length > 0) {
+          setArray(dataSearch);
+          setIsArray(true);
+        } else {
+          setIsArray(false);
+          setArray(dataSearch);
+        }
+      }
+    },
+    [array]
+  );
 
   const renderTabs = useMemo(() => {
     if (!blogCategoryPage) {
@@ -131,39 +131,43 @@ export default function News({ initData }) {
     // FORMULA PAGE = (OFFSET / LIMIT) + 1
     if (isSmUp) {
       const offset = (currentPage - 1) * NEWPC_LIMIT;
-      const data = array?.slice(offset, offset + NEWPC_LIMIT);
-      return blogCategoryPage.items.map((item, index) => {
-        return (
-          <TabPanel key={index} value={currentTab} index={item.id}>
-            <Grid
-              container
-              columnSpacing={7}
-              sx={{
-                height: "100%",
-              }}
-            >
-              {data?.map((el, i) => {
-                return (
-                  <Grid
-                    onClick={() => handleDetailNew(el.id)}
-                    item
-                    key={i}
-                    xs={12}
-                    sm={6}
-                    md={4}
-                    sx={{
-                      marginBottom: isSmDown ? "1.75rem" : "3.25rem",
-                      cursor: "pointer",
-                    }}
-                  >
-                    <CardItem data={el} />
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </TabPanel>
-        );
-      });
+      const data = array.slice(offset, offset + NEWPC_LIMIT);
+      if (isArray === true) {
+        return blogCategoryPage.items.map((item, index) => {
+          return (
+            <TabPanel key={index} value={currentTab} index={item.id}>
+              <Grid
+                container
+                columnSpacing={7}
+                sx={{
+                  height: "100%",
+                }}
+              >
+                {data.map((el, i) => {
+                  return (
+                    <Grid
+                      onClick={() => handleDetailNew(el.id)}
+                      item
+                      key={i}
+                      xs={12}
+                      sm={6}
+                      md={4}
+                      sx={{
+                        marginBottom: isSmDown ? "1.75rem" : "3.25rem",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <CardItem data={el} />
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </TabPanel>
+          );
+        });
+      } else if (isArray === false) {
+        return <Typography>Không tìm thấy bài viết</Typography>;
+      }
     } else {
       const offset = (currentPage - 1) * NEWPC_LIMIT;
       const data = array.slice(offset, offset + NEWPC_LIMIT);

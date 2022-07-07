@@ -6,41 +6,42 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React from "react";
+import { useState } from "react";
+
 import BannerTop from "../../components/BannerTop/BannerTop";
 import Input from "../../components/Input/Input";
-// import InputSelect from "../../components/Input/InputSelect";
 import LineTitle from "../../components/LineTitle/LineTitle";
+import Upload from "../../components/Form/Upload";
+import InputSelect from "../../components/Input/InputSelect";
+
 import { Image } from "../../HOC";
 import useMedia from "../../hooks/useMedia";
 import { styled } from "@mui/material/styles";
-// import UploadFileOutlinedIcon from "@mui/icons-material/UploadFileOutlined";
 import { useForm } from "react-hook-form";
 import { schema, defaultValues } from "../../libs/yupRegister";
 import { useCallback } from "react";
-import InputFiles from "../../components/Input/InputFile";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { DOMAIN, SUBMISSIONS } from "../../apis";
+import { SUBMISSIONS } from "../../apis";
 import axios from "../../axios.config";
-import { useSetting } from "../../hooks";
-import InputSelect from "../../components/Input/InputSelect";
-
-const InputFile = styled("input")({
-  display: "none",
-});
+import InputPhoneNumber from "../../components/Input/InputPhoneNumber";
 
 export default function Register({ initData }) {
   const [contactPage, storeCategories] = initData;
   const { banner, title, subtitle } = contactPage.items[0];
   const { isSmUp, isSmDown, isMdUp, isMdDown } = useMedia();
   const theme = useTheme();
-  console.log("initDatainitData", storeCategories);
+  // console.log("initDatainitData", storeCategories);
+
+  const [mutationObj, setMutationObj] = useState({});
 
   const {
+    clearErrors,
     handleSubmit,
     reset,
     control,
     formState: { errors },
+    setValue,
+    setError,
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues,
@@ -57,6 +58,30 @@ export default function Register({ initData }) {
       console.log("lỗi", err);
     }
   }, []);
+
+  const passHandler = useCallback(
+    ({ acceptedFiles, rejectedFiles, setFiles }) => {
+      setMutationObj((prev) => {
+        return {
+          ...prev,
+          setFiles,
+        };
+      });
+
+      if (rejectedFiles.length > 0) {
+        setError("files", {
+          message: "Kích thước file vượt quá giới hạn cho phép",
+        });
+
+        return;
+      } else {
+        clearErrors("files");
+      }
+
+      setValue("files", acceptedFiles);
+    },
+    []
+  );
 
   return (
     <Box>
@@ -106,12 +131,7 @@ export default function Register({ initData }) {
           />
           <Input control={control} name="bank" label="Tên ngân hàng" />
           <Input control={control} name="owner" label="Chủ tài khoản" />
-          {/* <InputPhoneNumber
-            control={control}
-            name="phone"
-            label="Số điện thoại"
-            required
-          /> */}
+
           {/* <Input
             control={control}
             name="phone"
@@ -120,40 +140,20 @@ export default function Register({ initData }) {
           /> */}
 
           <Input control={control} name="branch" label="Chi nhánh" />
-          <InputFiles control={control} name="files" label="TỆP TIN ĐÍNH KÈM" />
-          {/* <Box>
-            <label htmlFor="contained-button-file">
-              <InputFile
-                control={control}
-                name="files"
-                accept="image/*"
-                id="contained-button-file"
-                multiple
-                type="file"
-              />
-              <Button variant="outlined" component="span">
-                <Stack direction="row" spacing={1} alignItems="center">
-                  <UploadFileOutlinedIcon
-                    sx={{ color: theme.palette.common.natural2 }}
-                  />
-                  <Typography
-                    variant="button2"
-                    sx={{ color: theme.palette.common.natural2 }}
-                  >
-                    TỆP TIN ĐÍNH KÈM
-                  </Typography>
-                </Stack>
-              </Button>
-            </label>
-          </Box> */}
-          <Box>
-            <Typography
-              variant="caption2"
-              sx={{ textAlign: "left", color: theme.palette.common.natural3 }}
-            >
-              Lưu ý: File đính kèm không vượt quá 20MB
-            </Typography>
-          </Box>
+          {/* <InputFiles control={control} name="files" label="TỆP TIN ĐÍNH KÈM" /> */}
+          <InputPhoneNumber
+            control={control}
+            name="phone"
+            label="Số điện thoại"
+            required
+          />
+          <Upload
+            {...{
+              control,
+              name: "files",
+              passHandler,
+            }}
+          />
 
           <Button type="submit" sx={{ width: "100%", marginTop: "1rem" }}>
             <Typography variant="button2">ĐĂNG KÝ</Typography>

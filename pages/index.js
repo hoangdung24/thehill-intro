@@ -1,7 +1,7 @@
 import { HomePage } from "../containers";
 import { HOME_PAGE, PAGES, PARTNER, BLOG_DETAIL } from "../apis";
 
-import { transformUrl, prefetchData } from "../libs/";
+import { transformUrl, prefetchData } from "../libs";
 
 const Home = ({ ...props }) => {
   return <HomePage {...props} />;

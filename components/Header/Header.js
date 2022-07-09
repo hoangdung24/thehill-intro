@@ -4,14 +4,7 @@ import { useEffect, useState, Fragment, useMemo, useCallback } from "react";
 
 import { useRouter } from "next/router";
 
-import {
-  AppBar,
-  Box,
-  Typography,
-  Button,
-  useTheme,
-  Stack,
-} from "@mui/material";
+import { AppBar, Box, Typography, Button, useTheme, Stack } from "@mui/material";
 import Fade from "@mui/material/Fade";
 
 // import {
@@ -44,7 +37,13 @@ const objLogo = {
 const Header = ({}) => {
   const theme = useTheme();
   const router = useRouter();
+<<<<<<< Updated upstream
   // const { setting } = useSetting();
+=======
+
+  const { header } = useSetting();
+
+>>>>>>> Stashed changes
   const [isToggle, setIsToggle] = useToggle(false);
   const { isMdUp } = useMedia();
   const { y } = useWindowScroll();
@@ -85,7 +84,7 @@ const Header = ({}) => {
   }, [setting]);
 
   const Navbar = useMemo(() => {
-    if (!data) {
+    if (!data || !header) {
       return null;
     }
     // const { logo_1 } = setting;
@@ -98,11 +97,7 @@ const Header = ({}) => {
           paddingX: "0 !important",
         }}
       >
-        <Stack
-          direction={"row"}
-          spacing={3}
-          sx={{ padding: "24px 0 !important" }}
-        >
+        <Stack direction={"row"} spacing={3} sx={{ padding: "24px 0 !important" }}>
           <Box
             sx={{
               flexGrow: 1,

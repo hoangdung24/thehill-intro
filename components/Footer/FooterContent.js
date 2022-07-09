@@ -38,9 +38,7 @@ export default function FooterContent({ setting }) {
         md={2}
         sx={[isSmDown && { height: "6rem", marginBottom: "2rem" }]}
       >
-        <Box
-          sx={[{ height: "42%" }, isSmDown && { height: "100%", width: "43%" }]}
-        >
+        <Box sx={[{ height: "42%" }, isSmDown && { height: "100%", width: "43%" }]}>
           <Image
             {...{
               src: logo_footer,
@@ -54,19 +52,12 @@ export default function FooterContent({ setting }) {
       </Grid>
       <Grid item xs={12} md={2} sx={[isSmDown && { marginBottom: "2rem" }]}>
         <Box>
-          <Title
-            variant="body2_bold"
-            sx={[isSmDown && { marginBottom: "1.5rem" }]}
-          >
+          <Title variant="body2_bold" sx={[isSmDown && { marginBottom: "1.5rem" }]}>
             {title_column_1}
           </Title>
           {link_in_column_1.map((item, index) => {
             return (
-              <Link
-                key={index}
-                href={item.value.link}
-                sx={{ textDecoration: "none" }}
-              >
+              <Link key={index} href={item.value.link} sx={{ textDecoration: "none" }}>
                 <Content>{item.value.title}</Content>
               </Link>
             );
@@ -78,11 +69,7 @@ export default function FooterContent({ setting }) {
           <Title variant="body2_bold">{title_column_2}</Title>
           {link_in_column_2.map((item, index) => {
             return (
-              <Link
-                key={index}
-                href={item.value.link}
-                sx={{ textDecoration: "none" }}
-              >
+              <Link key={index} href={item.value.link} sx={{ textDecoration: "none" }}>
                 <Content>{item.value.title}</Content>
               </Link>
             );
@@ -163,17 +150,6 @@ const Content = styled(Typography)(({ theme }) => {
     [theme.breakpoints.up("md")]: {
       color: theme.palette.common.neutral2,
       marginBottom: 1,
-    },
-  };
-});
-
-const Divider = styled(MuiDivider)(({ theme }) => {
-  return {
-    marginBottom: 32,
-    marginTop: 32,
-    display: "block",
-    [theme.breakpoints.up("md")]: {
-      display: "none",
     },
   };
 });

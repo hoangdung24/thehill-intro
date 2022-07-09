@@ -6,11 +6,17 @@ import {
   Typography,
   Stack,
 } from "@mui/material";
+
+import dynamic from "next/dynamic";
+
 import { useSetting } from "../../hooks";
-import FooterContent from "./FooterContent";
 import useMedia from "../../hooks/useMedia";
 import { Fragment } from "react";
 import { Image } from "../../HOC";
+
+const FooterContent = dynamic(() => import("./FooterContent"), {
+  ssr: false,
+});
 
 const Footer = ({ children, ...props }) => {
   const { isSmUp, isSmDown, isMdUp, isMdDown } = useMedia();

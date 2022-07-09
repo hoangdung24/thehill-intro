@@ -1,33 +1,33 @@
 export const transformSearchParams = (data = {}, options = {}) => {
-    console.log(data)
-    let {limit} = options;
+  // console.log(data)
+  let { limit } = options;
 
-    if (limit === undefined){
-        limit = 6
+  if (limit === undefined) {
+    limit = 6;
+  }
+
+  if ("limit" in data) {
+    limit = data.limit;
+  }
+
+  let newObj = {};
+
+  for (const key of Object.keys(data)) {
+    if (key === "page") {
+      if (data[key] < 1 || isNaN(data[key])) {
+        newObj["offset"] = 0;
+      } else {
+        newObj["offset"] = (data[key] - 1) * limit;
+      }
+      continue;
     }
 
-    if ("limit" in data){
-        limit = data.limit
+    if (data[key] === null) {
+      continue;
     }
 
-    let newObj = {};
+    newObj[key] = data[key];
+  }
 
-    for (const key of Object.keys(data)){
-        if(key === 'page'){
-            if (data[key] < 1 || isNaN(data[key])){
-                newObj['offset'] = 0
-            } else {
-                newObj['offset'] = (data[key] - 1) * limit;
-            }
-            continue
-        }
-
-        if(data[key] === null){
-            continue
-        }
-
-        newObj[key] = data[key]
-    }
-
-    return newObj;
-}
+  return newObj;
+};

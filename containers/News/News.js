@@ -85,7 +85,7 @@ export default function News({ initData }) {
     setCurrentPage(1);
     animationHandler();
     setIdAPI(newValue);
-    console.log("newValue", newValue);
+    // console.log("newValue", newValue);
   }, []);
 
   const handleDetailNew = (id) => {

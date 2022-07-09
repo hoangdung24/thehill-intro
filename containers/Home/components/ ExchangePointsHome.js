@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Stack, Typography } from "@mui/material";
+import { Box, Container, Grid, useTheme, Typography } from "@mui/material";
 import React from "react";
 import LineTitle from "../../../components/LineTitle/LineTitle";
 import { Image } from "../../../HOC";
@@ -26,12 +26,21 @@ const arrayExchangePoint = [
 ];
 
 export default function ExchangePointsHome({ data }) {
+  const theme = useTheme();
   const { about_title, about_content } = data;
   const renderContent = () => {
     return about_content.map((item, index) => {
       return (
         <Grid item xs={12} md={4} key={index}>
-          <Box sx={{ width: "100%", height: "26.2rem" }}>
+          <Box
+            sx={{
+              width: "100%",
+              height: "calc(18vw * 1.72)",
+              [theme.breakpoints.down("md")]: {
+                height: "calc(60vw * 1.72)",
+              },
+            }}
+          >
             <Image
               {...{
                 src: item.value.image,

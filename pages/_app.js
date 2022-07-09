@@ -13,6 +13,13 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../node_modules/nprogress/nprogress.css";
 
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/7/Stats.min.js"
+  integrity="sha512-ey3wf3z1WUgQ6/XU/lV1UVQkbCpWsyQANkBst88XXWHok9fXKp55G365lLhScYihGpkzhiZz75r+8isUSCKRIg=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>;
+
 const clientSideEmotionCache = createEmotionCache();
 
 function MyApp(props) {

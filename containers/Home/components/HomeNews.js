@@ -1,4 +1,4 @@
-import { Button, Container, Grid, Typography } from "@mui/material";
+import { Button, Container, Grid, Typography, useTheme } from "@mui/material";
 import { useRouter } from "next/router";
 import React from "react";
 import CardItem from "../../../components/Card/CardItem";
@@ -7,6 +7,7 @@ import Link from "../../../components/Link";
 import useMedia from "../../../hooks/useMedia";
 
 export default function HomeNews({ data, blogHomeData }) {
+  const theme = useTheme();
   const { blog_title } = data;
   const router = useRouter();
   const { isSmDown } = useMedia();
@@ -23,7 +24,17 @@ export default function HomeNews({ data, blogHomeData }) {
           item
           xs={12}
           md={4}
-          sx={[isSmDown && { marginBottom: "1.75rem" }]}
+          // sx={[isSmDown && { marginBottom: "1.75rem" }]}
+          sx={{
+            [theme.breakpoints.up("md")]: {
+              paddingTop: "0 !important",
+            },
+            [theme.breakpoints.down("sm")]: {
+              "&:first-child": {
+                paddingTop: "0 !important",
+              },
+            },
+          }}
         >
           <CardItem data={data} />
         </Grid>
@@ -43,7 +54,13 @@ export default function HomeNews({ data, blogHomeData }) {
       ]}
     >
       <LineTitle titleData={blog_title} type="right" />
-      <Grid container columnSpacing={7} sx={{ marginTop: "2rem" }}>
+      <Grid
+        container
+        spacing={7}
+        sx={{
+          marginTop: "2rem",
+        }}
+      >
         {renderHomeNew()}
       </Grid>
 

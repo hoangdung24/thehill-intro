@@ -44,14 +44,19 @@ const objLogo = {
 const Header = ({}) => {
   const theme = useTheme();
   const router = useRouter();
-  const { header } = useSetting();
+  // const { setting } = useSetting();
   const [isToggle, setIsToggle] = useToggle(false);
   const { isMdUp } = useMedia();
   const { y } = useWindowScroll();
 
   const [animationState, setAnimationState] = useState(false);
+  // const [header, setHeader] = useState([]);
   const [data, setData] = useState([]);
+  const setting = useSetting();
 
+  // if (!setting) {
+  //   return null;
+  // }
   useEffect(() => {
     // popupState.close();
 
@@ -71,12 +76,13 @@ const Header = ({}) => {
   }, [isMdUp]);
 
   useEffect(() => {
-    if (!header) {
+    if (!setting) {
       return null;
     }
-    header.splice(3, 0, objLogo);
-    setData(header);
-  }, []);
+    setting.header.splice(3, 0, objLogo);
+    // console.log("co nenene", a);
+    setData(setting.header);
+  }, [setting]);
 
   const Navbar = useMemo(() => {
     if (!data) {
@@ -174,7 +180,7 @@ const Header = ({}) => {
         </Stack>
       </Container>
     );
-  }, [NAVBAR, router, header, data]);
+  }, [NAVBAR, router, data]);
 
   const staticNav = useMemo(() => {
     if (y > 150) {
@@ -285,31 +291,37 @@ const Header = ({}) => {
               {TopNav}
 
               <Box sx={{ marginTop: "8rem" }}>
-                {NAVBAR.map((el, index) => {
-                  return (
-                    <Link
-                      key={index}
-                      href={el.link}
-                      sx={{ textDecoration: "none", marginBottom: "2rem" }}
-                    >
-                      <Typography
-                        variant="button2"
-                        sx={{
-                          lineHeight: "2rem",
-                          color: theme.palette.common.natural2,
-                          display: "block",
-                          my: 2,
-                        }}
-                        onClick={() => {
-                          setIsToggle(false);
-                          // popupState.close();
-                        }}
+                {data.map((el, index) => {
+                  if (el.value.title === "Logo") {
+                    return;
+                  } else {
+                    return (
+                      <Link
+                        key={index}
+                        href={
+                          el.block_type === "by_section"
+                            ? `#${el.value.section}`
+                            : el.value.link
+                        }
+                        sx={{ textDecoration: "none", marginBottom: "2rem" }}
                       >
-                        {el.name}
-                        {/* {messages[`navbar.${el.key}`][0].value} */}
-                      </Typography>
-                    </Link>
-                  );
+                        <Typography
+                          variant="button2"
+                          sx={{
+                            lineHeight: "2rem",
+                            color: theme.palette.common.natural2,
+                            display: "block",
+                            my: 2,
+                          }}
+                          onClick={() => {
+                            setIsToggle(false);
+                          }}
+                        >
+                          {el.value.title}
+                        </Typography>
+                      </Link>
+                    );
+                  }
                 })}
               </Box>
 

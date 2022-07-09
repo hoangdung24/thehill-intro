@@ -45,10 +45,17 @@ const LineTitle = ({ titleData, subtitleData, type }) => {
               }}
             ></Box>
           </Box>
-          <Box sx={{ marginLeft: 0 }}>
+          <Box
+            sx={{
+              marginLeft: 0,
+              [theme.breakpoints.down("sm")]: {
+                marginLeft: "0 !important",
+              },
+            }}
+          >
             <Typography
               variant={isSmDown ? "h3" : "h4"}
-              sx={{ color: theme.palette.secondary.main }}
+              sx={{ color: theme.palette.secondary.main, textAlign: "center" }}
             >
               {titleData}
             </Typography>

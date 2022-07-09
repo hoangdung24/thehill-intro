@@ -5,6 +5,8 @@ import {
   Container,
   Stack,
   Typography,
+  Fade,
+  Alert,
 } from "@mui/material";
 import { useState } from "react";
 
@@ -16,7 +18,6 @@ import InputSelect from "../../components/Input/InputSelect";
 
 import { Image } from "../../HOC";
 import useMedia from "../../hooks/useMedia";
-import { styled } from "@mui/material/styles";
 import { useForm } from "react-hook-form";
 import { schema, defaultValues } from "../../libs/yupRegister";
 import { useCallback } from "react";
@@ -27,12 +28,19 @@ import InputPhoneNumber from "../../components/Input/InputPhoneNumber";
 
 export default function Register({ initData }) {
   const [contactPage, storeCategories] = initData;
-  const { banner, title, subtitle } = contactPage.items[0];
-  const { isSmUp, isSmDown, isMdUp, isMdDown } = useMedia();
+
+  const { banner, title, subtitle, thank_you_text } = contactPage.items[0];
+  const { isSmUp, isSmDown, isMdDown } = useMedia();
   const theme = useTheme();
-  // console.log("initDatainitData", storeCategories);
+  // console.log("initDatainitData", thank_you_text);
 
   const [mutationObj, setMutationObj] = useState({});
+  const [success, setSuccess] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [message, setMessage] = useState({
+    severity: "success",
+    content: "",
+  });
 
   const {
     clearErrors,
@@ -48,14 +56,23 @@ export default function Register({ initData }) {
   });
 
   const onSubmit = useCallback(async (data) => {
-    console.log(data);
+    // console.log(data);
     reset(defaultValues, {
       keepDirty: false,
     });
     try {
       await axios.post(`${SUBMISSIONS}`, data);
+      setMessage({
+        severity: "success",
+        content: thank_you_text,
+      });
+      setIsSuccess(true);
     } catch (err) {
-      console.log("lỗi", err);
+      setIsSuccess(true);
+      setMessage({
+        severity: "error",
+        content: "Đăng ký thất bại",
+      });
     }
   }, []);
 
@@ -132,15 +149,7 @@ export default function Register({ initData }) {
           <Input control={control} name="bank" label="Tên ngân hàng" />
           <Input control={control} name="owner" label="Chủ tài khoản" />
 
-          {/* <Input
-            control={control}
-            name="phone"
-            label="Số điện thoại"
-            required
-          /> */}
-
           <Input control={control} name="branch" label="Chi nhánh" />
-          {/* <InputFiles control={control} name="files" label="TỆP TIN ĐÍNH KÈM" /> */}
           <InputPhoneNumber
             control={control}
             name="phone"
@@ -154,6 +163,48 @@ export default function Register({ initData }) {
               passHandler,
             }}
           />
+          <Fade
+            in={isSuccess}
+            timeout={{
+              enter: 500,
+              exit: 500,
+            }}
+            onExited={() => {
+              // console.log("first");
+              // setTimeout(() => {
+              //   setMessage("");
+              // }, 2000);
+            }}
+          >
+            <Alert
+              severity={message.severity}
+              icon={false}
+              sx={{
+                textAlign: "center",
+                color:
+                  message.severity == "success"
+                    ? theme.palette.success.dark
+                    : theme.palette.primary.dark,
+                "& .MuiAlert-message": {
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                },
+              }}
+            >
+              {message.content}
+            </Alert>
+          </Fade>
+
+          {/* <Typography
+            sx={{
+              display: success ? "block" : "none",
+              textAlign: "center",
+              color: theme.palette.success.dark,
+            }}
+          >
+            {thank_you_text}
+          </Typography> */}
 
           <Button type="submit" sx={{ width: "100%", marginTop: "1rem" }}>
             <Typography variant="button2">ĐĂNG KÝ</Typography>

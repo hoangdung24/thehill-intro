@@ -5,52 +5,15 @@ import LineTitle from "../../../components/LineTitle/LineTitle";
 import Link from "../../../components/Link";
 import useMedia from "../../../hooks/useMedia";
 
-const arrayHomeNews = [
-  {
-    img: "/logoBrand/image 8-1.png",
-    title: "Điểm Tích Lũy: 15",
-    text: "Lorem ipsum dolor sit amet consectetur adipiscing elit.",
-  },
-  {
-    img: "/logoBrand/image 8-2.png",
-    title: "Điểm Tích Lũy: 15",
-    text: "Lorem ipsum dolor sit amet consectetur adipiscing elit.",
-  },
-  {
-    img: "/logoBrand/image 8-3.png",
-    title: "Điểm Tích Lũy: 15",
-    text: "Lorem ipsum dolor sit amet consectetur adipiscing elit.",
-  },
-  {
-    img: "/logoBrand/image 8.png",
-    title: "Điểm Tích Lũy: 15",
-    text: "Lorem ipsum dolor sit amet consectetur adipiscing elit.",
-  },
-];
-const valuelineTitle = {
-  title: "Vé Đổi Điểm",
-};
-
-const settings = {
-  className: "center",
-  centerPadding: "60px",
-  arrows: false,
-  dots: false,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-};
-
 export default function HomeBrand({ data, brandHomeData }) {
   const { partner_title } = data;
-  const { isSmDown, isMdUp } = useMedia();
+  const { isSmDown, isMdDown, isSmUp } = useMedia();
   const theme = useTheme();
   const renderCardBrand = () => {
     return brandHomeData.map((item, index) => {
-      if (isMdUp) {
+      if (isSmUp) {
         return (
-          <Grid item key={index} xs={3}>
+          <Grid item key={index} xs={3} sm={6} md={3}>
             <CardBrand data={item} />
           </Grid>
         );
@@ -75,10 +38,10 @@ export default function HomeBrand({ data, brandHomeData }) {
       >
         <LineTitle titleData={partner_title} type="left" />
 
-        {isMdUp ? (
+        {isSmUp ? (
           <Grid
             container
-            columnSpacing={10}
+            spacing={isMdDown ? 5 : 10}
             sx={{
               paddingTop: "2rem",
               height: "100%",
@@ -89,7 +52,7 @@ export default function HomeBrand({ data, brandHomeData }) {
         ) : (
           <Stack
             direction="row"
-            // spacing={isSmDown ? 5 : 3}
+            spacing={isSmDown ? 5 : 3}
             sx={{
               marginTop: "3rem",
               display: "flex",
@@ -101,6 +64,9 @@ export default function HomeBrand({ data, brandHomeData }) {
               "&::-webkit-scrollbar": {
                 display: "none",
               },
+              // [theme.breakpoints.down("md")]: {
+              //   width: "auto",
+              // },
             }}
           >
             {renderCardBrand()}

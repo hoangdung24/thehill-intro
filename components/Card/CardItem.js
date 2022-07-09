@@ -63,7 +63,12 @@ const CardItem = ({ data }) => {
   }, [windowWidth, windowHeight, width, height]);
 
   return (
-    <Box className="slider-wrapper" sx={[{ borderRadius: "8px" }]}>
+    <Box
+      className="slider-wrapper sadasdasdasdasd"
+      sx={{
+        borderRadius: "8px",
+      }}
+    >
       <Box
         ref={ref}
         sx={{
@@ -72,9 +77,6 @@ const CardItem = ({ data }) => {
             "linear-gradient(rgba(244, 244, 244, 0.4), rgba(244, 244, 244, 0.2))",
           backdropFilter: "blur(4px)",
           border: "2px solid rgba(177, 181, 195, 0.1)",
-          [theme.breakpoints.down("sm")]: {
-            marginBottom: "4rem",
-          },
         }}
       >
         <Box

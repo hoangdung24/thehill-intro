@@ -46,7 +46,7 @@ const Upload = ({ control, name, passHandler = () => {} }) => {
   const { getInputProps } = useDropzone({
     accept: ".doc, .docx, .pdf",
     onDrop,
-    maxSize: 1000000,
+    maxSize: 20000000,
     multiple: true,
   });
 

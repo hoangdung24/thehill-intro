@@ -25,7 +25,7 @@ const valuelineTitle = {
 };
 
 export default function HomeFeature({ data }) {
-  const { tutorial_title, tutorial_subtitle } = data;
+  const { tutorial_title, tutorial_subtitle, tutorial_content } = data;
   const inputRef = useRef(null);
   const theme = useTheme();
 
@@ -101,19 +101,19 @@ export default function HomeFeature({ data }) {
           }}
         >
           <Slider {...settings} className="classCHinhchinh">
-            {images.map((img, idx) => (
+            {tutorial_content.map((img, idx) => (
               <Box
                 key={idx}
                 // ref={inputRef}
                 ref={Ref}
-                sx={{ height: "60vh" }}
+                sx={{ width: "100%", height: "60vh" }}
                 className={
                   idx === imageIndex ? "slide activeSlide hello" : "slide"
                 }
               >
                 <Image
                   // ref={Ref}
-                  src={img}
+                  src={img.value}
                   alt={img}
                   layout="fill"
                   width="100%"

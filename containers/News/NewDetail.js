@@ -6,22 +6,38 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import BannerTop from "../../components/BannerTop/BannerTop";
 import { transformUrl } from "../../libs";
 import { PAGES } from "../../apis";
 import useSWR from "swr";
 import { useRouter } from "next/router";
+import YouTube from "react-youtube";
 import { ReaderHTML } from "../../components";
+import { data } from "autoprefixer";
+import queryString from "query-string";
+import { useMeasure } from "react-use";
 
 export default function NewDetail() {
   const router = useRouter();
   const theme = useTheme();
-
+  const [data, setData] = useState();
+  const [dataClip, setDataClip] = useState();
+  const [stickyRef, { width }] = useMeasure();
   const { data: resData } = useSWR(
     transformUrl(`${PAGES}${router.query.id}`, {})
   );
+  // console.log(width);
 
+  useEffect(() => {
+    if (!resData) {
+      return;
+    }
+
+    setData(resData);
+    setDataClip(resData?.content[1]?.value.src);
+  }, [resData]);
+  // console.log("datadata", dataClip);
   const renderTags = () => {
     if (!resData) {
       return;
@@ -35,8 +51,22 @@ export default function NewDetail() {
     });
   };
 
+  let videoId;
+
+  if (dataClip) {
+    const { url, query } = queryString.parseUrl(dataClip);
+
+    const { pathname } = new URL(url);
+
+    if (query.v) {
+      videoId = query.v;
+    } else {
+      videoId = pathname.replace("/", "");
+    }
+  }
+  // console.log("videoIdvideoId", videoId);
   return (
-    <Box>
+    <Box ref={stickyRef}>
       <BannerTop data={resData?.banner} />
       <Container maxWidth="lg">
         <Typography
@@ -50,17 +80,13 @@ export default function NewDetail() {
         >
           {resData?.title}
         </Typography>
-        {resData?.content[1] && (
-          <iframe
-            width="100%"
-            height={resData?.content[1]?.value.height}
-            src={resData?.content[1]?.value.src}
-            title="YouTube video player"
-            frameBorder={0}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
-        )}
+        <YouTube
+          videoId={videoId}
+          opts={{
+            width: "100%",
+            height: (width * 7) / 16,
+          }}
+        />
 
         <ReaderHTML content={resData?.content[0].value} />
         <Stack

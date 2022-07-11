@@ -1,5 +1,4 @@
 export const transformSearchParams = (data = {}, options = {}) => {
-  // console.log(data)
   let { limit } = options;
 
   if (limit === undefined) {

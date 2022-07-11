@@ -5,15 +5,15 @@ export const defaultValuesPageNew = {
   search: "",
 };
 export const defaultValues = {
-  store_name: "sadasd@gmail.com",
-  presentator: "sadasd@gmail.com",
-  category: "sadasd@gmail.com",
-  email: "sadasd@gmail.com",
-  phone: "0398 813 369",
-  bank_number: "0398 813 369",
-  bank: "sadasd@gmail.com",
-  owner: "sadasd@gmail.com",
-  branch: "sadasd@gmail.com",
+  store_name: "",
+  presentator: "",
+  category: "",
+  email: "",
+  phone: "",
+  bank_number: "",
+  bank: "",
+  owner: "",
+  branch: "",
   files: "",
 };
 

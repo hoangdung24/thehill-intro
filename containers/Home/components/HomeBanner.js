@@ -1,4 +1,4 @@
-import { Box, Stack, Typography, useTheme, styled } from "@mui/material";
+import { Box, Stack, useTheme } from "@mui/material";
 import React from "react";
 import { ReaderHTML } from "../../../components";
 import { Image } from "../../../HOC";
@@ -6,8 +6,7 @@ import useMedia from "../../../hooks/useMedia";
 
 export default function HomeBanner({ data }) {
   const { banner, subtitle } = data;
-  // console.log("subtitle", subtitle);
-  const { isSmDown } = useMedia();
+  const { isSmDown, isMdDown } = useMedia();
   const theme = useTheme();
   return (
     <Box
@@ -36,7 +35,11 @@ export default function HomeBanner({ data }) {
           height: isSmDown ? "auto" : "100%",
           width: "80vw",
           padding: isSmDown ? 0 : "3rem",
+          [theme.breakpoints.down("md")]: {
+            width: "90vw",
+          },
           [theme.breakpoints.down("sm")]: {
+            width: "80vw",
             display: "block",
             top: "50%",
             transform: "translateY(-50%) translateX(-50%)",
@@ -45,30 +48,53 @@ export default function HomeBanner({ data }) {
       >
         <Box
           sx={{
-            width: isSmDown ? "100%" : "50%",
+            width: isMdDown ? "100%" : "50%",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
           }}
         >
-          <Box sx={{}}>
+          <Box
+            className="textBanner"
+            sx={{
+              "& span:after": {
+                display: "none !important",
+                backgroundColor: "red",
+              },
+              [theme.breakpoints.down("sm")]: {
+                "& h2": {
+                  fontSize: theme.typography.hairline1,
+                },
+                "& h1": {
+                  fontSize: theme.typography.h5,
+                },
+                "& p": {
+                  fontSize: theme.typography.body2_bold,
+                },
+              },
+            }}
+          >
             <ReaderHTML content={subtitle} />
-            {/* <Typography variant="hairline1">TIÊU XÀI THỎA THÍCH</Typography>
-            <Content>
-              <Typography variant="hairline2">
-                Tích bao nhiêu điểm Đổi bấy nhiêu tiền
-              </Typography>
-            </Content>
-
-            <Typography variant="body2_bold">
-              Ăn uống và mua sắm thả ga cùng với ứng dụng ĐỔI ĐIỂM
-            </Typography> */}
           </Box>
 
           <Stack
             direction="row"
             spacing={3}
-            sx={{ height: isSmDown ? "10vh" : "30%" }}
+            sx={{
+              height: isSmDown ? "calc(8vw * 1.72)" : "calc(4vw * 1.72)",
+              [theme.breakpoints.down("md")]: {
+                width: "70%",
+                "& .MuiBox-root": {
+                  width: "50%",
+                },
+              },
+              [theme.breakpoints.down("sm")]: {
+                width: "100%",
+                "& .MuiBox-root": {
+                  width: "50%",
+                },
+              },
+            }}
           >
             <Image
               {...{
@@ -93,7 +119,7 @@ export default function HomeBanner({ data }) {
         <Box
           sx={{
             width: isSmDown ? "100%" : "50%",
-            [theme.breakpoints.down("sm")]: {
+            [theme.breakpoints.down("md")]: {
               display: "none",
             },
           }}
@@ -111,15 +137,3 @@ export default function HomeBanner({ data }) {
     </Box>
   );
 }
-
-const Content = styled(Typography)(({ theme }) => {
-  return {
-    color: theme.palette.common.neutral2,
-    marginBottom: 10,
-
-    [theme.breakpoints.up("md")]: {
-      color: theme.palette.common.neutral2,
-      marginBottom: 1,
-    },
-  };
-});

@@ -12,7 +12,6 @@ export default function InputPageNew({ control, name, InputProps }) {
       control={control}
       name={name}
       render={({ field, fieldState: { error } }) => {
-        // console.log(field);
         return (
           <Paper
             sx={[

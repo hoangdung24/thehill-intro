@@ -3,28 +3,6 @@ import React from "react";
 import LineTitle from "../../../components/LineTitle/LineTitle";
 import { Image } from "../../../HOC";
 
-const valuelineTitle = {
-  title: "Về Đổi Điểm",
-};
-
-const arrayExchangePoint = [
-  {
-    img: "/img/Rectangle 5.jpg",
-    subtitle:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy textever since the 1500s, when an unknown printer took a galley of",
-  },
-  {
-    img: "/img/Rectangle 5.jpg",
-    subtitle:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy textever since the 1500s, when an unknown printer took a galley of",
-  },
-  {
-    img: "/img/Rectangle 5.jpg",
-    subtitle:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy textever since the 1500s, when an unknown printer took a galley of",
-  },
-];
-
 export default function ExchangePointsHome({ data }) {
   const theme = useTheme();
   const { about_title, about_content } = data;
@@ -65,7 +43,14 @@ export default function ExchangePointsHome({ data }) {
   };
 
   return (
-    <Container maxWidth="lg">
+    <Container
+      maxWidth="lg"
+      sx={{
+        [theme.breakpoints.down("md")]: {
+          // width: "85vw",
+        },
+      }}
+    >
       <LineTitle type="left" titleData={about_title} />
       <Grid
         container

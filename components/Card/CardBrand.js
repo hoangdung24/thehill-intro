@@ -61,7 +61,7 @@ const CardBrand = ({ data, ...props }) => {
       <Box
         ref={ref}
         sx={{
-          // margin: isSmDown ? "15px" : 0,
+          marginLeft: isSmDown ? "0.5rem" : 0,
           borderRadius: "0.62rem",
           background:
             "linear-gradient(rgba(244, 244, 244, 0.4), rgba(244, 244, 244, 0.2))",
@@ -69,7 +69,7 @@ const CardBrand = ({ data, ...props }) => {
           border: "1px solid rgba(255, 255, 255, 0.2)",
           boxShadow: " 0px 4px 10px rgba(0, 0, 0, 0.15)",
           [theme.breakpoints.down("sm")]: {
-            marginBottom: "4rem",
+            marginBottom: "1rem",
           },
         }}
       >

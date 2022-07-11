@@ -13,7 +13,6 @@ const Input = ({ required, label, control, name }) => {
       control={control}
       name={name}
       render={({ field: { onChange, value }, fieldState: { error } }) => {
-        // console.log("fieldState", error);
         return (
           <FormControl
             fullWidth

@@ -22,7 +22,7 @@ export default function HomeNews({ data, blogHomeData }) {
           onClick={() => handleDetailNew(data.id)}
           key={index}
           item
-          xs={12}
+          xs={6}
           md={4}
           // sx={[isSmDown && { marginBottom: "1.75rem" }]}
           sx={{
@@ -43,12 +43,15 @@ export default function HomeNews({ data, blogHomeData }) {
   };
   return (
     <Container
+      // fullWidth
       sx={[
         {
           textAlign: "center",
           margin: "0 auto",
           marginBottom: "8rem",
-          // width: "80vw",
+          [theme.breakpoints.down("md")]: {
+            marginBottom: "5rem",
+          },
         },
         isSmDown && { marginBottom: "3.5rem" },
       ]}
@@ -71,42 +74,4 @@ export default function HomeNews({ data, blogHomeData }) {
       </Link>
     </Container>
   );
-}
-
-{
-  /* <Box
-sx={{
-  borderRadius: "0.25rem",
-  background:
-    "linear-gradient(rgba(244, 244, 244, 0.4), rgba(244, 244, 244, 0.2))",
-  backdropFilter: "blur(4px)",
-  border: "1px solid black",
-}}
->
-<Box
-  sx={{
-    position: "relative",
-    backgroundColor: "red",
-    marginTop: 1,
-    cursor: "pointer",
-    minHeight: 48,
-  }}
->
-  <Image
-    src="/img/Rectangle 5.jpg"
-    width="100%"
-    height="100%"
-    layout="fill"
-    objectFit="cover"
-  ></Image>
-  <Stack>
-    <Typography variant="body_small">Awesome collection</Typography>
-    <Typography variant="body_small">31/12/2022</Typography>
-    <Typography variant="body_small">
-      Lorem ipsum dolor sit amet consectetur adipiscing elit.Lorem ipsum
-      dolor sit amet consectetur adipiscing elit.
-    </Typography>
-  </Stack>
-</Box>
-</Box> */
 }

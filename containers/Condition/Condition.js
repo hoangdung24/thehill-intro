@@ -1,7 +1,6 @@
 import { Container, Box, Grid } from "@mui/material";
 import { Fragment } from "react";
-import { ReaderHTML, SubHeader } from "../../components";
-import createDOMPurify from "isomorphic-dompurify";
+import { ReaderHTML } from "../../components";
 import BannerTop from "../../components/BannerTop/BannerTop";
 import LineTitle from "../../components/LineTitle/LineTitle";
 
@@ -20,9 +19,6 @@ const ConditionPage = ({ initData }) => {
               sx={{
                 overflow: "hidden",
               }}
-              // dangerouslySetInnerHTML={{
-              //   __html: createDOMPurify.sanitize(content),
-              // }}
             >
               <ReaderHTML content={content} />
             </Box>

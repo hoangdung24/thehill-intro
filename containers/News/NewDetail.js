@@ -27,7 +27,6 @@ export default function NewDetail() {
   const { data: resData } = useSWR(
     transformUrl(`${PAGES}${router.query.id}`, {})
   );
-  // console.log(width);
 
   useEffect(() => {
     if (!resData) {
@@ -37,7 +36,6 @@ export default function NewDetail() {
     setData(resData);
     setDataClip(resData?.content[1]?.value.src);
   }, [resData]);
-  // console.log("datadata", dataClip);
   const renderTags = () => {
     if (!resData) {
       return;
@@ -64,7 +62,6 @@ export default function NewDetail() {
       videoId = pathname.replace("/", "");
     }
   }
-  // console.log("videoIdvideoId", videoId);
   return (
     <Box ref={stickyRef}>
       <BannerTop data={resData?.banner} />

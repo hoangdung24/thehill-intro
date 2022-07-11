@@ -6,7 +6,6 @@ import { format, parseISO } from "date-fns";
 import useMedia from "../../hooks/useMedia";
 import { Image } from "../../HOC";
 const CardItem = ({ data }) => {
-  // console.log("datadatadata", data);
   const theme = useTheme();
   const [minWrapperHeight, setMinWrapperHeight] = useState(0);
   const { isMdUp, isSmUp } = useMedia();

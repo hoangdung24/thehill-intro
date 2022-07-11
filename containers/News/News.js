@@ -85,7 +85,6 @@ export default function News({ initData }) {
     setCurrentPage(1);
     animationHandler();
     setIdAPI(newValue);
-    // console.log("newValue", newValue);
   }, []);
 
   const handleDetailNew = (id) => {
@@ -93,8 +92,6 @@ export default function News({ initData }) {
   };
 
   const onSubmit = useCallback((data) => {
-    // console.log("search", data);
-
     if (data.search === "") {
       setIsSearch(true);
     } else {

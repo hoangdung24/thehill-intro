@@ -14,7 +14,6 @@ import get from "lodash/get";
 
 const InputBase = forwardRef(
   ({ required, error, label, FormHelperTextProps, ...props }, ref) => {
-    // console.log("object", error);
     const theme = useTheme();
     // const { messages } = useIntl();
     const { errorType = {}, ...restFormHelperTextProps } = FormHelperTextProps;

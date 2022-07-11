@@ -32,7 +32,6 @@ export default function Register({ initData }) {
   const { banner, title, subtitle, thank_you_text } = contactPage.items[0];
   const { isSmUp, isSmDown, isMdDown } = useMedia();
   const theme = useTheme();
-  // console.log("initDatainitData", thank_you_text);
 
   const [mutationObj, setMutationObj] = useState({});
   const [success, setSuccess] = useState(false);
@@ -56,7 +55,6 @@ export default function Register({ initData }) {
   });
 
   const onSubmit = useCallback(async (data) => {
-    // console.log(data);
     reset(defaultValues, {
       keepDirty: false,
     });
@@ -170,7 +168,6 @@ export default function Register({ initData }) {
               exit: 500,
             }}
             onExited={() => {
-              // console.log("first");
               // setTimeout(() => {
               //   setMessage("");
               // }, 2000);

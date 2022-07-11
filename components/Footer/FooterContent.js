@@ -12,12 +12,10 @@ import { Image } from "../../HOC";
 import useMedia from "../../hooks/useMedia";
 import InputSendMail from "../Input/InputSendMail";
 import Link from "../Link";
-const SIZE = "100px";
 
 export default function FooterContent({ setting }) {
-  const { isSmUp, isSmDown, isMdUp } = useMedia();
+  const { isSmDown, isMdDown } = useMedia();
   const theme = useTheme();
-
   const {
     address,
     tax_code,
@@ -39,7 +37,11 @@ export default function FooterContent({ setting }) {
         sx={[isSmDown && { height: "6rem", marginBottom: "2rem" }]}
       >
         <Box
-          sx={[{ height: "42%" }, isSmDown && { height: "100%", width: "43%" }]}
+          sx={[
+            { height: "10vh" },
+            isSmDown && { height: "100%", width: "27vw" },
+            isMdDown && { height: "10vh", width: "20vw", marginBottom: "2rem" },
+          ]}
         >
           <Image
             {...{
@@ -104,9 +106,8 @@ export default function FooterContent({ setting }) {
           <Content>Đăng ký với chung tôi để nhận ưu đãi mỗi ngày.</Content>
           <InputSendMail />
           <Stack
-            className="plplplplplplplplplpl"
             direction="row"
-            spacing={2}
+            spacing={1}
             sx={[
               {
                 height: "3rem",
@@ -125,7 +126,11 @@ export default function FooterContent({ setting }) {
               {...{
                 src: "/img/image 6.png",
                 width: "100%",
-                height: "100%",
+                height: isMdDown
+                  ? isSmDown
+                    ? "calc(7vw * 1.72)"
+                    : "calc(8vw * 1.72)"
+                  : "calc(2vw * 1.72)",
                 objectFit: "container",
               }}
             />
@@ -133,7 +138,11 @@ export default function FooterContent({ setting }) {
               {...{
                 src: "/img/image 7.png",
                 width: "100%",
-                height: "100%",
+                height: isMdDown
+                  ? isSmDown
+                    ? "calc(7vw * 1.72)"
+                    : "calc(8vw * 1.72)"
+                  : "calc(2vw * 1.72)",
                 objectFit: "container",
               }}
             />

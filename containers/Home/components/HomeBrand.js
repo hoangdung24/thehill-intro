@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Stack, useTheme } from "@mui/material";
+import { Box, Button, Container, Grid, Stack, useTheme } from "@mui/material";
 import React from "react";
 import CardBrand from "../../../components/Card/CardBrand";
 import LineTitle from "../../../components/LineTitle/LineTitle";
@@ -30,9 +30,9 @@ export default function HomeBrand({ data, brandHomeData }) {
         textAlign: "center",
       }}
     >
-      <Box
+      <Container
+        maxWidth="lg"
         sx={{
-          width: "80vw",
           margin: "0 auto",
         }}
       >
@@ -56,7 +56,7 @@ export default function HomeBrand({ data, brandHomeData }) {
             sx={{
               marginTop: "3rem",
               display: "flex",
-              width: "90vw",
+              // width: "90vw",
               overflowX: "auto",
               "& .slider-wrapper": {
                 marginBottom: 0,
@@ -64,15 +64,12 @@ export default function HomeBrand({ data, brandHomeData }) {
               "&::-webkit-scrollbar": {
                 display: "none",
               },
-              // [theme.breakpoints.down("md")]: {
-              //   width: "auto",
-              // },
             }}
           >
             {renderCardBrand()}
           </Stack>
         )}
-      </Box>
+      </Container>
       <Link href="/tin-tuc" sx={{ textDecoration: "none" }}>
         <Button sx={{ marginTop: "2rem", marginBottom: "2.5rem" }}>
           XEM THÊM

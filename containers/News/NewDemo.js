@@ -53,7 +53,6 @@ export default function News({ initData }) {
   );
 
   useEffect(() => {
-    // console.log("searchDatasearchData", searchData);
     if (resData === undefined) {
       return;
     }
@@ -77,7 +76,6 @@ export default function News({ initData }) {
     setCurrentPage(1);
     animationHandler();
     setIdAPI(newValue);
-    // console.log("newValue", newValue);
   }, []);
 
   const handleDetailNew = (id) => {

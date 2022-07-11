@@ -19,7 +19,7 @@ export default function InputSendMail() {
           alignItems: "center",
           width: "100%",
           marginBottom: "2.3rem",
-          marginTop: "5.5rem",
+          marginTop: isSmDown ? "0.5rem" : "1rem",
         },
         isSmDown && { marginBottom: "1.5rem" },
       ]}

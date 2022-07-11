@@ -14,14 +14,6 @@ import {
 } from "@mui/material";
 import Fade from "@mui/material/Fade";
 
-// import {
-//   usePopupState,
-//   bindToggle,
-//   bindPopper,
-// } from "material-ui-popup-state/hooks";
-
-import LanguageIcon from "@mui/icons-material/Language";
-
 import Link from "../Link";
 import ModalMenu from "./ModalMenu";
 import Container from "../Container";
@@ -44,7 +36,6 @@ const objLogo = {
 const Header = ({}) => {
   const theme = useTheme();
   const router = useRouter();
-  // const { setting } = useSetting();
   const [isToggle, setIsToggle] = useToggle(false);
   const { isMdUp } = useMedia();
   const { y } = useWindowScroll();
@@ -54,12 +45,10 @@ const Header = ({}) => {
   const [data, setData] = useState([]);
   const setting = useSetting();
 
-  // if (!setting) {
-  //   return null;
-  // }
+  if (!setting) {
+    return null;
+  }
   useEffect(() => {
-    // popupState.close();
-
     if (y > 50 && !animationState) {
       setAnimationState(true);
     }
@@ -76,49 +65,53 @@ const Header = ({}) => {
   }, [isMdUp]);
 
   useEffect(() => {
-    if (!setting) {
-      return null;
-    }
     setting.header.splice(3, 0, objLogo);
-    // console.log("co nenene", a);
+    console.log("header", setting.header);
     setData(setting.header);
-  }, [setting]);
+  }, []);
 
   const Navbar = useMemo(() => {
     if (!data) {
       return null;
     }
-    // const { logo_1 } = setting;
-    // console.log("header", data);
+
     return (
-      <Container
-        id="Home"
-        maxWidth="lg"
-        sx={{
-          paddingX: "0 !important",
-        }}
-      >
-        <Stack
-          direction={"row"}
-          spacing={3}
-          sx={{ padding: "24px 0 !important" }}
-        >
-          <Box
+      <Container id="Home" maxWidth="lg">
+        <Box spacing={3} sx={{ padding: "24px 0 !important" }}>
+          <Stack
+            className="asdasdasdasd"
+            direction="row"
             sx={{
               flexGrow: 1,
-              display: "flex",
               justifyContent: "space-between",
-              // gap: "60px",
-              //   padding: "24px 0",
+              alignItems: "center",
               "& .headerLogo": {
                 width: "15%",
+                backgroundColor: "none !important",
+              },
+
+              "& .navLink:last-child": {
+                backgroundColor: theme.palette.primary.light,
+                padding: "0.5rem 1rem",
+                borderRadius: "1rem",
+                color: "white",
+                transition: "all 0.5s",
+                "&:hover": {
+                  backgroundColor: theme.palette.primary.dark,
+                },
+                "& span": {
+                  color: "white",
+                  display: "block",
+                },
               },
             }}
           >
             {data.map((el, index) => {
               return (
                 <Box
-                  className={el.value.title === "Logo" ? "headerLogo" : ""}
+                  className={
+                    el.value.title === "Logo" ? "headerLogo navLink" : "navLink"
+                  }
                   key={index}
                 >
                   {el.value.title === "Logo" ? (
@@ -126,7 +119,7 @@ const Header = ({}) => {
                       <Image
                         src={el.value.img}
                         width="100%"
-                        height="100%"
+                        height="calc(2.5vw * 1.72)"
                         objectFit="contain"
                       />
                     </Link>
@@ -138,49 +131,45 @@ const Header = ({}) => {
                           ? `#${el.value.section}`
                           : el.value.link
                       }
-                      sx={{ textDecoration: "none" }}
+                      sx={{
+                        textDecoration: "none",
+                        my: 2,
+                        transition: "all 0.5s",
+                      }}
                     >
-                      <Button
-                        sx={{
-                          my: 2,
-                          // color:
+                      {/* // color:
                           //   el.link === router.pathname
                           //     ? theme.palette.primary.main
-                          //     : theme.palette.common.black, // Nếu vào trang nào thì chỉ hiện màu ở title ở header đó
-                          display: "block",
+                          //     : theme.palette.common.black, // Nếu vào trang nào thì chỉ hiện màu ở title ở header đó */}
+                      <Typography
+                        variant="button2"
+                        sx={{
+                          textTransform: "uppercase",
+                          color: theme.palette.common.natural2,
+                          transition: "all 0.5s",
+
+                          "&:hover": {
+                            color: theme.palette.primary.light,
+                          },
+                          // color:
+                          //   el.link === router.pathname
+                          //     ? "red"
+                          //     : theme.palette.common.natural2,
+                          // Nếu vào trang nào thì chỉ hiện màu ở title ở header đó
                         }}
                       >
-                        <Typography
-                          variant="button2"
-                          sx={
-                            {
-                              // color:
-                              //   el.link === router.pathname
-                              //     ? "red"
-                              //     : theme.palette.common.natural2,
-                              // Nếu vào trang nào thì chỉ hiện màu ở title ở header đó
-                            }
-                          }
-                        >
-                          {el.value.title}
-                        </Typography>
-                      </Button>
+                        {el.value.title}
+                      </Typography>
                     </Link>
                   )}
                 </Box>
               );
             })}
-          </Box>
-
-          {/* <Button>
-            <Link href="/dang-ky" sx={{ textDecoration: "none" }}>
-              <Typography variant="button2">TRỞ THÀNH ĐỐI TÁC</Typography>
-            </Link>
-          </Button> */}
-        </Stack>
+          </Stack>
+        </Box>
       </Container>
     );
-  }, [NAVBAR, router, data]);
+  }, [NAVBAR, data]);
 
   const staticNav = useMemo(() => {
     if (y > 150) {
@@ -353,7 +342,6 @@ const Header = ({}) => {
       );
     }
   }, [isMdUp, animationState, Navbar, staticNav, isToggle]);
-
   return (
     <Box
       sx={{

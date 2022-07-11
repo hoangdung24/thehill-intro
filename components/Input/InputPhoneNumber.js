@@ -19,7 +19,6 @@ const InputPhoneNumber = ({
       name={name}
       control={control}
       render={({ field: { onChange, value }, fieldState: { error } }) => {
-        // console.log("errorerror", error);
         return (
           <PhoneInput
             required={required}

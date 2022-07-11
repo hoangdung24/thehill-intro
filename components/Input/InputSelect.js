@@ -14,13 +14,8 @@ const InputSelect = ({ data, required, label, control, name }) => {
       control={control}
       name={name}
       render={({ field: { onChange, value }, fieldState: { error } }) => {
-        // console.log("fieldState", error);
         return (
-          <FormControl
-            fullWidth
-            error={!!error ? true : false}
-            // sx={{ marginBottom: "1.6rem" }}
-          >
+          <FormControl fullWidth error={!!error ? true : false}>
             <TextField
               value={value || ""}
               onChange={onChange}

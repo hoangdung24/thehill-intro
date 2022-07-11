@@ -13,7 +13,7 @@ import { Fragment } from "react";
 import { Image } from "../../HOC";
 
 const Footer = ({ children, ...props }) => {
-  const { isSmUp, isSmDown, isMdUp, isMdDown } = useMedia();
+  const { isSmDown, isMdDown } = useMedia();
   const theme = useTheme();
   const setting = useSetting();
 
@@ -36,8 +36,12 @@ const Footer = ({ children, ...props }) => {
           sx={{
             marginBottom: "1.6rem",
             color: theme.palette.primary.main,
-            height: isMdDown ? (isSmDown ? "4vh" : "4vh") : "6vh",
-            width: isMdDown ? (isSmDown ? "70%" : "40%") : "25%",
+            height: isMdDown
+              ? isSmDown
+                ? "calc(4vw * 1.72)"
+                : "calc(3vw * 1.72)"
+              : "calc(1.8vw * 1.72)",
+            width: isMdDown ? (isSmDown ? "55%" : "40%") : "22%",
             margin: "0 auto",
             marginBottom: "1.6rem !important",
           }}

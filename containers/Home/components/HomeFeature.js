@@ -6,24 +6,6 @@ import { Box, useTheme } from "@mui/system";
 import LineTitle from "../../../components/LineTitle/LineTitle";
 import { useMeasure } from "react-use";
 
-const images = [
-  "/phone/Untitled-1-02.png",
-  "/phone/Untitled-1-02.png",
-  "/phone/Untitled-1-02.png",
-  "/phone/Untitled-1-02.png",
-  "/phone/Untitled-1-02.png",
-  "/phone/Untitled-1-02.png",
-  "/phone/Untitled-1-02.png",
-  "/phone/Untitled-1-02.png",
-  "/phone/Untitled-1-02.png",
-];
-
-const valuelineTitle = {
-  title: "Vé Đổi Điểm",
-  subTitle:
-    "Sơ lược những tính năng giúp khách hàng có thể ăn uống và mua sắm thỏa thích",
-};
-
 export default function HomeFeature({ data }) {
   const { tutorial_title, tutorial_subtitle, tutorial_content } = data;
   const inputRef = useRef(null);

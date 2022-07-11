@@ -20,9 +20,6 @@ const PolicyPage = ({ initData }) => {
               sx={{
                 overflow: "hidden",
               }}
-              // dangerouslySetInnerHTML={{
-              //   __html: createDOMPurify.sanitize(content),
-              // }}
             >
               <ReaderHTML content={content} />
             </Box>

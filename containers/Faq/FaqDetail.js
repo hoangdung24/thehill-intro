@@ -21,12 +21,6 @@ import { PAGES } from "../../apis";
 import { transformUrl } from "../../libs";
 import { ReaderHTML } from "../../components";
 
-const valuelineTitle = {
-  title: "FAQ",
-  subTitle:
-    "Sơ lược những tính năng giúp khách hàng có thể ăn uống và mua sắm thỏa thích",
-};
-
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({

@@ -1,160 +1,201 @@
-import React, { useEffect, useRef, useState } from "react";
 import Slider from "react-slick";
-import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import { useWindowSize } from "react-use";
+import { useRef } from "react";
+import { Box, useTheme, Grid } from "@mui/material";
+
+import ArrowRightAltOutlinedIcon from "@mui/icons-material/ArrowRightAltOutlined";
+
 import { Image } from "../../../HOC";
-import { Box, useTheme } from "@mui/system";
 import LineTitle from "../../../components/LineTitle/LineTitle";
-import { useMeasure } from "react-use";
 
-const images = [
-  "/phone/Untitled-1-02.png",
-  "/phone/Untitled-1-02.png",
-  "/phone/Untitled-1-02.png",
-  "/phone/Untitled-1-02.png",
-  "/phone/Untitled-1-02.png",
-  "/phone/Untitled-1-02.png",
-  "/phone/Untitled-1-02.png",
-  "/phone/Untitled-1-02.png",
-  "/phone/Untitled-1-02.png",
-];
+import { Container } from "../../../components";
 
-const valuelineTitle = {
-  title: "Vé Đổi Điểm",
-  subTitle:
-    "Sơ lược những tính năng giúp khách hàng có thể ăn uống và mua sắm thỏa thích",
+const IMAGE_FRAME_RATIO = 390 / 790;
+const IMAGE_RATIO = 351 / 767;
+const IMAGE_HEIGHT = "40vh";
+
+const settings = {
+  infinite: true,
+
+  speed: 300,
+  slidesToShow: 5,
+  centerMode: true,
+
+  nextArrow: <NextArrow />,
+  prevArrow: <PrevArrow />,
+  centerPadding: "0px",
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        centerPadding: "0px",
+      },
+    },
+    {
+      breakpoint: 600,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        centerPadding: "100px",
+      },
+    },
+  ],
 };
 
 export default function HomeFeature({ data }) {
-  const { tutorial_title, tutorial_subtitle, tutorial_content } = data;
-  const inputRef = useRef(null);
+  const slickRef = useRef();
+
   const theme = useTheme();
-
-  const [Ref, { width, height }] = useMeasure();
-
-  // Mũi tên của Slick
-  const NextArrow = ({ onClick }) => {
-    return (
-      <div className="arrow next" onClick={onClick}>
-        <ArrowCircleRightIcon />
-      </div>
-    );
-  };
-
-  const PrevArrow = ({ onClick }) => {
-    return (
-      <div className="arrow prev" onClick={onClick}>
-        <ArrowCircleRightIcon />
-      </div>
-    );
-  };
-
-  const [imageIndex, setImageIndex] = useState(0);
-
-  // >>>>>>> Biến Slick
-  const settings = {
-    infinite: true,
-    lazyLoad: true,
-    speed: 300,
-    slidesToShow: 7,
-    centerMode: true,
-    centerPadding: 0,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
-    beforeChange: (current, next) => setImageIndex(next),
-  };
+  const { tutorial_title, tutorial_subtitle, tutorial_content } = data;
 
   return (
     <Box
       id="review-app"
       sx={{
         backgroundColor: theme.palette.common.natural3,
-        marginBottom: "5.5rem",
+        paddingBottom: "5rem",
       }}
     >
-      <Box sx={{ width: "80vw", margin: "0 auto" }}>
-        <LineTitle
-          titleData={tutorial_title}
-          subtitleData={tutorial_subtitle}
-          type="left"
-        />
-        <Box
-          sx={{
-            position: "relative",
-            ["& .slick-list"]: {},
-            ["& .slick-center"]: {
-              transition: "500ms",
-              transform: "scale(1.1)",
-              position: "relative",
-              ["&::before"]: {
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100%",
-                zIndex: 900,
-                content: '""',
-                backgroundImage: "url('/phone/borderPhone.png')",
-                backgroundSize: "cover",
-                transform: "scale(1.1)",
-              },
-            },
-          }}
-        >
-          <Slider {...settings} className="classCHinhchinh">
-            {tutorial_content.map((img, idx) => (
-              <Box
-                key={idx}
-                // ref={inputRef}
-                ref={Ref}
-                sx={{ width: "100%", height: "60vh" }}
-                className={
-                  idx === imageIndex ? "slide activeSlide hello" : "slide"
-                }
-              >
-                <Image
-                  // ref={Ref}
-                  src={img.value}
-                  alt={img}
-                  layout="fill"
-                  width="100%"
-                  height="100%"
-                  objectFit="cover"
-                />
-
-                {/* <Image
-                  {...{
-                    
-                    src: img,
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "contain",
-                  }}
-                /> */}
-              </Box>
-            ))}
-          </Slider>
-          {/* <Box
-            sx={{
-              position: "absolute",
-              top: 0,
-              height: height,
-              width: "100%",
-              "& div span img": {
-                transform: "scale(1)",
-              },
-            }}
-          >
-            <Image
-              {...{
-                src: "/phone/borderPhone.png",
-                width: "100%",
-                height: "100%",
-                objectFit: "contain",
-              }}
+      <Container>
+        <Grid container>
+          <Grid item xs={12}>
+            <LineTitle
+              titleData={tutorial_title}
+              subtitleData={tutorial_subtitle}
+              type="left"
             />
-          </Box> */}
-        </Box>
-      </Box>
+            <Box
+              sx={{
+                position: "relative",
+                marginTop: 4,
+
+                ["& .slick-slide"]: {
+                  overflow: "hidden",
+                },
+                ["& .slick-track"]: {
+                  paddingY: "4rem",
+                },
+                ["& .slick-center"]: {
+                  ["& .wrapper-image"]: {
+                    transform: "scale(1, 0.975)",
+                  },
+                },
+              }}
+            >
+              <Slider ref={slickRef} {...settings}>
+                {tutorial_content.map((el, idx) => {
+                  return (
+                    <Box key={idx}>
+                      <Image
+                        src={el.value}
+                        width={`calc(${IMAGE_HEIGHT} * ${IMAGE_RATIO})`}
+                        height={IMAGE_HEIGHT}
+                        WrapperProps={{
+                          sx: {
+                            marginX: "auto",
+                            transform: "scale(0.75)",
+                            transition: "500ms",
+                            overflow: "hidden",
+                            borderRadius: "20px",
+                            top: "6px",
+                          },
+                          className: "wrapper-image",
+                        }}
+                        objectFit="unset"
+                      />
+                    </Box>
+                  );
+                })}
+              </Slider>
+
+              <Box
+                className="iphone-frame"
+                sx={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  width: `calc(${IMAGE_HEIGHT} * ${IMAGE_FRAME_RATIO})`,
+                  // width: "100%",
+                  height: `calc(${IMAGE_HEIGHT})`,
+                  zIndex: 2,
+                  backgroundImage: "url('/iphone-frame.png')",
+                  backgroundSize: "100% 100%",
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "center",
+                  transform: "translate(-50%, -50%) ",
+                  pointerEvents: "none",
+                  // borderRadius: "20px",
+                }}
+              ></Box>
+            </Box>
+          </Grid>
+        </Grid>
+      </Container>
+    </Box>
+  );
+}
+
+function PrevArrow({ onClick }) {
+  return (
+    <Box
+      sx={{
+        position: "absolute",
+        bottom: 0,
+        left: "50%",
+        width: "36px",
+        height: "36px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        cursor: "pointer",
+        zIndex: 1,
+        borderRadius: "50%",
+        borderColor: "primary.light",
+        borderWidth: "2px",
+        borderStyle: "solid",
+        transform: "translateX(-54px)",
+      }}
+      onClick={onClick}
+    >
+      <ArrowRightAltOutlinedIcon
+        sx={{
+          transform: "rotate(180deg)",
+          color: "primary.light",
+        }}
+      />
+    </Box>
+  );
+}
+
+function NextArrow({ onClick }) {
+  return (
+    <Box
+      sx={{
+        position: "absolute",
+        bottom: 0,
+        left: "50%",
+        width: "36px",
+        height: "36px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        cursor: "pointer",
+        zIndex: 1,
+        borderRadius: "50%",
+        borderColor: "primary.light",
+        borderWidth: "2px",
+        borderStyle: "solid",
+        transform: "translateX(18px)",
+      }}
+      onClick={onClick}
+    >
+      <ArrowRightAltOutlinedIcon
+        sx={{
+          color: "primary.light",
+        }}
+      />
     </Box>
   );
 }

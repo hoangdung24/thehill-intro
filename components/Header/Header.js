@@ -37,13 +37,11 @@ const objLogo = {
 const Header = ({}) => {
   const theme = useTheme();
   const router = useRouter();
-<<<<<<< Updated upstream
-  // const { setting } = useSetting();
-=======
 
-  const { header } = useSetting();
+  const setting = useSetting();
 
->>>>>>> Stashed changes
+  // const { header } = useSetting();
+
   const [isToggle, setIsToggle] = useToggle(false);
   const { isMdUp } = useMedia();
   const { y } = useWindowScroll();
@@ -51,7 +49,6 @@ const Header = ({}) => {
   const [animationState, setAnimationState] = useState(false);
   // const [header, setHeader] = useState([]);
   const [data, setData] = useState([]);
-  const setting = useSetting();
 
   // if (!setting) {
   //   return null;

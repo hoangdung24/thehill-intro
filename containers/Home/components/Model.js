@@ -20,7 +20,7 @@ export default function Model() {
   const { nodes, materials } = useGLTF("models/phone/final2.glb");
 
   return (
-    <group dispose={null} rotation={[0, convertAngleToRad(180), 0]}>
+    <group position={[1, 0, 0]} dispose={null} rotation={[0, convertAngleToRad(180), 0]}>
       <mesh
         castShadow
         receiveShadow

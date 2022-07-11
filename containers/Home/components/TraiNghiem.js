@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import React from "react";
+
 import Slider from "react-slick";
 import { Image } from "../../../HOC";
 
@@ -27,7 +27,7 @@ export default function TraiNghiem({ data }) {
           objectFit: "cover",
         }}
       />
-      {/* <Slider {...settings}>
+      <Slider {...settings}>
         <Box sx={{ backgroundColor: "gray" }}>
           <Image
             {...{
@@ -56,7 +56,7 @@ export default function TraiNghiem({ data }) {
         <Box sx={{ backgroundColor: "gray" }}>
           <h3>7</h3>
         </Box>
-      </Slider> */}
+      </Slider>
     </Box>
   );
 }

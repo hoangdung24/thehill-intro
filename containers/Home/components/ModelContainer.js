@@ -3,9 +3,9 @@ import { useRef, Fragment } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Environment, OrbitControls, PerspectiveCamera } from "@react-three/drei";
 
-import { convertAngleToRad } from "../../libs";
+import { convertAngleToRad } from "../../../libs";
 
-import Model from "./components/Model";
+import Model from "./Model";
 
 export default function Three() {
   const orbitControlsRef = useRef(null);
@@ -28,6 +28,7 @@ export default function Three() {
         minPolarAngle={convertAngleToRad(75)}
         maxPolarAngle={convertAngleToRad(105)}
         enableZoom={false}
+        // target={[1, 0, 0]}
       />
 
       <Model />

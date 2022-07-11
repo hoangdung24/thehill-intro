@@ -1,12 +1,15 @@
 import { Fragment, Suspense, useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { HOME_PAGE, PAGES, PARTNER, BLOG_DETAIL } from "../apis";
-import { transformUrl, prefetchData, convertAngleToRad } from "../libs";
+import { transformUrl, prefetchData } from "../libs";
 import dynamic from "next/dynamic";
 
-const ModelContainer = dynamic(() => import("../containers/Home/ModelContainer"), {
-  ssr: false,
-});
+const ModelContainer = dynamic(
+  () => import("../containers/Home/components/ModelContainer"),
+  {
+    ssr: false,
+  }
+);
 
 const ThreeJSPage = () => {
   const [isReady, setIsReady] = useState(false);

@@ -30,111 +30,112 @@ export default function HomeBanner({ data }) {
   }
   console.log("dataBanner", dataBanner);
   return (
-    <Box
-      sx={{
-        backgroundImage: `"url(${a})"`,
-        height: "90vh",
-        position: "relative",
-      }}
-    >
-      <Canvas shadows>
-        <Suspense fallback={null}>{/* <ModelContainer /> */}</Suspense>
-      </Canvas>
-
+    <Box className="wqeqweqwe">
       <Box
         sx={{
-          position: "absolute",
-          top: 0,
-          left: "50%",
-          width: "50%",
-          height: "100%",
+          height: "90vh",
+          position: "relative",
         }}
       >
-        <Point
-          sx={{
-            top: "25%",
-            left: "25%",
-          }}
-        >
-          <PointLabel>?</PointLabel>
-          <PointText className="help-text">
-            Lorem ipsum dolor sit amet sit amet sit amet elit.
-          </PointText>
-        </Point>
-        <Point
-          sx={{
-            top: "75%",
-            left: "25%",
-          }}
-        >
-          <PointLabel>?</PointLabel>
-          <PointText className="help-text">
-            Lorem ipsum dolor sit amet sit amet sit amet elit.
-          </PointText>
-        </Point>
-        <Point
-          sx={{
-            top: "25%",
-            left: "75%",
-          }}
-        >
-          <PointLabel>?</PointLabel>
-          <PointText className="help-text">
-            Lorem ipsum dolor sit amet sit amet sit amet elit.
-          </PointText>
-        </Point>
-        <Point
-          sx={{
-            top: "75%",
-            left: "75%",
-          }}
-        >
-          <PointLabel>?</PointLabel>
-          <PointText className="help-text">
-            Lorem ipsum dolor sit amet sit amet sit amet elit.
-          </PointText>
-        </Point>
-      </Box>
+        <Canvas shadows>
+          <Suspense fallback={null}>{/* <ModelContainer /> */}</Suspense>
+        </Canvas>
 
-      <Stack
-        sx={{
-          position: "absolute",
-          top: "50%",
-          left: "10rem",
-          transform: "translateY(-50%)",
-          width: "50%",
-          pointerEvents: "none",
-          ...(isLgDown && {
-            left: "5rem",
-          }),
-          ...(isMdDown && {
-            left: "24px",
-          }),
-        }}
-      >
-        <Box>
-          <ReaderHTML content={subtitle} />
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: "50%",
+            width: "50%",
+            height: "100%",
+          }}
+        >
+          <Point
+            sx={{
+              top: "25%",
+              left: "25%",
+            }}
+          >
+            <PointLabel>?</PointLabel>
+            <PointText className="help-text">
+              Lorem ipsum dolor sit amet sit amet sit amet elit.
+            </PointText>
+          </Point>
+          <Point
+            sx={{
+              top: "75%",
+              left: "25%",
+            }}
+          >
+            <PointLabel>?</PointLabel>
+            <PointText className="help-text">
+              Lorem ipsum dolor sit amet sit amet sit amet elit.
+            </PointText>
+          </Point>
+          <Point
+            sx={{
+              top: "25%",
+              left: "75%",
+            }}
+          >
+            <PointLabel>?</PointLabel>
+            <PointText className="help-text">
+              Lorem ipsum dolor sit amet sit amet sit amet elit.
+            </PointText>
+          </Point>
+          <Point
+            sx={{
+              top: "75%",
+              left: "75%",
+            }}
+          >
+            <PointLabel>?</PointLabel>
+            <PointText className="help-text">
+              Lorem ipsum dolor sit amet sit amet sit amet elit.
+            </PointText>
+          </Point>
         </Box>
 
-        <Stack direction="row" spacing={3}>
-          <Image
-            {...{
-              src: "/img/image 3.png",
-              width: "120px",
-              height: "60px",
-              objectFit: "contain",
-            }}
-          />
-          <Image
-            {...{
-              src: "/img/image 4 (1).png",
-              width: "120px",
-              height: "60px",
-              objectFit: "contain",
-            }}
-          />
+        <Stack
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "10rem",
+            transform: "translateY(-50%)",
+            width: "50%",
+            pointerEvents: "none",
+            ...(isLgDown && {
+              left: "5rem",
+            }),
+            ...(isMdDown && {
+              left: "24px",
+            }),
+          }}
+        >
+          <Box>
+            <ReaderHTML content={subtitle} />
+          </Box>
+
+          <Stack direction="row" spacing={3}>
+            <Image
+              {...{
+                src: "/img/image 3.png",
+                width: "120px",
+                height: "60px",
+                objectFit: "contain",
+              }}
+            />
+            <Image
+              {...{
+                src: "/img/image 4 (1).png",
+                width: "120px",
+                height: "60px",
+                objectFit: "contain",
+              }}
+            />
+          </Stack>
         </Stack>
-      </Stack>
+      </Box>
     </Box>
   );
 }

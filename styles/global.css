@@ -175,3 +175,14 @@ html {
   top: 75%;
   left: 75%;
 }
+@keyframes example {
+  from {
+    transform: translateY(-600px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(-100px);
+    opacity: 1;
+  }
+}

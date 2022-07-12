@@ -8,7 +8,7 @@ import {
   Fade,
   Alert,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import BannerTop from "../../components/BannerTop/BannerTop";
 import Input from "../../components/Input/Input";
@@ -18,13 +18,15 @@ import InputSelect from "../../components/Input/InputSelect";
 
 import { Image } from "../../HOC";
 import useMedia from "../../hooks/useMedia";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { schema, defaultValues } from "../../libs/yupRegister";
 import { useCallback } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SUBMISSIONS } from "../../apis";
 import axios from "../../axios.config";
 import InputPhoneNumber from "../../components/Input/InputPhoneNumber";
+import NumberFormat from "react-number-format";
+import InputNumber from "../../components/Input/InputNumber";
 
 export default function Register({ initData }) {
   const [contactPage, storeCategories] = initData;
@@ -41,6 +43,19 @@ export default function Register({ initData }) {
     content: "",
   });
 
+  useEffect(() => {
+    let timer;
+
+    if (isSuccess) {
+      timer = setTimeout(() => {
+        setIsSuccess(false);
+      }, 3000);
+    }
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [isSuccess]);
   const {
     clearErrors,
     handleSubmit,
@@ -126,24 +141,44 @@ export default function Register({ initData }) {
             name="store_name"
             label="Tên quán / Thương hiệu"
           />
-          <InputSelect
-            control={control}
-            name="category"
-            label="Danh mục quán"
-            data={storeCategories}
-          />
+
           <Input
             control={control}
             name="presentator"
             label="Người đại diện"
             required
           />
-          <Input control={control} name="email" label="Email" required />
-          <Input
+          <InputSelect
             control={control}
-            name="bank_number"
-            label="Số tài khoản ngân hàng"
+            name="category"
+            label="Danh mục quán"
+            data={storeCategories}
           />
+          <Input control={control} name="email" label="Email" required />
+
+          <Controller
+            {...{
+              name: "bank_number",
+              control,
+              render: ({ field, fieldState: { error } }) => {
+                const { onChange, ...props } = field;
+
+                return (
+                  <NumberFormat
+                    error={error}
+                    onValueChange={({ value }) => {
+                      onChange(value);
+                    }}
+                    customInput={InputNumber}
+                    {...props}
+                    label="Số tài khoản ngân hàng"
+                    fullWidth
+                  />
+                );
+              },
+            }}
+          />
+
           <Input control={control} name="bank" label="Tên ngân hàng" />
           <Input control={control} name="owner" label="Chủ tài khoản" />
 
@@ -161,7 +196,9 @@ export default function Register({ initData }) {
               passHandler,
             }}
           />
+
           <Fade
+            sx={{ display: isSuccess == true ? "block" : "none" }}
             in={isSuccess}
             timeout={{
               enter: 500,
@@ -192,16 +229,6 @@ export default function Register({ initData }) {
               {message.content}
             </Alert>
           </Fade>
-
-          {/* <Typography
-            sx={{
-              display: success ? "block" : "none",
-              textAlign: "center",
-              color: theme.palette.success.dark,
-            }}
-          >
-            {thank_you_text}
-          </Typography> */}
 
           <Button type="submit" sx={{ width: "100%", marginTop: "1rem" }}>
             <Typography variant="button2">ĐĂNG KÝ</Typography>

@@ -1,5 +1,5 @@
-import { Box, useTheme } from "@mui/material";
-import React, { useEffect } from "react";
+import { Box, Slide, useTheme } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import ArrowUpwardRoundedIcon from "@mui/icons-material/ArrowUpwardRounded";
 import Link from "../Link";
 import useMedia from "../../hooks/useMedia";
@@ -9,15 +9,16 @@ export default function BackToTop() {
   const { y } = useWindowScroll();
   const { isSmUp, isSmDown, isMdUp } = useMedia();
   const theme = useTheme();
+  const [animationState, setAnimationState] = useState(false);
+
   useEffect(() => {
     if (y > 880) {
-      return;
+      setAnimationState(true);
     }
     if (y < 50) {
-      return;
+      setAnimationState(false);
     }
   }, [y]);
-  // console.log(y);
 
   return (
     <Box
@@ -29,16 +30,17 @@ export default function BackToTop() {
       }}
     >
       <Link href="#Home">
-        <ArrowUpwardRoundedIcon
-          sx={{
-            backgroundColor: theme.palette.secondary.main,
-            borderRadius: "5px",
-            padding: "5px",
-            color: "white",
-            fontSize: isSmDown ? "35px" : "40px",
-            transform: "translateY(-600px)",
-          }}
-        />
+        <Slide direction="up" in={animationState} mountOnEnter unmountOnExit>
+          <ArrowUpwardRoundedIcon
+            sx={{
+              backgroundColor: theme.palette.secondary.main,
+              borderRadius: "5px",
+              padding: "5px",
+              color: "white",
+              fontSize: isSmDown ? "35px" : "40px",
+            }}
+          />
+        </Slide>
       </Link>
     </Box>
   );

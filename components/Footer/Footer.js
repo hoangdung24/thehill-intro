@@ -30,7 +30,7 @@ const Footer = ({ children, ...props }) => {
   const { social_icons } = setting;
   return (
     <Fragment>
-      <Box sx={{ width: "80vw" }} id="lien-he">
+      <Box id="contact" sx={{ width: "80vw" }}>
         <Grid container sx={{ marginBottom: "4rem" }} columnSpacing={3}>
           <FooterContent setting={setting} />
         </Grid>

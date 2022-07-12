@@ -14,7 +14,7 @@ const LineTitle = ({ titleData, subtitleData, type }) => {
           direction="row"
           alignItems="center"
           sx={{
-            paddingTop: "2.5rem",
+            marginTop: "5.5rem",
             [theme.breakpoints.down("sm")]: {
               flexDirection: "column",
             },

@@ -38,6 +38,7 @@ export default function HomeBrand({ data, brandHomeData }) {
 
   return (
     <Box
+      id="partner"
       sx={{
         backgroundColor: isSmDown ? "white" : theme.palette.common.natural3,
         textAlign: "center",

@@ -120,7 +120,10 @@ export default function FooterContent({ setting }) {
             {address}
           </Content>
           <Content>MST: {tax_code}</Content>
-          <Content>SĐT: {hotline}</Content>
+          <Link href={"tel:" + hotline} sx={{ textDecoration: "none" }}>
+            <Content>SĐT: {hotline}</Content>
+          </Link>
+
           <Content>Email: {email}</Content>
         </Box>
       </Grid>

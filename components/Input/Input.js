@@ -5,6 +5,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { Controller } from "react-hook-form";
+import get from "lodash/get";
 
 const Input = ({ required, label, control, name }) => {
   const theme = useTheme();
@@ -13,6 +14,12 @@ const Input = ({ required, label, control, name }) => {
       control={control}
       name={name}
       render={({ field: { onChange, value }, fieldState: { error } }) => {
+        const keyMessage = get(error, "message");
+        let message = "";
+
+        if (keyMessage) {
+          message = "Vui lòng nhập thông tin";
+        }
         return (
           <FormControl
             fullWidth
@@ -59,7 +66,7 @@ const Input = ({ required, label, control, name }) => {
               }}
             />
             <FormHelperText
-              children={!!error ? error.message : ""}
+              children={message || ""}
               sx={{ textAlign: "right" }}
             />
           </FormControl>

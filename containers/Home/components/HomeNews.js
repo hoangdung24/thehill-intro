@@ -43,7 +43,8 @@ export default function HomeNews({ data, blogHomeData }) {
   };
   return (
     <Container
-      // fullWidth
+      id="blog"
+      fullWidth="lg"
       sx={[
         {
           textAlign: "center",

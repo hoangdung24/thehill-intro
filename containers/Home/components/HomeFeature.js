@@ -52,7 +52,7 @@ export default function HomeFeature({ data }) {
 
   return (
     <Box
-      id="review-app"
+      id="tutorial"
       sx={{
         backgroundColor: theme.palette.common.natural3,
         paddingBottom: "5rem",

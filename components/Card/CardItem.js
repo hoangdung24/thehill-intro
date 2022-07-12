@@ -6,7 +6,7 @@ import { format, parseISO } from "date-fns";
 import useMedia from "../../hooks/useMedia";
 import { Image } from "../../HOC";
 const CardItem = ({ data }) => {
-  console.log("data.short_description?.length", data.title?.length);
+  // console.log("data.short_description?.length", data.title?.length);
   const theme = useTheme();
   const [minWrapperHeight, setMinWrapperHeight] = useState(0);
   const { isMdUp, isSmUp } = useMedia();
@@ -167,7 +167,7 @@ const CardItem = ({ data }) => {
                   ref={refText}
                 >
                   {data.short_description?.length > 10
-                    ? data.short_description.substr(0, 100) + "..."
+                    ? data.short_description.substr(0, 85) + "..."
                     : data.short_description}
                 </Typography>
               </Box>

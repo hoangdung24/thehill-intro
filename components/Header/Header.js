@@ -3,14 +3,7 @@ import { useWindowScroll, useToggle } from "react-use";
 import { useEffect, useState, Fragment, useMemo } from "react";
 import cloneDeep from "lodash/cloneDeep";
 
-import {
-  AppBar,
-  Box,
-  Typography,
-  Button,
-  useTheme,
-  Stack,
-} from "@mui/material";
+import { AppBar, Box, Typography, useTheme, Stack } from "@mui/material";
 import Fade from "@mui/material/Fade";
 
 import Link from "../Link";

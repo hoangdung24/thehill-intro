@@ -8,10 +8,7 @@ import HomeBrand from "./components/HomeBrand";
 import HomeBenefit from "./components/HomeBenefit";
 import HomeBanner from "./components/HomeBanner";
 
-import useMedia from "../../hooks/useMedia";
-
 const HomePage = ({ initData, ...props }) => {
-  const { isSmDown, isMdDown } = useMedia();
   const [homeData, blogHome, brandHome, benefitHome] = initData;
   const data = homeData.items?.[0];
   const blogHomeData = blogHome.items;
@@ -19,7 +16,6 @@ const HomePage = ({ initData, ...props }) => {
   return (
     <Box>
       <HomeBanner data={benefitHome} />
-      {/* {isMdDown ? <Home3D /> : null} */}
       <ExchangePointsHome data={data} />
       <HomeBenefit data={data} />
       <HomeBrand data={data} brandHomeData={brandHomeData} />

@@ -141,9 +141,10 @@ export default function ExchangePointsHome({ data }) {
     //   );
     // });
   };
-  console.log("datadata2", about_content);
+  // console.log("datadata2", about_content);
   return (
     <Container
+      id="about"
       maxWidth="lg"
       sx={{
         marginBottom: "5.5rem",
@@ -154,7 +155,6 @@ export default function ExchangePointsHome({ data }) {
     >
       <LineTitle type="left" titleData={about_title} />
       <Grid
-        className="asdasdasd"
         container
         sx={{
           marginTop: "4.5rem",

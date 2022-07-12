@@ -6,11 +6,11 @@ import { format, parseISO } from "date-fns";
 import useMedia from "../../hooks/useMedia";
 import { Image } from "../../HOC";
 const CardItem = ({ data }) => {
+  console.log("data.short_description?.length", data.title?.length);
   const theme = useTheme();
   const [minWrapperHeight, setMinWrapperHeight] = useState(0);
   const { isMdUp, isSmUp } = useMedia();
   const [isCompleteLoaded, setIsCompleteLoaded] = useState(false);
-  const [aaaa, setaaaa] = useState("2rem");
   const { width: windowWidth, height: windowHeight } = useWindowSize();
 
   const [ref, { width, height }] = useMeasure();
@@ -20,9 +20,6 @@ const CardItem = ({ data }) => {
   const [imageSize, setImageSize] = useState({
     width: 0,
     height: 0,
-  });
-  useEffect(() => {
-    setaaaa(heighta);
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -63,7 +60,7 @@ const CardItem = ({ data }) => {
 
   return (
     <Box
-      className="slider-wrapper sadasdasdasdasd"
+      className="slider-wrapper"
       sx={{
         borderRadius: "8px",
       }}
@@ -125,7 +122,7 @@ const CardItem = ({ data }) => {
             >
               <Box
                 sx={{
-                  height: data.title.length < 20 ? "3rem" : heightb,
+                  height: data.title.length < 40 ? "3rem" : heightb,
                 }}
               >
                 <Typography
@@ -155,16 +152,23 @@ const CardItem = ({ data }) => {
               </Typography>
 
               <Box
-                sx={{ height: data.meta.slug.length < 20 ? "3rem" : heighta }}
+                sx={{
+                  height:
+                    data.short_description?.length == undefined
+                      ? "4.5rem"
+                      : data.short_description?.length < 20
+                      ? "4.5rem"
+                      : heighta,
+                }}
               >
                 <Typography
                   variant="body2"
                   sx={{ textAlign: "left" }}
                   ref={refText}
                 >
-                  {data.meta.slug?.length > 50
-                    ? data.meta.slug.substr(0, 50) + "..."
-                    : data.meta.slug}
+                  {data.short_description?.length > 10
+                    ? data.short_description.substr(0, 100) + "..."
+                    : data.short_description}
                 </Typography>
               </Box>
             </Box>

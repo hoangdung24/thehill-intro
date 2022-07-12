@@ -78,7 +78,7 @@ const CardBrand = ({ data, ...props }) => {
             padding: 1,
 
             [theme.breakpoints.down("sm")]: {
-              width: "50vw",
+              // width: "50vw",
             },
           }}
         >

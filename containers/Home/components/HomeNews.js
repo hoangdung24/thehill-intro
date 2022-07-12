@@ -1,4 +1,4 @@
-import { Button, Container, Grid, Typography, useTheme } from "@mui/material";
+import { Button, Container, Grid, useTheme } from "@mui/material";
 import { useRouter } from "next/router";
 import React from "react";
 import CardItem from "../../../components/Card/CardItem";

@@ -28,7 +28,6 @@ const Footer = ({ children, ...props }) => {
     return null;
   }
   const { social_icons } = setting;
-  console.log("social_icons", social_icons);
   return (
     <Fragment>
       <Box sx={{ width: "80vw" }} id="lien-he">

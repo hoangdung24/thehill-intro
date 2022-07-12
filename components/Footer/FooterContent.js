@@ -32,7 +32,7 @@ export default function FooterContent({ setting }) {
     link_in_column_2,
     logo_footer,
   } = setting;
-  console.log("title_column_1", link_in_column_1);
+  // console.log("title_column_1", link_in_column_1);
 
   return (
     <Fragment>

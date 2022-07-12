@@ -46,11 +46,11 @@ const Header = ({}) => {
   const [dataNavMobile, setDataNavMobile] = useState([]);
 
   useEffect(() => {
-    if (y > 880 && !animationState) {
+    if (y > 800 && !animationState) {
       setAnimationState(true);
     }
 
-    if (y < 50 && animationState) {
+    if (y < 500 && animationState) {
       setAnimationState(false);
     }
   }, [y, animationState]);

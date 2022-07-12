@@ -22,59 +22,6 @@ const HomeBenefit = ({ data, ...props }) => {
   const { isSmDown, isMdDown, isSmUp } = useMedia();
   const theme = useTheme();
 
-  const renderIconBenefit = () => {
-    return customer_content.map((item, index) => {
-      return (
-        <Grid
-          key={index}
-          item
-          xs={12}
-          sx={{
-            height: "22%",
-            "&:last-child": {
-              marginBottom: "0",
-            },
-            [theme.breakpoints.down("sm")]: {
-              marginBottom: "3rem",
-            },
-          }}
-          className="gridItemd"
-        >
-          <Stack
-            direction="row"
-            spacing={isSmDown ? 2 : 3}
-            sx={{
-              height: isSmDown ? "20vh" : "calc(5vw * 1.72)",
-              alignItems: "center",
-            }}
-          >
-            <Box sx={{ width: isSmDown ? "35%" : "27%", height: "100%" }}>
-              <Image
-                layout="fill"
-                src={item.value.icon}
-                width="100%"
-                height="100%"
-                objectFit="cover"
-              />
-            </Box>
-
-            <Box sx={{ width: isSmDown ? "65%" : "73%" }}>
-              <Typography
-                variant="h4"
-                sx={{
-                  color: theme.palette.secondary.light,
-                  marginBottom: "1rem",
-                }}
-              >
-                {item.value.title}
-              </Typography>
-              <Typography variant="body2">{item.value.description}</Typography>
-            </Box>
-          </Stack>
-        </Grid>
-      );
-    });
-  };
   const renderIconBenefit2 = () => {
     return customer_content.map((item, index) => {
       return (
@@ -144,7 +91,7 @@ const HomeBenefit = ({ data, ...props }) => {
       <Container
         maxWidth="lg"
         sx={{
-          marginTop: "3rem",
+          marginTop: "4.5rem",
           [theme.breakpoints.down("sm")]: {
             background: "none",
             border: "none",

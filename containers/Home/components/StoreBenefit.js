@@ -79,7 +79,7 @@ const StoreBenefit = ({ data, ...props }) => {
       <Container
         maxWidth="lg"
         sx={{
-          marginTop: "3rem",
+          marginTop: "4.5rem",
           [theme.breakpoints.down("sm")]: {
             background: "none",
             border: "none",

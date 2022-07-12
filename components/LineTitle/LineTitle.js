@@ -64,6 +64,7 @@ const LineTitle = ({ titleData, subtitleData, type }) => {
         <Typography
           variant="body1"
           sx={{
+            marginTop: "2rem",
             color: theme.palette.secondary.light,
             textAlign: "right",
             display: isSmDown ? "none" : "block",
@@ -71,20 +72,6 @@ const LineTitle = ({ titleData, subtitleData, type }) => {
         >
           {subtitleData}
         </Typography>
-        {/* {data.subTitle ? (
-          <Typography
-            variant="body1"
-            sx={{
-              color: theme.palette.secondary.light,
-              textAlign: "right",
-              display: isSmDown ? "none" : "block",
-            }}
-          >
-            {data.subTitle}
-          </Typography>
-        ) : (
-          ""
-        )} */}
       </Fragment>
     );
   } else if (type === "left") {

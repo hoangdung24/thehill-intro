@@ -16,19 +16,23 @@ export default function HomeBanner({ data }) {
   const { isSmDown, isMdDown, isLgDown } = useMedia();
   const theme = useTheme();
 
+  const [dataBanner, setDataBanner] = useState();
   const [isReady, setIsReady] = useState(false);
-
+  const a = "/iphone-frame.png";
+  console.log(`"url('${banner}')"`);
   useEffect(() => {
     setIsReady(true);
+    setDataBanner(`"url('${banner}')"`);
   }, []);
 
   if (!isReady) {
     return null;
   }
-
+  console.log("dataBanner", dataBanner);
   return (
     <Box
       sx={{
+        backgroundImage: `"url(${a})"`,
         height: "90vh",
         position: "relative",
       }}

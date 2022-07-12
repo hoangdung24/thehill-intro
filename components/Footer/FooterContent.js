@@ -16,6 +16,10 @@ import Link from "../Link";
 export default function FooterContent({ setting }) {
   const { isSmDown, isMdDown } = useMedia();
   const theme = useTheme();
+
+  if (setting == undefined) {
+    return null;
+  }
   const {
     address,
     tax_code,
@@ -28,6 +32,7 @@ export default function FooterContent({ setting }) {
     link_in_column_2,
     logo_footer,
   } = setting;
+
   return (
     <Fragment>
       <Grid

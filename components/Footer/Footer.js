@@ -16,11 +16,12 @@ const Footer = ({ children, ...props }) => {
   const { isSmDown, isMdDown } = useMedia();
   const theme = useTheme();
   const setting = useSetting();
+  const { social_icons } = setting;
 
   if (!setting) {
     return null;
   }
-  const { social_icons } = setting;
+
   return (
     <Fragment>
       <Box sx={{ width: "80vw" }} id="lien-he">

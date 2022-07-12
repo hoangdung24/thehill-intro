@@ -1,8 +1,7 @@
 import { useWindowScroll, useToggle } from "react-use";
 // import { useIntl, FormattedMessage } from "react-intl";
-import { useEffect, useState, Fragment, useMemo, useCallback } from "react";
-
-import { useRouter } from "next/router";
+import { useEffect, useState, Fragment, useMemo } from "react";
+import cloneDeep from "lodash/cloneDeep";
 
 import {
   AppBar,
@@ -35,19 +34,14 @@ const objLogo = {
 
 const Header = ({}) => {
   const theme = useTheme();
-  const router = useRouter();
   const [isToggle, setIsToggle] = useToggle(false);
   const { isMdUp } = useMedia();
   const { y } = useWindowScroll();
 
   const [animationState, setAnimationState] = useState(false);
-  // const [header, setHeader] = useState([]);
   const [data, setData] = useState([]);
   const setting = useSetting();
 
-  if (!setting) {
-    return null;
-  }
   useEffect(() => {
     if (y > 50 && !animationState) {
       setAnimationState(true);
@@ -65,10 +59,10 @@ const Header = ({}) => {
   }, [isMdUp]);
 
   useEffect(() => {
-    setting.header.splice(3, 0, objLogo);
-    console.log("header", setting.header);
-    setData(setting.header);
-  }, []);
+    const cloneSettingData = cloneDeep(setting.header);
+    cloneSettingData.splice(3, 0, objLogo);
+    setData(cloneSettingData);
+  }, [setting]);
 
   const Navbar = useMemo(() => {
     if (!data) {
@@ -76,10 +70,14 @@ const Header = ({}) => {
     }
 
     return (
-      <Container id="Home" maxWidth="lg">
+      <Container
+        id="Home"
+        maxWidth="lg"
+        className="sadasdasdasdasd2"
+        sx={{ padding: "0 1.8rem" }}
+      >
         <Box spacing={3} sx={{ padding: "24px 0 !important" }}>
           <Stack
-            className="asdasdasdasd"
             direction="row"
             sx={{
               flexGrow: 1,
@@ -342,6 +340,11 @@ const Header = ({}) => {
       );
     }
   }, [isMdUp, animationState, Navbar, staticNav, isToggle]);
+
+  if (!setting) {
+    return null;
+  }
+
   return (
     <Box
       sx={{

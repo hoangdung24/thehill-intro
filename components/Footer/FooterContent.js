@@ -32,6 +32,7 @@ export default function FooterContent({ setting }) {
     link_in_column_2,
     logo_footer,
   } = setting;
+  console.log("title_column_1", link_in_column_1);
 
   return (
     <Fragment>
@@ -59,6 +60,7 @@ export default function FooterContent({ setting }) {
           />
         </Box>
       </Grid>
+
       <Grid item xs={12} md={2} sx={[isSmDown && { marginBottom: "2rem" }]}>
         <Box>
           <Title
@@ -70,9 +72,16 @@ export default function FooterContent({ setting }) {
           {link_in_column_1.map((item, index) => {
             return (
               <Link
+                className="dayne"
                 key={index}
                 href={item.value.link}
-                sx={{ textDecoration: "none" }}
+                sx={{
+                  textDecoration: "none",
+                  transition: "all 0.5s",
+                  "& p:hover": {
+                    color: theme.palette.primary.light,
+                  },
+                }}
               >
                 <Content>{item.value.title}</Content>
               </Link>
@@ -80,6 +89,7 @@ export default function FooterContent({ setting }) {
           })}
         </Box>
       </Grid>
+
       <Grid item xs={12} md={2} sx={[isSmDown && { marginBottom: "2rem" }]}>
         <Box>
           <Title variant="body2_bold">{title_column_2}</Title>
@@ -88,7 +98,13 @@ export default function FooterContent({ setting }) {
               <Link
                 key={index}
                 href={item.value.link}
-                sx={{ textDecoration: "none" }}
+                sx={{
+                  textDecoration: "none",
+                  transition: "all 0.5s",
+                  "& p:hover": {
+                    color: theme.palette.primary.light,
+                  },
+                }}
               >
                 <Content>{item.value.title}</Content>
               </Link>
@@ -96,19 +112,23 @@ export default function FooterContent({ setting }) {
           })}
         </Box>
       </Grid>
+
       <Grid item xs={12} md={3} sx={[isSmDown && { marginBottom: "2rem" }]}>
         <Box>
           <Title variant="body2_bold">{title_column_3}</Title>
-          <Content>{address}</Content>
+          <Content sx={{ marginBottom: "0.5rem !important" }}>
+            {address}
+          </Content>
           <Content>MST: {tax_code}</Content>
           <Content>SĐT: {hotline}</Content>
           <Content>Email: {email}</Content>
         </Box>
       </Grid>
+
       <Grid item xs={12} md={3}>
         <Box>
-          <Title variant="body2_bold">Đăng Ký Nhận Tin</Title>
-          <Content>Đăng ký với chung tôi để nhận ưu đãi mỗi ngày.</Content>
+          <Title variant="body2_bold">Đăng ký nhận tin</Title>
+          <Content>Đăng ký với chúng tôi để nhận ưu đãi mỗi ngày.</Content>
           <InputSendMail />
           <Stack
             direction="row"

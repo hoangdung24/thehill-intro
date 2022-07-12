@@ -4,6 +4,15 @@ import CardBrand from "../../../components/Card/CardBrand";
 import LineTitle from "../../../components/LineTitle/LineTitle";
 import Link from "../../../components/Link";
 import useMedia from "../../../hooks/useMedia";
+import Slider from "react-slick";
+
+const settings = {
+  dots: false,
+  infinite: true,
+  speed: 200,
+  slidesToShow: 2,
+  slidesToScroll: 1,
+};
 
 export default function HomeBrand({ data, brandHomeData }) {
   const { partner_title } = data;
@@ -18,7 +27,11 @@ export default function HomeBrand({ data, brandHomeData }) {
           </Grid>
         );
       } else {
-        return <CardBrand data={item} key={index} />;
+        return (
+          <Grid item key={index} xs={3}>
+            <CardBrand data={item} />
+          </Grid>
+        );
       }
     });
   };
@@ -50,28 +63,59 @@ export default function HomeBrand({ data, brandHomeData }) {
             {renderCardBrand()}
           </Grid>
         ) : (
-          <Stack
+          // <Stack
+          //   direction="row"
+          //   spacing={isSmDown ? 5 : 3}
+          //   sx={{
+          //     marginTop: "3rem",
+          //     width: "90vw",
+          //     overflowX: "scroll",
+          //     "& .slider-wrapper": {
+          //       marginBottom: 0,
+          //     },
+          //     "&::-webkit-scrollbar": {
+          //       display: "none",
+          //     },
+          //   }}
+          // >
+          //   {renderCardBrand()}
+          //   </Stack>
+          <Grid
             direction="row"
             spacing={isSmDown ? 5 : 3}
+            className="asdasd"
             sx={{
+              // backgroundColor: "gray",
+              padding: "0 1rem",
               marginTop: "3rem",
-              display: "flex",
-              // width: "90vw",
-              overflowX: "auto",
-              "& .slider-wrapper": {
-                marginBottom: 0,
+              width: "90vw",
+              marginLeft: "auto",
+              overflowX: "hidden",
+
+              "& .slick-slider": {
+                width: "150%",
               },
-              "&::-webkit-scrollbar": {
+              "& .slick-slide": {
+                width: "100%",
+                margin: "0 20px",
+              },
+              "& button": {
                 display: "none",
+              },
+              "& .slick-track": {
+                display: "flex",
               },
             }}
           >
-            {renderCardBrand()}
-          </Stack>
+            <Slider {...settings}>{renderCardBrand()}</Slider>
+          </Grid>
         )}
       </Container>
-      <Link href="/tin-tuc" sx={{ textDecoration: "none" }}>
-        <Button sx={{ marginTop: "2rem", marginBottom: "2.5rem" }}>
+      <Link href="/doi-tac" sx={{ textDecoration: "none" }}>
+        <Button
+          variant="outlined"
+          sx={{ marginTop: "2rem", marginBottom: "2.5rem" }}
+        >
           XEM THÊM
         </Button>
       </Link>

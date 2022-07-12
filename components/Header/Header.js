@@ -43,9 +43,10 @@ const Header = ({}) => {
 
   const [animationState, setAnimationState] = useState(false);
   const [data, setData] = useState([]);
+  const [dataNavMobile, setDataNavMobile] = useState([]);
 
   useEffect(() => {
-    if (y > 50 && !animationState) {
+    if (y > 880 && !animationState) {
       setAnimationState(true);
     }
 
@@ -64,6 +65,7 @@ const Header = ({}) => {
     const cloneSettingData = cloneDeep(setting.header);
     cloneSettingData.splice(3, 0, objLogo);
     setData(cloneSettingData);
+    setDataNavMobile(setting.header);
   }, [setting]);
 
   const Navbar = useMemo(() => {
@@ -75,15 +77,13 @@ const Header = ({}) => {
       <Container
         id="Home"
         maxWidth="lg"
-        className="sadasdasdasdasd2"
+        // className="sadasdasdasdasd2"
         sx={{ padding: "0 1.8rem" }}
       >
-        <Stack
-          direction={"row"}
-          spacing={3}
-          sx={{ padding: "24px 0 !important" }}
-        >
-          <Box
+        <Box sx={{ padding: "24px 0 !important" }}>
+          <Stack
+            direction="row"
+            spacing={3}
             sx={{
               flexGrow: 1,
               justifyContent: "space-between",
@@ -94,7 +94,7 @@ const Header = ({}) => {
               },
 
               "& .navLink:last-child": {
-                backgroundColor: theme.palette.primary.light,
+                backgroundColor: theme.palette.primary.main,
                 padding: "0.5rem 1rem",
                 borderRadius: "1rem",
                 color: "white",
@@ -168,14 +168,14 @@ const Header = ({}) => {
                 </Box>
               );
             })}
-          </Box>
-        </Stack>
+          </Stack>
+        </Box>
       </Container>
     );
   }, [NAVBAR, data]);
 
   const staticNav = useMemo(() => {
-    if (y > 150) {
+    if (y > 880) {
       return (
         <AppBar
           sx={{
@@ -282,60 +282,78 @@ const Header = ({}) => {
             <Container>
               {TopNav}
 
-              <Box sx={{ marginTop: "8rem" }}>
-                {data.map((el, index) => {
-                  if (el.value.title === "Logo") {
-                    return;
-                  } else {
-                    return (
-                      <Link
-                        key={index}
-                        href={
-                          el.block_type === "by_section"
-                            ? `#${el.value.section}`
-                            : el.value.link
-                        }
-                        sx={{ textDecoration: "none", marginBottom: "2rem" }}
+              <Box
+                className="plplpll"
+                sx={{
+                  marginTop: "8rem",
+                  "& .navMobile:last-child": {
+                    marginTop: "6rem",
+                    padding: "0.5rem 1rem",
+                    borderRadius: "1rem",
+                    transition: "all 0.5s",
+                    display: "inline-block",
+                    backgroundColor: theme.palette.primary.light,
+                    "&:hover": {
+                      backgroundColor: theme.palette.primary.dark,
+                    },
+                    "& span": {
+                      color: theme.palette.common.white,
+                      display: "block",
+                      margin: 0,
+                    },
+                  },
+                }}
+              >
+                {dataNavMobile.map((el, index) => {
+                  return (
+                    <Link
+                      className="navMobile"
+                      key={index}
+                      href={
+                        el.block_type === "by_section"
+                          ? `#${el.value.section}`
+                          : el.value.link
+                      }
+                      sx={{
+                        textDecoration: "none",
+                        marginBottom: "2rem",
+                        display: "block",
+                      }}
+                    >
+                      <Typography
+                        variant="button2"
+                        sx={{
+                          lineHeight: "2rem",
+                          color: theme.palette.common.natural2,
+                          display: "block",
+                          my: 2,
+                        }}
+                        onClick={() => {
+                          setIsToggle(false);
+                        }}
                       >
-                        <Typography
-                          variant="button2"
-                          sx={{
-                            lineHeight: "2rem",
-                            color: theme.palette.common.natural2,
-                            display: "block",
-                            my: 2,
-                          }}
-                          onClick={() => {
-                            setIsToggle(false);
-                          }}
-                        >
-                          {el.value.title}
-                        </Typography>
-                      </Link>
-                    );
-                  }
+                        {el.value.title}
+                      </Typography>
+                    </Link>
+                  );
                 })}
               </Box>
-
-              <Button sx={{ marginTop: "6rem" }}>
-                <Typography variant="button2">TRỞ THÀNH ĐỐI TÁC</Typography>
-              </Button>
 
               <Stack
                 direction="row"
                 spacing={3}
-                sx={{ height: "5vh", marginTop: "2.5rem" }}
+                sx={{ height: "10vh", marginTop: "2.5rem" }}
               >
                 <Image
                   src="/img/image 3.png"
                   width="100%"
-                  height="100%"
+                  height="calc(6vw * 1.72)"
                   objectFit="contain"
                 />
                 <Image
                   src="/img/image 4 (1).png"
                   width="100%"
-                  height="100%"
+                  height="calc(6vw * 1.72)"
                   objectFit="contain"
                 />
               </Stack>

@@ -1,11 +1,4 @@
-import {
-  Grid,
-  Typography,
-  Box,
-  Container,
-  Stack,
-  useTheme,
-} from "@mui/material";
+import { Grid, Typography, Box, Container, useTheme } from "@mui/material";
 import { useMeasure } from "react-use";
 import LineTitle from "../../../components/LineTitle/LineTitle";
 import { Image } from "../../../HOC";

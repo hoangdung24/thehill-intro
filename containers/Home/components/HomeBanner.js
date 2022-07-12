@@ -33,11 +33,9 @@ export default function HomeBanner({ data }) {
         position: "relative",
       }}
     >
-      {/* <Canvas shadows>
-        <Suspense fallback={null}>
-          <ModelContainer />
-        </Suspense>
-      </Canvas> */}
+      <Canvas shadows>
+        <Suspense fallback={null}>{/* <ModelContainer /> */}</Suspense>
+      </Canvas>
 
       <Box
         sx={{

@@ -22,9 +22,9 @@ export default function HomeNews({ data, blogHomeData }) {
           onClick={() => handleDetailNew(data.id)}
           key={index}
           item
-          xs={6}
+          xs={12}
+          sm={6}
           md={4}
-          // sx={[isSmDown && { marginBottom: "1.75rem" }]}
           sx={{
             [theme.breakpoints.up("md")]: {
               paddingTop: "0 !important",
@@ -68,8 +68,8 @@ export default function HomeNews({ data, blogHomeData }) {
       </Grid>
 
       <Link href="/tin-tuc" sx={{ textDecoration: "none" }}>
-        <Button sx={{ marginTop: "2rem" }}>
-          <Typography variant="button2">Xem Thêm</Typography>
+        <Button variant="outlined" sx={{ marginTop: "2rem" }}>
+          XEM THÊM
         </Button>
       </Link>
     </Container>

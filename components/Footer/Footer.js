@@ -13,6 +13,7 @@ import { useSetting } from "../../hooks";
 import useMedia from "../../hooks/useMedia";
 import { Fragment } from "react";
 import { Image } from "../../HOC";
+import Link from "../Link";
 
 const FooterContent = dynamic(() => import("./FooterContent"), {
   ssr: false,
@@ -22,12 +23,12 @@ const Footer = ({ children, ...props }) => {
   const { isSmDown, isMdDown } = useMedia();
   const theme = useTheme();
   const setting = useSetting();
-  const { social_icons } = setting;
 
   if (!setting) {
     return null;
   }
-
+  const { social_icons } = setting;
+  console.log("social_icons", social_icons);
   return (
     <Fragment>
       <Box sx={{ width: "80vw" }} id="lien-he">
@@ -55,15 +56,30 @@ const Footer = ({ children, ...props }) => {
         >
           {social_icons.map((item, index) => {
             return (
-              <Image
+              <Link
+                className="dayne"
                 key={index}
-                {...{
-                  src: item.value.icon || "/img/Rectangle 5.jpg",
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                }}
-              />
+                href={item.value.link}
+                sx={{ width: "100%" }}
+              >
+                <Image
+                  {...{
+                    src: item.value.icon,
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  }}
+                />
+              </Link>
+              // <Image
+              //   key={index}
+              //   {...{
+              //     src: item.value.icon || "/img/Rectangle 5.jpg",
+              //     width: "100%",
+              //     height: "100%",
+              //     objectFit: "cover",
+              //   }}
+              // />
             );
           })}
         </Stack>

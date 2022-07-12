@@ -32,7 +32,7 @@ export default function InputSendMail() {
           color: " theme.palette.common.natural1",
           opacity: 1,
         }}
-        placeholder="Tìm kiếm..."
+        placeholder="Nhập email..."
       />
       <IconButton
         color="primary"

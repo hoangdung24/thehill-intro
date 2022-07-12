@@ -1,7 +1,6 @@
-import { Box, Container, Grid, Typography, useTheme } from "@mui/material";
+import { Box, Container, Grid, useTheme } from "@mui/material";
 import Fade from "@mui/material/Fade";
 
-import { useRouter } from "next/router";
 import React, {
   forwardRef,
   useCallback,
@@ -13,7 +12,6 @@ import useSWR from "swr";
 import { PAGES } from "../../apis";
 import BannerTop from "../../components/BannerTop/BannerTop";
 import CardBrand from "../../components/Card/CardBrand";
-import InputPageNew from "../../components/Input/InputPageNew";
 import LineTitle from "../../components/LineTitle/LineTitle";
 import Pagination from "../../components/Pagination";
 import TabPanel from "../../components/TabPanel/TabPanel";
@@ -24,7 +22,6 @@ import useMedia from "../../hooks/useMedia";
 import { transformUrl } from "../../libs";
 
 const Partner = forwardRef(({ initData }, ref) => {
-  const router = useRouter();
   const [partnerBrand, partnerTabs, partnerListing] = initData;
   const theme = useTheme();
   const { isSmUp, isSmDown, isMdUp } = useMedia();

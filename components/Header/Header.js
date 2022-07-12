@@ -34,13 +34,15 @@ const objLogo = {
 
 const Header = ({}) => {
   const theme = useTheme();
+
+  const setting = useSetting();
+
   const [isToggle, setIsToggle] = useToggle(false);
   const { isMdUp } = useMedia();
   const { y } = useWindowScroll();
 
   const [animationState, setAnimationState] = useState(false);
   const [data, setData] = useState([]);
-  const setting = useSetting();
 
   useEffect(() => {
     if (y > 50 && !animationState) {
@@ -76,9 +78,12 @@ const Header = ({}) => {
         className="sadasdasdasdasd2"
         sx={{ padding: "0 1.8rem" }}
       >
-        <Box spacing={3} sx={{ padding: "24px 0 !important" }}>
-          <Stack
-            direction="row"
+        <Stack
+          direction={"row"}
+          spacing={3}
+          sx={{ padding: "24px 0 !important" }}
+        >
+          <Box
             sx={{
               flexGrow: 1,
               justifyContent: "space-between",
@@ -163,8 +168,8 @@ const Header = ({}) => {
                 </Box>
               );
             })}
-          </Stack>
-        </Box>
+          </Box>
+        </Stack>
       </Container>
     );
   }, [NAVBAR, data]);

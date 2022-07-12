@@ -1,9 +1,10 @@
-import { Footer } from "../../components";
 import { Box } from "@mui/material";
 
-import { SettingConfig, GlobalConfig } from "../../context";
 import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
+
 import BackToTop from "../BackToTop/BackToTop";
+import { SettingConfig, GlobalConfig } from "../../context";
 
 const Layout = ({ children }) => {
   return (
@@ -22,6 +23,7 @@ const Layout = ({ children }) => {
     >
       <SettingConfig>
         <GlobalConfig>
+          {/* <Navbar /> */}
           <Header />
           <Box
             sx={{

@@ -1,139 +1,188 @@
-import { Box, Stack, useTheme } from "@mui/material";
-import React from "react";
-import { ReaderHTML } from "../../../components";
+import dynamic from "next/dynamic";
+import { Canvas } from "@react-three/fiber";
+import { Suspense, useEffect, useState, Fragment } from "react";
+
+import { Box, Stack, Typography, useTheme, styled, Grid } from "@mui/material";
+import { ReaderHTML, Container } from "../../../components";
 import { Image } from "../../../HOC";
 import useMedia from "../../../hooks/useMedia";
 
+const ModelContainer = dynamic(() => import("./ModelContainer"), {
+  ssr: false,
+});
+
 export default function HomeBanner({ data }) {
   const { banner, subtitle } = data;
-  const { isSmDown, isMdDown } = useMedia();
+  const { isSmDown, isMdDown, isLgDown } = useMedia();
   const theme = useTheme();
+
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    setIsReady(true);
+  }, []);
+
+  if (!isReady) {
+    return null;
+  }
+
   return (
     <Box
       sx={{
-        position: "relative",
-        width: "100vw",
         height: "90vh",
-        backgroundColor: theme.palette.common.natural3,
+        position: "relative",
       }}
     >
-      <Image
-        {...{
-          src: banner,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-        }}
-      />
-      <Stack
-        direction="row"
+      {/* <Canvas shadows>
+        <Suspense fallback={null}>
+          <ModelContainer />
+        </Suspense>
+      </Canvas> */}
+
+      <Box
         sx={{
           position: "absolute",
           top: 0,
           left: "50%",
-          transform: "translateX(-50%)",
-          height: isSmDown ? "auto" : "100%",
-          width: "80vw",
-          padding: isSmDown ? 0 : "3rem",
-          [theme.breakpoints.down("md")]: {
-            width: "90vw",
-          },
-          [theme.breakpoints.down("sm")]: {
-            width: "80vw",
-            display: "block",
-            top: "50%",
-            transform: "translateY(-50%) translateX(-50%)",
-          },
+          width: "50%",
+          height: "100%",
         }}
       >
-        <Box
+        <Point
           sx={{
-            width: isMdDown ? "100%" : "50%",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
+            top: "25%",
+            left: "25%",
           }}
         >
-          <Box
-            className="textBanner"
-            sx={{
-              "& span:after": {
-                display: "none !important",
-                backgroundColor: "red",
-              },
-              [theme.breakpoints.down("sm")]: {
-                "& h2": {
-                  fontSize: theme.typography.hairline1,
-                },
-                "& h1": {
-                  fontSize: theme.typography.h5,
-                },
-                "& p": {
-                  fontSize: theme.typography.body2_bold,
-                },
-              },
-            }}
-          >
-            <ReaderHTML content={subtitle} />
-          </Box>
+          <PointLabel>?</PointLabel>
+          <PointText className="help-text">
+            Lorem ipsum dolor sit amet sit amet sit amet elit.
+          </PointText>
+        </Point>
+        <Point
+          sx={{
+            top: "75%",
+            left: "25%",
+          }}
+        >
+          <PointLabel>?</PointLabel>
+          <PointText className="help-text">
+            Lorem ipsum dolor sit amet sit amet sit amet elit.
+          </PointText>
+        </Point>
+        <Point
+          sx={{
+            top: "25%",
+            left: "75%",
+          }}
+        >
+          <PointLabel>?</PointLabel>
+          <PointText className="help-text">
+            Lorem ipsum dolor sit amet sit amet sit amet elit.
+          </PointText>
+        </Point>
+        <Point
+          sx={{
+            top: "75%",
+            left: "75%",
+          }}
+        >
+          <PointLabel>?</PointLabel>
+          <PointText className="help-text">
+            Lorem ipsum dolor sit amet sit amet sit amet elit.
+          </PointText>
+        </Point>
+      </Box>
 
-          <Stack
-            direction="row"
-            spacing={3}
-            sx={{
-              height: isSmDown ? "calc(8vw * 1.72)" : "calc(4vw * 1.72)",
-              [theme.breakpoints.down("md")]: {
-                width: "70%",
-                "& .MuiBox-root": {
-                  width: "50%",
-                },
-              },
-              [theme.breakpoints.down("sm")]: {
-                width: "100%",
-                "& .MuiBox-root": {
-                  width: "50%",
-                },
-              },
-            }}
-          >
-            <Image
-              {...{
-                src: "/img/image 3.png",
-                width: isSmDown ? "50%" : "30%",
-                height: "100%",
-                objectFit: "contain",
-              }}
-            />
-            <Image
-              {...{
-                src: "/img/image 4 (1).png",
-                width: isSmDown ? "50%" : "30%",
-                height: "100%",
-                objectFit: "contain",
-              }}
-            />
-          </Stack>
+      <Stack
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "10rem",
+          transform: "translateY(-50%)",
+          width: "50%",
+          pointerEvents: "none",
+          ...(isLgDown && {
+            left: "5rem",
+          }),
+          ...(isMdDown && {
+            left: "24px",
+          }),
+        }}
+      >
+        <Box>
+          <ReaderHTML content={subtitle} />
         </Box>
 
-        {/* //phone 3d */}
-        <Box
-          sx={{
-            width: isSmDown ? "100%" : "50%",
-            [theme.breakpoints.down("md")]: {
-              display: "none",
-            },
-          }}
-        >
+        <Stack direction="row" spacing={3}>
           <Image
             {...{
-              src: "/img/Vector.png",
-              width: "90%",
-              height: "100%",
+              src: "/img/image 3.png",
+              width: "120px",
+              height: "60px",
               objectFit: "contain",
             }}
           />
-        </Box>
+          <Image
+            {...{
+              src: "/img/image 4 (1).png",
+              width: "120px",
+              height: "60px",
+              objectFit: "contain",
+            }}
+          />
+        </Stack>
       </Stack>
     </Box>
   );
 }
+
+const Point = styled(Box)(() => {
+  return {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    ["&:hover .help-text"]: {
+      opacity: 1,
+    },
+  };
+});
+
+const PointLabel = styled(Box)(() => {
+  return {
+    position: "absolute",
+    top: "-20px",
+    left: "-20px",
+    width: "40px",
+    height: "40px",
+    borderRadius: "50%",
+    background: "#00000077",
+    border: "1px solid #ffffff77",
+    color: "#ffffff",
+    textAlign: "center",
+    cursor: "help",
+    fontSize: "14px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  };
+});
+
+const PointText = styled(Box)(() => {
+  return {
+    position: "absolute",
+    top: "30px",
+    width: "120px",
+    padding: "20px",
+    borderRadius: "4px",
+    background: "#00000077",
+    border: "1px solid #ffffff77",
+    color: "#ffffff",
+    lineHeight: "1.3em",
+    fontSize: "14px",
+    opacity: 0,
+    transition: "opacity 0.3s",
+    pointerEvents: "none",
+    transform: "translateX(-50%)",
+  };
+});

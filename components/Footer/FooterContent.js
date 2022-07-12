@@ -180,14 +180,3 @@ const Content = styled(Typography)(({ theme }) => {
     },
   };
 });
-
-const Divider = styled(MuiDivider)(({ theme }) => {
-  return {
-    marginBottom: 32,
-    marginTop: 32,
-    display: "block",
-    [theme.breakpoints.up("md")]: {
-      display: "none",
-    },
-  };
-});

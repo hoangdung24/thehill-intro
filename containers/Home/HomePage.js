@@ -8,8 +8,6 @@ import HomeBrand from "./components/HomeBrand";
 import HomeBenefit from "./components/HomeBenefit";
 import HomeBanner from "./components/HomeBanner";
 import useMedia from "../../hooks/useMedia";
-import Home3D from "./components/Home3D";
-import Phone from "../Phone/Phone";
 
 const HomePage = ({ initData, ...props }) => {
   const { isSmDown, isMdDown } = useMedia();
@@ -25,8 +23,8 @@ const HomePage = ({ initData, ...props }) => {
       <ExchangePointsHome data={data} />
       <HomeBenefit data={data} />
       <HomeBrand data={data} brandHomeData={brandHomeData} />
-      <StoreBenefit data={data} />
-      {/* <HomeFeature data={data} /> */}
+      {/* <StoreBenefit data={data} /> */}
+      <HomeFeature data={data} />
       <HomeNews data={data} blogHomeData={blogHomeData} />
     </Box>
   );

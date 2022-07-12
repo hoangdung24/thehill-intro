@@ -1,3 +1,4 @@
+import { Canvas } from "@react-three/fiber";
 import { SnackbarProvider } from "notistack";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ErrorBoundary } from "react-error-boundary";

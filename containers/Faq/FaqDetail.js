@@ -90,8 +90,8 @@ export default function FaqDetail({ initData }) {
         return (
           <Fragment key={index}>
             <Accordion
-              expanded={expanded === "panel1"}
-              onChange={handleChange("panel1")}
+              expanded={expanded === index}
+              onChange={handleChange(index)}
               sx={{ border: "none" }}
             >
               <AccordionSummary

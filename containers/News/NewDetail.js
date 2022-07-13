@@ -17,6 +17,7 @@ import { ReaderHTML } from "../../components";
 import { data } from "autoprefixer";
 import queryString from "query-string";
 import { useMeasure } from "react-use";
+import Link from "../../components/Link";
 
 export default function NewDetail() {
   const router = useRouter();
@@ -27,7 +28,7 @@ export default function NewDetail() {
   const { data: resData } = useSWR(
     transformUrl(`${PAGES}${router.query.id}`, {})
   );
-
+  console.log("router", router);
   useEffect(() => {
     if (!resData) {
       return;
@@ -41,10 +42,13 @@ export default function NewDetail() {
       return;
     }
     return resData?.tags.map((item, index) => {
+      console.log("item", item);
       return (
-        <Button key={index} sx={{ textTransform: "lowercase" }}>
-          <Typography variant="body1">{item}</Typography>
-        </Button>
+        <Link href={`/tin-tuc#${item}`}>
+          <Button key={index} sx={{ textTransform: "lowercase" }}>
+            <Typography variant="body1">{item}</Typography>
+          </Button>
+        </Link>
       );
     });
   };

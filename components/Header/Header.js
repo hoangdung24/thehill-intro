@@ -55,10 +55,10 @@ const Header = ({}) => {
   }, [isMdUp]);
 
   useEffect(() => {
-    const cloneSettingData = cloneDeep(setting.header);
-    cloneSettingData.splice(3, 0, objLogo);
+    const cloneSettingData = cloneDeep(setting?.header);
+    cloneSettingData?.splice(3, 0, objLogo);
     setData(cloneSettingData);
-    setDataNavMobile(setting.header);
+    setDataNavMobile(setting?.header);
   }, [setting]);
 
   const Navbar = useMemo(() => {

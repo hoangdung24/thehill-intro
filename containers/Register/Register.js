@@ -254,8 +254,8 @@ export default function Register({ initData }) {
             },
             isSmDown && {
               width: "80vw",
-              height: "500px",
-              padding: "2.5rem",
+              height: "calc(48vw * 1.72)",
+              padding: "3rem",
             },
             isMdDown && {
               width: "80vw",
@@ -311,4 +311,14 @@ export default function Register({ initData }) {
       </Container>
     </Box>
   );
+}
+{
+  /* <InputPageNew
+control={control}
+name="email"
+required
+InputProps={{
+  placeholder: "Nhập email...",
+}}
+/> */
 }

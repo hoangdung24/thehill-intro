@@ -28,13 +28,13 @@ const objTabs = {
   title: "Tất cả",
 };
 
-const Partner = forwardRef(({ initData }, ref) => {
+const PartnerDemo = forwardRef(({ initData }, ref) => {
   const router = useRouter();
   const [partnerBrand, partnerTabs, partnerListing] = initData;
   const theme = useTheme();
   const { isSmUp, isSmDown, isMdUp } = useMedia();
 
-  const [currentTab, setCurrentTab] = useState(partnerTabs.items[0].id);
+  const [currentTab, setCurrentTab] = useState(99);
   const [animationState, setAnimationState] = useState(true);
   const [currentPage, setCurrentPage] = useState(2);
   const [idAPI, setIdAPI] = useState(17);
@@ -53,7 +53,7 @@ const Partner = forwardRef(({ initData }, ref) => {
       clearTimeout(timer);
     };
   }, []);
-  const { data: resData } = useSWR(transformUrl(`${PAGES}${idAPI}`, {}));
+  //   const { data: resData } = useSWR(transformUrl(`${PAGES}${idAPI}`, {}));
 
   useEffect(() => {
     const cloneTabsData = cloneDeep(partnerTabs.items);
@@ -61,13 +61,13 @@ const Partner = forwardRef(({ initData }, ref) => {
     setDataTabs(cloneTabsData);
   }, [partnerTabs]);
 
-  useEffect(() => {
-    if (resData === undefined) {
-      return;
-    }
+  //   useEffect(() => {
+  //     if (resData === undefined) {
+  //       return;
+  //     }
 
-    setArray(resData.partners);
-  });
+  //     setArray(resData.partners);
+  //   });
 
   const changeTabHandler = useCallback(
     (event, newValue) => {
@@ -104,8 +104,7 @@ const Partner = forwardRef(({ initData }, ref) => {
     // FORMULA PAGE = (OFFSET / LIMIT) + 1
     if (isSmUp) {
       return dataTabs.map((item, index) => {
-        console.log("item.id", item.id);
-        console.log("currentTab", currentTab);
+        console.log("item.id", item);
         return (
           <TabPanel key={index} value={currentTab} index={item.id}>
             <Box
@@ -133,7 +132,7 @@ const Partner = forwardRef(({ initData }, ref) => {
                 height: "100%",
               }}
             >
-              {array.map((el, i) => {
+              {partnerBrand.items.map((el, i) => {
                 return (
                   <Grid
                     onClick={() => handleDetailNew(el.link)}
@@ -190,9 +189,7 @@ const Partner = forwardRef(({ initData }, ref) => {
       />
     );
   }, [array, currentPage, isSmUp, currentTab]);
-  // const handleDetailNew = (link) => {
-  //   router.push(link);
-  // };
+
   return (
     <Box
       ref={ref}
@@ -233,4 +230,4 @@ const Partner = forwardRef(({ initData }, ref) => {
   );
 });
 
-export default Partner;
+export default PartnerDemo;

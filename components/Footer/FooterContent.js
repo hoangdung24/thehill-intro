@@ -6,17 +6,33 @@ import {
   Grid,
   Typography,
   Stack,
+  FormHelperText,
 } from "@mui/material";
-import React, { Fragment } from "react";
+import React, { Fragment, useCallback, useState } from "react";
+import { useForm } from "react-hook-form";
 import { Image } from "../../HOC";
 import useMedia from "../../hooks/useMedia";
 import InputSendMail from "../Input/InputSendMail";
 import Link from "../Link";
+import { defaultValuesSubcribers } from "../../libs/yupRegister";
+import InputPageNew from "../Input/InputPageNew";
+import useDebounce from "../../hooks/useDebounce";
+import { SUBSCRIBERS } from "../../apis";
+import axios from "../../axios.config";
 
 export default function FooterContent({ setting }) {
   const { isSmDown, isMdDown } = useMedia();
   const theme = useTheme();
 
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [message, setMessage] = useState({
+    severity: "success",
+    content: "",
+  });
+
+  const { handleSubmit, reset, control, setError } = useForm({
+    defaultValuesSubcribers,
+  });
   if (setting == undefined) {
     return null;
   }
@@ -32,8 +48,31 @@ export default function FooterContent({ setting }) {
     link_in_column_2,
     logo_footer,
   } = setting;
-  // console.log("title_column_1", link_in_column_1);
 
+  // console.log("title_column_1", link_in_column_1);
+  const onSubmit = useCallback(async (data) => {
+    console.log(data);
+    reset(defaultValuesSubcribers, {
+      keepDirty: false,
+    });
+
+    try {
+      await axios.post(`${SUBSCRIBERS}`, data);
+      console.log("thanh cong");
+      setMessage({
+        severity: "success",
+        content: "Đăng ký thành công",
+      });
+      setIsSuccess(true);
+    } catch (err) {
+      console.log(err.response.data.message);
+      setIsSuccess(true);
+      setMessage({
+        severity: "error",
+        content: err.response.data.message,
+      });
+    }
+  });
   return (
     <Fragment>
       <Grid
@@ -123,8 +162,10 @@ export default function FooterContent({ setting }) {
           <Link href={"tel:" + hotline} sx={{ textDecoration: "none" }}>
             <Content>SĐT: {hotline}</Content>
           </Link>
-
-          <Content>Email: {email}</Content>
+          <Link href={"mailto:" + email} sx={{ textDecoration: "none" }}>
+            <Content>Email: {email}</Content>
+          </Link>
+          {/* <Content>Email: {email}</Content> */}
         </Box>
       </Grid>
 
@@ -132,7 +173,16 @@ export default function FooterContent({ setting }) {
         <Box>
           <Title variant="body2_bold">Đăng ký nhận tin</Title>
           <Content>Đăng ký với chúng tôi để nhận ưu đãi mỗi ngày.</Content>
-          <InputSendMail />
+          <Box component={"form"} onSubmit={handleSubmit(onSubmit)}>
+            <InputPageNew
+              message={message}
+              control={control}
+              name="email"
+              InputProps={{
+                placeholder: "Nhập email...",
+              }}
+            />
+          </Box>
           <Stack
             direction="row"
             spacing={1}

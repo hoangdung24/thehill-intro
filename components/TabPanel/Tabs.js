@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Tab, Tabs as MuiTabs, useTheme } from "@mui/material";
+import { Tab, Tabs as MuiTabs, Typography, useTheme } from "@mui/material";
 import useMedia from "../../hooks/useMedia";
 import { Box } from "@mui/system";
 
@@ -8,7 +8,7 @@ const Tabs = ({ value, changeTab, data }) => {
   const theme = useTheme();
 
   const renderTab = useMemo(() => {
-    return data.items.map((el) => {
+    return data.map((el) => {
       return (
         <Tab
           className="asdasdadd"
@@ -18,6 +18,7 @@ const Tabs = ({ value, changeTab, data }) => {
           disableRipple
           sx={[
             {
+              textTransform: "capitalize",
               [theme.breakpoints.down("sm")]: {
                 paddingLeft: 0,
                 paddingRight: 0,

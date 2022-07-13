@@ -16,126 +16,130 @@ export default function HomeBanner({ data }) {
   const { isSmDown, isMdDown, isLgDown } = useMedia();
   const theme = useTheme();
 
-  const [dataBanner, setDataBanner] = useState();
   const [isReady, setIsReady] = useState(false);
-  const a = "/iphone-frame.png";
-  console.log(`"url('${banner}')"`);
+
   useEffect(() => {
     setIsReady(true);
-    setDataBanner(`"url('${banner}')"`);
   }, []);
 
   if (!isReady) {
     return null;
   }
-  console.log("dataBanner", dataBanner);
   return (
-    <Box className="wqeqweqwe">
+    <Box
+      sx={{
+        backgroundImage: `url(${banner})`,
+        height: "90vh",
+        position: "relative",
+      }}
+    >
+      <Canvas shadows>
+        <Suspense fallback={null}>{/* <ModelContainer /> */}</Suspense>
+      </Canvas>
+
       <Box
         sx={{
-          height: "90vh",
-          position: "relative",
+          position: "absolute",
+          top: 0,
+          left: "50%",
+          width: "50%",
+          height: "100%",
         }}
       >
-        <Canvas shadows>
-          <Suspense fallback={null}>{/* <ModelContainer /> */}</Suspense>
-        </Canvas>
+        <Point
+          sx={{
+            top: "25%",
+            left: "25%",
+          }}
+        >
+          <PointLabel>?</PointLabel>
+          <PointText className="help-text">
+            Lorem ipsum dolor sit amet sit amet sit amet elit.
+          </PointText>
+        </Point>
+        <Point
+          sx={{
+            top: "75%",
+            left: "25%",
+          }}
+        >
+          <PointLabel>?</PointLabel>
+          <PointText className="help-text">
+            Lorem ipsum dolor sit amet sit amet sit amet elit.
+          </PointText>
+        </Point>
+        <Point
+          sx={{
+            top: "25%",
+            left: "75%",
+          }}
+        >
+          <PointLabel>?</PointLabel>
+          <PointText className="help-text">
+            Lorem ipsum dolor sit amet sit amet sit amet elit.
+          </PointText>
+        </Point>
+        <Point
+          sx={{
+            top: "75%",
+            left: "75%",
+          }}
+        >
+          <PointLabel>?</PointLabel>
+          <PointText className="help-text">
+            Lorem ipsum dolor sit amet sit amet sit amet elit.
+          </PointText>
+        </Point>
+      </Box>
 
+      <Stack
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "10rem",
+          transform: "translateY(-50%)",
+          width: "50%",
+          pointerEvents: "none",
+          ...(isLgDown && {
+            left: "5rem",
+          }),
+          ...(isMdDown && {
+            left: "24px",
+          }),
+        }}
+      >
         <Box
           sx={{
-            position: "absolute",
-            top: 0,
-            left: "50%",
-            width: "50%",
-            height: "100%",
+            "& .MuiBox-root span:after": {
+              display: "none",
+            },
+            "& .MuiBox-root span": {
+              color: `${theme.palette.secondary.main} !important`,
+            },
           }}
         >
-          <Point
-            sx={{
-              top: "25%",
-              left: "25%",
-            }}
-          >
-            <PointLabel>?</PointLabel>
-            <PointText className="help-text">
-              Lorem ipsum dolor sit amet sit amet sit amet elit.
-            </PointText>
-          </Point>
-          <Point
-            sx={{
-              top: "75%",
-              left: "25%",
-            }}
-          >
-            <PointLabel>?</PointLabel>
-            <PointText className="help-text">
-              Lorem ipsum dolor sit amet sit amet sit amet elit.
-            </PointText>
-          </Point>
-          <Point
-            sx={{
-              top: "25%",
-              left: "75%",
-            }}
-          >
-            <PointLabel>?</PointLabel>
-            <PointText className="help-text">
-              Lorem ipsum dolor sit amet sit amet sit amet elit.
-            </PointText>
-          </Point>
-          <Point
-            sx={{
-              top: "75%",
-              left: "75%",
-            }}
-          >
-            <PointLabel>?</PointLabel>
-            <PointText className="help-text">
-              Lorem ipsum dolor sit amet sit amet sit amet elit.
-            </PointText>
-          </Point>
+          <ReaderHTML content={subtitle} />
         </Box>
 
-        <Stack
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "10rem",
-            transform: "translateY(-50%)",
-            width: "50%",
-            pointerEvents: "none",
-            ...(isLgDown && {
-              left: "5rem",
-            }),
-            ...(isMdDown && {
-              left: "24px",
-            }),
-          }}
-        >
-          <Box>
-            <ReaderHTML content={subtitle} />
-          </Box>
-
-          <Stack direction="row" spacing={3}>
-            <Image
-              {...{
-                src: "/img/image 3.png",
-                width: "120px",
-                height: "60px",
-                objectFit: "contain",
-              }}
-            />
-            <Image
-              {...{
-                src: "/img/image 4 (1).png",
-                width: "120px",
-                height: "60px",
-                objectFit: "contain",
-              }}
-            />
-          </Stack>
+        <Stack direction="row" spacing={3}>
+          <Image
+            {...{
+              src: "/img/image 3.png",
+              width: "120px",
+              height: "60px",
+              objectFit: "contain",
+            }}
+          />
+          <Image
+            {...{
+              src: "/img/image 4 (1).png",
+              width: "120px",
+              height: "60px",
+              objectFit: "contain",
+            }}
+          />
         </Stack>
-      </Box>
+      </Stack>
     </Box>
   );
 }

@@ -5,8 +5,11 @@ import { format, parseISO } from "date-fns";
 
 import useMedia from "../../hooks/useMedia";
 import { Image } from "../../HOC";
+import { useRouter } from "next/router";
+
 const CardItem = ({ data }) => {
-  // console.log("data.short_description?.length", data.title?.length);
+  console.log(data);
+  const router = useRouter();
   const theme = useTheme();
   const [minWrapperHeight, setMinWrapperHeight] = useState(0);
   const { isMdUp, isSmUp } = useMedia();
@@ -17,11 +20,13 @@ const CardItem = ({ data }) => {
   const [refText, { width: witha, height: heighta }] = useMeasure();
   const [refTun, { width: withb, height: heightb }] = useMeasure();
 
+  // console.log("width", (width * 9) / 16);
+
   const [imageSize, setImageSize] = useState({
     width: 0,
     height: 0,
   });
-
+  // console.log("width", width);
   const [isLoading, setIsLoading] = useState(false);
 
   const contentRef = useRef(null);
@@ -44,7 +49,7 @@ const CardItem = ({ data }) => {
     if (width > 0 && !isLoading) {
       setImageSize({
         width: width,
-        height: (width * 3) / 4,
+        height: (width * 9) / 16,
       });
 
       setIsLoading(true);
@@ -54,7 +59,7 @@ const CardItem = ({ data }) => {
   useUpdateEffect(() => {
     setImageSize({
       width: width,
-      height: (width * 3) / 4,
+      height: (width * 9) / 16,
     });
   }, [windowWidth, windowHeight, width, height]);
 
@@ -63,6 +68,9 @@ const CardItem = ({ data }) => {
       className="slider-wrapper"
       sx={{
         borderRadius: "8px",
+        [theme.breakpoints.down("sm")]: {
+          marginBottom: "2rem",
+        },
       }}
     >
       <Box

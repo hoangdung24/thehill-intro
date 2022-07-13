@@ -4,6 +4,9 @@ import { isValidPhoneNumber, parsePhoneNumber } from "react-phone-number-input";
 export const defaultValuesPageNew = {
   search: "",
 };
+export const defaultValuesSubcribers = {
+  email: "",
+};
 export const defaultValues = {
   store_name: "",
   presentator: "",

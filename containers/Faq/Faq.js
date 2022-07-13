@@ -6,39 +6,6 @@ import LineTitle from "../../components/LineTitle/LineTitle";
 import { Image } from "../../HOC";
 import useMedia from "../../hooks/useMedia";
 
-const valuelineTitle = {
-  title: "FAQ",
-  subTitle:
-    "Sơ lược những tính năng giúp khách hàng có thể ăn uống và mua sắm thỏa thích",
-};
-
-const cardFAQ = [
-  {
-    title: "Danh Mục Câu Hỏi 1",
-    img: "/img/Rectangle 5.jpg",
-  },
-  {
-    title: "Danh Mục Câu Hỏi 2",
-    img: "/img/Rectangle 5.jpg",
-  },
-  {
-    title: "Danh Mục Câu Hỏi 3",
-    img: "/img/Rectangle 5.jpg",
-  },
-  {
-    title: "Danh Mục Câu Hỏi 4",
-    img: "/img/Rectangle 5.jpg",
-  },
-  {
-    title: "Danh Mục Câu Hỏi 5",
-    img: "/img/Rectangle 5.jpg",
-  },
-  {
-    title: "Danh Mục Câu Hỏi 6",
-    img: "/img/Rectangle 5.jpg",
-  },
-];
-
 export default function FAQ({ initData }) {
   const router = useRouter();
   const [listingFAQ, detailFAQ] = initData;

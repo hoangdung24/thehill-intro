@@ -4,8 +4,11 @@ import { useMeasure, useWindowSize, useUpdateEffect } from "react-use";
 
 import useMedia from "../../hooks/useMedia";
 import { Image } from "../../HOC";
+import Link from "../Link";
+import { useRouter } from "next/router";
 
 const CardBrand = ({ data, ...props }) => {
+  const router = useRouter();
   const theme = useTheme();
   const [minWrapperHeight, setMinWrapperHeight] = useState(0);
   const { isMdUp, isSmUp, isSmDown } = useMedia();
@@ -57,7 +60,10 @@ const CardBrand = ({ data, ...props }) => {
   }, [windowWidth, windowHeight, width, height]);
 
   return (
-    <Box className="slider-wrapper" sx={{ borderRadius: "8px" }}>
+    <Box
+      className="slider-wrapper"
+      sx={{ borderRadius: "8px", textDecoration: "none" }}
+    >
       <Box
         ref={ref}
         sx={{
@@ -69,7 +75,7 @@ const CardBrand = ({ data, ...props }) => {
           border: "1px solid rgba(255, 255, 255, 0.2)",
           boxShadow: " 0px 4px 10px rgba(0, 0, 0, 0.15)",
           [theme.breakpoints.down("sm")]: {
-            marginBottom: "1rem",
+            marginBottom: "2rem",
           },
         }}
       >
@@ -145,7 +151,7 @@ const CardBrand = ({ data, ...props }) => {
                   ref={refText}
                 >
                   {data.description?.length > 50
-                    ? data.description.substr(0, 50) + "..."
+                    ? data.description.substr(0, 45) + "..."
                     : data.description}
                 </Typography>
               </Box>

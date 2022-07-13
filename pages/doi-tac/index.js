@@ -1,10 +1,13 @@
 import React from "react";
 import { PAGES, PARTNER, types } from "../../apis";
 import Partner from "../../containers/Partner/Partner";
+import PartnerDemo from "../../containers/Partner/PartnewDemo";
 import { prefetchData, transformUrl } from "../../libs";
 
 export default function PagePartner({ ...props }) {
-  return <Partner {...props} />;
+  return <PartnerDemo {...props} />;
+
+  // <Partner {...props} />;
 }
 
 export async function getServerSideProps({ params }) {

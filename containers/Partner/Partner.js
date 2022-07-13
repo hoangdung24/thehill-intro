@@ -30,7 +30,7 @@ const objTabs = {
 
 const Partner = forwardRef(({ initData }, ref) => {
   const router = useRouter();
-  const [partnerBrand, partnerTabs, partnerListing] = initData;
+  const [partnerBrand, partnerTabs, partnerListing, datane] = initData;
   const theme = useTheme();
   const { isSmUp, isSmDown, isMdUp } = useMedia();
 
@@ -40,7 +40,7 @@ const Partner = forwardRef(({ initData }, ref) => {
   const [idAPI, setIdAPI] = useState(17);
   const [array, setArray] = useState([]);
   const [dataTabs, setDataTabs] = useState([]);
-  console.log("partnerTabs", initData);
+  console.log("partnerTabs", datane);
 
   const animationHandler = useCallback(() => {
     setAnimationState(false);

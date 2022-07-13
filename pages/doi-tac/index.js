@@ -18,11 +18,13 @@ export async function getServerSideProps({ params }) {
       }),
       transformUrl(PAGES, {
         type: types.partnerDetailPage,
+        fields: "*",
       }),
       transformUrl(PAGES, {
         type: types.partnerListingPage,
         fields: "*",
       }),
+      transformUrl(`${PAGES}17`),
     ];
 
     const { resList, fallback } = await prefetchData(urls);

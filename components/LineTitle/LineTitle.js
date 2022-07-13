@@ -50,11 +50,12 @@ const LineTitle = ({ titleData, subtitleData, type }) => {
               marginLeft: 0,
               [theme.breakpoints.down("sm")]: {
                 marginLeft: "0 !important",
+                width: "60%",
               },
             }}
           >
             <Typography
-              variant={isSmDown ? "h3" : "h4"}
+              variant={isSmDown ? "h6" : "h4"}
               sx={{ color: theme.palette.secondary.main, textAlign: "center" }}
             >
               {titleData}
@@ -88,9 +89,17 @@ const LineTitle = ({ titleData, subtitleData, type }) => {
             },
           }}
         >
-          <Box>
+          <Box
+            sx={{
+              [theme.breakpoints.down("sm")]: {
+                textAlign: "center",
+                marginLeft: "0 !important",
+                width: "60%",
+              },
+            }}
+          >
             <Typography
-              variant={isSmDown ? "h3" : "h4"}
+              variant={isSmDown ? "h6" : "h4"}
               sx={{ color: theme.palette.primary.main }}
             >
               {titleData}

@@ -135,6 +135,7 @@ export default function FaqDetail({ initData }) {
           type="center"
         />
         <Button
+          variant="outlined"
           sx={[
             { marginTop: "5.5rem", marginBottom: "1rem" },
             isSmDown && { marginTop: "4rem", marginBottom: "1rem" },

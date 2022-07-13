@@ -207,7 +207,7 @@ export default function News({ initData }) {
         </Box>
       </Container>
 
-      {renderTabs}
+      {/* {renderTabs} */}
       <Container maxWidth="lg">
         <Box
           sx={{

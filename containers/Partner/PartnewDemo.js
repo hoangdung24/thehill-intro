@@ -20,8 +20,8 @@ import Tabs from "../../components/TabPanel/Tabs";
 import { PARTNER_LIMIT } from "../../constants";
 import { Image } from "../../HOC";
 import useMedia from "../../hooks/useMedia";
-import { transformUrl } from "../../libs";
 import cloneDeep from "lodash/cloneDeep";
+import InputPagePartner from "../../components/Input/InputPagePartner";
 
 const objTabs = {
   id: 99,
@@ -30,7 +30,7 @@ const objTabs = {
 
 const PartnerDemo = forwardRef(({ initData }, ref) => {
   const router = useRouter();
-  const [partnerBrand, partnerTabs, partnerListing] = initData;
+  const [partnerBrand, partnerTabs, partnerListing, datane] = initData;
   const theme = useTheme();
   const { isSmUp, isSmDown, isMdUp } = useMedia();
 
@@ -40,7 +40,21 @@ const PartnerDemo = forwardRef(({ initData }, ref) => {
   const [idAPI, setIdAPI] = useState(17);
   const [array, setArray] = useState([]);
   const [dataTabs, setDataTabs] = useState([]);
-  console.log("partnerTabs", initData);
+  console.log("partnerTabs", partnerTabs);
+  useEffect(() => {
+    if (!datane) {
+      return null;
+    }
+
+    const dataneLenght = datane.partners.length;
+    console.log(dataneLenght);
+    // for (let i = 0; i < dataneLenght; i++) {
+    //   console.log(datane.partners[i]);
+    // }
+    // for (const key of datane?) {
+    //   console.log(key.partners);
+    // }
+  }, [datane]);
 
   const animationHandler = useCallback(() => {
     setAnimationState(false);
@@ -203,6 +217,21 @@ const PartnerDemo = forwardRef(({ initData }, ref) => {
 
       <Container maxWidth="lg">
         <LineTitle type="center" titleData={partnerListing.items[0].title} />
+        <Box
+          sx={{
+            display: "none",
+            [theme.breakpoints.down("sm")]: {
+              display: "block",
+            },
+          }}
+        >
+          <InputPagePartner
+            name="search"
+            InputProps={{
+              placeholder: "Tìm kiếm",
+            }}
+          />
+        </Box>
       </Container>
       {renderTabs}
       <Container maxWidth="lg">

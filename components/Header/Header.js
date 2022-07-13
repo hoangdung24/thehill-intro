@@ -282,10 +282,10 @@ const Header = ({}) => {
                   "& .navMobile:last-child": {
                     marginTop: "6rem",
                     padding: "0.5rem 1rem",
-                    borderRadius: "1rem",
+                    borderRadius: "5px",
                     transition: "all 0.5s",
                     display: "inline-block",
-                    backgroundColor: theme.palette.primary.light,
+                    backgroundColor: theme.palette.primary.main,
                     "&:hover": {
                       backgroundColor: theme.palette.primary.dark,
                     },

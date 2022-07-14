@@ -116,6 +116,13 @@ export default function HomeBanner({ data }) {
             "& .MuiBox-root span": {
               color: `${theme.palette.secondary.main} !important`,
             },
+            "& .MuiBox-root h1": {
+              lineHeight: "3rem",
+              margin: "0.5rem 0",
+            },
+            "& .MuiBox-root h2": {
+              lineHeight: "2.5rem",
+            },
           }}
         >
           <ReaderHTML content={subtitle} />

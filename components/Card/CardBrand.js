@@ -4,14 +4,11 @@ import { useMeasure, useWindowSize, useUpdateEffect } from "react-use";
 
 import useMedia from "../../hooks/useMedia";
 import { Image } from "../../HOC";
-import Link from "../Link";
-import { useRouter } from "next/router";
 
 const CardBrand = ({ data, ...props }) => {
-  const router = useRouter();
   const theme = useTheme();
   const [minWrapperHeight, setMinWrapperHeight] = useState(0);
-  const { isMdUp, isSmUp, isSmDown } = useMedia();
+  const { isSmDown } = useMedia();
   const [isCompleteLoaded, setIsCompleteLoaded] = useState(false);
   const { width: windowWidth, height: windowHeight } = useWindowSize();
 
@@ -75,7 +72,7 @@ const CardBrand = ({ data, ...props }) => {
           border: "1px solid rgba(255, 255, 255, 0.2)",
           boxShadow: " 0px 4px 10px rgba(0, 0, 0, 0.15)",
           [theme.breakpoints.down("sm")]: {
-            marginBottom: "2rem",
+            marginBottom: "1rem",
           },
         }}
       >
@@ -144,7 +141,24 @@ const CardBrand = ({ data, ...props }) => {
                   : "Không Tích Điểm"}
               </Typography>
 
-              <Box sx={{ height: heighta }}>
+              <Box
+                sx={{
+                  height:
+                    data.description?.length == ""
+                      ? "4.5rem"
+                      : data.description?.length.length < 20
+                      ? "4.5rem"
+                      : heighta,
+                  [theme.breakpoints.down("md")]: {
+                    height:
+                      data.description?.length == ""
+                        ? "3rem"
+                        : data.description?.length.length < 20
+                        ? "4.5rem"
+                        : heighta,
+                  },
+                }}
+              >
                 <Typography
                   variant="body2"
                   sx={{ textAlign: "left" }}

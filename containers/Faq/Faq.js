@@ -39,7 +39,7 @@ export default function FAQ({ initData }) {
               borderRadius: "8px",
               position: "relative",
               height: "16rem",
-              border: "4px solid rgba(177, 181, 195, 1)",
+              // border: "4px solid rgba(177, 181, 195, 1)",
               "& img": {
                 borderRadius: "5px",
               },

@@ -22,7 +22,7 @@ const objTabs = {
   title: "Tất cả",
 };
 
-export default function News({ initData }) {
+export default function NewsDemo({ initData }) {
   const [blogListingPage, blogCategoryPage, blogDetailPage] = initData;
   const theme = useTheme();
   const router = useRouter();
@@ -91,8 +91,8 @@ export default function News({ initData }) {
       const debounce = useDebounce(() => {
         setTextSearch(e.target.value);
         setIsSearch(false);
-      }, 1000);
-
+        console.log("b", e.target.value);
+      }, 600);
       debounce();
     }
   };
@@ -176,11 +176,7 @@ export default function News({ initData }) {
         return (
           <TabPanel key={index} value={currentTab} index={item.id}>
             {data?.map((el, i) => {
-              return (
-                <Box key={i} onClick={() => handleDetailNew(el.id)}>
-                  <CardItem data={el} />
-                </Box>
-              );
+              return <CardItem key={i} data={el} />;
             })}
           </TabPanel>
         );

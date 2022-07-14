@@ -6,12 +6,14 @@ import { Box } from "@mui/system";
 const Tabs = ({ value, changeTab, data }) => {
   const { isSmUp } = useMedia();
   const theme = useTheme();
-
+  // console.log("datadata", data);
+  if (!data) {
+    return null;
+  }
   const renderTab = useMemo(() => {
     return data.map((el) => {
       return (
         <Tab
-          className="asdasdadd"
           key={el.id}
           label={el.title}
           value={el.id}
@@ -34,6 +36,31 @@ const Tabs = ({ value, changeTab, data }) => {
         />
       );
     });
+    // return data?.map((el) => {
+    //   return (
+    //     <Tab
+    //       key={el.id}
+    //       label={el.title}
+    //       value={el.id}
+    //       disableRipple
+    //       sx={[
+    //         {
+    //           textTransform: "capitalize",
+    //           [theme.breakpoints.down("sm")]: {
+    //             paddingLeft: 0,
+    //             paddingRight: 0,
+    //             "&:not(:first-of-type)": {
+    //               marginLeft: 2,
+    //             },
+    //           },
+    //         },
+    //         isSmUp && {
+    //           minWidth: "120px",
+    //         },
+    //       ]}
+    //     />
+    //   );
+    // });
   }, [data, isSmUp]);
 
   if (isSmUp) {

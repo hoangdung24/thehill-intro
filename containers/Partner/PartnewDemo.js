@@ -40,7 +40,7 @@ const PartnerDemo = forwardRef(({ initData }, ref) => {
   const [idAPI, setIdAPI] = useState(17);
   const [array, setArray] = useState([]);
   const [dataTabs, setDataTabs] = useState([]);
-  console.log("partnerTabs", partnerTabs);
+  console.log("partnerTabs", initData);
   useEffect(() => {
     if (!datane) {
       return null;

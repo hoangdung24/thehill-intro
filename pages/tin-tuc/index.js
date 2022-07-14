@@ -1,6 +1,7 @@
 import React from "react";
 import { PAGES, types } from "../../apis";
 import News from "../../containers/News/News";
+// import NewsDemo from "../../containers/News/NewsDemo";
 import { prefetchData, transformUrl } from "../../libs";
 
 export default function PageNews({ ...props }) {
@@ -16,6 +17,11 @@ export async function getServerSideProps({ params }) {
       }),
       transformUrl(PAGES, {
         type: types.blogCategoryPage,
+        fields: "*",
+      }),
+
+      transformUrl(PAGES, {
+        type: types.blogDetailPage,
         fields: "*",
       }),
     ];

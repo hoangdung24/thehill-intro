@@ -198,7 +198,14 @@ export default function Register({ initData }) {
           />
 
           <Fade
-            sx={{ display: isSuccess == true ? "block" : "none" }}
+            sx={{
+              display: isSuccess == true ? "block" : "none",
+              textAlign: "center ",
+              color:
+                message.severity == "success"
+                  ? theme.palette.success.dark
+                  : theme.palette.primary.dark,
+            }}
             in={isSuccess}
             timeout={{
               enter: 500,
@@ -214,12 +221,8 @@ export default function Register({ initData }) {
               severity={message.severity}
               icon={false}
               sx={{
-                textAlign: "center",
-                color:
-                  message.severity == "success"
-                    ? theme.palette.success.dark
-                    : theme.palette.primary.dark,
                 "& .MuiAlert-message": {
+                  color: "red",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
@@ -230,7 +233,11 @@ export default function Register({ initData }) {
             </Alert>
           </Fade>
 
-          <Button type="submit" sx={{ width: "100%", marginTop: "1rem" }}>
+          <Button
+            variant="contained"
+            type="submit"
+            sx={{ width: "100%", marginTop: "1rem" }}
+          >
             <Typography variant="button2">ĐĂNG KÝ</Typography>
           </Button>
         </Box>

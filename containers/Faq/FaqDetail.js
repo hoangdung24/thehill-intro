@@ -81,6 +81,9 @@ export default function FaqDetail({ initData }) {
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
+  // const backFAQ = (id) => {
+  //   router.push(`${router.pathname}/${id}`);
+  // };
 
   const renderAccordition = () => {
     if (!question) {
@@ -116,7 +119,18 @@ export default function FaqDetail({ initData }) {
                   {item?.value.question}
                 </Typography>
               </AccordionSummary>
-              <AccordionDetails sx={{ border: "none", paddingLeft: 0 }}>
+              <AccordionDetails
+                sx={{
+                  border: "none",
+                  paddingLeft: 0,
+                  "& .MuiBox-root h1": {
+                    lineHeight: "3rem",
+                  },
+                  "& .MuiBox-root h2": {
+                    lineHeight: "2.5rem",
+                  },
+                }}
+              >
                 <ReaderHTML content={item.value.answer} />
               </AccordionDetails>
             </Accordion>
@@ -135,9 +149,14 @@ export default function FaqDetail({ initData }) {
           type="center"
         />
         <Button
+          onClick={() => router.back()}
           variant="outlined"
           sx={[
-            { marginTop: "5.5rem", marginBottom: "1rem" },
+            {
+              padding: "0.8rem 1rem",
+              marginTop: "5.5rem",
+              marginBottom: "1rem",
+            },
             isSmDown && { marginTop: "4rem", marginBottom: "1rem" },
           ]}
         >

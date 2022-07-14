@@ -36,7 +36,6 @@ const Footer = ({ children, ...props }) => {
         </Grid>
 
         <Stack
-          className="iconne"
           direction="row"
           spacing={3}
           justifyContent="center"
@@ -56,7 +55,6 @@ const Footer = ({ children, ...props }) => {
           {social_icons.map((item, index) => {
             return (
               <Link
-                className="dayne"
                 key={index}
                 href={item.value.link}
                 sx={{ width: "100%" }}

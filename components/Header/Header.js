@@ -67,12 +67,7 @@ const Header = ({}) => {
     }
 
     return (
-      <Container
-        id="Home"
-        maxWidth="lg"
-        // className="sadasdasdasdasd2"
-        sx={{ padding: "0 1.8rem" }}
-      >
+      <Container id="Home" maxWidth="lg" sx={{ padding: "0 1.8rem" }}>
         <Box sx={{ padding: "24px 0 !important" }}>
           <Stack
             direction="row"
@@ -89,7 +84,7 @@ const Header = ({}) => {
               "& .navLink:last-child": {
                 backgroundColor: theme.palette.primary.main,
                 padding: "0.5rem 1rem",
-                borderRadius: "1rem",
+                borderRadius: "5px",
                 color: "white",
                 transition: "all 0.5s",
                 "&:hover": {
@@ -276,7 +271,6 @@ const Header = ({}) => {
               {TopNav}
 
               <Box
-                className="plplpll"
                 sx={{
                   marginTop: "8rem",
                   "& .navMobile:last-child": {
@@ -297,7 +291,7 @@ const Header = ({}) => {
                   },
                 }}
               >
-                {dataNavMobile.map((el, index) => {
+                {dataNavMobile?.map((el, index) => {
                   return (
                     <Link
                       className="navMobile"

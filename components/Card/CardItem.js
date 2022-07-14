@@ -8,7 +8,6 @@ import { Image } from "../../HOC";
 import { useRouter } from "next/router";
 
 const CardItem = ({ data }) => {
-  console.log(data);
   const router = useRouter();
   const theme = useTheme();
   const [minWrapperHeight, setMinWrapperHeight] = useState(0);
@@ -69,7 +68,7 @@ const CardItem = ({ data }) => {
       sx={{
         borderRadius: "8px",
         [theme.breakpoints.down("sm")]: {
-          marginBottom: "2rem",
+          marginBottom: "1.8rem",
         },
       }}
     >

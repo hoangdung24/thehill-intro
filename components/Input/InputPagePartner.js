@@ -1,10 +1,9 @@
 import React from "react";
-import { Controller } from "react-hook-form";
 import { IconButton, InputBase, Paper, useTheme } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import useMedia from "../../hooks/useMedia";
 
-export default function InputPagePartner({ name, InputProps }) {
+export default function InputPagePartner({ name, InputProps, onChange }) {
   const theme = useTheme();
   const { isSmDown } = useMedia();
   return (
@@ -25,6 +24,7 @@ export default function InputPagePartner({ name, InputProps }) {
       ]}
     >
       <InputBase
+        onChange={onChange}
         sx={{
           ml: 1,
           flex: 1,
@@ -38,16 +38,15 @@ export default function InputPagePartner({ name, InputProps }) {
         type="submit"
         color="primary"
         sx={{
-          p: "10px",
+          padding: "10px",
           width: "2.2rem",
           height: "2.2rem",
-          backgroundColor: theme.palette.secondary.light,
         }}
         aria-label="directions"
       >
         <SearchIcon
           sx={{
-            color: "white",
+            color: theme.palette.common.natural4,
             width: "1.5rem",
             height: "1.5rem",
           }}

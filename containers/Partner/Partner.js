@@ -159,7 +159,6 @@ const Partner = forwardRef(({ initData }, ref) => {
         return (
           <TabPanel key={index} value={currentTab} index={item.id}>
             {data.map((el, i) => {
-              console.log("mobile", el.link);
               return (
                 <Box onClick={() => handleDetailNew(el.link)}>
                   <CardBrand key={i} data={el} />
@@ -170,8 +169,6 @@ const Partner = forwardRef(({ initData }, ref) => {
         );
       });
     }
-
-    //
   }, [array, currentTab, currentPage]);
 
   const renderPagination = useMemo(() => {

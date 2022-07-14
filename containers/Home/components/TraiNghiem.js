@@ -16,7 +16,6 @@ export default function TraiNghiem({ data }) {
   };
   return (
     <Box
-      className="qweqwe"
       sx={{ width: "80%", margin: "0 auto", height: "calc(20vw * 1.72)" }}
     >
       <Image

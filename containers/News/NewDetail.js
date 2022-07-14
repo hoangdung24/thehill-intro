@@ -88,8 +88,18 @@ export default function NewDetail() {
             height: (width * 7) / 16,
           }}
         />
-
-        <ReaderHTML content={resData?.content[0].value} />
+        <Box
+          sx={{
+            "& .MuiBox-root h1": {
+              lineHeight: "3rem",
+            },
+            "& .MuiBox-root h2": {
+              lineHeight: "2.5rem",
+            },
+          }}
+        >
+          <ReaderHTML content={resData?.content[0].value} />
+        </Box>
         <Stack
           direction="row"
           spacing={1}

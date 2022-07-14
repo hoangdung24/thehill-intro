@@ -84,7 +84,6 @@ export default function HomeBrand({ data, brandHomeData }) {
           <Grid
             direction="row"
             spacing={isSmDown ? 5 : 3}
-            className="asdasd"
             sx={{
               // backgroundColor: "gray",
               padding: "0 1rem",

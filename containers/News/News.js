@@ -24,10 +24,10 @@ const objTabs = {
 
 export default function News({ initData }) {
   const [blogListingPage, blogCategoryPage, blogDetailPage] = initData;
+  console.log(blogDetailPage);
   const theme = useTheme();
   const router = useRouter();
   const { isSmUp, isSmDown } = useMedia();
-  // console.log("router", router.query);
   const [animationState, setAnimationState] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentTab, setCurrentTab] = useState(-1);
@@ -36,6 +36,7 @@ export default function News({ initData }) {
   const [dataTabPanel, setDataTabPanel] = useState([]);
   const [textSearch, setTextSearch] = useState(null);
   const [isSearch, setIsSearch] = useState(true);
+  const [isURL, setIsURL] = useState(true);
   const [dataTags, setDataTags] = useState("");
 
   const { data: resData } = useSWR(
@@ -71,7 +72,8 @@ export default function News({ initData }) {
       fields: "*",
     })
   );
-  console.log("tagsData", dataTags);
+
+  console.log("tagsDatatagsData", tagsData);
   useEffect(() => {
     const cloneTabsData = cloneDeep(blogCategoryPage.items);
     cloneTabsData.splice(0, 0, objTabs);
@@ -81,16 +83,23 @@ export default function News({ initData }) {
   useEffect(() => {
     if (isSearch == "isQuery") {
       //xét lại data nội dung khi chuyển về từ trang NewDetail
-      if (!dataTags) {
-        return null;
-      }
 
-      if (Array.getOwnPropertyNames(tagsData).length === 0) {
-        console.log("undefinedundefined");
+      if (tagsData?.items.length > 0) {
+        setCurrentTab(tagsData?.items[0].meta.parent.id);
+        setDataTabPanel(tagsData?.items);
+        setIsSearch(true);
+      } else {
+        setDataTabPanel(resData?.items);
+        setIsSearch(true);
       }
-      // let valueTab = tagsData?.items[0].meta.parent.title;
-      // console.log("xetSseEffect", valueTab);
-      // setDataTabPanel(tagsData?.items);
+      router.push(
+        {
+          pathname: "/tin-tuc",
+          query: {},
+        },
+        undefined,
+        { shallow: true }
+      );
     } else if (isSearch == false) {
       //xét lại data nội dung khi tìm kiếm
       if (searchData === undefined) {
@@ -104,15 +113,14 @@ export default function News({ initData }) {
       }
       setDataTabPanel(resData?.items);
     }
-  });
+  }, [tagsData, resData, searchData]);
 
   useEffect(() => {
     if (Object.getOwnPropertyNames(router.query).length === 0) {
       return null;
-    } else {
+    } else if (isURL) {
       setIsSearch("isQuery");
       setDataTags(router.query.type);
-      console.log("router", router.query);
     }
   });
 
@@ -141,7 +149,6 @@ export default function News({ initData }) {
     };
   }, []);
   const changeTabHandler = useCallback((event, newValue) => {
-    console.log("newValue", newValue);
     setCurrentTab(newValue);
     setCurrentPage(1);
     animationHandler();
@@ -226,7 +233,7 @@ export default function News({ initData }) {
   const renderPagination = useMemo(() => {
     return (
       <Pagination
-        data={blogCategoryPage}
+        data={dataTabPanel}
         currentPage={currentPage}
         onChange={(_, newPage) => {
           setCurrentPage(newPage);
@@ -234,7 +241,7 @@ export default function News({ initData }) {
         }}
       />
     );
-  }, [currentPage, isSmUp, currentTab, blogCategoryPage]);
+  }, [currentPage, isSmUp, currentTab, dataTabPanel]);
 
   return (
     <Box sx={{ marginBottom: "6rem" }}>

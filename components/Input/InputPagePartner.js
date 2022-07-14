@@ -34,24 +34,14 @@ export default function InputPagePartner({ name, InputProps, onChange }) {
         }}
         {...InputProps}
       />
-      <IconButton
-        type="submit"
-        color="primary"
+
+      <SearchIcon
         sx={{
-          padding: "10px",
-          width: "2.2rem",
-          height: "2.2rem",
+          color: theme.palette.common.natural4,
+          width: "1.5rem",
+          height: "1.5rem",
         }}
-        aria-label="directions"
-      >
-        <SearchIcon
-          sx={{
-            color: theme.palette.common.natural4,
-            width: "1.5rem",
-            height: "1.5rem",
-          }}
-        />
-      </IconButton>
+      />
     </Paper>
   );
 }

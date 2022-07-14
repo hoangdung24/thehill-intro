@@ -6,7 +6,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import BannerTop from "../../components/BannerTop/BannerTop";
 import { transformUrl } from "../../libs";
 import { PAGES } from "../../apis";
@@ -37,21 +37,22 @@ export default function NewDetail() {
     setData(resData);
     setDataClip(resData?.content[1]?.value.src);
   }, [resData]);
-  const renderTags = () => {
+
+  const renderTags = useMemo(() => {
     if (!resData) {
       return;
     }
     return resData?.tags.map((item, index) => {
       console.log("item", item);
       return (
-        <Link href={`/tin-tuc#${item}`}>
+        <Link href={`/tin-tuc?type=tintuc`} sx={{ textDecoration: "none" }}>
           <Button key={index} sx={{ textTransform: "lowercase" }}>
             <Typography variant="body1">{item}</Typography>
           </Button>
         </Link>
       );
     });
-  };
+  }, [resData]);
 
   let videoId;
 
@@ -105,7 +106,7 @@ export default function NewDetail() {
           spacing={1}
           sx={{ marginTop: "3rem", marginBottom: "5.5rem" }}
         >
-          {renderTags()}
+          {renderTags}
         </Stack>
       </Container>
     </Box>

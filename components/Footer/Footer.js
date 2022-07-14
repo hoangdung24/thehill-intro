@@ -54,11 +54,7 @@ const Footer = ({ children, ...props }) => {
         >
           {social_icons.map((item, index) => {
             return (
-              <Link
-                key={index}
-                href={item.value.link}
-                sx={{ width: "100%" }}
-              >
+              <Link key={index} href={item.value.link} sx={{ width: "100%" }}>
                 <Image
                   {...{
                     src: item.value.icon,
@@ -68,15 +64,6 @@ const Footer = ({ children, ...props }) => {
                   }}
                 />
               </Link>
-              // <Image
-              //   key={index}
-              //   {...{
-              //     src: item.value.icon || "/img/Rectangle 5.jpg",
-              //     width: "100%",
-              //     height: "100%",
-              //     objectFit: "cover",
-              //   }}
-              // />
             );
           })}
         </Stack>

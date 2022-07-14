@@ -6,17 +6,14 @@ import {
   Grid,
   Typography,
   Stack,
-  FormHelperText,
 } from "@mui/material";
 import React, { Fragment, useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Image } from "../../HOC";
 import useMedia from "../../hooks/useMedia";
-import InputSendMail from "../Input/InputSendMail";
 import Link from "../Link";
 import { defaultValuesSubcribers } from "../../libs/yupRegister";
 import InputPageNew from "../Input/InputPageNew";
-import useDebounce from "../../hooks/useDebounce";
 import { SUBSCRIBERS } from "../../apis";
 import axios from "../../axios.config";
 
@@ -165,7 +162,6 @@ export default function FooterContent({ setting }) {
           <Link href={"mailto:" + email} sx={{ textDecoration: "none" }}>
             <Content>Email: {email}</Content>
           </Link>
-          {/* <Content>Email: {email}</Content> */}
         </Box>
       </Grid>
 

@@ -25,7 +25,6 @@ export async function getServerSideProps({ params }) {
         fields: "*",
       }),
     ];
-
     const { resList, fallback } = await prefetchData(urls);
 
     return {

@@ -26,7 +26,7 @@ export default function InputPageNew({ control, name, InputProps }) {
                 marginBottom: "2.3rem",
                 marginTop: "5.5rem",
               },
-              isSmDown && { marginBottom: "1.5rem" },
+              isSmDown && { marginBottom: "1.5rem", marginTop: "1.5rem" },
             ]}
           >
             <InputBase

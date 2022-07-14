@@ -27,7 +27,7 @@ export default function News({ initData }) {
   const theme = useTheme();
   const router = useRouter();
   const { isSmUp, isSmDown } = useMedia();
-
+  // console.log("router", router.query);
   const [animationState, setAnimationState] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentTab, setCurrentTab] = useState(-1);
@@ -36,6 +36,7 @@ export default function News({ initData }) {
   const [dataTabPanel, setDataTabPanel] = useState([]);
   const [textSearch, setTextSearch] = useState(null);
   const [isSearch, setIsSearch] = useState(true);
+  const [dataTags, setDataTags] = useState("");
 
   const { data: resData } = useSWR(
     idAPI == -1
@@ -63,7 +64,14 @@ export default function News({ initData }) {
           type: types.blogDetailPage,
         })
   );
-
+  const { data: tagsData } = useSWR(
+    transformUrl(PAGES, {
+      tags: dataTags,
+      type: types.blogDetailPage,
+      fields: "*",
+    })
+  );
+  console.log("tagsData", dataTags);
   useEffect(() => {
     const cloneTabsData = cloneDeep(blogCategoryPage.items);
     cloneTabsData.splice(0, 0, objTabs);
@@ -71,16 +79,40 @@ export default function News({ initData }) {
   }, [blogCategoryPage]);
 
   useEffect(() => {
-    if (isSearch) {
-      if (resData === undefined) {
-        return;
+    if (isSearch == "isQuery") {
+      //xét lại data nội dung khi chuyển về từ trang NewDetail
+      if (!dataTags) {
+        return null;
       }
-      setDataTabPanel(resData?.items);
+
+      if (Array.getOwnPropertyNames(tagsData).length === 0) {
+        console.log("undefinedundefined");
+      }
+      // let valueTab = tagsData?.items[0].meta.parent.title;
+      // console.log("xetSseEffect", valueTab);
+      // setDataTabPanel(tagsData?.items);
     } else if (isSearch == false) {
+      //xét lại data nội dung khi tìm kiếm
       if (searchData === undefined) {
         return null;
       }
       setDataTabPanel(searchData?.items);
+    } else if (isSearch == true) {
+      //xét lại data nội dung khi chuyển Tab danh mục
+      if (resData === undefined) {
+        return;
+      }
+      setDataTabPanel(resData?.items);
+    }
+  });
+
+  useEffect(() => {
+    if (Object.getOwnPropertyNames(router.query).length === 0) {
+      return null;
+    } else {
+      setIsSearch("isQuery");
+      setDataTags(router.query.type);
+      console.log("router", router.query);
     }
   });
 
@@ -109,6 +141,7 @@ export default function News({ initData }) {
     };
   }, []);
   const changeTabHandler = useCallback((event, newValue) => {
+    console.log("newValue", newValue);
     setCurrentTab(newValue);
     setCurrentPage(1);
     animationHandler();

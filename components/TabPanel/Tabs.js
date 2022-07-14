@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import { Tab, Tabs as MuiTabs, Typography, useTheme } from "@mui/material";
-import useMedia from "../../hooks/useMedia";
-import { Box } from "@mui/system";
+import { Tab, Tabs as MuiTabs, useTheme } from "@mui/material";
+
+import { useMedia } from "../../hooks";
 
 const Tabs = ({ value, changeTab, data }) => {
   const { isSmUp } = useMedia();
@@ -11,14 +11,13 @@ const Tabs = ({ value, changeTab, data }) => {
     return data.map((el) => {
       return (
         <Tab
-          className="asdasdadd"
           key={el.id}
           label={el.title}
           value={el.id}
           disableRipple
           sx={[
             {
-              textTransform: "capitalize",
+              padding: "8px 16px",
               [theme.breakpoints.down("sm")]: {
                 paddingLeft: 0,
                 paddingRight: 0,
@@ -39,34 +38,19 @@ const Tabs = ({ value, changeTab, data }) => {
   if (isSmUp) {
     return (
       <MuiTabs
-        TabIndicatorProps={{
-          sx: {
-            display: "none",
-          },
-        }}
         value={value}
         onChange={changeTab}
         variant={isSmUp ? "standard" : "fullWidth"}
         sx={[
           {
-            width: "75vw",
-            margin: "0 auto",
-            marginTop: "2.25rem",
-            marginBottom: isSmUp ? "2.25rem" : "2rem",
-            [theme.breakpoints.down("sm")]: {
-              width: "100%",
-            },
+            marginX: "auto",
+            marginBottom: 10,
           },
-
           {
             "& .MuiTabs-flexContainer": {
               justifyContent: "center",
               width: "100%",
               margin: "0 auto",
-              [theme.breakpoints.down("sm")]: {
-                display: "flex",
-                overflow: "auto",
-              },
             },
           },
         ]}
@@ -77,19 +61,13 @@ const Tabs = ({ value, changeTab, data }) => {
   } else {
     return (
       <MuiTabs
-        TabIndicatorProps={{
-          sx: {
-            display: "none",
-          },
-        }}
         value={value}
         onChange={changeTab}
         variant={isSmUp ? "standard" : "fullWidth"}
         sx={{
-          width: "90%",
           marginLeft: "auto",
-          marginTop: "2.25rem",
-          marginBottom: "2.25rem",
+          marginTop: 4,
+          marginBottom: 4,
           display: "flex",
 
           ["& .MuiTabs-flexContainer"]: {

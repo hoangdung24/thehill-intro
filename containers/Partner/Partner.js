@@ -1,46 +1,33 @@
-import { Box, Container, Grid, useTheme } from "@mui/material";
-import Fade from "@mui/material/Fade";
-import { useRouter } from "next/router";
+import { useMeasure } from "react-use";
+import { Box, Grid, Fade } from "@mui/material";
 
-import React, {
-  forwardRef,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-import useSWR from "swr";
-import { PAGES } from "../../apis";
-import BannerTop from "../../components/BannerTop/BannerTop";
-import CardBrand from "../../components/Card/CardBrand";
-import LineTitle from "../../components/LineTitle/LineTitle";
-import Pagination from "../../components/Pagination";
-import TabPanel from "../../components/TabPanel/TabPanel";
-import Tabs from "../../components/TabPanel/Tabs";
-import { PARTNER_LIMIT } from "../../constants";
+import { useCallback, useMemo, useState, Fragment } from "react";
+
+import find from "lodash/find";
+
+import {
+  BannerTop,
+  CardBrand,
+  LineTitle,
+  TabPanel,
+  Tabs,
+  Pagination,
+  Container,
+} from "../../components";
+
 import { Image } from "../../HOC";
-import useMedia from "../../hooks/useMedia";
-import { transformUrl } from "../../libs";
-import cloneDeep from "lodash/cloneDeep";
+import { useMedia } from "../../hooks";
+import { PARTNER_LIMIT } from "../../constants";
 
-const objTabs = {
-  id: 99,
-  title: "Tất cả",
-};
+const Partner = ({ initData }) => {
+  const [partnerMeta, partnerListing] = initData;
 
-const Partner = forwardRef(({ initData }, ref) => {
-  const router = useRouter();
-  const [partnerBrand, partnerTabs, partnerListing, datane] = initData;
-  const theme = useTheme();
-  const { isSmUp, isSmDown, isMdUp } = useMedia();
+  const [ref, { width }] = useMeasure();
+  const { isSmUp, isSmDown } = useMedia();
+  const [currentTab, setCurrentTab] = useState(-1);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const [currentTab, setCurrentTab] = useState(partnerTabs.items[0].id);
   const [animationState, setAnimationState] = useState(true);
-  const [currentPage, setCurrentPage] = useState(2);
-  const [idAPI, setIdAPI] = useState(17);
-  const [array, setArray] = useState([]);
-  const [dataTabs, setDataTabs] = useState([]);
-  console.log("partnerTabs", datane);
 
   const animationHandler = useCallback(() => {
     setAnimationState(false);
@@ -53,95 +40,71 @@ const Partner = forwardRef(({ initData }, ref) => {
       clearTimeout(timer);
     };
   }, []);
-  const { data: resData } = useSWR(transformUrl(`${PAGES}${idAPI}`, {}));
 
-  useEffect(() => {
-    const cloneTabsData = cloneDeep(partnerTabs.items);
-    cloneTabsData.splice(0, 0, objTabs);
-    setDataTabs(cloneTabsData);
-  }, [partnerTabs]);
+  const partnerData = partnerListing?.items;
+  const metadata = partnerMeta?.items?.[0];
+  const thumbnailOfAll = metadata?.["all_category_thumbnail"];
+  const banner = metadata?.["banner"];
+  const title = metadata?.["title"];
 
-  useEffect(() => {
-    if (resData === undefined) {
-      return;
-    }
+  const tranformedPartnerData = useMemo(() => {
+    const flatPartnerData = [];
 
-    setArray(resData.partners);
-  });
+    partnerData.forEach((partnerEl) => {
+      partnerEl.partners.forEach((el) => {
+        flatPartnerData.push({
+          partnerId: partnerEl.id,
+          ...el,
+        });
+      });
+    });
 
-  const changeTabHandler = useCallback(
-    (event, newValue) => {
-      console.log("newValuenewValue", newValue);
-      setCurrentTab(newValue);
-      setCurrentPage(1);
-      animationHandler();
-      setIdAPI(newValue);
-    },
-    [idAPI]
-  );
-  const handleDetailNew = (link) => {
-    if (link == null) {
-      return null;
-    }
-    router.push(link);
-  };
-  const renderTabs = useMemo(() => {
-    if (!dataTabs) {
-      return null;
-    }
-    // const cloneSettingData = cloneDeep(setting.header);
-    // cloneSettingData.splice(3, 0, objLogo);
-    return (
-      <Tabs value={currentTab} changeTab={changeTabHandler} data={dataTabs} />
-    );
-  }, [dataTabs, currentTab]);
+    return flatPartnerData;
+  }, [partnerData]);
 
   const renderTabPanel = useMemo(() => {
-    if (!dataTabs) {
-      return null;
-    }
     // FORMULA: OFFSET = (PAGE - 1) * LIMIT
     // FORMULA PAGE = (OFFSET / LIMIT) + 1
+
     if (isSmUp) {
-      return dataTabs.map((item, index) => {
-        console.log("item.id", item.id);
-        console.log("currentTab", currentTab);
-        return (
-          <TabPanel key={index} value={currentTab} index={item.id}>
+      return (
+        <Fragment>
+          <TabPanel index={-1} value={currentTab}>
             <Box
               sx={{
-                height: "25rem",
-                marginBottom: "3.5rem",
-                // display: isSmDown ? "none" : "block",
+                marginBottom: 10,
+                overflow: "hidden",
               }}
             >
               <Image
                 {...{
-                  src: "/img/Logo-theHill.png",
+                  src: thumbnailOfAll,
                   width: "100%",
-                  height: "100%",
+                  height: (width * 400) / 1120,
                   objectFit: "cover",
                 }}
               />
             </Box>
-            <Grid
-              container
-              spacing={10}
-              sx={{
-                marginBottom: "3.5rem",
-                paddingBottom: "3.5rem",
-                height: "100%",
-              }}
-            >
-              {array.map((el, i) => {
+
+            <Grid container spacing={4}>
+              {tranformedPartnerData.map((el, idx) => {
                 return (
                   <Grid
-                    onClick={() => handleDetailNew(el.link)}
+                    onClick={() => {
+                      const link = el.link;
+
+                      if (link) {
+                        window.open(link, "_blank");
+                      }
+                    }}
                     item
-                    key={i}
+                    key={idx}
                     xs={12}
                     sm={6}
                     md={3}
+                    sx={{
+                      cursor: "pointer",
+                    }}
                   >
                     <CardBrand data={el} />
                   </Grid>
@@ -149,74 +112,201 @@ const Partner = forwardRef(({ initData }, ref) => {
               })}
             </Grid>
           </TabPanel>
-        );
-      });
+
+          {partnerData.map((item, index) => {
+            const partnerItemList = item.partners;
+
+            return (
+              <TabPanel key={index} value={currentTab} index={item.id}>
+                <Box
+                  sx={{
+                    height: "25rem",
+                    marginBottom: "3.5rem",
+                  }}
+                >
+                  <Image
+                    {...{
+                      src: item.thumbnail,
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                </Box>
+                <Grid container spacing={4}>
+                  {partnerItemList.map((el, idx) => {
+                    return (
+                      <Grid
+                        onClick={() => {
+                          const link = el.link;
+
+                          if (link) {
+                            window.open(link, "_blank");
+                          }
+                        }}
+                        item
+                        key={idx}
+                        xs={12}
+                        sm={6}
+                        md={3}
+                        sx={{
+                          cursor: "pointer",
+                        }}
+                      >
+                        <CardBrand data={el} />
+                      </Grid>
+                    );
+                  })}
+                </Grid>
+              </TabPanel>
+            );
+          })}
+        </Fragment>
+      );
     } else {
       const offset = (currentPage - 1) * PARTNER_LIMIT;
-      const data = array.slice(offset, offset + PARTNER_LIMIT);
 
-      return partnerTabs.items.map((item, index) => {
+      let selectedData;
+      let thumbnail = thumbnailOfAll;
+
+      if (currentTab == -1) {
+        selectedData = tranformedPartnerData;
+      } else {
+        const partnerItem = find(partnerData, { id: currentTab });
+
+        if (partnerItem) {
+          selectedData = partnerItem.partners;
+          thumbnail = partnerItem.thumbnail;
+        }
+      }
+
+      if (selectedData) {
+        const data = selectedData.slice(offset, offset + PARTNER_LIMIT);
+
         return (
-          <TabPanel key={index} value={currentTab} index={item.id}>
-            {data.map((el, i) => {
-              console.log("mobile", el.link);
+          <TabPanel value={currentTab} index={currentTab}>
+            <Box
+              sx={{
+                marginBottom: 10,
+                overflow: "hidden",
+              }}
+            >
+              <Image
+                {...{
+                  src: thumbnail,
+                  width: "100%",
+                  height: (width * 220) / 310,
+                  objectFit: "cover",
+                }}
+              />
+            </Box>
+
+            {data.map((el, idx) => {
               return (
-                <Box onClick={() => handleDetailNew(el.link)}>
-                  <CardBrand key={i} data={el} />
-                </Box>
+                <Grid
+                  onClick={() => {
+                    const link = el.link;
+
+                    if (link) {
+                      window.open(link, "_blank");
+                    }
+                  }}
+                  item
+                  key={idx}
+                  xs={12}
+                  sx={{
+                    cursor: "pointer",
+                  }}
+                >
+                  <CardBrand data={el} />
+                </Grid>
               );
             })}
           </TabPanel>
         );
-      });
+      }
+
+      return null;
     }
 
     //
-  }, [array, currentTab, currentPage]);
+  }, [currentTab, partnerData, tranformedPartnerData, width, isSmUp, currentPage]);
 
   const renderPagination = useMemo(() => {
     if (isSmUp) {
       return null;
     }
 
+    let selectedData;
+
+    if (currentTab == -1) {
+      selectedData = tranformedPartnerData;
+    } else {
+      const partnerItem = find(partnerData, { id: currentTab });
+
+      if (partnerItem) {
+        selectedData = partnerItem.partners;
+      }
+    }
+
     return (
       <Pagination
-        data={array}
+        data={selectedData}
         currentPage={currentPage}
         onChange={(_, newPage) => {
+          console.log(newPage);
+
           setCurrentPage(newPage);
-          animationHandler();
+          // animationHandler();
         }}
       />
     );
-  }, [array, currentPage, isSmUp, currentTab]);
-  // const handleDetailNew = (link) => {
-  //   router.push(link);
-  // };
+  }, [currentPage, isSmUp, currentTab, partnerData, tranformedPartnerData]);
+
+  const renderTabs = useMemo(() => {
+    const mutatedPartnerData = [{ id: -1, title: "Tất cả" }, ...partnerData];
+
+    return (
+      <Tabs
+        value={currentTab}
+        changeTab={(event, newValue) => {
+          animationHandler();
+          setCurrentTab(newValue);
+        }}
+        data={mutatedPartnerData}
+      />
+    );
+  }, [partnerData, currentTab]);
+
   return (
     <Box
-      ref={ref}
-      sx={{
-        [theme.breakpoints.down("sm")]: {
-          marginBottom: "3.5rem",
+      sx={[
+        {
+          paddingBottom: 10,
         },
-      }}
+        isSmDown && {
+          paddingBottom: 3,
+        },
+      ]}
+      ref={ref}
     >
-      <BannerTop data={partnerListing.items[0].banner} />
+      <BannerTop imageSrc={banner} />
 
-      <Container maxWidth="lg">
-        <LineTitle type="center" titleData={partnerListing.items[0].title} />
-      </Container>
-      {renderTabs}
-      <Container maxWidth="lg">
-        <Box
-          sx={{
-            [theme.breakpoints.down("sm")]: {
-              width: isSmDown ? "65vw" : "100%",
-              margin: "0 auto",
-            },
-          }}
-        >
+      <Container
+        maxWidth="lg"
+        sx={[
+          {
+            paddingBottom: 5,
+          },
+        ]}
+      >
+        <Grid item xs={12}>
+          <LineTitle type="center" titleData={title} />
+        </Grid>
+
+        <Grid item xs={12}>
+          {renderTabs}
+
           <Fade
             in={animationState}
             timeout={{
@@ -227,10 +317,10 @@ const Partner = forwardRef(({ initData }, ref) => {
           </Fade>
 
           <Box>{renderPagination}</Box>
-        </Box>
+        </Grid>
       </Container>
     </Box>
   );
-});
+};
 
 export default Partner;

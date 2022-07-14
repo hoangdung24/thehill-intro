@@ -1,20 +1,16 @@
+import { useRouter } from "next/router";
 import { useWindowScroll, useToggle } from "react-use";
-// import { useIntl, FormattedMessage } from "react-intl";
 import { useEffect, useState, Fragment, useMemo } from "react";
+import { AppBar, Box, Typography, useTheme, Stack, Fade } from "@mui/material";
+
 import cloneDeep from "lodash/cloneDeep";
 
-import { AppBar, Box, Typography, useTheme, Stack } from "@mui/material";
-import Fade from "@mui/material/Fade";
-
 import Link from "../Link";
+import { Image } from "../../HOC";
 import ModalMenu from "./ModalMenu";
 import Container from "../Container";
 import HamburgerIcon from "../HamburgerIcon";
-
-import { NAVBAR } from "../../constants";
-import { Image } from "../../HOC";
-import useMedia from "../../hooks/useMedia";
-import { useSetting } from "../../hooks";
+import { useSetting, useMedia } from "../../hooks";
 
 const objLogo = {
   block_type: "by_link",
@@ -27,16 +23,13 @@ const objLogo = {
 
 const Header = ({}) => {
   const theme = useTheme();
-
   const setting = useSetting();
-
-  const [isToggle, setIsToggle] = useToggle(false);
   const { isMdUp } = useMedia();
   const { y } = useWindowScroll();
+  const router = useRouter();
+  const [isToggle, setIsToggle] = useToggle(false);
 
   const [animationState, setAnimationState] = useState(false);
-  const [data, setData] = useState([]);
-  const [dataNavMobile, setDataNavMobile] = useState([]);
 
   useEffect(() => {
     if (y > 800 && !animationState) {
@@ -54,42 +47,52 @@ const Header = ({}) => {
     }
   }, [isMdUp]);
 
-  useEffect(() => {
+  const transformedNavigation = useMemo(() => {
+    if (setting == undefined) {
+      return null;
+    }
     const cloneSettingData = cloneDeep(setting?.header);
     cloneSettingData?.splice(3, 0, objLogo);
-    setData(cloneSettingData);
-    setDataNavMobile(setting?.header);
+
+    return cloneSettingData;
   }, [setting]);
 
   const Navbar = useMemo(() => {
-    if (!data) {
-      return null;
+    if (setting == undefined || transformedNavigation == undefined) {
+      return;
     }
+
+    let data = setting.header;
+
+    if (transformedNavigation && isMdUp) {
+      data = transformedNavigation;
+    }
+
+    const lastIndex = data.length - 1;
 
     return (
       <Container
-        id="Home"
         maxWidth="lg"
-        // className="sadasdasdasdasd2"
-        sx={{ padding: "0 1.8rem" }}
+        sx={[
+          !isMdUp && {
+            paddingLeft: "0 !important",
+            paddingRight: "0 !important",
+          },
+        ]}
       >
-        <Box sx={{ padding: "24px 0 !important" }}>
-          <Stack
-            direction="row"
-            spacing={3}
-            sx={{
-              flexGrow: 1,
+        <Stack
+          direction={isMdUp ? "row" : "column"}
+          spacing={isMdUp ? 3 : 2}
+          sx={[
+            {
+              paddingY: 1.5,
               justifyContent: "space-between",
               alignItems: "center",
-              "& .headerLogo": {
-                width: "15%",
-                backgroundColor: "none !important",
-              },
 
               "& .navLink:last-child": {
                 backgroundColor: theme.palette.primary.main,
                 padding: "0.5rem 1rem",
-                borderRadius: "1rem",
+                borderRadius: "6px",
                 color: "white",
                 transition: "all 0.5s",
                 "&:hover": {
@@ -100,75 +103,75 @@ const Header = ({}) => {
                   display: "block",
                 },
               },
-            }}
-          >
-            {data.map((el, index) => {
-              return (
-                <Box
-                  className={
-                    el.value.title === "Logo" ? "headerLogo navLink" : "navLink"
-                  }
-                  key={index}
-                >
-                  {el.value.title === "Logo" ? (
-                    <Link href="/">
-                      <Image
-                        src={el.value.img}
-                        width="100%"
-                        height="calc(2.5vw * 1.72)"
-                        objectFit="contain"
-                      />
-                    </Link>
-                  ) : (
-                    <Link
-                      key={index}
-                      href={
-                        el.block_type === "by_section"
-                          ? `#${el.value.section}`
-                          : el.value.link
-                      }
-                      sx={{
-                        textDecoration: "none",
-                        my: 2,
-                        transition: "all 0.5s",
-                      }}
-                    >
-                      {/* // color:
-                          //   el.link === router.pathname
-                          //     ? theme.palette.primary.main
-                          //     : theme.palette.common.black, // Nếu vào trang nào thì chỉ hiện màu ở title ở header đó */}
-                      <Typography
-                        variant="button2"
-                        sx={{
-                          textTransform: "uppercase",
-                          color: theme.palette.common.natural2,
-                          transition: "all 0.5s",
+            },
+            !isMdUp && {
+              alignItems: "flex-start",
+            },
+          ]}
+        >
+          {data.map((el, idx) => {
+            const { block_type, value } = el;
 
+            return (
+              <Box key={idx}>
+                {value.title === "Logo" ? (
+                  <Link href="/">
+                    <Image
+                      src={el.value.img}
+                      width="90px"
+                      height="90px"
+                      objectFit="contain"
+                    />
+                  </Link>
+                ) : (
+                  <Link
+                    key={idx}
+                    href={block_type === "by_section" ? `#${value.section}` : value.link}
+                    onClick={() => {
+                      setIsToggle(false);
+                    }}
+                    sx={{
+                      transition: "all 0.5s",
+                    }}
+                  >
+                    <Typography
+                      variant="button2"
+                      sx={[
+                        {
+                          textTransform: "uppercase",
+                          color: theme.palette.common.neutral2,
+                          transition: "all 0.5s",
                           "&:hover": {
                             color: theme.palette.primary.light,
                           },
-                          // color:
-                          //   el.link === router.pathname
-                          //     ? "red"
-                          //     : theme.palette.common.natural2,
-                          // Nếu vào trang nào thì chỉ hiện màu ở title ở header đó
-                        }}
-                      >
-                        {el.value.title}
-                      </Typography>
-                    </Link>
-                  )}
-                </Box>
-              );
-            })}
-          </Stack>
-        </Box>
+                        },
+                        lastIndex === idx && {
+                          backgroundColor: "primary.main",
+                          paddingY: 1,
+                          paddingX: 2,
+                          borderRadius: 1.5,
+                          color: "common.white",
+                          ["&:hover"]: {
+                            backgroundColor: "primary.light",
+                            color: "common.white",
+                          },
+                        },
+                      ]}
+                    >
+                      {el.value.title}
+                    </Typography>
+                  </Link>
+                )}
+              </Box>
+            );
+          })}
+        </Stack>
       </Container>
     );
-  }, [NAVBAR, data]);
+  }, [transformedNavigation, isMdUp, setting]);
 
   const staticNav = useMemo(() => {
-    if (y > 880) {
+    if (y > 800) {
       return (
         <AppBar
           sx={{
@@ -188,6 +191,10 @@ const Header = ({}) => {
   }, [y, Navbar]);
 
   const NavbarMemo = useMemo(() => {
+    if (!setting) {
+      return null;
+    }
+
     if (isMdUp) {
       return (
         <Fragment>
@@ -210,35 +217,28 @@ const Header = ({}) => {
               {staticNav}
             </AppBar>
           </Fade>
-          {/* <Fade in={animationState}>{staticNav}</Fade> */}
         </Fragment>
       );
     } else {
-      //ở chế độ màn hình sẽ chuyển sang layout mobile
       const TopNav = (
         <Stack
           sx={{ background: "white" }}
           direction={"row"}
-          paddingTop={3}
-          paddingBottom={3}
           justifyContent="space-between"
           alignItems="center"
         >
-          <Box sx={{ width: "17%", height: "9vh" }}>
-            <Link href="/">
-              <Image
-                layout="fill"
-                src="/img/Logo-theHill.png"
-                width="100%"
-                height="100%"
-                // objectFit="contain"
-              />
-            </Link>
-          </Box>
+          <Link
+            href="/"
+            onClick={() => {
+              setIsToggle(false);
+            }}
+          >
+            <Image src="/img/Logo-theHill.png" width="70px" height="70px" />
+          </Link>
+
           <HamburgerIcon
             onClick={() => {
               setIsToggle(!isToggle);
-              //   popupState.close();
             }}
             className={isToggle && "open"}
           />
@@ -276,77 +276,30 @@ const Header = ({}) => {
               {TopNav}
 
               <Box
-                className="plplpll"
                 sx={{
-                  marginTop: "8rem",
-                  "& .navMobile:last-child": {
-                    marginTop: "6rem",
-                    padding: "0.5rem 1rem",
-                    borderRadius: "5px",
-                    transition: "all 0.5s",
-                    display: "inline-block",
-                    backgroundColor: theme.palette.primary.main,
-                    "&:hover": {
-                      backgroundColor: theme.palette.primary.dark,
-                    },
-                    "& span": {
-                      color: theme.palette.common.white,
-                      display: "block",
-                      margin: 0,
-                    },
-                  },
+                  marginY: 4,
                 }}
               >
-                {dataNavMobile.map((el, index) => {
-                  return (
-                    <Link
-                      className="navMobile"
-                      key={index}
-                      href={
-                        el.block_type === "by_section"
-                          ? `#${el.value.section}`
-                          : el.value.link
-                      }
-                      sx={{
-                        textDecoration: "none",
-                        marginBottom: "2rem",
-                        display: "block",
-                      }}
-                    >
-                      <Typography
-                        variant="button2"
-                        sx={{
-                          lineHeight: "2rem",
-                          color: theme.palette.common.natural2,
-                          display: "block",
-                          my: 2,
-                        }}
-                        onClick={() => {
-                          setIsToggle(false);
-                        }}
-                      >
-                        {el.value.title}
-                      </Typography>
-                    </Link>
-                  );
-                })}
+                {Navbar}
               </Box>
 
               <Stack
                 direction="row"
                 spacing={3}
-                sx={{ height: "10vh", marginTop: "2.5rem" }}
+                sx={{
+                  paddingBottom: 1,
+                }}
               >
                 <Image
                   src="/img/image 3.png"
-                  width="100%"
-                  height="calc(6vw * 1.72)"
+                  width="120px"
+                  height="60px"
                   objectFit="contain"
                 />
                 <Image
                   src="/img/image 4 (1).png"
-                  width="100%"
-                  height="calc(6vw * 1.72)"
+                  width="120px"
+                  height="60px"
                   objectFit="contain"
                 />
               </Stack>
@@ -365,7 +318,7 @@ const Header = ({}) => {
     <Box
       sx={{
         background: "white",
-        width: "100vw",
+        width: "100%",
         boxShadow: " 0px 2px 20px 0 rgba(0, 0, 0, 0.3)",
         zIndex: 10,
       }}

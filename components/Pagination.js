@@ -1,27 +1,17 @@
-import {
-  Pagination as MuiPagination,
-  PaginationItem,
-  useTheme,
-} from "@mui/material";
+import { Pagination as MuiPagination, PaginationItem, useTheme } from "@mui/material";
 
-const LIMIT = 6;
+import ArrowRightAltOutlinedIcon from "@mui/icons-material/ArrowRightAltOutlined";
 
-const Pagination = ({ data, onChange, currentPage }) => {
+const Pagination = ({ data, onChange, currentPage, limit = 9 }) => {
   const theme = useTheme();
   // const count = Math.round(data?.length / LIMIT);
   return (
     <MuiPagination
-      count={Math.round(data?.length / LIMIT)}
+      count={Math.round(data?.length / limit)}
       variant="outlined"
       onChange={onChange}
       page={currentPage}
       sx={{
-        ["& .MuiPagination-ul li"]: {
-          marginLeft: "5px",
-        },
-        ["& .MuiPagination-ul li Mui-disabled"]: {
-          color: "black",
-        },
         ["& .MuiPagination-ul li button"]: {
           color: theme.palette.secondary.light,
           border: `2px solid ${theme.palette.secondary.light}`,
@@ -30,13 +20,31 @@ const Pagination = ({ data, onChange, currentPage }) => {
         ["& .MuiPagination-ul"]: {
           justifyContent: "center",
         },
+        paddingY: 3,
       }}
       renderItem={(props) => {
         const { type } = props;
         if (type === "page") {
           return null;
         }
-        return <PaginationItem {...props} />;
+        return (
+          <PaginationItem
+            {...props}
+            components={{
+              previous: (props) => {
+                return (
+                  <ArrowRightAltOutlinedIcon
+                    sx={{
+                      transform: "rotate(180deg)",
+                    }}
+                    {...props}
+                  />
+                );
+              },
+              next: ArrowRightAltOutlinedIcon,
+            }}
+          />
+        );
       }}
     />
   );

@@ -1,57 +1,32 @@
 import { IconButton, InputBase, Paper, useTheme } from "@mui/material";
-import React from "react";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+
 import useMedia from "../../hooks/useMedia";
 
 export default function InputSendMail() {
   const theme = useTheme();
   const { isSmUp, isSmDown, isMdUp } = useMedia();
   return (
-    <Paper
-      component="form"
-      sx={[
-        {
-          boxShadow: "none",
-          border: `2px solid ${theme.palette.common.natural4}`,
-          borderRadius: "12px",
-          p: "5px 4px",
-          display: "flex",
-          alignItems: "center",
-          width: "100%",
-          marginBottom: "1.5rem",
-          marginTop: isSmDown ? "0.5rem" : "1rem",
-        },
-        isSmDown && { marginBottom: "1.5rem" },
-      ]}
-    >
-      <InputBase
-        sx={{
-          ml: 1,
-          flex: 1,
-          fontSize: "15px",
-          color: " theme.palette.common.natural1",
-          opacity: 1,
-        }}
-        placeholder="Nhập email..."
+    <FormControl sx={{ m: 1, width: "25ch" }} variant="filled">
+      <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
+      <FilledInput
+        id="filled-adornment-password"
+        type={values.showPassword ? "text" : "password"}
+        value={values.password}
+        onChange={handleChange("password")}
+        endAdornment={
+          <InputAdornment position="end">
+            <IconButton
+              aria-label="toggle password visibility"
+              onClick={handleClickShowPassword}
+              onMouseDown={handleMouseDownPassword}
+              edge="end"
+            >
+              {values.showPassword ? <VisibilityOff /> : <Visibility />}
+            </IconButton>
+          </InputAdornment>
+        }
       />
-      <IconButton
-        color="primary"
-        sx={{
-          p: "10px",
-          width: "2.2rem",
-          height: "2.2rem",
-          backgroundColor: theme.palette.secondary.light,
-        }}
-        aria-label="directions"
-      >
-        <ArrowRightAltIcon
-          sx={{
-            color: "white",
-            width: "1.5rem",
-            height: "1.5rem",
-          }}
-        />
-      </IconButton>
-    </Paper>
+    </FormControl>
   );
 }

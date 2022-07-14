@@ -1,11 +1,4 @@
-import {
-  Divider as MuiDivider,
-  Box,
-  Grid,
-  useTheme,
-  Typography,
-  Stack,
-} from "@mui/material";
+import { Divider, Box, Grid, useTheme, Typography, Stack } from "@mui/material";
 
 import dynamic from "next/dynamic";
 
@@ -30,55 +23,35 @@ const Footer = ({ children, ...props }) => {
   const { social_icons } = setting;
   return (
     <Fragment>
-      <Box id="contact" sx={{ width: "80vw" }}>
-        <Grid container sx={{ marginBottom: "4rem" }} columnSpacing={3}>
-          <FooterContent setting={setting} />
-        </Grid>
+      <Box
+        sx={{
+          paddingX: 4,
+        }}
+      >
+        <FooterContent setting={setting} />
 
         <Stack
-          className="iconne"
           direction="row"
           spacing={3}
           justifyContent="center"
+          alignItems={"center"}
           sx={{
-            marginBottom: "1.6rem",
             color: theme.palette.primary.main,
-            height: isMdDown
-              ? isSmDown
-                ? "calc(4vw * 1.72)"
-                : "calc(3vw * 1.72)"
-              : "calc(1.8vw * 1.72)",
-            width: isMdDown ? (isSmDown ? "55%" : "40%") : "22%",
-            margin: "0 auto",
-            marginBottom: "1.6rem !important",
+            marginBottom: 3,
           }}
         >
           {social_icons.map((item, index) => {
             return (
-              <Link
-                className="dayne"
-                key={index}
-                href={item.value.link}
-                sx={{ width: "100%" }}
-              >
+              <Link key={index} href={item.value.link}>
                 <Image
                   {...{
                     src: item.value.icon,
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
+                    width: "24px",
+                    height: "24px",
+                    objectFit: "contain",
                   }}
                 />
               </Link>
-              // <Image
-              //   key={index}
-              //   {...{
-              //     src: item.value.icon || "/img/Rectangle 5.jpg",
-              //     width: "100%",
-              //     height: "100%",
-              //     objectFit: "cover",
-              //   }}
-              // />
             );
           })}
         </Stack>
@@ -86,20 +59,30 @@ const Footer = ({ children, ...props }) => {
       <Box
         sx={[
           {
-            margin: "0 auto",
-            width: "70vw",
-            borderTop: `1px solid ${theme.palette.common.natural4}`,
+            width: "100%",
           },
-          isSmDown && { width: "100vw" },
         ]}
       >
+        <Divider
+          sx={[
+            {
+              width: "60vw",
+              marginX: "auto",
+            },
+            isSmDown && {
+              width: "100%",
+            },
+          ]}
+        />
+
         <Typography
           variant="hairline2"
           sx={{
-            margin: "2rem",
+            marginY: 4,
             display: "block",
             textAlign: "center",
-            color: theme.palette.common.natural2,
+            color: theme.palette.common.neutral2,
+            textTransform: "uppercase",
           }}
         >
           Copyright © 2022 Đổi Điểm. All rights reserved

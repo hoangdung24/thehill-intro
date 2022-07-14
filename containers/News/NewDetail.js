@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Container,
-  Stack,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Box, Button, Container, Stack, Typography, useTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import BannerTop from "../../components/BannerTop/BannerTop";
 import { transformUrl } from "../../libs";
@@ -14,7 +7,6 @@ import useSWR from "swr";
 import { useRouter } from "next/router";
 import YouTube from "react-youtube";
 import { ReaderHTML } from "../../components";
-import { data } from "autoprefixer";
 import queryString from "query-string";
 import { useMeasure } from "react-use";
 import Link from "../../components/Link";
@@ -25,9 +17,7 @@ export default function NewDetail() {
   const [data, setData] = useState();
   const [dataClip, setDataClip] = useState();
   const [stickyRef, { width }] = useMeasure();
-  const { data: resData } = useSWR(
-    transformUrl(`${PAGES}${router.query.id}`, {})
-  );
+  const { data: resData } = useSWR(transformUrl(`${PAGES}${router.query.id}`, {}));
   console.log("router", router);
   useEffect(() => {
     if (!resData) {

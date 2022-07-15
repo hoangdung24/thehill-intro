@@ -36,7 +36,11 @@ export default function News({ initData }) {
   const [dataTabPanel, setDataTabPanel] = useState([]);
   const [textSearch, setTextSearch] = useState(null);
   const [isSearch, setIsSearch] = useState(true);
+
   const [dataTags, setDataTags] = useState(tagsSSS);
+  const [isdataTags, setIsDataTags] = useState(
+    tagsSSS === undefined ? false : true
+  );
 
   const [params, setParams] = useParams({
     initState: {},
@@ -77,17 +81,18 @@ export default function News({ initData }) {
   }, [blogCategoryPage]);
 
   useEffect(() => {
-    if (Object.entries(router.query).length > 0) {
+    if (isdataTags) {
       //xét lại data nội dung khi chuyển về từ trang NewDetail
-
       if (dataTags?.items.length > 0) {
         setCurrentTab(dataTags?.items[0].meta.parent.id);
         setDataTabPanel(dataTags?.items);
         setIsSearch(true);
-        setParams({ tags: undefined });
+        setIsDataTags(false);
+        // setParams({ tags: undefined });
       } else {
         setDataTabPanel(resData?.items);
         setIsSearch(true);
+        // setParams({ tags: undefined });
       }
     } else if (isSearch == false) {
       //xét lại data nội dung khi tìm kiếm
@@ -107,12 +112,13 @@ export default function News({ initData }) {
   const handleTextChange = (e) => {
     if (e.target.value == "") {
       setIsSearch(true);
+      setParams({ tags: undefined });
     } else {
       const debounce = useDebounce(() => {
         setTextSearch(e.target.value);
         setIsSearch(false);
       }, 1000);
-
+      setParams({ tags: e.target.value });
       debounce();
     }
   };

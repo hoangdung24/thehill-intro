@@ -42,12 +42,14 @@ export default function NewDetail() {
       return;
     }
     return resData?.tags.map((item, index) => {
-      console.log("item", item);
       return (
-        <Link href={`/tin-tuc?tags=${item}`} sx={{ textDecoration: "none" }}>
+        <Link
+          key={index}
+          href={`/tin-tuc?tags=${item}`}
+          sx={{ textDecoration: "none" }}
+        >
           <Button
             disabled
-            key={index}
             sx={{
               textTransform: "lowercase",
               backgroundColor: theme.palette.secondary.light,

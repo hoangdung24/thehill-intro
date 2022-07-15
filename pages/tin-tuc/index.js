@@ -25,15 +25,17 @@ export async function getServerSideProps({ params, query }) {
     ];
 
     if (id) {
-      urls.push(
-        transformUrl(PAGES, {
-          tags: id.tags,
-          type: types.blogDetailPage,
-          fields: "*",
-        })
-      );
-    } else {
-      console.log("urlsurls", urls);
+      const objQuery = Object.keys(id);
+
+      if (objQuery.toString() == "tags") {
+        urls.push(
+          transformUrl(PAGES, {
+            tags: id.tags,
+            type: types.blogDetailPage,
+            fields: "*",
+          })
+        );
+      }
     }
 
     const { resList, fallback } = await prefetchData(urls);

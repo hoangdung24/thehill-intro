@@ -1,4 +1,4 @@
-import { Divider, Box, Grid, useTheme, Typography, Stack } from "@mui/material";
+import { Divider, Box, useTheme, Typography, Stack } from "@mui/material";
 
 import dynamic from "next/dynamic";
 
@@ -8,9 +8,7 @@ import { Fragment } from "react";
 import { Image } from "../../HOC";
 import Link from "../Link";
 
-const FooterContent = dynamic(() => import("./FooterContent"), {
-  ssr: false,
-});
+const FooterContent = dynamic(() => import("./FooterContent"));
 
 const Footer = ({ children, ...props }) => {
   const { isSmDown, isMdDown } = useMedia();
@@ -24,6 +22,7 @@ const Footer = ({ children, ...props }) => {
   return (
     <Fragment>
       <Box
+        id="contact"
         sx={{
           paddingX: 4,
         }}
@@ -40,22 +39,59 @@ const Footer = ({ children, ...props }) => {
             marginBottom: 3,
           }}
         >
-          {social_icons.map((item, index) => {
-            return (
-              <Link key={index} href={item.value.link}>
-                <Image
-                  {...{
-                    src: item.value.icon,
-                    width: "24px",
-                    height: "24px",
-                    objectFit: "contain",
-                  }}
-                />
-              </Link>
-            );
+          {social_icons.map((item, idx) => {
+            const { value } = item;
+
+            if (value.link) {
+              return (
+                <Link key={idx} href={value.link}>
+                  <Image
+                    {...{
+                      src: value.icon,
+                      width: "24px",
+                      height: "24px",
+                      objectFit: "contain",
+                    }}
+                  />
+                </Link>
+              );
+            } else {
+              return (
+                <Fragment key={idx}>
+                  <Image
+                    {...{
+                      src: value.icon,
+                      width: "24px",
+                      height: "24px",
+                      objectFit: "contain",
+                    }}
+                  />
+                </Fragment>
+              );
+            }
           })}
         </Stack>
+
+        {isMdDown && (
+          <Stack direction="row" spacing={1} justifyContent="center" marginBottom={3}>
+            <Image
+              {...{
+                src: "/img/image 6.png",
+                width: "120px",
+                height: "60px",
+              }}
+            />
+            <Image
+              {...{
+                src: "/img/image 7.png",
+                width: "120px",
+                height: "60px",
+              }}
+            />
+          </Stack>
+        )}
       </Box>
+
       <Box
         sx={[
           {

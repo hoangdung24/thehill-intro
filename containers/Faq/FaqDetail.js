@@ -1,168 +1,136 @@
+import useSWR from "swr";
+import { useRouter } from "next/router";
+import { Fragment, useEffect, useState, useCallback, useMemo } from "react";
+
 import {
   Box,
+  Grid,
   Button,
-  Container,
   useTheme,
-  Divider as MuiDivider,
+  Container,
+  Typography,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@mui/material";
-import React, { Fragment, useEffect, useState } from "react";
-import BannerTop from "../../components/BannerTop/BannerTop";
-import LineTitle from "../../components/LineTitle/LineTitle";
-import { styled } from "@mui/material/styles";
-import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
-import MuiAccordion from "@mui/material/Accordion";
-import MuiAccordionSummary from "@mui/material/AccordionSummary";
-import MuiAccordionDetails from "@mui/material/AccordionDetails";
-import Typography from "@mui/material/Typography";
-import useMedia from "../../hooks/useMedia";
-import { useRouter } from "next/router";
-import useSWR from "swr";
+
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
 import { PAGES } from "../../apis";
+import { useMedia } from "../../hooks";
 import { transformUrl } from "../../libs";
-import { ReaderHTML } from "../../components";
-
-const Accordion = styled((props) => (
-  <MuiAccordion disableGutters elevation={0} square {...props} />
-))(({ theme }) => ({
-  border: `1px solid ${theme.palette.divider}`,
-  "&:not(:last-child)": {
-    borderBottom: 0,
-  },
-  "&:before": {
-    display: "none",
-  },
-}));
-
-const AccordionSummary = styled((props) => (
-  <MuiAccordionSummary
-    expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: "0.9rem" }} />}
-    {...props}
-  />
-))(({ theme }) => ({
-  backgroundColor:
-    theme.palette.mode === "dark"
-      ? "rgba(255, 255, 255, .05)"
-      : "rgba(0, 0, 0, .03)",
-  flexDirection: "row-reverse",
-  "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
-    transform: "rotate(90deg)",
-  },
-  "& .MuiAccordionSummary-content": {
-    marginLeft: theme.spacing(1),
-  },
-}));
-
-const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-  padding: theme.spacing(2),
-  borderTop: "1px solid rgba(0, 0, 0, .125)",
-}));
+import { ReaderHTML, LineTitle, BannerTop } from "../../components";
 
 export default function FaqDetail({ initData }) {
-  const [listingFAQ, detailFAQ] = initData;
-  const [expanded, setExpanded] = useState("panel2");
-  const [question, setQuestion] = useState();
-  const { banner } = listingFAQ.items[0];
-
+  const [FAQMeta] = initData;
   const theme = useTheme();
-  const { isSmUp, isSmDown, isMdUp } = useMedia();
   const router = useRouter();
 
-  const { data: resData } = useSWR(
-    transformUrl(`${PAGES}${router.query.id}`, {})
-  );
+  const [question, setQuestion] = useState();
+  const [expanded, setExpanded] = useState();
+  const { isSmUp, isSmDown, isMdUp, isMdDown } = useMedia();
+
+  const { data: resData } = useSWR(transformUrl(`${PAGES}${router.query.id}`, {}));
 
   useEffect(() => {
     if (resData === undefined) {
       return;
     }
     setQuestion(resData.questions);
+  }, [question]);
+
+  const toggleAccordionHandler = useCallback((panel) => {
+    return (event, newExpanded) => {
+      setExpanded(newExpanded ? panel : false);
+    };
   });
 
-  const handleChange = (panel) => (event, newExpanded) => {
-    setExpanded(newExpanded ? panel : false);
-  };
+  if (resData == undefined) {
+    return null;
+  }
+  const { banner } = FAQMeta.items[0];
+  const { title } = resData;
 
-  const renderAccordition = () => {
-    if (!question) {
-      return null;
-    } else {
-      return question?.map((item, index) => {
-        return (
-          <Fragment key={index}>
-            <Accordion
-              expanded={expanded === index}
-              onChange={handleChange(index)}
-              sx={{ border: "none" }}
-            >
-              <AccordionSummary
-                aria-controls="panel1d-content"
-                id="panel1d-header"
-                sx={{
-                  flexDirection: "row",
-                  padding: 0,
-                  background: "none",
-                  "& .MuiAccordionSummary-expandIconWrapper .MuiSvgIcon-root": {
-                    color: theme.palette.secondary.main,
-                  },
-                  "& .MuiAccordionSummary-content": {
-                    margin: 0,
-                  },
-                }}
-              >
-                <Typography
-                  variant="hairline1"
-                  sx={{ color: theme.palette.secondary.main }}
-                >
-                  {item?.value.question}
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails sx={{ border: "none", paddingLeft: 0 }}>
-                <ReaderHTML content={item.value.answer} />
-              </AccordionDetails>
-            </Accordion>
-            <Border />
-          </Fragment>
-        );
-      });
-    }
-  };
   return (
     <Box>
-      <BannerTop data={banner} />
-      <Container maxWidth="lg">
-        <LineTitle
-          titleData={resData === undefined ? "TÊN DANH MỤC" : resData.title}
-          type="center"
-        />
-        <Button
-          variant="outlined"
-          sx={[
-            { marginTop: "5.5rem", marginBottom: "1rem" },
-            isSmDown && { marginTop: "4rem", marginBottom: "1rem" },
-          ]}
-        >
-          <Typography
-            variant="button2"
+      <BannerTop imageSrc={banner} />
+      <Container maxWidth="lg" sx={{ marginBottom: 15 }}>
+        <Grid item xs={12}>
+          <Box
+            sx={[
+              {
+                paddingTop: 5,
+                paddingBottom: 8,
+              },
+              isMdDown && {
+                paddingBottom: 5,
+              },
+            ]}
+          >
+            <LineTitle titleData={title} type="center" />
+          </Box>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Button
+            variant="outlined"
+            color="secondary"
             sx={{
-              color: theme.palette.secondary.light,
+              marginBottom: 5,
+            }}
+            onClick={() => {
+              router.push("/faq");
             }}
           >
             Trở Về
-          </Typography>
-        </Button>
+          </Button>
 
-        <Box sx={{ marginBottom: "8.5rem" }}>{renderAccordition()}</Box>
+          <Box>
+            {resData.questions.map((item, idx) => {
+              const { value } = item;
+              return (
+                <Fragment key={idx}>
+                  <Accordion
+                    expanded={expanded === idx}
+                    onChange={toggleAccordionHandler(idx)}
+                    elevation={0}
+                    sx={{
+                      border: "none",
+                      ["&.Mui-expanded"]: {
+                        margin: 0,
+                      },
+                    }}
+                  >
+                    <AccordionSummary
+                      sx={{
+                        margin: 0,
+                        paddingY: 1.5,
+                        ["&.Mui-expanded"]: {
+                          margin: 0,
+                        },
+                        maxHeight: "64px",
+                      }}
+                      expandIcon={
+                        <ExpandMoreIcon sx={{ color: theme.palette.secondary.main }} />
+                      }
+                    >
+                      <Typography
+                        variant="hairline1"
+                        sx={{ color: theme.palette.secondary.main }}
+                      >
+                        {value.question}
+                      </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails sx={{ border: "none", paddingLeft: 0 }}>
+                      <ReaderHTML data={{ content: value.answer }} />
+                    </AccordionDetails>
+                  </Accordion>
+                </Fragment>
+              );
+            })}
+          </Box>
+        </Grid>
       </Container>
     </Box>
   );
 }
-
-const Border = styled(MuiDivider)(({ theme }) => {
-  return {
-    margin: " 1rem 0",
-    display: "block",
-    [theme.breakpoints.up("md")]: {
-      display: "block",
-    },
-  };
-});

@@ -39,6 +39,7 @@ export default function HomeBanner({ data }) {
             left: isMdDown ? "0%" : "50%",
             width: isMdDown ? "100%" : "50%",
             height: "100%",
+            zIndex: -1,
             pointerEvents: "none",
           }}
         >
@@ -46,6 +47,7 @@ export default function HomeBanner({ data }) {
             sx={{
               top: "25%",
               left: "25%",
+              position: "absolute",
             }}
           >
             <PointLabel>?</PointLabel>
@@ -107,15 +109,20 @@ export default function HomeBanner({ data }) {
             <Grid item xs={12}>
               <Box
                 sx={{
-                  "& .MuiBox-root span:after": {
-                    display: "none",
+                  "& *": {
+                    margin: 0,
+                    marginBottom: "0.5rem",
                   },
                   "& h1": {
-                    lineHeight: 1,
+                    fontSize: "2rem",
                   },
+                  "& p": {
+                    fontSize: "1rem",
+                  },
+                  paddingY: 4,
                 }}
               >
-                <ReaderHTML content={subtitle} />
+                <ReaderHTML data={{ content: subtitle }} />
               </Box>
             </Grid>
           </Grid>
@@ -162,15 +169,20 @@ export default function HomeBanner({ data }) {
       >
         <Box
           sx={{
-            "& .MuiBox-root span:after": {
-              display: "none",
+            "& *": {
+              margin: 0,
+              marginBottom: "1rem",
             },
-            "& h1": {
-              lineHeight: 1,
-            },
+            // "& h1": {
+            //   fontSize: "3rem",
+            // },
+            // "& p": {
+            //   fontSize: "1rem",
+            // },
+            // paddingY: 4,
           }}
         >
-          <ReaderHTML content={subtitle} />
+          <ReaderHTML data={{ content: subtitle }} />
         </Box>
 
         <Stack direction="row" spacing={3}>

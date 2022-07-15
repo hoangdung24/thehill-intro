@@ -4,6 +4,8 @@ import News from "../../containers/News/News";
 import { prefetchData, transformUrl } from "../../libs";
 
 export default function PageNews({ ...props }) {
+  return null;
+
   return <News {...props} />;
 }
 

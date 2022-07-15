@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+
 import { Box, Typography, useTheme } from "@mui/material";
 
 import truncate from "lodash/truncate";
@@ -33,6 +34,7 @@ const CardBrand = ({ data }) => {
             sx={{
               margin: "0 auto",
               overflow: "hidden",
+              height: "5rem",
             }}
           >
             <Box>

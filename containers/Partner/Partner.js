@@ -19,11 +19,14 @@ import { Image } from "../../HOC";
 import { useMedia } from "../../hooks";
 import { PARTNER_LIMIT } from "../../constants";
 
+const BANNER_RATIO_ON_DESKTOP = 420 / 1120;
+const BANNER_RATIO_ON_MOBILE = 220 / 310;
+
 const Partner = ({ initData }) => {
   const [partnerMeta, partnerListing] = initData;
 
   const [ref, { width }] = useMeasure();
-  const { isSmUp, isSmDown } = useMedia();
+  const { isSmUp, isSmDown, isMdDown } = useMedia();
   const [currentTab, setCurrentTab] = useState(-1);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -80,7 +83,7 @@ const Partner = ({ initData }) => {
                 {...{
                   src: thumbnailOfAll,
                   width: "100%",
-                  height: (width * 400) / 1120,
+                  height: width * BANNER_RATIO_ON_DESKTOP,
                   objectFit: "cover",
                 }}
               />
@@ -120,15 +123,15 @@ const Partner = ({ initData }) => {
               <TabPanel key={index} value={currentTab} index={item.id}>
                 <Box
                   sx={{
-                    height: "25rem",
-                    marginBottom: "3.5rem",
+                    marginBottom: 10,
+                    overflow: "hidden",
                   }}
                 >
                   <Image
                     {...{
                       src: item.thumbnail,
                       width: "100%",
-                      height: "100%",
+                      height: width * BANNER_RATIO_ON_DESKTOP,
                       objectFit: "cover",
                     }}
                   />
@@ -195,41 +198,41 @@ const Partner = ({ initData }) => {
                 {...{
                   src: thumbnail,
                   width: "100%",
-                  height: (width * 220) / 310,
+                  height: width * BANNER_RATIO_ON_MOBILE,
                   objectFit: "cover",
                 }}
               />
             </Box>
 
-            {data.map((el, idx) => {
-              return (
-                <Grid
-                  onClick={() => {
-                    const link = el.link;
+            <Grid container spacing={4}>
+              {data.map((el, idx) => {
+                return (
+                  <Grid
+                    onClick={() => {
+                      const link = el.link;
 
-                    if (link) {
-                      window.open(link, "_blank");
-                    }
-                  }}
-                  item
-                  key={idx}
-                  xs={12}
-                  sx={{
-                    cursor: "pointer",
-                  }}
-                >
-                  <CardBrand data={el} />
-                </Grid>
-              );
-            })}
+                      if (link) {
+                        window.open(link, "_blank");
+                      }
+                    }}
+                    item
+                    key={idx}
+                    xs={12}
+                    sx={{
+                      cursor: "pointer",
+                    }}
+                  >
+                    <CardBrand data={el} />
+                  </Grid>
+                );
+              })}
+            </Grid>
           </TabPanel>
         );
       }
 
       return null;
     }
-
-    //
   }, [currentTab, partnerData, tranformedPartnerData, width, isSmUp, currentPage]);
 
   const renderPagination = useMemo(() => {
@@ -254,10 +257,8 @@ const Partner = ({ initData }) => {
         data={selectedData}
         currentPage={currentPage}
         onChange={(_, newPage) => {
-          console.log(newPage);
-
+          animationHandler();
           setCurrentPage(newPage);
-          // animationHandler();
         }}
       />
     );
@@ -301,7 +302,19 @@ const Partner = ({ initData }) => {
         ]}
       >
         <Grid item xs={12}>
-          <LineTitle type="center" titleData={title} />
+          <Box
+            sx={[
+              {
+                paddingTop: 5,
+                paddingBottom: 8,
+              },
+              isMdDown && {
+                paddingBottom: 5,
+              },
+            ]}
+          >
+            <LineTitle type="center" titleData={title} />
+          </Box>
         </Grid>
 
         <Grid item xs={12}>

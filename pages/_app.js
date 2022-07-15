@@ -1,4 +1,4 @@
-import { Canvas } from "@react-three/fiber";
+import Head from "next/head";
 import { SnackbarProvider } from "notistack";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ErrorBoundary } from "react-error-boundary";
@@ -34,6 +34,12 @@ function MyApp(props) {
           <SWR fallback={pageProps?.fallback}>
             <SnackbarProvider autoHideDuration={4000} maxSnack={3}>
               <Layout>
+                <Head>
+                  <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1, maximum-scale=1"
+                  />
+                </Head>
                 <CssBaseline />
                 <Component {...pageProps} />
               </Layout>

@@ -117,6 +117,7 @@ const LineTitle = ({ titleData, subtitleData, type, sx }) => {
         <Typography
           variant="body1"
           sx={{
+            marginTop: "1rem",
             color: theme.palette.primary.main,
             textAlign: "left",
             display: isSmDown ? "none" : "block",

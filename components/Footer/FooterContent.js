@@ -22,7 +22,7 @@ import { Image } from "../../HOC";
 import Link from "../Link";
 
 export default function FooterContent({ setting }) {
-  const { isSmDown, isMdDown } = useMedia();
+  const { isSmDown, isMdUp } = useMedia();
   const theme = useTheme();
 
   const [isSuccess, setIsSuccess] = useState(false);
@@ -93,7 +93,12 @@ export default function FooterContent({ setting }) {
   } = setting;
 
   return (
-    <Grid container sx={{ marginBottom: "4rem" }} rowSpacing={3} columnSpacing={3}>
+    <Grid
+      container
+      sx={{ marginBottom: isMdUp ? 4 : 0 }}
+      rowSpacing={3}
+      columnSpacing={3}
+    >
       <Grid item xs={12} md={1}>
         <Image
           {...{
@@ -115,7 +120,7 @@ export default function FooterContent({ setting }) {
             return (
               <Link
                 key={index}
-                href={item.value.link}
+                href={item.value.link || "/"}
                 sx={{
                   display: "block",
                   transition: "all 0.5s",
@@ -138,7 +143,7 @@ export default function FooterContent({ setting }) {
             return (
               <Link
                 key={index}
-                href={item.value.link}
+                href={item.value.link || "/"}
                 sx={{
                   display: "block",
                   transition: "all 0.5s",
@@ -190,12 +195,6 @@ export default function FooterContent({ setting }) {
                 },
                 InputProps: {
                   placeholder: "Nhập email",
-                  sx: {
-                    borderWidth: "2px",
-                    borderStyle: "solid",
-                    borderColor: "common.neutral4",
-                    borderRadius: "8px",
-                  },
                   endAdornment: (
                     <Box
                       sx={{
@@ -251,22 +250,25 @@ export default function FooterContent({ setting }) {
               </Alert>
             </Fade>
           </Box>
-          <Stack direction="row" spacing={1}>
-            <Image
-              {...{
-                src: "/img/image 6.png",
-                width: "120px",
-                height: "60px",
-              }}
-            />
-            <Image
-              {...{
-                src: "/img/image 7.png",
-                width: "120px",
-                height: "60px",
-              }}
-            />
-          </Stack>
+
+          {isMdUp && (
+            <Stack direction="row" spacing={1}>
+              <Image
+                {...{
+                  src: "/img/image 6.png",
+                  width: "120px",
+                  height: "60px",
+                }}
+              />
+              <Image
+                {...{
+                  src: "/img/image 7.png",
+                  width: "120px",
+                  height: "60px",
+                }}
+              />
+            </Stack>
+          )}
         </Box>
       </Grid>
     </Grid>

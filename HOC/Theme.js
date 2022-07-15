@@ -1,6 +1,6 @@
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { createTheme, ThemeProvider, alpha } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
-import { red, green } from "@mui/material/colors";
+import { green } from "@mui/material/colors";
 
 const defaultTheme = createTheme({
   palette: {
@@ -263,6 +263,61 @@ const theme = createTheme({
           ...defaultTheme.typography.caption1,
           padding: "8px 16px",
           color: defaultTheme.palette.common.neutral2,
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      defaultProps: {
+        color: "secondary",
+      },
+
+      styleOverrides: {
+        root: {
+          ...defaultTheme.typography.caption1,
+          color: defaultTheme.palette.common.neutral2,
+          borderRadius: "8px",
+        },
+      },
+    },
+    MuiFormControl: {
+      styleOverrides: {
+        root: {
+          marginBottom: "2rem",
+
+          ["& .MuiOutlinedInput-notchedOutline"]: {
+            border: `2px solid ${defaultTheme.palette.common.neutral2}`,
+          },
+          ["&:hover .MuiOutlinedInput-notchedOutline"]: {
+            border: `2px solid ${defaultTheme.palette.common.neutral3}`,
+          },
+        },
+      },
+    },
+    MuiTextField: {
+      defaultProps: {
+        fullWidth: true,
+      },
+
+      styleOverrides: {
+        root: {},
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          ...defaultTheme.typography.caption1,
+          ["&.Mui-focused"]: {
+            color: defaultTheme.palette.secondary.main,
+          },
+        },
+      },
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          ["&.Mui-selected"]: {
+            backgroundColor: alpha(defaultTheme.palette.secondary.main, 0.08),
+          },
         },
       },
     },

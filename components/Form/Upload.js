@@ -1,47 +1,38 @@
+import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { useController } from "react-hook-form";
-import { useState, useCallback } from "react";
 
-import {
-  FormControl,
-  Button,
-  FormHelperText,
-  Stack,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Button, Stack, Typography, useTheme } from "@mui/material";
+
+import get from "lodash/get";
 
 import AttachFileIcon from "@mui/icons-material/AttachFile";
-import { Box } from "@mui/system";
 
-const Upload = ({ control, name, passHandler = () => {} }) => {
+const Upload = ({ control, name, setError, clearErrors }) => {
   const theme = useTheme();
   const {
+    field: { value, onChange },
     fieldState: { error },
   } = useController({
     name,
     control,
   });
 
-  const [files, setFiles] = useState([]);
+  const onDrop = useCallback(function (acceptedFiles, rejectedFiles) {
+    if (rejectedFiles.length > 0) {
+      const code = get(rejectedFiles, "[0].errors.[0].code");
+      const errMessage = get(rejectedFiles, "[0].errors.[0].message");
 
-  const onDrop = useCallback(
-    function (acceptedFiles, rejectedFiles) {
-      passHandler({
-        acceptedFiles,
-        rejectedFiles,
-        setFiles,
+      setError("files", {
+        message: errMessage,
       });
 
-      if (acceptedFiles.length === 0) {
-        setFiles([]);
-        return;
-      }
-
-      setFiles(acceptedFiles);
-    },
-    [passHandler]
-  );
+      return;
+    } else {
+      clearErrors("files");
+      onChange(acceptedFiles);
+    }
+  }, []);
 
   const { getInputProps } = useDropzone({
     accept: ".doc, .docx, .pdf",
@@ -51,22 +42,31 @@ const Upload = ({ control, name, passHandler = () => {} }) => {
   });
 
   return (
-    <Stack direction="row" spacing={2} alignItems="center">
-      <FormControl fullWidth>
-        <Stack direction="row" alignItems="center" spacing={2}>
-          <label htmlFor={name}>
-            <input id={name} {...getInputProps()} />
-            <Button
-              variant="outlined"
-              component="span"
-              sx={{}}
-              startIcon={<AttachFileIcon />}
-            >
-              <span>File đính kèm</span>
-            </Button>
-          </label>
+    <Stack direction="column" spacing={1} alignItems="flex-start" marginBottom={2}>
+      <Stack direction="column" alignItems="flex-start" spacing={2}>
+        <Typography component={"label"} htmlFor={name}>
+          <input id={name} {...getInputProps()} />
+          <Button
+            variant="outlined"
+            component="span"
+            sx={{
+              color: "common.neutral2",
+              borderColor: "common.neutral2",
+              borderWidth: 2,
+              ["&:hover"]: {
+                borderWidth: 2,
+                borderColor: "transparent",
+              },
+            }}
+            color="secondary"
+            startIcon={<AttachFileIcon />}
+          >
+            <span>Tệp đính kèm</span>
+          </Button>
+        </Typography>
 
-          {files.map((el) => {
+        {Array.isArray(value) &&
+          value.map((el) => {
             return (
               <Typography
                 sx={{
@@ -78,30 +78,28 @@ const Upload = ({ control, name, passHandler = () => {} }) => {
               </Typography>
             );
           })}
-        </Stack>
+      </Stack>
 
-        <FormHelperText
+      <Typography
+        sx={{
+          color: theme.palette.common.neutral3,
+          paddingY: 1,
+        }}
+        variant="caption2"
+      >
+        Lưu ý: File đính kèm không vượt quá 20MB
+      </Typography>
+      {!!error && (
+        <Typography
           sx={{
-            textAlign: "left",
-            color: theme.palette.common.natural3,
-            marginLeft: 0,
             paddingY: 1,
+            color: "error.main",
           }}
+          variant="caption2"
         >
-          Lưu ý: File đính kèm không vượt quá 20Mb
-        </FormHelperText>
-        {error && (
-          <FormHelperText
-            error
-            sx={{
-              marginLeft: 0,
-              paddingY: 1,
-            }}
-          >
-            {error.message}
-          </FormHelperText>
-        )}
-      </FormControl>
+          {error.message}
+        </Typography>
+      )}
     </Stack>
   );
 };

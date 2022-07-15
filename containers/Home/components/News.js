@@ -19,6 +19,7 @@ export default function HomeNews({ data, blogHomeData }) {
 
   return (
     <Container
+      id="blog"
       maxWidth="lg"
       sx={[
         {

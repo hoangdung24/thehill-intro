@@ -1,5 +1,11 @@
 import { forwardRef } from "react";
-import { FormControl, FormHelperText, FormLabel, Input } from "@mui/material";
+import {
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Input,
+  OutlinedInput,
+} from "@mui/material";
 
 const InputBase = forwardRef(
   (
@@ -7,15 +13,9 @@ const InputBase = forwardRef(
     ref
   ) => {
     return (
-      <FormControl
-        fullWidth={true}
-        sx={{
-          marginBottom: 2,
-        }}
-        {...FormControlProps}
-      >
+      <FormControl fullWidth={true} {...FormControlProps}>
         <FormLabel {...FormLabelProps} />
-        <Input inputRef={ref} {...props} {...InputProps} />
+        <OutlinedInput inputRef={ref} {...props} {...InputProps} />
 
         <FormHelperText {...FormHelperTextProps} />
       </FormControl>

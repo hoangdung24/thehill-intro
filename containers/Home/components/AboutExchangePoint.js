@@ -12,6 +12,7 @@ export default function ExchangePointsHome({ data }) {
 
   return (
     <Container
+      id="about"
       maxWidth="lg"
       sx={[
         {
@@ -36,7 +37,7 @@ export default function ExchangePointsHome({ data }) {
         <LineTitle type="left" titleData={about_title} />
       </Box>
 
-      <Grid container columnSpacing={10}>
+      <Grid container rowSpacing={4} columnSpacing={8} justifyContent="center">
         {about_content.map((item, index) => {
           return (
             <Grid item xs={12} md={4} key={index}>

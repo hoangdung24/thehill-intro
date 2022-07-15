@@ -38,7 +38,7 @@ const settings = {
       settings: {
         slidesToShow: 1,
         slidesToScroll: 1,
-        centerPadding: "110px",
+        centerPadding: "75px",
       },
     },
   ],
@@ -53,6 +53,7 @@ export default function Featured({ data }) {
 
   return (
     <Box
+      id="tutorial"
       sx={[
         {
           backgroundColor: theme.palette.common.neutral3,
@@ -124,6 +125,8 @@ export default function Featured({ data }) {
                             overflow: "hidden",
                             borderRadius: "20px",
                             top: "6px",
+                            maxHeight: "450px",
+                            maxWidth: `calc(450px * ${IMAGE_RATIO})`,
                           },
                           className: "wrapper-image",
                         }}
@@ -142,6 +145,8 @@ export default function Featured({ data }) {
                   left: "50%",
                   width: `calc(${IMAGE_HEIGHT} * ${IMAGE_FRAME_RATIO})`,
                   height: `calc(${IMAGE_HEIGHT})`,
+                  maxHeight: "450px",
+                  maxWidth: `calc(450px * ${IMAGE_FRAME_RATIO})`,
                   zIndex: 2,
                   backgroundImage: "url('/iphone-frame.png')",
                   backgroundSize: "100% 100%",

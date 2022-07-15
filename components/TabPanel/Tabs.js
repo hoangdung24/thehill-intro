@@ -36,31 +36,6 @@ const Tabs = ({ value, changeTab, data }) => {
         />
       );
     });
-    // return data?.map((el) => {
-    //   return (
-    //     <Tab
-    //       key={el.id}
-    //       label={el.title}
-    //       value={el.id}
-    //       disableRipple
-    //       sx={[
-    //         {
-    //           textTransform: "capitalize",
-    //           [theme.breakpoints.down("sm")]: {
-    //             paddingLeft: 0,
-    //             paddingRight: 0,
-    //             "&:not(:first-of-type)": {
-    //               marginLeft: 2,
-    //             },
-    //           },
-    //         },
-    //         isSmUp && {
-    //           minWidth: "120px",
-    //         },
-    //       ]}
-    //     />
-    //   );
-    // });
   }, [data, isSmUp]);
 
   if (isSmUp) {
@@ -76,7 +51,6 @@ const Tabs = ({ value, changeTab, data }) => {
         variant={isSmUp ? "standard" : "fullWidth"}
         sx={[
           {
-            width: "75vw",
             margin: "0 auto",
             marginTop: "2.25rem",
             marginBottom: isSmUp ? "2.25rem" : "2rem",
@@ -86,6 +60,15 @@ const Tabs = ({ value, changeTab, data }) => {
           },
 
           {
+            "& .Mui-selected": {
+              color: `${theme.palette.common.white} !important`,
+              backgroundColor: theme.palette.secondary.light,
+              borderRadius: "5px",
+            },
+            "& button": {
+              minWidth: "auto",
+              margin: "0 1rem",
+            },
             "& .MuiTabs-flexContainer": {
               justifyContent: "center",
               width: "100%",
@@ -113,12 +96,19 @@ const Tabs = ({ value, changeTab, data }) => {
         onChange={changeTab}
         variant={isSmUp ? "standard" : "fullWidth"}
         sx={{
-          width: "90%",
           marginLeft: "auto",
           marginTop: "2.25rem",
           marginBottom: "2.25rem",
           display: "flex",
-
+          "& .Mui-selected": {
+            color: `${theme.palette.common.white} !important`,
+            backgroundColor: theme.palette.secondary.light,
+            borderRadius: "5px",
+          },
+          "& button": {
+            minWidth: "auto",
+            margin: "0 1rem",
+          },
           ["& .MuiTabs-flexContainer"]: {
             overflowX: "auto",
             "&::-webkit-scrollbar": {

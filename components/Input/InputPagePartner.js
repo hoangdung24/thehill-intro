@@ -20,7 +20,7 @@ export default function InputPagePartner({ name, InputProps, onChange }) {
           marginBottom: "2.3rem",
           marginTop: "5.5rem",
         },
-        isSmDown && { marginBottom: "1.5rem" },
+        isSmDown && { marginBottom: "1.5rem", marginTop: "3.5rem" },
       ]}
     >
       <InputBase

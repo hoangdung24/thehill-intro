@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React from "react";
 import { PAGES, types } from "../../apis";
 import News from "../../containers/News/News";
@@ -8,8 +9,10 @@ export default function PageNews({ ...props }) {
   return <News {...props} />;
 }
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps({ params, query }) {
   try {
+    const id = query;
+
     const urls = [
       transformUrl(PAGES, {
         type: types.blogListingPage,
@@ -19,12 +22,20 @@ export async function getServerSideProps({ params }) {
         type: types.blogCategoryPage,
         fields: "*",
       }),
-
-      transformUrl(PAGES, {
-        type: types.blogDetailPage,
-        fields: "*",
-      }),
     ];
+
+    if (id) {
+      urls.push(
+        transformUrl(PAGES, {
+          tags: id.tags,
+          type: types.blogDetailPage,
+          fields: "*",
+        })
+      );
+    } else {
+      console.log("urlsurls", urls);
+    }
+
     const { resList, fallback } = await prefetchData(urls);
 
     return {

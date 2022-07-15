@@ -16,6 +16,7 @@ import useSWR from "swr";
 import { transformUrl } from "../../libs";
 import { PAGES, types } from "../../apis";
 import useDebounce from "../../hooks/useDebounce";
+import { useParams } from "../../hooks";
 
 const objTabs = {
   id: -1,
@@ -23,8 +24,7 @@ const objTabs = {
 };
 
 export default function News({ initData }) {
-  const [blogListingPage, blogCategoryPage, blogDetailPage] = initData;
-  console.log(blogDetailPage);
+  const [blogListingPage, blogCategoryPage, tagsSSS] = initData;
   const theme = useTheme();
   const router = useRouter();
   const { isSmUp, isSmDown } = useMedia();
@@ -36,8 +36,12 @@ export default function News({ initData }) {
   const [dataTabPanel, setDataTabPanel] = useState([]);
   const [textSearch, setTextSearch] = useState(null);
   const [isSearch, setIsSearch] = useState(true);
-  const [isURL, setIsURL] = useState(true);
-  const [dataTags, setDataTags] = useState("");
+  const [dataTags, setDataTags] = useState(tagsSSS);
+
+  const [params, setParams] = useParams({
+    initState: {},
+    excludeKeys: ["limit", "offset"],
+  });
 
   const { data: resData } = useSWR(
     idAPI == -1
@@ -65,15 +69,7 @@ export default function News({ initData }) {
           type: types.blogDetailPage,
         })
   );
-  const { data: tagsData } = useSWR(
-    transformUrl(PAGES, {
-      tags: dataTags,
-      type: types.blogDetailPage,
-      fields: "*",
-    })
-  );
 
-  console.log("tagsDatatagsData", tagsData);
   useEffect(() => {
     const cloneTabsData = cloneDeep(blogCategoryPage.items);
     cloneTabsData.splice(0, 0, objTabs);
@@ -81,25 +77,18 @@ export default function News({ initData }) {
   }, [blogCategoryPage]);
 
   useEffect(() => {
-    if (isSearch == "isQuery") {
+    if (Object.entries(router.query).length > 0) {
       //xét lại data nội dung khi chuyển về từ trang NewDetail
 
-      if (tagsData?.items.length > 0) {
-        setCurrentTab(tagsData?.items[0].meta.parent.id);
-        setDataTabPanel(tagsData?.items);
+      if (dataTags?.items.length > 0) {
+        setCurrentTab(dataTags?.items[0].meta.parent.id);
+        setDataTabPanel(dataTags?.items);
         setIsSearch(true);
+        setParams({ tags: undefined });
       } else {
         setDataTabPanel(resData?.items);
         setIsSearch(true);
       }
-      router.push(
-        {
-          pathname: "/tin-tuc",
-          query: {},
-        },
-        undefined,
-        { shallow: true }
-      );
     } else if (isSearch == false) {
       //xét lại data nội dung khi tìm kiếm
       if (searchData === undefined) {
@@ -113,16 +102,7 @@ export default function News({ initData }) {
       }
       setDataTabPanel(resData?.items);
     }
-  }, [tagsData, resData, searchData]);
-
-  useEffect(() => {
-    if (Object.getOwnPropertyNames(router.query).length === 0) {
-      return null;
-    } else if (isURL) {
-      setIsSearch("isQuery");
-      setDataTags(router.query.type);
-    }
-  });
+  }, [dataTags, resData, searchData, isSearch]);
 
   const handleTextChange = (e) => {
     if (e.target.value == "") {
@@ -262,7 +242,6 @@ export default function News({ initData }) {
         <Box
           sx={{
             [theme.breakpoints.down("sm")]: {
-              width: isSmDown ? "75vw" : "100%",
               margin: "0 auto",
             },
           }}

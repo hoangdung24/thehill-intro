@@ -28,7 +28,6 @@ export default function NewDetail() {
   const { data: resData } = useSWR(
     transformUrl(`${PAGES}${router.query.id}`, {})
   );
-  console.log("router", router);
   useEffect(() => {
     if (!resData) {
       return;
@@ -45,9 +44,23 @@ export default function NewDetail() {
     return resData?.tags.map((item, index) => {
       console.log("item", item);
       return (
-        <Link href={`/tin-tuc?type=tintuc`} sx={{ textDecoration: "none" }}>
-          <Button key={index} sx={{ textTransform: "lowercase" }}>
-            <Typography variant="body1">{item}</Typography>
+        <Link href={`/tin-tuc?tags=${item}`} sx={{ textDecoration: "none" }}>
+          <Button
+            disabled
+            key={index}
+            sx={{
+              textTransform: "lowercase",
+              backgroundColor: theme.palette.secondary.light,
+              borderRadius: "1rem",
+              padding: "0.5rem",
+            }}
+          >
+            <Typography
+              variant="button1"
+              sx={{ color: theme.palette.common.white }}
+            >
+              {item}
+            </Typography>
           </Button>
         </Link>
       );
@@ -62,9 +75,9 @@ export default function NewDetail() {
     const { pathname } = new URL(url);
 
     if (query.v) {
-      videoId = query.v;
+      videoId = query?.v;
     } else {
-      videoId = pathname.replace("/", "");
+      videoId = pathname?.replace("/", "");
     }
   }
   return (

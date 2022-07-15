@@ -16,18 +16,19 @@ import useSWR from "swr";
 import { transformUrl } from "../../libs";
 import { PAGES, types } from "../../apis";
 import useDebounce from "../../hooks/useDebounce";
+import { useParams } from "../../hooks";
 
 const objTabs = {
   id: -1,
   title: "Tất cả",
 };
 
-export default function NewsDemo({ initData }) {
-  const [blogListingPage, blogCategoryPage, blogDetailPage] = initData;
+export default function News({ initData }) {
+  const [blogListingPage, blogCategoryPage, tagsSSS] = initData;
+  console.log("tagsSSS", tagsSSS);
   const theme = useTheme();
   const router = useRouter();
   const { isSmUp, isSmDown } = useMedia();
-
   const [animationState, setAnimationState] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentTab, setCurrentTab] = useState(-1);
@@ -36,7 +37,15 @@ export default function NewsDemo({ initData }) {
   const [dataTabPanel, setDataTabPanel] = useState([]);
   const [textSearch, setTextSearch] = useState(null);
   const [isSearch, setIsSearch] = useState(true);
+  const [isURL, setIsURL] = useState(true);
+  const [dataTags, setDataTags] = useState(tagsSSS);
 
+  const [params, setParams] = useParams({
+    initState: {},
+    excludeKeys: ["limit", "offset"],
+  });
+
+  console.log("router", params);
   const { data: resData } = useSWR(
     idAPI == -1
       ? transformUrl(PAGES, {
@@ -63,7 +72,15 @@ export default function NewsDemo({ initData }) {
           type: types.blogDetailPage,
         })
   );
+  // const { data: tagsData } = useSWR(
+  //   transformUrl(PAGES, {
+  //     tags: dataTags,
+  //     type: types.blogDetailPage,
+  //     fields: "*",
+  //   })
+  // );
 
+  // console.log("tagsDatatagsData", tagsData);
   useEffect(() => {
     const cloneTabsData = cloneDeep(blogCategoryPage.items);
     cloneTabsData.splice(0, 0, objTabs);
@@ -71,18 +88,44 @@ export default function NewsDemo({ initData }) {
   }, [blogCategoryPage]);
 
   useEffect(() => {
-    if (isSearch) {
-      if (resData === undefined) {
-        return;
+    if (Object.entries(router.query).length > 0) {
+      //xét lại data nội dung khi chuyển về từ trang NewDetail
+
+      if (dataTags?.items.length > 0) {
+        setCurrentTab(dataTags?.items[0].meta.parent.id);
+        setDataTabPanel(dataTags?.items);
+        setIsSearch(true);
+        setParams({ type: undefined });
+      } else {
+        setDataTabPanel(resData?.items);
+        setIsSearch(true);
       }
-      setDataTabPanel(resData?.items);
+      console.log("1");
     } else if (isSearch == false) {
+      //xét lại data nội dung khi tìm kiếm
       if (searchData === undefined) {
         return null;
       }
       setDataTabPanel(searchData?.items);
+      console.log("2");
+    } else if (isSearch == true) {
+      //xét lại data nội dung khi chuyển Tab danh mục
+      if (resData === undefined) {
+        return;
+      }
+      setDataTabPanel(resData?.items);
+      console.log("3");
     }
-  });
+  }, [dataTags, resData, searchData, isSearch]);
+
+  // useEffect(() => {
+  //   if (Object.getOwnPropertyNames(router.query).length === 0) {
+  //     return null;
+  //   } else if (isURL) {
+  //     setIsSearch("isQuery");
+  //     setDataTags(router.query.type);
+  //   }
+  // });
 
   const handleTextChange = (e) => {
     if (e.target.value == "") {
@@ -91,8 +134,8 @@ export default function NewsDemo({ initData }) {
       const debounce = useDebounce(() => {
         setTextSearch(e.target.value);
         setIsSearch(false);
-        console.log("b", e.target.value);
-      }, 600);
+      }, 1000);
+
       debounce();
     }
   };
@@ -176,7 +219,11 @@ export default function NewsDemo({ initData }) {
         return (
           <TabPanel key={index} value={currentTab} index={item.id}>
             {data?.map((el, i) => {
-              return <CardItem key={i} data={el} />;
+              return (
+                <Box key={i} onClick={() => handleDetailNew(el.id)}>
+                  <CardItem data={el} />
+                </Box>
+              );
             })}
           </TabPanel>
         );
@@ -189,7 +236,7 @@ export default function NewsDemo({ initData }) {
   const renderPagination = useMemo(() => {
     return (
       <Pagination
-        data={blogCategoryPage}
+        data={dataTabPanel}
         currentPage={currentPage}
         onChange={(_, newPage) => {
           setCurrentPage(newPage);
@@ -197,7 +244,7 @@ export default function NewsDemo({ initData }) {
         }}
       />
     );
-  }, [currentPage, isSmUp, currentTab, blogCategoryPage]);
+  }, [currentPage, isSmUp, currentTab, dataTabPanel]);
 
   return (
     <Box sx={{ marginBottom: "6rem" }}>

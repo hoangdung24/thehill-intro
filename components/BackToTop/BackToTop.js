@@ -24,8 +24,8 @@ export default function BackToTop() {
     <Box
       sx={{
         position: "fixed",
-        bottom: "10%",
-        right: isSmDown ? "5%" : "2%",
+        bottom: "32px",
+        right: "32px",
         zIndex: 12,
       }}
     >

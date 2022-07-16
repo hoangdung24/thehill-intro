@@ -25,35 +25,12 @@ const InputSelect = ({ data, required, label, control, name }) => {
         return (
           <FormControl fullWidth error={!!error ? true : false}>
             <TextField
-              value={value || ""}
+              value={value || null}
               onChange={onChange}
               select
-              required={required}
               fullWidth
               label={label}
               color="secondary"
-              focused
-              sx={{
-                marginBottom: "1.6rem",
-                "& .MuiInputLabel-root.Mui-focused": {
-                  color: theme.palette.common.natural2,
-                  paddingLeft: "20px",
-                  fontSize: "21px",
-                },
-                "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-                  borderColor: `${theme.palette.common.natural2} !important`,
-                  paddingLeft: "20px",
-                  borderRadius: "8px",
-                },
-                "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline legend span":
-                  {
-                    padding: "0",
-                  },
-                "& .MuiOutlinedInput-root .MuiSelect-select": {
-                  fontSize: "15px",
-                  padding: "8.5px 14px",
-                },
-              }}
             >
               {data.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
@@ -62,10 +39,7 @@ const InputSelect = ({ data, required, label, control, name }) => {
               ))}
             </TextField>
 
-            <FormHelperText
-              children={message || ""}
-              sx={{ textAlign: "right" }}
-            />
+            <FormHelperText children={message || ""} sx={{ textAlign: "right" }} />
           </FormControl>
         );
       }}

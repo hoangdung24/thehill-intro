@@ -1,38 +1,84 @@
+import { useCallback, useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import {
   useTheme,
-  Divider as MuiDivider,
   Box,
   styled,
   Grid,
   Typography,
   Stack,
+  Fade,
+  Alert,
 } from "@mui/material";
-import React, { Fragment, useCallback, useState } from "react";
-import { useForm } from "react-hook-form";
-import { Image } from "../../HOC";
+
+import ArrowRightAltOutlinedIcon from "@mui/icons-material/ArrowRightAltOutlined";
+
+import { defaultValues, subscribeSchema } from "../../libs/subscribeSchema";
 import useMedia from "../../hooks/useMedia";
-import Link from "../Link";
-import { defaultValuesSubcribers } from "../../libs/yupRegister";
-import InputPageNew from "../Input/InputPageNew";
 import { SUBSCRIBERS } from "../../apis";
 import axios from "../../axios.config";
+import Input from "../Input/Input";
+import { Image } from "../../HOC";
+import Link from "../Link";
 
 export default function FooterContent({ setting }) {
-  const { isSmDown, isMdDown } = useMedia();
+  const { isSmDown, isMdUp } = useMedia();
   const theme = useTheme();
 
   const [isSuccess, setIsSuccess] = useState(false);
+
   const [message, setMessage] = useState({
     severity: "success",
-    content: "",
+    content: "work",
   });
 
-  const { handleSubmit, reset, control, setError } = useForm({
-    defaultValuesSubcribers,
+  const { handleSubmit, reset, control } = useForm({
+    defaultValues,
+    resolver: subscribeSchema,
   });
+
+  useEffect(() => {
+    let timer;
+
+    if (isSuccess) {
+      timer = setTimeout(() => {
+        setIsSuccess(false);
+      }, 3000);
+    }
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [isSuccess]);
+
+  const onSubmit = useCallback(async (data) => {
+    try {
+      await axios.post(`${SUBSCRIBERS}`, data);
+
+      reset(defaultValues, {
+        keepDirty: false,
+      });
+
+      setMessage({
+        severity: "success",
+        content: "Đăng ký thành công",
+      });
+
+      setIsSuccess(true);
+    } catch (err) {
+      setIsSuccess(true);
+      setMessage({
+        severity: "error",
+        content: err.response.data.message,
+      });
+    } finally {
+    }
+  });
+
   if (setting == undefined) {
     return null;
   }
+
   const {
     address,
     tax_code,
@@ -46,184 +92,192 @@ export default function FooterContent({ setting }) {
     logo_footer,
   } = setting;
 
-  // console.log("title_column_1", link_in_column_1);
-  const onSubmit = useCallback(async (data) => {
-    console.log(data);
-    reset(defaultValuesSubcribers, {
-      keepDirty: false,
-    });
-
-    try {
-      await axios.post(`${SUBSCRIBERS}`, data);
-      console.log("thanh cong");
-      setMessage({
-        severity: "success",
-        content: "Đăng ký thành công",
-      });
-      setIsSuccess(true);
-    } catch (err) {
-      console.log(err.response.data.message);
-      setIsSuccess(true);
-      setMessage({
-        severity: "error",
-        content: err.response.data.message,
-      });
-    }
-  });
   return (
-    <Fragment>
-      <Grid
-        item
-        xs={12}
-        md={2}
-        sx={[isSmDown && { height: "6rem", marginBottom: "2rem" }]}
-      >
-        <Box
-          sx={[
-            { height: "10vh" },
-            isSmDown && { height: "100%", width: "27vw" },
-            isMdDown && { height: "10vh", width: "20vw", marginBottom: "2rem" },
-          ]}
-        >
-          <Image
-            {...{
-              src: logo_footer,
-              width: "100%",
-              height: "100%",
-              objectFit: "contain",
-              alt: "logo footer",
-            }}
-          />
-        </Box>
+    <Grid
+      container
+      sx={{ marginBottom: isMdUp ? 4 : 0 }}
+      rowSpacing={3}
+      columnSpacing={3}
+    >
+      <Grid item xs={12} md={1}>
+        <Image
+          {...{
+            src: logo_footer,
+            width: "80px",
+            height: "80px",
+            objectFit: "contain",
+            alt: "logo footer",
+          }}
+        />
       </Grid>
 
-      <Grid item xs={12} md={2} sx={[isSmDown && { marginBottom: "2rem" }]}>
+      <Grid item xs={12} sm={6} md={2}>
         <Box>
-          <Title
-            variant="body2_bold"
-            sx={[isSmDown && { marginBottom: "1.5rem" }]}
-          >
+          <Title variant="body2_bold" sx={[isSmDown && { marginBottom: 3 }]}>
             {title_column_1}
           </Title>
           {link_in_column_1.map((item, index) => {
             return (
               <Link
-                className="dayne"
                 key={index}
-                href={item.value.link}
+                href={item.value.link || "/"}
                 sx={{
-                  textDecoration: "none",
+                  display: "block",
                   transition: "all 0.5s",
                   "& p:hover": {
                     color: theme.palette.primary.light,
                   },
                 }}
               >
-                <Content>{item.value.title}</Content>
+                <Content variant="caption1">{item.value.title}</Content>
               </Link>
             );
           })}
         </Box>
       </Grid>
 
-      <Grid item xs={12} md={2} sx={[isSmDown && { marginBottom: "2rem" }]}>
+      <Grid item xs={12} sm={6} md={2}>
         <Box>
           <Title variant="body2_bold">{title_column_2}</Title>
           {link_in_column_2.map((item, index) => {
             return (
               <Link
                 key={index}
-                href={item.value.link}
+                href={item.value.link || "/"}
                 sx={{
-                  textDecoration: "none",
+                  display: "block",
                   transition: "all 0.5s",
                   "& p:hover": {
                     color: theme.palette.primary.light,
                   },
                 }}
               >
-                <Content>{item.value.title}</Content>
+                <Content variant="caption1">{item.value.title}</Content>
               </Link>
             );
           })}
         </Box>
       </Grid>
 
-      <Grid item xs={12} md={3} sx={[isSmDown && { marginBottom: "2rem" }]}>
+      <Grid item xs={12} sm={6} md={3}>
         <Box>
           <Title variant="body2_bold">{title_column_3}</Title>
-          <Content sx={{ marginBottom: "0.5rem !important" }}>
+
+          <Content
+            variant="caption1"
+            sx={{ marginBottom: "0.5rem !important" }}
+          >
             {address}
           </Content>
-          <Content>MST: {tax_code}</Content>
-          <Link href={"tel:" + hotline} sx={{ textDecoration: "none" }}>
-            <Content>SĐT: {hotline}</Content>
+
+          <Content variant="caption1">MST: {tax_code}</Content>
+
+          <Link href={"tel:" + hotline}>
+            <Content variant="caption1">SĐT: {hotline}</Content>
           </Link>
-          <Link href={"mailto:" + email} sx={{ textDecoration: "none" }}>
-            <Content>Email: {email}</Content>
+
+          <Link href={"mailto:" + email}>
+            <Content variant="caption1">Email: {email}</Content>
           </Link>
         </Box>
       </Grid>
 
-      <Grid item xs={12} md={3}>
+      <Grid item xs={12} sm={6} md={4}>
         <Box>
           <Title variant="body2_bold">Đăng ký nhận tin</Title>
-          <Content>Đăng ký với chúng tôi để nhận ưu đãi mỗi ngày.</Content>
+          <Content variant="caption1">
+            Đăng ký với chúng tôi để nhận ưu đãi mỗi ngày.
+          </Content>
           <Box component={"form"} onSubmit={handleSubmit(onSubmit)}>
-            <InputPageNew
-              message={message}
-              control={control}
-              name="email"
-              InputProps={{
-                placeholder: "Nhập email...",
+            <Input
+              {...{
+                control,
+                name: "email",
+                FormControlProps: {
+                  variant: "outlined",
+                },
+                InputProps: {
+                  placeholder: "Nhập email",
+                  endAdornment: (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        cursor: "pointer",
+                        zIndex: 1,
+                        borderRadius: "50%",
+                        padding: 0.5,
+                        backgroundColor: "secondary.main",
+                        transition: "0.3s",
+                        ["&:hover"]: {
+                          opacity: 0.75,
+                        },
+                      }}
+                      onClick={handleSubmit(onSubmit)}
+                    >
+                      <ArrowRightAltOutlinedIcon
+                        sx={{
+                          color: "common.white",
+                        }}
+                      />
+                    </Box>
+                  ),
+                },
               }}
             />
+
+            <Fade
+              in={isSuccess}
+              timeout={{
+                enter: 500,
+                exit: 500,
+              }}
+              onExited={() => {
+                setMessage("");
+              }}
+            >
+              <Alert
+                icon={false}
+                sx={{
+                  "& .MuiAlert-message": {
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: 0,
+                    color:
+                      message.severity === "success"
+                        ? "success.main"
+                        : "error.main",
+                  },
+                }}
+              >
+                {message.content}
+              </Alert>
+            </Fade>
           </Box>
-          <Stack
-            direction="row"
-            spacing={1}
-            sx={[
-              {
-                height: "3rem",
-                [theme.breakpoints.down("md")]: {
-                  height: "6rem",
-                },
-                [theme.breakpoints.down("sm")]: {
-                  width: "80%",
-                  height: "4rem",
-                },
-              },
-              isSmDown && { height: "4rem" },
-            ]}
-          >
-            <Image
-              {...{
-                src: "/img/image 6.png",
-                width: "100%",
-                height: isMdDown
-                  ? isSmDown
-                    ? "calc(7vw * 1.72)"
-                    : "calc(8vw * 1.72)"
-                  : "calc(2vw * 1.72)",
-                objectFit: "container",
-              }}
-            />
-            <Image
-              {...{
-                src: "/img/image 7.png",
-                width: "100%",
-                height: isMdDown
-                  ? isSmDown
-                    ? "calc(7vw * 1.72)"
-                    : "calc(8vw * 1.72)"
-                  : "calc(2vw * 1.72)",
-                objectFit: "container",
-              }}
-            />
-          </Stack>
+
+          {isMdUp && (
+            <Stack direction="row" spacing={1}>
+              <Image
+                {...{
+                  src: "/img/image 6.png",
+                  width: "120px",
+                  height: "60px",
+                }}
+              />
+              <Image
+                {...{
+                  src: "/img/image 7.png",
+                  width: "120px",
+                  height: "60px",
+                }}
+              />
+            </Stack>
+          )}
         </Box>
       </Grid>
-    </Fragment>
+    </Grid>
   );
 }
 
@@ -240,12 +294,8 @@ const Title = styled(Typography)(({ theme }) => {
 
 const Content = styled(Typography)(({ theme }) => {
   return {
-    color: theme.palette.common.natural2,
-    marginBottom: 10,
-
-    [theme.breakpoints.up("md")]: {
-      color: theme.palette.common.neutral2,
-      marginBottom: 1,
-    },
+    color: theme.palette.common.neutral2,
+    marginBottom: 8,
+    display: "block",
   };
 });

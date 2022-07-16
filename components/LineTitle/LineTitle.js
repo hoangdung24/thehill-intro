@@ -1,9 +1,10 @@
+import { Fragment } from "react";
 import { Box, Stack, Typography, useTheme } from "@mui/material";
-import React, { Fragment, useEffect } from "react";
-import useMedia from "../../hooks/useMedia";
 
-const LineTitle = ({ titleData, subtitleData, type }) => {
-  const { isSmUp, isSmDown, isMdUp } = useMedia();
+import { useMedia } from "../../hooks";
+
+const LineTitle = ({ titleData, subtitleData, type, sx }) => {
+  const { isSmDown } = useMedia();
   const theme = useTheme();
 
   if (type === "right") {
@@ -13,12 +14,11 @@ const LineTitle = ({ titleData, subtitleData, type }) => {
           spacing={4}
           direction="row"
           alignItems="center"
-          sx={{
-            marginTop: "5.5rem",
-            [theme.breakpoints.down("sm")]: {
-              flexDirection: "column",
+          sx={[
+            isSmDown && {
+              justifyContent: "center",
             },
-          }}
+          ]}
         >
           <Box
             sx={{
@@ -46,13 +46,12 @@ const LineTitle = ({ titleData, subtitleData, type }) => {
             ></Box>
           </Box>
           <Box
-            sx={{
-              marginLeft: 0,
-              [theme.breakpoints.down("sm")]: {
+            sx={[
+              isSmDown && {
+                justifyContent: "center",
                 marginLeft: "0 !important",
-                width: "60%",
               },
-            }}
+            ]}
           >
             <Typography
               variant={isSmDown ? "h6" : "h4"}
@@ -65,7 +64,7 @@ const LineTitle = ({ titleData, subtitleData, type }) => {
         <Typography
           variant="body1"
           sx={{
-            marginTop: "2rem",
+            marginTop: "1rem",
             color: theme.palette.secondary.light,
             textAlign: "right",
             display: isSmDown ? "none" : "block",
@@ -82,29 +81,18 @@ const LineTitle = ({ titleData, subtitleData, type }) => {
           spacing={4}
           direction="row"
           alignItems="center"
-          sx={{
-            paddingTop: "2.5rem",
-            [theme.breakpoints.down("sm")]: {
-              flexDirection: "column",
+          sx={[
+            isSmDown && {
+              justifyContent: "center",
             },
-          }}
+          ]}
         >
-          <Box
-            sx={{
-              [theme.breakpoints.down("sm")]: {
-                textAlign: "center",
-                marginLeft: "0 !important",
-                width: "60%",
-              },
-            }}
+          <Typography
+            variant={isSmDown ? "h6" : "h4"}
+            sx={{ color: theme.palette.primary.main }}
           >
-            <Typography
-              variant={isSmDown ? "h6" : "h4"}
-              sx={{ color: theme.palette.primary.main }}
-            >
-              {titleData}
-            </Typography>
-          </Box>
+            {titleData}
+          </Typography>
           <Box sx={{ flexGrow: "1", display: isSmDown ? "none" : "block" }}>
             <Box
               sx={{
@@ -129,6 +117,7 @@ const LineTitle = ({ titleData, subtitleData, type }) => {
         <Typography
           variant="body1"
           sx={{
+            marginTop: "1rem",
             color: theme.palette.primary.main,
             textAlign: "left",
             display: isSmDown ? "none" : "block",
@@ -143,9 +132,12 @@ const LineTitle = ({ titleData, subtitleData, type }) => {
       <Fragment>
         <Stack
           direction="row"
-          justifyContent={isSmDown ? "center" : "normal"}
           alignItems="center"
-          sx={[{ paddingTop: "2.5rem" }, isSmDown && { paddingTop: "2rem" }]}
+          sx={[
+            isSmDown && {
+              justifyContent: "center",
+            },
+          ]}
         >
           <Box
             sx={[

@@ -8,6 +8,10 @@ export const NAVBAR = [
   { name: "FAQ", link: "/faq", key: "faq" },
 ];
 
-export const PARTNER_LIMIT = 5;
+export const TOP_BANNER_RATIO = 1440 / 460;
+
 export const NEWPC_LIMIT = 9;
+
+export const PARTNER_LIMIT = 9;
+
 export const POSTMOBILE_LIMIT = 9;

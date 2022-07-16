@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { useGLTF } from "@react-three/drei/core/useGLTF";
 import { useState, useEffect } from "react";
+
 import { convertAngleToRad } from "../../../libs";
 
 export default function Model() {
@@ -20,11 +21,7 @@ export default function Model() {
   const { nodes, materials } = useGLTF("models/phone/final2.glb");
 
   return (
-    <group
-      position={[1, 0, 0]}
-      dispose={null}
-      rotation={[0, convertAngleToRad(180), 0]}
-    >
+    <group dispose={null} rotation={[0, convertAngleToRad(180), 0]}>
       <mesh
         castShadow
         receiveShadow

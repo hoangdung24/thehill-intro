@@ -1,8 +1,8 @@
-import axios from "axios";
 import { ConditionPage } from "../containers";
-import { CONDITION, PAGES, types } from "../apis";
+
+import { PAGES, types } from "../apis";
+
 import { prefetchData, transformUrl } from "../libs";
-// const url = `${PAGES}?type=${CONDITION}&fields=*`;
 
 const Condition = ({ ...props }) => {
   return <ConditionPage {...props} />;

@@ -1,6 +1,5 @@
-import axios from "axios";
+import { PAGES, types } from "../apis";
 import { PolicyPage } from "../containers/Policy";
-import { POLICY, PAGES, types } from "../apis";
 import { prefetchData, transformUrl } from "../libs";
 
 const Policy = ({ ...props }) => {

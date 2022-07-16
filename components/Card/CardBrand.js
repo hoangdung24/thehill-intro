@@ -1,177 +1,78 @@
-import { useState, useEffect, Fragment, useRef } from "react";
+import { Fragment } from "react";
+
 import { Box, Typography, useTheme } from "@mui/material";
-import { useMeasure, useWindowSize, useUpdateEffect } from "react-use";
+
+import truncate from "lodash/truncate";
 
 import useMedia from "../../hooks/useMedia";
 import { Image } from "../../HOC";
 
-const CardBrand = ({ data, ...props }) => {
+const CardBrand = ({ data }) => {
   const theme = useTheme();
-  const [minWrapperHeight, setMinWrapperHeight] = useState(0);
   const { isSmDown } = useMedia();
-  const [isCompleteLoaded, setIsCompleteLoaded] = useState(false);
-  const { width: windowWidth, height: windowHeight } = useWindowSize();
-
-  const [ref, { width, height }] = useMeasure();
-  const [refText, { width: witha, height: heighta }] = useMeasure();
-
-  const [imageSize, setImageSize] = useState({
-    width: 0,
-    height: 0,
-  });
-
-  const [isLoading, setIsLoading] = useState(false);
-
-  const contentRef = useRef(null);
-
-  const [contentHeight, setContentHeight] = useState(48);
-
-  useEffect(() => {
-    if (contentRef.current) {
-      setMinWrapperHeight(contentRef.current.offsetHeight);
-    }
-  }, []);
-
-  useEffect(() => {
-    setContentHeight((prev) => {
-      return Math.max(prev, minWrapperHeight);
-    });
-  }, [minWrapperHeight]);
-
-  useEffect(() => {
-    if (width > 0 && !isLoading) {
-      setImageSize({
-        width: width,
-        height: (width * 3) / 4,
-      });
-
-      setIsLoading(true);
-    }
-  }, [width, height, isLoading]);
-
-  useUpdateEffect(() => {
-    setImageSize({
-      width: width,
-      height: (width * 1.4) / 4,
-    });
-  }, [windowWidth, windowHeight, width, height]);
 
   return (
     <Box
-      className="slider-wrapper"
-      sx={{ borderRadius: "8px", textDecoration: "none" }}
-    >
-      <Box
-        ref={ref}
-        sx={{
-          marginLeft: isSmDown ? "0.5rem" : 0,
-          borderRadius: "0.62rem",
+      sx={[
+        {
+          borderRadius: "6px",
           background:
             "linear-gradient(rgba(244, 244, 244, 0.4), rgba(244, 244, 244, 0.2))",
           backdropFilter: "blur(4px)",
           border: "1px solid rgba(255, 255, 255, 0.2)",
           boxShadow: " 0px 4px 10px rgba(0, 0, 0, 0.15)",
-          [theme.breakpoints.down("sm")]: {
-            marginBottom: "1rem",
-          },
+        },
+      ]}
+    >
+      <Box
+        sx={{
+          padding: 2,
         }}
       >
-        <Box
-          sx={{
-            padding: 1,
+        <Fragment>
+          <Box
+            sx={{
+              margin: "0 auto",
+              overflow: "hidden",
+              height: "5rem",
+            }}
+          >
+            <Box>
+              <Image src={data.image} height="5rem" objectFit="contain" />
+            </Box>
+          </Box>
 
-            [theme.breakpoints.down("sm")]: {
-              // width: "50vw",
-            },
-          }}
-        >
-          <Fragment>
-            <Box
+          <Box
+            sx={{
+              marginTop: 1,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              variant="body2_bold"
               sx={{
-                // width: "50%",
-                margin: "0 auto",
-                overflow: "hidden",
-                // height: "5rem",
+                color: theme.palette.primary.light,
+                marginBottom: "8px",
               }}
             >
-              <Box
-                sx={{
-                  height: "5rem",
-                  "& .MuiBox-root": {
-                    width: "100%",
-                    height: "100%",
-                  },
-                  "& .homeNew": {
-                    borderRadius: "8px !important ",
-                  },
-                }}
-              >
-                <Image
-                  layout="fill"
-                  src={data.image}
-                  width="50%"
-                  height={imageSize.height}
-                  objectFit="contain"
-                  onLoadingComplete={() => {
-                    setIsCompleteLoaded(true);
-                  }}
-                />
-              </Box>
-            </Box>
+              {data.is_point_earned === true
+                ? `Điểm Tích Luỹ: ${data.point}`
+                : "Không Tích Điểm"}
+            </Typography>
 
-            <Box
-              sx={{
-                marginTop: 1,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-              ref={contentRef}
+            <Typography
+              variant="body2"
+              sx={{ minHeight: 72, maxHeight: 72, overflow: "hidden" }}
             >
-              <Typography
-                variant="body2_bold"
-                sx={{
-                  color: theme.palette.primary.light,
-                  // flexGrow: 1,
-                  marginBottom: "8px",
-                }}
-              >
-                {data.is_point_earned === true
-                  ? `Điểm Tích Luỹ: ${data.point}`
-                  : "Không Tích Điểm"}
-              </Typography>
-
-              <Box
-                sx={{
-                  height:
-                    data.description?.length == ""
-                      ? "4.5rem"
-                      : data.description?.length.length < 20
-                      ? "4.5rem"
-                      : heighta,
-                  [theme.breakpoints.down("md")]: {
-                    height:
-                      data.description?.length == ""
-                        ? "3rem"
-                        : data.description?.length.length < 20
-                        ? "4.5rem"
-                        : heighta,
-                  },
-                }}
-              >
-                <Typography
-                  variant="body2"
-                  sx={{ textAlign: "left" }}
-                  ref={refText}
-                >
-                  {data.description?.length > 50
-                    ? data.description.substr(0, 45) + "..."
-                    : data.description}
-                </Typography>
-              </Box>
-            </Box>
-          </Fragment>
-        </Box>
+              {truncate(data.description, {
+                length: 90,
+                separator: " ",
+              })}
+            </Typography>
+          </Box>
+        </Fragment>
       </Box>
     </Box>
   );

@@ -14,7 +14,6 @@ import useSWR from "swr";
 import { useRouter } from "next/router";
 import YouTube from "react-youtube";
 import { ReaderHTML } from "../../components";
-import { data } from "autoprefixer";
 import queryString from "query-string";
 import { useMeasure } from "react-use";
 import Link from "../../components/Link";

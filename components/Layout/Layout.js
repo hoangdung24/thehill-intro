@@ -23,7 +23,6 @@ const Layout = ({ children }) => {
     >
       <SettingConfig>
         <GlobalConfig>
-          {/* <Navbar /> */}
           <Header />
           <Box
             sx={{

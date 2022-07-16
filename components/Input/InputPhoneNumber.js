@@ -1,15 +1,9 @@
+import { forwardRef } from "react";
 import { Controller } from "react-hook-form";
 import PhoneInput from "react-phone-number-input/input";
+import { TextField } from "@mui/material";
 
-import InputBase from "./InputBase";
-
-const InputPhoneNumber = ({
-  required,
-  label,
-  control,
-  name,
-  FormHelperTextProps,
-}) => {
+const InputPhoneNumber = ({ label, control, name }) => {
   if (!control || !name) {
     return null;
   }
@@ -21,20 +15,13 @@ const InputPhoneNumber = ({
       render={({ field: { onChange, value }, fieldState: { error } }) => {
         return (
           <PhoneInput
-            required={required}
-            error={error}
+            error={!!error}
             label={label}
             value={value}
             onChange={onChange}
             defaultCountry="VN"
             country="VN"
-            inputComponent={InputBase}
-            FormHelperTextProps={{
-              ...FormHelperTextProps,
-              ...(!!error && {
-                errorType: error,
-              }),
-            }}
+            inputComponent={TextFieldWithRef}
           />
         );
       }}
@@ -43,3 +30,7 @@ const InputPhoneNumber = ({
 };
 
 export default InputPhoneNumber;
+
+const TextFieldWithRef = forwardRef((props, ref) => {
+  return <TextField {...props} inputRef={ref} />;
+});

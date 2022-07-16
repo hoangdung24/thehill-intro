@@ -1,17 +1,22 @@
 import { Box } from "@mui/material";
-import React from "react";
-import { Image } from "../../HOC";
-import useMedia from "../../hooks/useMedia";
 
-export default function BannerTop(innitData) {
-  const { isSmDown } = useMedia();
+import { Image } from "../../HOC";
+import { useMedia } from "../../hooks";
+
+import { TOP_BANNER_RATIO } from "../../constants";
+
+export default function BannerTop({ imageSrc }) {
+  const { isSmUp } = useMedia();
+
   return (
-    <Box sx={[{ height: "28.8rem" }, isSmDown && { height: "14.4rem" }]}>
+    <Box>
       <Image
         {...{
-          src: innitData?.data,
-          width: "100%",
-          height: "100%",
+          src: imageSrc,
+          width: "100vw",
+          height: isSmUp
+            ? `calc(100vw / ${TOP_BANNER_RATIO})`
+            : `calc(100vw / ${375 / 220})`,
           objectFit: "cover",
         }}
       />

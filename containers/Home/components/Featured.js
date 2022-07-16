@@ -1,5 +1,4 @@
 import Slider from "react-slick";
-import { useWindowSize } from "react-use";
 import { useRef } from "react";
 import { Box, useTheme, Grid } from "@mui/material";
 
@@ -9,10 +8,11 @@ import { Image } from "../../../HOC";
 import LineTitle from "../../../components/LineTitle/LineTitle";
 
 import { Container } from "../../../components";
+import { useMedia } from "../../../hooks";
 
 const IMAGE_FRAME_RATIO = 390 / 790;
 const IMAGE_RATIO = 351 / 767;
-const IMAGE_HEIGHT = "40vh";
+const IMAGE_HEIGHT = "65vh";
 
 const settings = {
   infinite: true,
@@ -38,14 +38,15 @@ const settings = {
       settings: {
         slidesToShow: 1,
         slidesToScroll: 1,
-        centerPadding: "100px",
+        centerPadding: "75px",
       },
     },
   ],
 };
 
-export default function HomeFeature({ data }) {
+export default function Featured({ data }) {
   const slickRef = useRef();
+  const { isMdDown } = useMedia();
 
   const theme = useTheme();
   const { tutorial_title, tutorial_subtitle, tutorial_content } = data;
@@ -53,23 +54,47 @@ export default function HomeFeature({ data }) {
   return (
     <Box
       id="tutorial"
-      sx={{
-        backgroundColor: theme.palette.common.natural3,
-        paddingBottom: "5rem",
-      }}
+      sx={[
+        {
+          backgroundColor: theme.palette.common.neutral3,
+          paddingBottom: 10,
+        },
+        isMdDown && {
+          paddingBottom: 6,
+        },
+      ]}
     >
-      <Container>
+      <Container
+        sx={
+          isMdDown && {
+            paddingLeft: "0 !important",
+            paddingRight: "0 !important",
+          }
+        }
+      >
         <Grid container>
           <Grid item xs={12}>
-            <LineTitle
-              titleData={tutorial_title}
-              subtitleData={tutorial_subtitle}
-              type="left"
-            />
+            <Box
+              sx={[
+                {
+                  paddingTop: 5,
+                  paddingBottom: 8,
+                },
+                isMdDown && {
+                  paddingBottom: 0,
+                },
+              ]}
+            >
+              <LineTitle
+                titleData={tutorial_title}
+                subtitleData={tutorial_subtitle}
+                type="left"
+              />
+            </Box>
+
             <Box
               sx={{
                 position: "relative",
-                marginTop: 4,
 
                 ["& .slick-slide"]: {
                   overflow: "hidden",
@@ -100,6 +125,8 @@ export default function HomeFeature({ data }) {
                             overflow: "hidden",
                             borderRadius: "20px",
                             top: "6px",
+                            maxHeight: "450px",
+                            maxWidth: `calc(450px * ${IMAGE_RATIO})`,
                           },
                           className: "wrapper-image",
                         }}
@@ -117,8 +144,9 @@ export default function HomeFeature({ data }) {
                   top: "50%",
                   left: "50%",
                   width: `calc(${IMAGE_HEIGHT} * ${IMAGE_FRAME_RATIO})`,
-                  // width: "100%",
                   height: `calc(${IMAGE_HEIGHT})`,
+                  maxHeight: "450px",
+                  maxWidth: `calc(450px * ${IMAGE_FRAME_RATIO})`,
                   zIndex: 2,
                   backgroundImage: "url('/iphone-frame.png')",
                   backgroundSize: "100% 100%",
@@ -126,7 +154,6 @@ export default function HomeFeature({ data }) {
                   backgroundPosition: "center",
                   transform: "translate(-50%, -50%) ",
                   pointerEvents: "none",
-                  // borderRadius: "20px",
                 }}
               ></Box>
             </Box>

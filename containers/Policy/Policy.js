@@ -1,29 +1,44 @@
-import { Container, Box, Grid, Typography } from "@mui/material";
-import { ReaderHTML, SubHeader } from "../../components";
-import createDOMPurify from "isomorphic-dompurify";
 import { Fragment } from "react";
-import BannerTop from "../../components/BannerTop/BannerTop";
-import LineTitle from "../../components/LineTitle/LineTitle";
+import { Container, Box, Grid } from "@mui/material";
+
+import { useMedia } from "../../hooks";
+import { ReaderHTML, BannerTop, LineTitle } from "../../components";
 
 const PolicyPage = ({ initData }) => {
-  const data = initData[0].items[0];
-  const content = data.content[0].value;
+  const [policyData] = initData;
+  const { isMdDown } = useMedia();
+
+  const data = policyData.items[0];
+
   return (
     <Fragment>
-      <BannerTop data={data.banner} />
+      <BannerTop imageSrc={data.banner} />
 
-      <Container maxWidth="lg" sx={{ marginBottom: "15rem" }}>
-        <LineTitle titleData={data.title} type="center" />
-        <Grid container justifyContent={"center"} sx={{ marginTop: "5.5rem" }}>
-          <Grid item xs={12} sx={{ textAlign: "justify" }}>
-            <Box
-              sx={{
-                overflow: "hidden",
-              }}
-            >
-              <ReaderHTML content={content} />
-            </Box>
-          </Grid>
+      <Container maxWidth="lg" sx={{ marginBottom: 15 }}>
+        <Grid item xs={12}>
+          <Box
+            sx={[
+              {
+                paddingTop: 5,
+                paddingBottom: 8,
+              },
+              isMdDown && {
+                paddingBottom: 5,
+              },
+            ]}
+          >
+            <LineTitle titleData={data.title} type="center" />
+          </Box>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Box
+            sx={{
+              overflow: "hidden",
+            }}
+          >
+            <ReaderHTML data={data} />
+          </Box>
         </Grid>
       </Container>
     </Fragment>

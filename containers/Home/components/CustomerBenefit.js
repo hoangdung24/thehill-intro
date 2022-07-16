@@ -1,21 +1,21 @@
-import { Grid, Typography, Stack, Container, useTheme, Box } from "@mui/material";
+import { Grid, Typography, Container, useTheme, Stack, Box } from "@mui/material";
 import { useMeasure } from "react-use";
 import LineTitle from "../../../components/LineTitle/LineTitle";
 import { Image } from "../../../HOC";
+
 import useMedia from "../../../hooks/useMedia";
 
 const RATIO = 540 / 310;
 
-const StoreBenefit = ({ data, ...props }) => {
+const HomeBenefit = ({ data, ...props }) => {
   const [ref, { width }] = useMeasure();
-  const { store_title, store_subtitle, store_content, store_image } = data;
-  const { isSmDown, isMdDown, isSmUp } = useMedia();
+  const { customer_title, customer_subtitle, customer_content, customer_image } = data;
+  const { isMdDown } = useMedia();
   const theme = useTheme();
 
   return (
     <Container
       maxWidth="lg"
-      ref={ref}
       sx={[
         {
           paddingBottom: 10,
@@ -24,6 +24,7 @@ const StoreBenefit = ({ data, ...props }) => {
           paddingBottom: 6,
         },
       ]}
+      ref={ref}
     >
       <Box
         sx={[
@@ -36,7 +37,11 @@ const StoreBenefit = ({ data, ...props }) => {
           },
         ]}
       >
-        <LineTitle titleData={store_title} subtitleData={store_subtitle} type="right" />
+        <LineTitle
+          titleData={customer_title}
+          subtitleData={customer_subtitle}
+          type="right"
+        />
       </Box>
 
       <Grid
@@ -54,22 +59,31 @@ const StoreBenefit = ({ data, ...props }) => {
           },
         ]}
       >
-        <Grid item xs={12} md={6} order={isMdDown && 2}>
+        <Grid item xs={12} md={6}>
+          <Image
+            src={customer_image}
+            width={"100%"}
+            height={isMdDown ? width * RATIO : "100%"}
+            objectFit="contain"
+          />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
           <Stack
             sx={[
               {
-                paddingLeft: 10,
+                paddingRight: 10,
                 paddingY: 10,
               },
               isMdDown && {
-                paddingLeft: 0,
+                paddingRight: 0,
                 paddingY: 0,
                 paddingTop: 5,
               },
             ]}
             spacing={3}
           >
-            {store_content.map((item, idx) => {
+            {customer_content.map((item, idx) => {
               return (
                 <Stack flexDirection={"row"} alignItems="center" key={idx}>
                   <Image
@@ -101,18 +115,9 @@ const StoreBenefit = ({ data, ...props }) => {
             })}
           </Stack>
         </Grid>
-
-        <Grid item xs={12} md={6} order={isMdDown && 1}>
-          <Image
-            src={store_image}
-            width="100%"
-            height={isMdDown ? width * RATIO : "100%"}
-            objectFit="contain"
-          />
-        </Grid>
       </Grid>
     </Container>
   );
 };
 
-export default StoreBenefit;
+export default HomeBenefit;

@@ -1,43 +1,41 @@
+import { useEffect, useState, useCallback } from "react";
+import NumberFormat from "react-number-format";
+import { Controller, useForm } from "react-hook-form";
+
+import LoadingButton from "@mui/lab/LoadingButton";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
 import {
-  useTheme,
   Box,
-  Button,
   Container,
-  Stack,
   Typography,
   Fade,
   Alert,
+  Grid,
+  TextField,
+  MenuItem,
+  Stack,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-
-import BannerTop from "../../components/BannerTop/BannerTop";
-import Input from "../../components/Input/Input";
-import LineTitle from "../../components/LineTitle/LineTitle";
-import Upload from "../../components/Form/Upload";
-import InputSelect from "../../components/Input/InputSelect";
 
 import { Image } from "../../HOC";
 import useMedia from "../../hooks/useMedia";
-import { Controller, useForm } from "react-hook-form";
-import { schema, defaultValues } from "../../libs/yupRegister";
-import { useCallback } from "react";
-import { yupResolver } from "@hookform/resolvers/yup";
+import Upload from "../../components/Form/Upload";
+import { BannerTop, LineTitle } from "../../components";
+
 import { SUBMISSIONS } from "../../apis";
+
 import axios from "../../axios.config";
 import InputPhoneNumber from "../../components/Input/InputPhoneNumber";
-import NumberFormat from "react-number-format";
-import InputNumber from "../../components/Input/InputNumber";
+import { registerSchema, defaultValues } from "../../libs/regierSchema";
 
 export default function Register({ initData }) {
+  const { isMdDown } = useMedia();
   const [contactPage, storeCategories] = initData;
-
   const { banner, title, subtitle, thank_you_text } = contactPage.items[0];
-  const { isSmUp, isSmDown, isMdDown } = useMedia();
-  const theme = useTheme();
 
-  const [mutationObj, setMutationObj] = useState({});
-  const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+
   const [message, setMessage] = useState({
     severity: "success",
     content: "",
@@ -56,276 +54,395 @@ export default function Register({ initData }) {
       clearTimeout(timer);
     };
   }, [isSuccess]);
-  const {
-    clearErrors,
-    handleSubmit,
-    reset,
-    control,
-    formState: { errors },
-    setValue,
-    setError,
-  } = useForm({
-    resolver: yupResolver(schema),
+  const { clearErrors, handleSubmit, control, setError, reset } = useForm({
     defaultValues,
+    resolver: registerSchema,
   });
 
   const onSubmit = useCallback(async (data) => {
-    reset(defaultValues, {
-      keepDirty: false,
-    });
     try {
-      await axios.post(`${SUBMISSIONS}`, data);
+      setLoading(true);
+
+      const formData = new FormData();
+
+      for (const key of Object.keys(data)) {
+        if (data[key] != undefined) {
+          if (key === "files") {
+            if (Array.isArray(data[key])) {
+              data[key].forEach((el) => {
+                formData.append(key, el);
+              });
+            }
+            continue;
+          }
+          formData.append(key, data[key]);
+        }
+      }
+
+      await axios.post(SUBMISSIONS, formData, {
+        headers: {
+          "Content-Type": `multipart/form-data`,
+        },
+      });
+
       setMessage({
         severity: "success",
         content: thank_you_text,
       });
-      setIsSuccess(true);
+
+      reset(defaultValues, {
+        keepDirty: false,
+      });
     } catch (err) {
-      setIsSuccess(true);
       setMessage({
         severity: "error",
         content: "Đăng ký thất bại",
       });
+    } finally {
+      setIsSuccess(true);
+      setLoading(false);
     }
   }, []);
 
-  const passHandler = useCallback(
-    ({ acceptedFiles, rejectedFiles, setFiles }) => {
-      setMutationObj((prev) => {
-        return {
-          ...prev,
-          setFiles,
-        };
-      });
-
-      if (rejectedFiles.length > 0) {
-        setError("files", {
-          message: "Kích thước file vượt quá giới hạn cho phép",
-        });
-
-        return;
-      } else {
-        clearErrors("files");
-      }
-
-      setValue("files", acceptedFiles);
-    },
-    []
-  );
-
   return (
     <Box>
-      <BannerTop data={banner} />
-      <Container maxWidth="lg">
-        <LineTitle titleData={title} type="center" />
-
-        <Box
-          onSubmit={handleSubmit(onSubmit)}
-          component={"form"}
-          sx={[
-            {
-              width: "40vw",
-              margin: "0 auto",
-              marginTop: "5.5rem",
-            },
-            isSmUp && {
-              width: "60vw",
-            },
-            isSmDown && {
-              width: "70vw",
-            },
-          ]}
-        >
-          <Input
-            control={control}
-            name="store_name"
-            label="Tên quán / Thương hiệu"
-          />
-
-          <Input
-            control={control}
-            name="presentator"
-            label="Người đại diện"
-            required
-          />
-          <InputSelect
-            control={control}
-            name="category"
-            label="Danh mục quán"
-            data={storeCategories}
-          />
-          <Input control={control} name="email" label="Email" required />
-
-          <Controller
-            {...{
-              name: "bank_number",
-              control,
-              render: ({ field, fieldState: { error } }) => {
-                const { onChange, ...props } = field;
-
-                return (
-                  <NumberFormat
-                    error={error}
-                    onValueChange={({ value }) => {
-                      onChange(value);
-                    }}
-                    customInput={InputNumber}
-                    {...props}
-                    label="Số tài khoản ngân hàng"
-                    fullWidth
-                  />
-                );
-              },
-            }}
-          />
-
-          <Input control={control} name="bank" label="Tên ngân hàng" />
-          <Input control={control} name="owner" label="Chủ tài khoản" />
-
-          <Input control={control} name="branch" label="Chi nhánh" />
-          <InputPhoneNumber
-            control={control}
-            name="phone"
-            label="Số điện thoại"
-            required
-          />
-          <Upload
-            {...{
-              control,
-              name: "files",
-              passHandler,
-            }}
-          />
-
-          <Fade
-            sx={{
-              display: isSuccess == true ? "block" : "none",
-              textAlign: "center ",
-              color:
-                message.severity == "success"
-                  ? theme.palette.success.dark
-                  : theme.palette.primary.dark,
-            }}
-            in={isSuccess}
-            timeout={{
-              enter: 500,
-              exit: 500,
-            }}
-            onExited={() => {
-              // setTimeout(() => {
-              //   setMessage("");
-              // }, 2000);
-            }}
-          >
-            <Alert
-              severity={message.severity}
-              icon={false}
-              sx={{
-                "& .MuiAlert-message": {
-                  color: "red",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
+      <BannerTop imageSrc={banner} />
+      <Container maxWidth="lg" sx={{ marginBottom: 15 }}>
+        <Grid container justifyContent={"center"}>
+          <Grid item xs={12}>
+            <Box
+              sx={[
+                {
+                  paddingTop: 5,
+                  paddingBottom: 8,
                 },
-              }}
+                isMdDown && {
+                  paddingBottom: 5,
+                },
+              ]}
             >
-              {message.content}
-            </Alert>
-          </Fade>
+              <LineTitle titleData={title} type="center" />
+            </Box>
+          </Grid>
 
-          <Button
-            variant="contained"
-            type="submit"
-            sx={{ width: "100%", marginTop: "1rem" }}
-          >
-            <Typography variant="button2">ĐĂNG KÝ</Typography>
-          </Button>
-        </Box>
+          <Grid item xs={12} md={8}>
+            <Box onSubmit={handleSubmit(onSubmit)} component={"form"}>
+              <Controller
+                name="store_name"
+                control={control}
+                render={({
+                  field: { onChange, ref, value },
+                  fieldState: { error },
+                }) => {
+                  return (
+                    <TextField
+                      error={!!error}
+                      label="Tên quán / Thương hiệu"
+                      value={value}
+                      onChange={onChange}
+                      inputRef={ref}
+                    />
+                  );
+                }}
+              />
 
-        <Box sx={{ marginTop: "2.25rem" }}>
-          <LineTitle titleData={subtitle} type="center" />
-        </Box>
+              <Controller
+                name="category"
+                control={control}
+                render={({
+                  field: { onChange, ref, value },
+                  fieldState: { error },
+                }) => {
+                  return (
+                    <TextField
+                      error={!!error}
+                      label="Danh mục quán"
+                      value={value}
+                      onChange={onChange}
+                      inputRef={ref}
+                      select
+                      SelectProps={{
+                        IconComponent: ExpandMoreIcon,
+                      }}
+                    >
+                      <MenuItem
+                        value={""}
+                        children={
+                          <Typography variant="caption1" children={"None"} />
+                        }
+                      />
 
-        {/* Phan QRCode */}
-        <Box
-          sx={[
-            {
-              boxShadow: " 0px 8px 24px 0 rgba(0, 0, 0, 0.15)",
-              borderRadius: "12px",
-              width: "40%",
-              height: "45vh",
-              margin: "0 auto",
-              marginTop: "5.5rem",
-              marginBottom: "2.5rem",
-              padding: "2rem",
-            },
-            isSmDown && {
-              width: "80vw",
-              height: "calc(48vw * 1.72)",
-              padding: "3rem",
-            },
-            isMdDown && {
-              width: "80vw",
-              padding: "2rem",
-            },
-          ]}
-        >
-          <Image
-            {...{
-              src: "/img/barcode-qr 1.png",
-              width: "100%",
-              height: "100%",
-              objectFit: isSmUp ? "contain" : "cover",
-            }}
-          />
-        </Box>
+                      {storeCategories.map((el) => {
+                        return (
+                          <MenuItem
+                            key={el.id}
+                            value={el.id}
+                            children={
+                              <Typography
+                                variant="caption1"
+                                children={el.name}
+                              />
+                            }
+                          />
+                        );
+                      })}
+                    </TextField>
+                  );
+                }}
+              />
 
-        <Box
-          sx={[
-            { width: "30vw", margin: "0 auto", marginBottom: "16rem" },
-            isSmDown && {
-              width: "75vw",
-              marginBottom: "5.5rem",
-            },
-          ]}
-        >
-          <Typography variant="caption2_bold" sx={{ marginBottom: "0.8rem" }}>
-            Chưa có ứng dụng?
-          </Typography>
-          <Stack
-            spacing={2}
-            direction="row"
-            sx={{ height: "3rem", "& img": { borderRadius: "5px" } }}
-          >
-            <Image
-              {...{
-                src: "/img/image 3.png",
-                width: "50%",
-                height: "100%",
-                objectFit: "contain",
-              }}
-            />
-            <Image
-              {...{
-                src: "/img/image 4 (1).png",
-                width: "50%",
-                height: "100%",
-                objectFit: "contain",
-              }}
-            />
-          </Stack>
-        </Box>
+              <Controller
+                name="presentator"
+                control={control}
+                render={({
+                  field: { onChange, ref, value },
+                  fieldState: { error },
+                }) => {
+                  return (
+                    <TextField
+                      error={!!error}
+                      label="Người đại diện"
+                      value={value}
+                      onChange={onChange}
+                      inputRef={ref}
+                    />
+                  );
+                }}
+              />
+
+              <InputPhoneNumber
+                control={control}
+                name="phone"
+                label="Số điện thoại"
+              />
+
+              <Controller
+                name="email"
+                control={control}
+                render={({
+                  field: { onChange, ref, value },
+                  fieldState: { error },
+                }) => {
+                  return (
+                    <TextField
+                      error={!!error}
+                      label="Email"
+                      value={value}
+                      onChange={onChange}
+                      inputRef={ref}
+                    />
+                  );
+                }}
+              />
+
+              <Controller
+                {...{
+                  name: "bank_number",
+                  control,
+                  render: ({ field, fieldState: { error } }) => {
+                    const { onChange, ref, value } = field;
+
+                    return (
+                      <NumberFormat
+                        error={!!error}
+                        onValueChange={({ value }) => {
+                          onChange(value);
+                        }}
+                        customInput={TextField}
+                        label="Số tài khoản ngân hàng"
+                        value={value}
+                        ref={ref}
+                      />
+                    );
+                  },
+                }}
+              />
+
+              <Controller
+                name="bank"
+                control={control}
+                render={({
+                  field: { onChange, ref, value },
+                  fieldState: { error },
+                }) => {
+                  return (
+                    <TextField
+                      error={!!error}
+                      fullWidth
+                      label="Tên ngân hàng"
+                      value={value}
+                      onChange={onChange}
+                      inputRef={ref}
+                    />
+                  );
+                }}
+              />
+
+              <Controller
+                name="owner"
+                control={control}
+                render={({
+                  field: { onChange, ref, value },
+                  fieldState: { error },
+                }) => {
+                  return (
+                    <TextField
+                      error={!!error}
+                      fullWidth
+                      label="Chủ tài khoản"
+                      value={value}
+                      onChange={onChange}
+                      inputRef={ref}
+                    />
+                  );
+                }}
+              />
+
+              <Controller
+                name="branch"
+                control={control}
+                render={({
+                  field: { onChange, ref, value },
+                  fieldState: { error },
+                }) => {
+                  return (
+                    <TextField
+                      error={!!error}
+                      fullWidth
+                      label="Chi nhánh"
+                      value={value}
+                      onChange={onChange}
+                      inputRef={ref}
+                    />
+                  );
+                }}
+              />
+
+              <Upload
+                {...{
+                  control,
+                  name: "files",
+                  setError,
+                  clearErrors,
+                }}
+              />
+
+              <LoadingButton
+                loading={loading}
+                disabled={loading}
+                variant="contained"
+                color="secondary"
+                type="submit"
+                sx={{ width: "100%" }}
+              >
+                ĐĂNG KÝ
+              </LoadingButton>
+
+              <Fade
+                in={isSuccess}
+                timeout={{
+                  enter: 500,
+                  exit: 500,
+                }}
+                onExited={() => {
+                  setMessage("");
+                }}
+              >
+                <Alert
+                  icon={false}
+                  sx={{
+                    paddingX: 0,
+                    paddingY: 1,
+                  }}
+                >
+                  <Typography
+                    variant="caption1"
+                    sx={{
+                      color:
+                        message.severity === "success"
+                          ? "success.main"
+                          : "error.main",
+                    }}
+                  >
+                    {message.content}
+                  </Typography>
+                </Alert>
+              </Fade>
+            </Box>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Box
+              sx={[
+                {
+                  paddingTop: 5,
+                  paddingBottom: 8,
+                },
+                isMdDown && {
+                  paddingBottom: 5,
+                },
+              ]}
+            >
+              <LineTitle titleData={subtitle} type="center" />
+            </Box>
+
+            <Box
+              sx={[
+                {
+                  boxShadow: " 0px 8px 24px 0 rgba(0, 0, 0, 0.15)",
+                  borderRadius: "12px",
+                  width: "350px",
+                  height: "350px",
+                  margin: "0 auto",
+                  padding: "2rem",
+                },
+              ]}
+            >
+              <Image
+                {...{
+                  src: "/img/barcode-qr 1.png",
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "contain",
+                }}
+              />
+            </Box>
+
+            <Stack
+              spacing={2}
+              direction="column"
+              alignItems={"center"}
+              marginTop="40px"
+            >
+              <Typography
+                variant="caption2_bold"
+                sx={{ display: "block", textAlign: "center" }}
+              >
+                Chưa có ứng dụng?
+              </Typography>
+
+              <Stack spacing={2} direction="row">
+                <Image
+                  {...{
+                    src: "/img/image 3.png",
+                    width: "120px",
+                    height: "60px",
+                    objectFit: "contain",
+                  }}
+                />
+                <Image
+                  {...{
+                    src: "/img/image 4 (1).png",
+                    width: "120px",
+                    height: "60px",
+                    objectFit: "contain",
+                  }}
+                />
+              </Stack>
+            </Stack>
+          </Grid>
+        </Grid>
       </Container>
     </Box>
   );
-}
-{
-  /* <InputPageNew
-control={control}
-name="email"
-required
-InputProps={{
-  placeholder: "Nhập email...",
-}}
-/> */
 }

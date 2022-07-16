@@ -1,11 +1,4 @@
-import {
-  Divider as MuiDivider,
-  Box,
-  Grid,
-  useTheme,
-  Typography,
-  Stack,
-} from "@mui/material";
+import { Divider, Box, useTheme, Typography, Stack } from "@mui/material";
 
 import dynamic from "next/dynamic";
 
@@ -15,9 +8,7 @@ import { Fragment } from "react";
 import { Image } from "../../HOC";
 import Link from "../Link";
 
-const FooterContent = dynamic(() => import("./FooterContent"), {
-  ssr: false,
-});
+const FooterContent = dynamic(() => import("./FooterContent"));
 
 const Footer = ({ children, ...props }) => {
   const { isSmDown, isMdDown } = useMedia();
@@ -30,61 +21,109 @@ const Footer = ({ children, ...props }) => {
   const { social_icons } = setting;
   return (
     <Fragment>
-      <Box id="contact" sx={{ width: "80vw" }}>
-        <Grid container sx={{ marginBottom: "4rem" }} columnSpacing={3}>
-          <FooterContent setting={setting} />
-        </Grid>
+      <Box
+        id="contact"
+        sx={{
+          paddingX: 4,
+        }}
+      >
+        <FooterContent setting={setting} />
 
         <Stack
           direction="row"
           spacing={3}
           justifyContent="center"
+          alignItems={"center"}
           sx={{
-            marginBottom: "1.6rem",
             color: theme.palette.primary.main,
-            height: isMdDown
-              ? isSmDown
-                ? "calc(4vw * 1.72)"
-                : "calc(3vw * 1.72)"
-              : "calc(1.8vw * 1.72)",
-            width: isMdDown ? (isSmDown ? "55%" : "40%") : "22%",
-            margin: "0 auto",
-            marginBottom: "1.6rem !important",
+            marginBottom: 3,
           }}
         >
-          {social_icons.map((item, index) => {
-            return (
-              <Link key={index} href={item.value.link} sx={{ width: "100%" }}>
-                <Image
-                  {...{
-                    src: item.value.icon,
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                  }}
-                />
-              </Link>
-            );
+          {social_icons.map((item, idx) => {
+            const { value } = item;
+
+            if (value.link) {
+              return (
+                <Link key={idx} href={value.link}>
+                  <Image
+                    {...{
+                      src: value.icon,
+                      width: "24px",
+                      height: "24px",
+                      objectFit: "contain",
+                    }}
+                  />
+                </Link>
+              );
+            } else {
+              return (
+                <Fragment key={idx}>
+                  <Image
+                    {...{
+                      src: value.icon,
+                      width: "24px",
+                      height: "24px",
+                      objectFit: "contain",
+                    }}
+                  />
+                </Fragment>
+              );
+            }
           })}
         </Stack>
+
+        {isMdDown && (
+          <Stack
+            direction="row"
+            spacing={1}
+            justifyContent="center"
+            marginBottom={3}
+          >
+            <Image
+              {...{
+                src: "/img/image 6.png",
+                width: "120px",
+                height: "60px",
+              }}
+            />
+            <Image
+              {...{
+                src: "/img/image 7.png",
+                width: "120px",
+                height: "60px",
+              }}
+            />
+          </Stack>
+        )}
       </Box>
+
       <Box
         sx={[
           {
-            margin: "0 auto",
-            width: "70vw",
-            borderTop: `1px solid ${theme.palette.common.natural4}`,
+            width: "100%",
           },
-          isSmDown && { width: "100vw" },
         ]}
       >
+        <Divider
+          sx={[
+            {
+              width: "60vw",
+              marginX: "auto",
+            },
+            isSmDown && {
+              width: "100%",
+            },
+          ]}
+        />
+
         <Typography
           variant="hairline2"
           sx={{
-            margin: "2rem",
+            marginY: 4,
             display: "block",
             textAlign: "center",
-            color: theme.palette.common.natural2,
+            color: theme.palette.common.neutral2,
+            textTransform: "uppercase",
           }}
         >
           Copyright © 2022 Đổi Điểm. All rights reserved

@@ -163,6 +163,7 @@ export default function News({ initData }) {
     if (isSmUp) {
       const offset = (currentPage - 1) * NEWPC_LIMIT;
       const data = dataTabPanel?.slice(offset, offset + NEWPC_LIMIT);
+      console.log("datadata", data);
       return dataTabs.map((item, index) => {
         return (
           <TabPanel key={index} value={currentTab} index={item.id}>
@@ -219,6 +220,7 @@ export default function News({ initData }) {
   const renderPagination = useMemo(() => {
     return (
       <Pagination
+        limit={6}
         data={dataTabPanel}
         currentPage={currentPage}
         onChange={(_, newPage) => {

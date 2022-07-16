@@ -113,7 +113,7 @@ export default function NewDetail() {
             },
           }}
         >
-          <ReaderHTML content={resData?.content[0].value} />
+          {resData === undefined ? "" : <ReaderHTML data={resData} />}
         </Box>
         <Stack
           direction="row"

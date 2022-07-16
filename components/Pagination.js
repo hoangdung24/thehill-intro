@@ -1,4 +1,8 @@
-import { Pagination as MuiPagination, PaginationItem, useTheme } from "@mui/material";
+import {
+  Pagination as MuiPagination,
+  PaginationItem,
+  useTheme,
+} from "@mui/material";
 
 import ArrowRightAltOutlinedIcon from "@mui/icons-material/ArrowRightAltOutlined";
 

@@ -11,7 +11,7 @@ export default function InputPagePartner({ name, InputProps, onChange }) {
       sx={[
         {
           boxShadow: "none",
-          border: `2px solid ${theme.palette.common.natural4}`,
+          border: `2px solid ${theme.palette.common.neutral4}`,
           borderRadius: "12px",
           p: "5px 4px",
           display: "flex",

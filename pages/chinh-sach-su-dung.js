@@ -1,6 +1,6 @@
-import axios from "axios";
+import { PAGES, types } from "../apis";
 import { PolicyPage } from "../containers/Policy";
-import { POLICY, PAGES } from "../apis";
+import { prefetchData, transformUrl } from "../libs";
 
 const Policy = ({ ...props }) => {
   return <PolicyPage {...props} />;
@@ -9,13 +9,28 @@ const Policy = ({ ...props }) => {
 export default Policy;
 
 export async function getServerSideProps({ params }) {
-  const url = `${PAGES}?type=${POLICY}&fields=*`;
+  try {
+    const urls = [
+      transformUrl(PAGES, {
+        type: types.policyPage,
+        fields: "*",
+      }),
+    ];
 
-  const response = await axios.get(url);
+    const { resList, fallback } = await prefetchData(urls);
 
-  const dataPolicy = await response.data;
-
-  return {
-    props: { dataPolicy },
-  };
+    return {
+      props: {
+        initData: resList,
+        fallback,
+      },
+    };
+  } catch (e) {
+    return {
+      redirect: {
+        destination: "/404",
+        permanent: false,
+      },
+    };
+  }
 }

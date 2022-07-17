@@ -1,36 +1,33 @@
-import axios from "axios";
-import { BlogList } from "../../containers";
-import { BLOG_CATEGORIES, BLOG_DETAIL, BLOG_LIST, PAGES, TAGS } from "../../apis";
+import React from "react";
+import { PAGES, types } from "../../apis";
+import News from "../../containers/News/News";
+import { prefetchData, transformUrl } from "../../libs";
 
-const News = ({ ...props }) => {
-  return <BlogList {...props} />;
-};
+export default function PageNews({ ...props }) {
+  return null;
 
-export default News;
+  return <News {...props} />;
+}
 
 export async function getServerSideProps({ params }) {
   try {
     const urls = [
-      `${PAGES}?type=${BLOG_DETAIL}&fields=*`,
-      `${PAGES}?type=${BLOG_CATEGORIES}&fields=*`,
-      `${PAGES}?type=${BLOG_LIST}&fields=*`,
-      `${TAGS}`,
+      transformUrl(PAGES, {
+        type: types.blogListingPage,
+        fields: "*",
+      }),
+      transformUrl(PAGES, {
+        type: types.blogCategoryPage,
+        fields: "*",
+      }),
     ];
 
-    const resList = await Promise.all(
-      urls.map(async (url) => {
-        return axios.get(url).then(function ({ data }) {
-          return data;
-        });
-      })
-    );
+    const { resList, fallback } = await prefetchData(urls);
 
     return {
       props: {
-        blogDetail: resList[0],
-        blogCategories: resList[1],
-        blogList: resList[2],
-        tags: resList[3],
+        initData: resList,
+        fallback,
       },
     };
   } catch (e) {

@@ -1,36 +1,37 @@
-import { Fragment } from "react";
+import { Box } from "@mui/material";
 
-import {
-  AboutUs,
-  CustomerBenefit,
-  Partner,
-  StoreBenefit,
-  Blog,
-  Tutorial,
-} from "./components";
+import AboutExchangePoint from "./components/AboutExchangePoint";
+import CustomerBenefit from "./components/CustomerBenefit";
+import StoreBenefit from "./components/StoreBenefit";
+import TopBanner from "./components/TopBanner";
+import Featured from "./components/Featured";
+import Brand from "./components/Brand";
+import News from "./components/News";
 
-import { Header } from "../../components";
+const HomePage = ({ initData }) => {
+  const [homeData, blogHome, brandHome, benefitHome] = initData;
 
-const HomePage = ({ initData, ...props }) => {
-  // const [] = initData;
+  const metaData = homeData.items?.[0];
+  const blogHomeData = blogHome.items;
+  const brandHomeData = brandHome.items;
 
-  console.log(initData);
+  return (
+    <Box>
+      <TopBanner data={benefitHome} />
 
-  // const data = items?.[0];
+      <AboutExchangePoint data={metaData} />
 
-  return null;
+      <CustomerBenefit data={metaData} />
 
-  // return (
-  //   <Fragment>
-  //     <Header data={data} />
-  //     <CustomerBenefit data={data} />
-  //     <StoreBenefit data={data} />
-  //     <AboutUs data={data} />
-  //     <Tutorial data={data} />
-  //     <Partner data={data} partnerData={partnerData} />
-  //     <Blog blogList={blogDetail} data={data} />
-  //   </Fragment>
-  // );
+      <Brand data={metaData} brandHomeData={brandHomeData} />
+
+      <StoreBenefit data={metaData} />
+
+      <Featured data={metaData} />
+
+      <News data={metaData} blogHomeData={blogHomeData} />
+    </Box>
+  );
 };
 
 export default HomePage;

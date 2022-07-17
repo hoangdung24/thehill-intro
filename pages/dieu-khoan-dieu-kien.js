@@ -1,6 +1,8 @@
-import axios from "axios";
 import { ConditionPage } from "../containers";
-import { CONDITION, PAGES } from "../apis";
+
+import { PAGES, types } from "../apis";
+
+import { prefetchData, transformUrl } from "../libs";
 
 const Condition = ({ ...props }) => {
   return <ConditionPage {...props} />;
@@ -9,11 +11,28 @@ const Condition = ({ ...props }) => {
 export default Condition;
 
 export async function getServerSideProps({ params }) {
-  const url = `${PAGES}?type=${CONDITION}&fields=*`;
-  const response = await axios.get(url);
-  const dataCondition = await response.data;
+  try {
+    const urls = [
+      transformUrl(PAGES, {
+        type: types.conditionPage,
+        fields: "*",
+      }),
+    ];
 
-  return {
-    props: { dataCondition },
-  };
+    const { resList, fallback } = await prefetchData(urls);
+
+    return {
+      props: {
+        initData: resList,
+        fallback,
+      },
+    };
+  } catch (e) {
+    return {
+      redirect: {
+        destination: "/404",
+        permanent: false,
+      },
+    };
+  }
 }

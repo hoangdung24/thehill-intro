@@ -1,7 +1,7 @@
 import { HomePage } from "../containers";
 import { HOME_PAGE, PAGES, PARTNER, BLOG_DETAIL } from "../apis";
 
-import { transformUrl, prefetchData } from "../libs/";
+import { transformUrl, prefetchData } from "../libs";
 
 const Home = ({ ...props }) => {
   return <HomePage {...props} />;
@@ -16,17 +16,20 @@ export async function getServerSideProps({ params }) {
         type: HOME_PAGE,
         fields: "*",
       }),
-      transformUrl(PARTNER, {
-        fields: "*",
-        is_on_homepage: true,
-        limit: 9,
-      }),
+
       transformUrl(PAGES, {
         type: BLOG_DETAIL,
         fields: "*",
         is_on_homepage: true,
         limit: 3,
       }),
+
+      transformUrl(PARTNER, {
+        fields: "*",
+        is_on_homepage: true,
+        limit: 4,
+      }),
+      transformUrl(`${PAGES}4`, {}),
     ];
 
     const { resList, fallback } = await prefetchData(urls);

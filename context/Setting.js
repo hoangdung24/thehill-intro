@@ -1,16 +1,11 @@
 import useSWR from "swr";
-import { createContext, useState, useEffect } from "react";
-
 import { SETTINGS } from "../apis";
-
-import { transformUrl } from "../libs";
+import { createContext, useState, useEffect } from "react";
 
 export const Context = createContext({});
 
 const Setting = ({ children }) => {
-  const { data: resData } = useSWR(transformUrl(SETTINGS), {
-    refreshInterval: 120000,
-  });
+  const { data: resData } = useSWR(SETTINGS);
 
   const [contextValue, setContextValue] = useState(() => {
     if (resData) {

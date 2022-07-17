@@ -5,13 +5,7 @@ import transformUrl from "./transformUrl";
 
 export default async (originalUrlList, { locale } = {}) => {
   try {
-    const additionalUrlList = [
-      locale
-        ? transformUrl(SETTINGS, {
-            locale,
-          })
-        : transformUrl(SETTINGS),
-    ];
+    const additionalUrlList = [SETTINGS];
 
     const mergedUrlList = [...originalUrlList, ...additionalUrlList];
 

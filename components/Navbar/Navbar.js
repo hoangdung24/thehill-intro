@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useMeasure } from "react-use";
 import { useRouter } from "next/router";
 import { useState, useCallback, useMemo, Fragment, useEffect } from "react";
@@ -21,6 +20,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 import { useSetting, useDevice, useGlobal } from "../../hooks";
 import { Image } from "../../HOC";
+import Link from "../Link";
 
 const Navbar = ({ ...props }) => {
   const theme = useTheme();
@@ -108,7 +108,11 @@ const Navbar = ({ ...props }) => {
       return (
         <Fragment>
           <Box className="nav-bar-anchor">
-            <IconButton size="large" onClick={handleOpenNavMenu} color="inherit">
+            <IconButton
+              size="large"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
               <MenuIcon />
             </IconButton>
             <Menu
@@ -140,7 +144,10 @@ const Navbar = ({ ...props }) => {
                 const { block_type, value } = page;
 
                 return (
-                  <MenuItem key={index} onClick={navigationHandler(block_type, value)}>
+                  <MenuItem
+                    key={index}
+                    onClick={navigationHandler(block_type, value)}
+                  >
                     <Typography textAlign="center">{value.title}</Typography>
                   </MenuItem>
                 );

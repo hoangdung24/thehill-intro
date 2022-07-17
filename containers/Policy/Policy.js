@@ -1,35 +1,47 @@
-import { Container, Box, Grid, Typography } from "@mui/material";
-import { SubHeader } from "../../components";
-import createDOMPurify from "isomorphic-dompurify";
+import { Fragment } from "react";
+import { Container, Box, Grid } from "@mui/material";
 
-const PolicyPage = ({ dataPolicy, ...props }) => {
-  const { items } = dataPolicy;
-  const data = items?.[0];
-  const content = data.content;
+import { useMedia } from "../../hooks";
+import { ReaderHTML, BannerTop, LineTitle } from "../../components";
+
+const PolicyPage = ({ initData }) => {
+  const [policyData] = initData;
+  const { isMdDown } = useMedia();
+
+  const data = policyData.items[0];
 
   return (
-    <Box
-      sx={{
-        paddingBottom: 6,
-      }}
-    >
-      <SubHeader data={data} background={data.banner} />
+    <Fragment>
+      <BannerTop imageSrc={data.banner} />
 
-      <Container maxWidth="lg">
-        <Grid container justifyContent={"center"}>
-          <Grid item xs={12} md={9}>
-            <Box
-              sx={{
-                overflow: "hidden",
-              }}
-              dangerouslySetInnerHTML={{
-                __html: createDOMPurify.sanitize(content),
-              }}
-            ></Box>
-          </Grid>
+      <Container maxWidth="lg" sx={{ marginBottom: 15 }}>
+        <Grid item xs={12}>
+          <Box
+            sx={[
+              {
+                paddingTop: 5,
+                paddingBottom: 8,
+              },
+              isMdDown && {
+                paddingBottom: 5,
+              },
+            ]}
+          >
+            <LineTitle titleData={data.title} type="center" />
+          </Box>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Box
+            sx={{
+              overflow: "hidden",
+            }}
+          >
+            <ReaderHTML data={data} />
+          </Box>
         </Grid>
       </Container>
-    </Box>
+    </Fragment>
   );
 };
 

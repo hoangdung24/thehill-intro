@@ -1,74 +1,123 @@
-import { Grid, Typography, Box, styled, Container } from "@mui/material";
-import { CustomerCard, ReaderHTML } from "../../../components";
-
+import { Grid, Typography, Container, useTheme, Stack, Box } from "@mui/material";
+import { useMeasure } from "react-use";
+import LineTitle from "../../../components/LineTitle/LineTitle";
 import { Image } from "../../../HOC";
 
-import Wrapper from "./Wrapper";
+import useMedia from "../../../hooks/useMedia";
 
-const CustomerBenefit = ({ data, ...props }) => {
+const RATIO = 540 / 310;
+
+const HomeBenefit = ({ data, ...props }) => {
+  const [ref, { width }] = useMeasure();
+  const { customer_title, customer_subtitle, customer_content, customer_image } = data;
+  const { isMdDown } = useMedia();
+  const theme = useTheme();
+
   return (
-    <Wrapper>
-      <ImageBackground>
-        <Image
-          {...{
-            src: data.customer_image,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-          }}
+    <Container
+      maxWidth="lg"
+      sx={[
+        {
+          paddingBottom: 10,
+        },
+        isMdDown && {
+          paddingBottom: 6,
+        },
+      ]}
+      ref={ref}
+    >
+      <Box
+        sx={[
+          {
+            paddingTop: 5,
+            paddingBottom: 8,
+          },
+          isMdDown && {
+            paddingBottom: 5,
+          },
+        ]}
+      >
+        <LineTitle
+          titleData={customer_title}
+          subtitleData={customer_subtitle}
+          type="right"
         />
-      </ImageBackground>
-      <Container maxWidth="lg">
-        <Grid container spacing={2}>
-          <Grid item md={12} lg={6}>
-            <Box
-              sx={{
-                textAlign: {
-                  lg: "left",
-                  sm: "center",
-                },
-              }}
-            >
-              <Typography
-                variant="h4"
-                sx={{
-                  fontWeight: 700,
-                }}
-              >
-                {data.customer_title}
-              </Typography>
-              <ReaderHTML content={data.customer_subtitle} />
-            </Box>
-          </Grid>
-          <Grid item md={12} lg={6}>
-            <Grid container spacing={3}>
-              {data.customer_content?.map((el, index) => {
-                const { value } = el;
+      </Box>
 
-                return (
-                  <Grid key={index} item xs={12} sm={6}>
-                    <CustomerCard icon={value.icon} desc={value.desc} title={value.title} />
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </Grid>
+      <Grid
+        container
+        justifyContent="center"
+        sx={[
+          {
+            borderRadius: "1rem",
+            border: "2px solid rgba(177, 181, 195, 0.1)",
+            backgroundColor: "rgba(244, 244, 244, 0.6)",
+          },
+          isMdDown && {
+            background: "none",
+            border: "none",
+          },
+        ]}
+      >
+        <Grid item xs={12} md={6}>
+          <Image
+            src={customer_image}
+            width={"100%"}
+            height={isMdDown ? width * RATIO : "100%"}
+            objectFit="contain"
+          />
         </Grid>
-      </Container>
-    </Wrapper>
+
+        <Grid item xs={12} md={6}>
+          <Stack
+            sx={[
+              {
+                paddingRight: 10,
+                paddingY: 10,
+              },
+              isMdDown && {
+                paddingRight: 0,
+                paddingY: 0,
+                paddingTop: 5,
+              },
+            ]}
+            spacing={3}
+          >
+            {customer_content.map((item, idx) => {
+              return (
+                <Stack flexDirection={"row"} alignItems="center" key={idx}>
+                  <Image
+                    src={item.value.icon}
+                    width="120px"
+                    height="120px"
+                    objectFit="contain"
+                  />
+
+                  <Stack
+                    sx={{
+                      paddingLeft: 2,
+                    }}
+                  >
+                    <Typography
+                      variant="h4"
+                      sx={{
+                        color: theme.palette.secondary.light,
+                        marginBottom: "1rem",
+                      }}
+                    >
+                      {item.value.title}
+                    </Typography>
+
+                    <Typography variant="body2">{item.value.description}</Typography>
+                  </Stack>
+                </Stack>
+              );
+            })}
+          </Stack>
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 
-export default CustomerBenefit;
-
-const ImageBackground = styled(Box)(() => {
-  return {
-    zIndex: -1,
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    right: 0,
-    left: 0,
-    pointerEvents: "none",
-  };
-});
+export default HomeBenefit;

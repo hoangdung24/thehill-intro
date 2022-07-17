@@ -1,81 +1,117 @@
-import { Grid, Typography, Box, Container } from "@mui/material";
-import { CustomerCard, ReaderHTML } from "../../../components";
+import { Grid, Typography, Stack, Container, useTheme, Box } from "@mui/material";
+import { useMeasure } from "react-use";
+import LineTitle from "../../../components/LineTitle/LineTitle";
 import { Image } from "../../../HOC";
-const SIZE = 300;
+import useMedia from "../../../hooks/useMedia";
 
-import Wrapper from "./Wrapper";
+const RATIO = 540 / 310;
 
 const StoreBenefit = ({ data, ...props }) => {
+  const [ref, { width }] = useMeasure();
+  const { store_title, store_subtitle, store_content, store_image } = data;
+  const { isSmDown, isMdDown, isSmUp } = useMedia();
+  const theme = useTheme();
+
   return (
-    <Wrapper>
-      <Container maxWidth="lg">
-        <Grid container spacing={3}>
-          <Grid
-            item
-            lg={6}
-            sx={{
-              paddingLeft: {
-                xs: "0px !important",
-                lg: "24px !important",
+    <Container
+      maxWidth="lg"
+      ref={ref}
+      sx={[
+        {
+          paddingBottom: 10,
+        },
+        isMdDown && {
+          paddingBottom: 6,
+        },
+      ]}
+    >
+      <Box
+        sx={[
+          {
+            paddingTop: 5,
+            paddingBottom: 8,
+          },
+          isMdDown && {
+            paddingBottom: 5,
+          },
+        ]}
+      >
+        <LineTitle titleData={store_title} subtitleData={store_subtitle} type="right" />
+      </Box>
+
+      <Grid
+        container
+        justifyContent="center"
+        sx={[
+          {
+            borderRadius: "1rem",
+            border: "2px solid rgba(177, 181, 195, 0.1)",
+            backgroundColor: "rgba(244, 244, 244, 0.6)",
+          },
+          isMdDown && {
+            background: "none",
+            border: "none",
+          },
+        ]}
+      >
+        <Grid item xs={12} md={6} order={isMdDown && 2}>
+          <Stack
+            sx={[
+              {
+                paddingLeft: 10,
+                paddingY: 10,
               },
-            }}
+              isMdDown && {
+                paddingLeft: 0,
+                paddingY: 0,
+                paddingTop: 5,
+              },
+            ]}
+            spacing={3}
           >
-            <Box
-              sx={{
-                pointerEvents: "none",
-                overflow: "hidden",
-                width: {
-                  lg: "100%",
-                },
-              }}
-            >
-              <Image
-                src={data.store_image}
-                WrapperProps={{
-                  sx: {
-                    width: {
-                      lg: "100%",
-                      xs: "calc(100vw + 24px)",
-                    },
-                  },
-                }}
-                height={SIZE}
-                objectFit="cover"
-              />
-            </Box>
-          </Grid>
+            {store_content.map((item, idx) => {
+              return (
+                <Stack flexDirection={"row"} alignItems="center" key={idx}>
+                  <Image
+                    src={item.value.icon}
+                    width="120px"
+                    height="120px"
+                    objectFit="contain"
+                  />
 
-          <Grid item lg={6}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <Typography
-                  variant="h4"
-                  sx={{
-                    fontWeight: 700,
-                  }}
-                >
-                  {data.store_title}
-                </Typography>
-                <ReaderHTML content={data.store_desc} />
-              </Grid>
-              <Grid item xs={12}>
-                <Grid container spacing={3}>
-                  {data.store_content?.map((el, index) => {
-                    const { value } = el;
+                  <Stack
+                    sx={{
+                      paddingLeft: 2,
+                    }}
+                  >
+                    <Typography
+                      variant="h4"
+                      sx={{
+                        color: theme.palette.secondary.light,
+                        marginBottom: "1rem",
+                      }}
+                    >
+                      {item.value.title}
+                    </Typography>
 
-                    return (
-                      <Grid key={index} item xs={12} sm={6}>
-                        <CustomerCard icon={value.icon} desc={value.desc} title={value.title} />
-                      </Grid>
-                    );
-                  })}
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
+                    <Typography variant="body2">{item.value.description}</Typography>
+                  </Stack>
+                </Stack>
+              );
+            })}
+          </Stack>
         </Grid>
-      </Container>
-    </Wrapper>
+
+        <Grid item xs={12} md={6} order={isMdDown && 1}>
+          <Image
+            src={store_image}
+            width="100%"
+            height={isMdDown ? width * RATIO : "100%"}
+            objectFit="contain"
+          />
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 

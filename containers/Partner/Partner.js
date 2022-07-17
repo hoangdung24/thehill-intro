@@ -1,95 +1,335 @@
-import { useCallback, useState } from "react";
-import { Container, Grid, Box, Stack } from "@mui/material";
+import { useMeasure } from "react-use";
+import { Box, Grid, Fade } from "@mui/material";
 
-import PartnerCategoryItem from "./components/PartnerCategoryItem";
-import Title from "./components/Title";
-import Banner from "./components/Banner";
-import PartnerList from "./components/PartnerList";
+import { useCallback, useMemo, useState, Fragment } from "react";
 
-const DUMB_IMAGE = "/icon-all.png";
+import find from "lodash/find";
 
-const Partner = ({ ...props }) => {
-  const [selectedPartner, setSelectedPartner] = useState("all");
+import {
+  BannerTop,
+  CardBrand,
+  LineTitle,
+  TabPanel,
+  Tabs,
+  Pagination,
+  Container,
+} from "../../components";
 
-  const { initPartnerPage, initPartnerDetailList } = props;
+import { Image } from "../../HOC";
+import { useMedia } from "../../hooks";
+import { PARTNER_LIMIT } from "../../constants";
 
-  let partnerDetailList = initPartnerDetailList?.items;
+const BANNER_RATIO_ON_DESKTOP = 420 / 1120;
+const BANNER_RATIO_ON_MOBILE = 220 / 310;
 
-  const metadata = initPartnerPage?.items?.[0];
-  const thumbnail = metadata?.["all_category_thumbnail"];
+const Partner = ({ initData }) => {
+  const [partnerMeta, partnerListing] = initData;
 
-  const selectedPartnerHandler = useCallback((id) => {
+  const [ref, { width }] = useMeasure();
+  const { isSmUp, isSmDown, isMdDown } = useMedia();
+  const [currentTab, setCurrentTab] = useState(-1);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const [animationState, setAnimationState] = useState(true);
+
+  const animationHandler = useCallback(() => {
+    setAnimationState(false);
+
+    const timer = setTimeout(() => {
+      setAnimationState(true);
+    }, 500);
+
     return () => {
-      setSelectedPartner(id);
+      clearTimeout(timer);
     };
   }, []);
 
-  return (
-    <Box paddingBottom={5}>
-      <Banner data={metadata} />
-      <Container
-        sx={{
-          maxWidth: {
-            xs: "100%",
-            lg: "70%",
-          },
+  const partnerData = partnerListing?.items;
+  const metadata = partnerMeta?.items?.[0];
+  const thumbnailOfAll = metadata?.["all_category_thumbnail"];
+  const banner = metadata?.["banner"];
+  const title = metadata?.["title"];
+
+  const tranformedPartnerData = useMemo(() => {
+    const flatPartnerData = [];
+
+    partnerData.forEach((partnerEl) => {
+      partnerEl.partners.forEach((el) => {
+        flatPartnerData.push({
+          partnerId: partnerEl.id,
+          ...el,
+        });
+      });
+    });
+
+    return flatPartnerData;
+  }, [partnerData]);
+
+  const renderTabPanel = useMemo(() => {
+    // FORMULA: OFFSET = (PAGE - 1) * LIMIT
+    // FORMULA PAGE = (OFFSET / LIMIT) + 1
+
+    if (isSmUp) {
+      return (
+        <Fragment>
+          <TabPanel index={-1} value={currentTab}>
+            <Box
+              sx={{
+                marginBottom: 10,
+                overflow: "hidden",
+              }}
+            >
+              <Image
+                {...{
+                  src: thumbnailOfAll,
+                  width: "100%",
+                  height: width * BANNER_RATIO_ON_DESKTOP,
+                  objectFit: "cover",
+                }}
+              />
+            </Box>
+
+            <Grid container spacing={4}>
+              {tranformedPartnerData.map((el, idx) => {
+                return (
+                  <Grid
+                    onClick={() => {
+                      const link = el.link;
+
+                      if (link) {
+                        window.open(link, "_blank");
+                      }
+                    }}
+                    item
+                    key={idx}
+                    xs={12}
+                    sm={6}
+                    md={3}
+                    sx={{
+                      cursor: "pointer",
+                    }}
+                  >
+                    <CardBrand data={el} />
+                  </Grid>
+                );
+              })}
+            </Grid>
+          </TabPanel>
+
+          {partnerData.map((item, index) => {
+            const partnerItemList = item.partners;
+
+            return (
+              <TabPanel key={index} value={currentTab} index={item.id}>
+                <Box
+                  sx={{
+                    marginBottom: 10,
+                    overflow: "hidden",
+                  }}
+                >
+                  <Image
+                    {...{
+                      src: item.thumbnail,
+                      width: "100%",
+                      height: width * BANNER_RATIO_ON_DESKTOP,
+                      objectFit: "cover",
+                    }}
+                  />
+                </Box>
+                <Grid container spacing={4}>
+                  {partnerItemList.map((el, idx) => {
+                    return (
+                      <Grid
+                        onClick={() => {
+                          const link = el.link;
+
+                          if (link) {
+                            window.open(link, "_blank");
+                          }
+                        }}
+                        item
+                        key={idx}
+                        xs={12}
+                        sm={6}
+                        md={3}
+                        sx={{
+                          cursor: "pointer",
+                        }}
+                      >
+                        <CardBrand data={el} />
+                      </Grid>
+                    );
+                  })}
+                </Grid>
+              </TabPanel>
+            );
+          })}
+        </Fragment>
+      );
+    } else {
+      const offset = (currentPage - 1) * PARTNER_LIMIT;
+
+      let selectedData;
+      let thumbnail = thumbnailOfAll;
+
+      if (currentTab == -1) {
+        selectedData = tranformedPartnerData;
+      } else {
+        const partnerItem = find(partnerData, { id: currentTab });
+
+        if (partnerItem) {
+          selectedData = partnerItem.partners;
+          thumbnail = partnerItem.thumbnail;
+        }
+      }
+
+      if (selectedData) {
+        const data = selectedData.slice(offset, offset + PARTNER_LIMIT);
+
+        return (
+          <TabPanel value={currentTab} index={currentTab}>
+            <Box
+              sx={{
+                marginBottom: 10,
+                overflow: "hidden",
+              }}
+            >
+              <Image
+                {...{
+                  src: thumbnail,
+                  width: "100%",
+                  height: width * BANNER_RATIO_ON_MOBILE,
+                  objectFit: "cover",
+                }}
+              />
+            </Box>
+
+            <Grid container spacing={4}>
+              {data.map((el, idx) => {
+                return (
+                  <Grid
+                    onClick={() => {
+                      const link = el.link;
+
+                      if (link) {
+                        window.open(link, "_blank");
+                      }
+                    }}
+                    item
+                    key={idx}
+                    xs={12}
+                    sx={{
+                      cursor: "pointer",
+                    }}
+                  >
+                    <CardBrand data={el} />
+                  </Grid>
+                );
+              })}
+            </Grid>
+          </TabPanel>
+        );
+      }
+
+      return null;
+    }
+  }, [currentTab, partnerData, tranformedPartnerData, width, isSmUp, currentPage]);
+
+  const renderPagination = useMemo(() => {
+    if (isSmUp) {
+      return null;
+    }
+
+    let selectedData;
+
+    if (currentTab == -1) {
+      selectedData = tranformedPartnerData;
+    } else {
+      const partnerItem = find(partnerData, { id: currentTab });
+
+      if (partnerItem) {
+        selectedData = partnerItem.partners;
+      }
+    }
+
+    return (
+      <Pagination
+        data={selectedData}
+        currentPage={currentPage}
+        onChange={(_, newPage) => {
+          animationHandler();
+          setCurrentPage(newPage);
         }}
+      />
+    );
+  }, [currentPage, isSmUp, currentTab, partnerData, tranformedPartnerData]);
+
+  const renderTabs = useMemo(() => {
+    const mutatedPartnerData = [{ id: -1, title: "Tất cả" }, ...partnerData];
+
+    return (
+      <Tabs
+        value={currentTab}
+        changeTab={(event, newValue) => {
+          animationHandler();
+          setCurrentTab(newValue);
+        }}
+        data={mutatedPartnerData}
+      />
+    );
+  }, [partnerData, currentTab]);
+
+  return (
+    <Box
+      sx={[
+        {
+          paddingBottom: 10,
+        },
+        isSmDown && {
+          paddingBottom: 3,
+        },
+      ]}
+      ref={ref}
+    >
+      <BannerTop imageSrc={banner} />
+
+      <Container
+        maxWidth="lg"
+        sx={[
+          {
+            paddingBottom: 5,
+          },
+        ]}
       >
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Title data={metadata} />
-          </Grid>
+        <Grid item xs={12}>
+          <Box
+            sx={[
+              {
+                paddingTop: 5,
+                paddingBottom: 8,
+              },
+              isMdDown && {
+                paddingBottom: 5,
+              },
+            ]}
+          >
+            <LineTitle type="center" titleData={title} />
+          </Box>
+        </Grid>
 
-          <Grid item xs={12}>
-            <Stack direction={"row"} justifyContent="space-between" flexWrap={"wrap"}>
-              {[{ id: "all", title: "Tất cả", thumbnail: thumbnail }, ...partnerDetailList].map(
-                (el) => {
-                  return (
-                    <PartnerCategoryItem
-                      onClick={selectedPartnerHandler(el.id)}
-                      data={el}
-                      key={el.id}
-                      sx={{
-                        cursor: "pointer",
-                        marginBottom: 2,
-                        marginX: 2,
-                      }}
-                    />
-                  );
-                }
-              )}
-            </Stack>
-          </Grid>
+        <Grid item xs={12}>
+          {renderTabs}
 
-          <Grid item xs={12}>
-            {partnerDetailList.map((el) => {
-              if (selectedPartner === "all") {
-                return (
-                  <PartnerList
-                    key={el.id}
-                    data={el}
-                    sx={{
-                      marginBottom: 8,
-                    }}
-                  />
-                );
-              }
+          <Fade
+            in={animationState}
+            timeout={{
+              enter: 500,
+            }}
+          >
+            <Box>{renderTabPanel}</Box>
+          </Fade>
 
-              if (el.id === selectedPartner) {
-                return (
-                  <PartnerList
-                    key={el.id}
-                    data={el}
-                    sx={{
-                      marginBottom: 8,
-                    }}
-                  />
-                );
-              } else {
-                return null;
-              }
-            })}
-          </Grid>
+          <Box>{renderPagination}</Box>
         </Grid>
       </Container>
     </Box>

@@ -1,29 +1,43 @@
-import { Container, Box, Grid } from "@mui/material";
 import { Fragment } from "react";
-import { SubHeader } from "../../components";
-import createDOMPurify from "isomorphic-dompurify";
+import { Container, Box, Grid } from "@mui/material";
 
-const ConditionPage = ({ dataCondition, ...props }) => {
-  const { items } = dataCondition;
-  const data = items?.[0];
-  const content = data.content;
+import { useMedia } from "../../hooks";
+import { ReaderHTML, BannerTop, LineTitle } from "../../components";
+
+const ConditionPage = ({ initData }) => {
+  const [conditionData] = initData;
+  const { isMdDown } = useMedia();
+
+  const data = conditionData.items[0];
 
   return (
     <Fragment>
-      <SubHeader data={data} background={data.banner} />
+      <BannerTop imageSrc={data.banner} />
+      <Container maxWidth="lg" sx={{ marginBottom: 15 }}>
+        <Grid item xs={12}>
+          <Box
+            sx={[
+              {
+                paddingTop: 5,
+                paddingBottom: 8,
+              },
+              isMdDown && {
+                paddingBottom: 5,
+              },
+            ]}
+          >
+            <LineTitle titleData={data.title} type="center" />
+          </Box>
+        </Grid>
 
-      <Container maxWidth="lg">
-        <Grid container justifyContent={"center"}>
-          <Grid item xs={12} md={9}>
-            <Box
-              sx={{
-                overflow: "hidden",
-              }}
-              dangerouslySetInnerHTML={{
-                __html: createDOMPurify.sanitize(content),
-              }}
-            ></Box>
-          </Grid>
+        <Grid item xs={12}>
+          <Box
+            sx={{
+              overflow: "hidden",
+            }}
+          >
+            <ReaderHTML data={data} />
+          </Box>
         </Grid>
       </Container>
     </Fragment>

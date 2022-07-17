@@ -1,6 +1,9 @@
-import { Footer, Navbar } from "../../components";
 import { Box } from "@mui/material";
 
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
+
+import BackToTop from "../BackToTop/BackToTop";
 import { SettingConfig, GlobalConfig } from "../../context";
 
 const Layout = ({ children }) => {
@@ -20,13 +23,14 @@ const Layout = ({ children }) => {
     >
       <SettingConfig>
         <GlobalConfig>
-          <Navbar />
+          <Header />
           <Box
             sx={{
               flexGrow: 1,
               width: "100%",
             }}
           >
+            <BackToTop />
             {children}
           </Box>
           <Footer />

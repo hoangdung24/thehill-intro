@@ -1,6 +1,6 @@
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { createTheme, ThemeProvider, alpha } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
-import { red, green } from "@mui/material/colors";
+import { green } from "@mui/material/colors";
 
 const defaultTheme = createTheme({
   palette: {
@@ -20,8 +20,6 @@ const defaultTheme = createTheme({
     },
     error: {
       main: "#B41100",
-      light: red[50],
-      dark: red[700],
     },
     success: {
       light: green[50],
@@ -31,12 +29,12 @@ const defaultTheme = createTheme({
     common: {
       black: "#2B2B2B",
       white: "#FFFFFF",
-      natural1: "#2B2B2B",
-      natural2: "#777E91",
-      natural3: "#B1B5C4",
-      natural4: "#E6E8EC",
-      natural5: "#F4F5F6",
-      natural6: "#FFFFFF",
+      neutral1: "#2B2B2B",
+      neutral2: "#777E90",
+      neutral3: "#B1B5C4",
+      neutral4: "#E6E8EC",
+      neutral5: "#F4F5F6",
+      neutral6: "#FFFFFF",
     },
   },
   typography: {
@@ -77,6 +75,20 @@ const defaultTheme = createTheme({
     },
     h4: {
       fontSize: "32px",
+      lineHeight: "40px",
+      fontWeight: 700,
+      letterSpacing: "-1%",
+    },
+
+    h5: {
+      fontSize: "28px",
+      lineHeight: "40px",
+      fontWeight: 700,
+      letterSpacing: "-1%",
+    },
+
+    h6: {
+      fontSize: "24px",
       lineHeight: "40px",
       fontWeight: 700,
       letterSpacing: "-1%",
@@ -138,6 +150,12 @@ const defaultTheme = createTheme({
       fontWeight: 400,
       textTransform: "uppercase",
     },
+    hairline4: {
+      fontSize: "32px",
+      lineHeight: "40px",
+      fontWeight: 400,
+      textTransform: "uppercase",
+    },
     button1: {
       fontSize: "16px",
       lineHeight: "16px",
@@ -157,12 +175,150 @@ const theme = createTheme({
     MuiTypography: {
       defaultProps: {
         variant: "body2",
-        color: defaultTheme.palette.common.natural1,
+        color: defaultTheme.palette.common.neutral1,
       },
     },
     MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: "6px",
+        },
+        outlined: {
+          ["& :hover]"]: {},
+
+          ["&.MuiButton-outlinedPrimary:hover"]: {
+            backgroundColor: defaultTheme.palette.primary.light,
+            color: defaultTheme.palette.common.white,
+            borderColor: "transparent",
+          },
+          ["&.MuiButton-outlinedSecondary:hover"]: {
+            backgroundColor: defaultTheme.palette.secondary.light,
+            color: defaultTheme.palette.common.white,
+            borderColor: "transparent",
+          },
+        },
+      },
+    },
+
+    MuiTabs: {
       defaultProps: {
-        sx: {},
+        TabIndicatorProps: {
+          sx: {
+            display: "none",
+          },
+        },
+      },
+
+      styleOverrides: {
+        root: {
+          "& .Mui-selected": {
+            backgroundColor: defaultTheme.palette.secondary.light,
+            borderRadius: "6px",
+            color: `${defaultTheme.palette.common.neutral6} !important`,
+          },
+        },
+      },
+    },
+    MuiPagination: {
+      styleOverrides: {
+        root: {
+          ["& .MuiPagination-ul li .Mui-disabled"]: {
+            color: defaultTheme.palette.common.neutral4,
+            border: `2px solid ${defaultTheme.palette.common.neutral4}`,
+            opacity: 0.7,
+          },
+        },
+      },
+    },
+    MuiPaginationItem: {
+      styleOverrides: {
+        root: {
+          marginLeft: "0.5rem",
+          marginRigth: "0.5rem",
+        },
+      },
+    },
+    MuiLink: {
+      styleOverrides: {
+        root: {
+          textDecoration: "none",
+        },
+      },
+    },
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          backgroundColor: defaultTheme.palette.common.neutral4,
+        },
+      },
+    },
+
+    MuiInput: {
+      defaultProps: {
+        disableUnderline: true,
+      },
+
+      styleOverrides: {
+        root: {
+          ...defaultTheme.typography.caption1,
+          padding: "8px 16px",
+          color: defaultTheme.palette.common.neutral2,
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      defaultProps: {
+        color: "secondary",
+      },
+
+      styleOverrides: {
+        root: {
+          ...defaultTheme.typography.caption1,
+          color: defaultTheme.palette.common.neutral2,
+          borderRadius: "8px",
+        },
+      },
+    },
+    MuiFormControl: {
+      styleOverrides: {
+        root: {
+          marginBottom: "2rem",
+
+          ["& .MuiOutlinedInput-notchedOutline"]: {
+            border: `2px solid ${defaultTheme.palette.common.neutral2}`,
+          },
+          ["&:hover .MuiOutlinedInput-notchedOutline"]: {
+            border: `2px solid ${defaultTheme.palette.common.neutral3}`,
+          },
+        },
+      },
+    },
+    MuiTextField: {
+      defaultProps: {
+        fullWidth: true,
+      },
+
+      styleOverrides: {
+        root: {},
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          ...defaultTheme.typography.caption1,
+          ["&.Mui-focused"]: {
+            color: defaultTheme.palette.secondary.main,
+          },
+        },
+      },
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          ["&.Mui-selected"]: {
+            backgroundColor: alpha(defaultTheme.palette.secondary.main, 0.08),
+          },
+        },
       },
     },
   },

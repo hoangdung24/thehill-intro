@@ -1,81 +1,110 @@
-import { useCallback, useState } from "react";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useRouter } from "next/router";
+import { useMeasure } from "react-use";
+import { Box, Grid, Typography, Container } from "@mui/material";
 
-import { Container, Grid, Box, Fade, Button, Stack } from "@mui/material";
+import BannerTop from "../../components/BannerTop/BannerTop";
+import LineTitle from "../../components/LineTitle/LineTitle";
+import { Image } from "../../HOC";
+import useMedia from "../../hooks/useMedia";
 
-import Card from "./components/Card";
-import Title from "./components/Title";
-import Banner from "./components/Banner";
-import FaqDetail from "./components/FaqDetail";
+const IMAGE_RATIO = 255 / 335;
 
-const faq = ({ ...props }) => {
-  const [selectedFaq, setSelectedFaq] = useState(null);
+export default function FAQ({ initData }) {
+  const router = useRouter();
+  const [FAQMeta, detailFAQ] = initData;
+  const { banner, title } = FAQMeta.items[0];
+  const listData = detailFAQ.items;
 
-  const { initFaqPage, initFaqDetailList } = props;
+  const { isSmUp, isSmDown, isMdDown } = useMedia();
 
-  const faqDetailList = initFaqDetailList?.items;
-  const metadata = initFaqPage?.items?.[0];
-
-  const selectedFaqHandler = useCallback((id) => {
-    return () => {
-      setSelectedFaq(id);
-    };
-  }, []);
+  if (listData == undefined) {
+    return null;
+  }
 
   return (
-    <Box paddingBottom={5}>
-      <Banner data={metadata} />
+    <Box>
+      <BannerTop imageSrc={banner} />
 
       <Container
-        sx={{
-          maxWidth: {
-            xs: "100%",
-            lg: "70%",
+        maxWidth="lg"
+        sx={[
+          {
+            paddingBottom: 10,
           },
-        }}
+          isMdDown && {
+            paddingBottom: 6,
+          },
+        ]}
       >
-        <Grid container spacing={3}>
+        <Grid container rowSpacing={4} columnSpacing={8}>
           <Grid item xs={12}>
-            <Title data={metadata} />
+            <Box
+              sx={[
+                {
+                  paddingTop: 5,
+                  paddingBottom: 8,
+                },
+                isMdDown && {
+                  paddingBottom: 5,
+                },
+              ]}
+            >
+              <LineTitle titleData={title} type="center" />
+            </Box>
           </Grid>
 
-          {selectedFaq === null &&
-            faqDetailList.map((el) => {
-              return (
-                <Grid item xs={12} md={6} lg={4} key={el.id}>
-                  <Box sx={{ cursor: "pointer" }} onClick={selectedFaqHandler(el)}>
-                    <Card data={el} />
-                  </Box>
-                </Grid>
-              );
-            })}
-
-          {selectedFaq && (
-            <Fade in={!!selectedFaq}>
-              <Grid item xs={12}>
-                <Stack>
-                  <Button
-                    startIcon={<ArrowBackIcon />}
-                    sx={{
-                      width: "fit-content",
-                      borderRadius: "24px",
-                      marginBottom: 3,
-                    }}
-                    variant="outlined"
-                    onClick={selectedFaqHandler(null)}
-                  >
-                    Trở về
-                  </Button>
-
-                  <FaqDetail data={selectedFaq} />
-                </Stack>
+          {listData.map((item, idx) => {
+            return (
+              <Grid
+                item
+                key={idx}
+                xs={12}
+                sm={6}
+                md={4}
+                onClick={() => {
+                  const faqId = item.id;
+                  router.push(`${router.pathname}/${faqId}`);
+                }}
+              >
+                <CardItem data={item} />
               </Grid>
-            </Fade>
-          )}
+            );
+          })}
         </Grid>
       </Container>
     </Box>
   );
-};
+}
 
-export default faq;
+const CardItem = ({ data }) => {
+  const [ref, { width }] = useMeasure();
+  const { thumbnail, title } = data;
+
+  return (
+    <Box
+      ref={ref}
+      sx={{
+        cursor: "pointer",
+        borderRadius: "8px",
+        position: "relative",
+        overflow: "hidden",
+        border: "4px solid rgba(177, 181, 195, 1)",
+      }}
+    >
+      <Image
+        {...{
+          src: thumbnail,
+          width: "100%",
+          height: width * IMAGE_RATIO,
+          objectFit: "cover",
+        }}
+      />
+      <Typography
+        variant="hairline1"
+        sx={{ position: "absolute", top: "24px", left: "24px" }}
+      >
+        {title}
+      </Typography>
+    </Box>
+  );
+};

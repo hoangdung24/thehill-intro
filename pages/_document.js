@@ -40,7 +40,7 @@ class MyDocument extends Document {
 
   render() {
     return (
-      <Html>
+      <Html style={{ scrollBehavior: "smooth" }}>
         <Head>
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
@@ -58,7 +58,7 @@ class MyDocument extends Document {
           )}
           {this.props.emotionStyleTags}
         </Head>
-        <body>
+        <body id="Home">
           <Main />
           <NextScript />
         </body>

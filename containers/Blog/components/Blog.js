@@ -4,7 +4,14 @@ import queryString from "query-string";
 import { useUpdateEffect } from "react-use";
 import { useCallback, useState, useEffect } from "react";
 
-import { Box, Grid, Pagination, styled, Typography, Stack } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Pagination,
+  styled,
+  Typography,
+  Stack,
+} from "@mui/material";
 
 import unset from "lodash/unset";
 
@@ -28,9 +35,11 @@ const BlogList = ({ blogDetail, blogCategory, tags, ...props }) => {
 
   const [url, setUrl] = useState(PAGES);
 
-  const { data: resData, error } = useSWR(() => {
-    return url;
-  });
+  const { data: resData, error } = useSWR(
+    useCallback(() => {
+      return url;
+    }, [])
+  );
 
   const [params, setParams, isReady] = useParams({
     initState: {

@@ -29,7 +29,9 @@ export default function HomeBanner({ data }) {
     return (
       <Fragment>
         <Canvas shadows>
-          <Suspense fallback={null}>{/* <ModelContainer /> */}</Suspense>
+          <Suspense fallback={null}>
+            <ModelContainer />
+          </Suspense>
         </Canvas>
 
         <Box

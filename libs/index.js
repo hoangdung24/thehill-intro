@@ -1,6 +1,5 @@
 export { default as transformUrl } from "./transformUrl";
 export { default as prefetchData } from "./prefetchData";
-export { default as updatePathname } from "./updatePathname";
 export { default as convertAngleToRad } from "./convertAngleToRad";
 export { default as createEmotionCache } from "./createEmotionCache";
-export { default as transformSearchParams } from "./transformSearchParams";
+export { transformSearchParams } from "./transformSearchParams";

@@ -1,9 +1,9 @@
 export { Layout } from "./Layout";
-export { Header, SubHeader } from "./Header";
-export { Button, ButtonPop, ButtonShape } from "./Button";
+export { Header } from "./Header";
+export { Button, ButtonPop } from "./Button";
 export { QRcode } from "./QRcode";
 export { CustomerCard, Subcriber, CardPartner } from "./Card";
-export { Footer, FooterBottom, FooterTop } from "./Footer";
+export { Footer } from "./Footer";
 export { Navbar } from "./Navbar";
 export { FormContact } from "./Form";
 

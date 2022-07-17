@@ -1,10 +1,9 @@
 import React from "react";
-import { Controller } from "react-hook-form";
 import { IconButton, InputBase, Paper, useTheme } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import useMedia from "../../hooks/useMedia";
 
-export default function InputPagePartner({ name, InputProps }) {
+export default function InputPagePartner({ name, InputProps, onChange }) {
   const theme = useTheme();
   const { isSmDown } = useMedia();
   return (
@@ -12,7 +11,7 @@ export default function InputPagePartner({ name, InputProps }) {
       sx={[
         {
           boxShadow: "none",
-          border: `2px solid ${theme.palette.common.natural4}`,
+          border: `2px solid ${theme.palette.common.neutral4}`,
           borderRadius: "12px",
           p: "5px 4px",
           display: "flex",
@@ -21,10 +20,11 @@ export default function InputPagePartner({ name, InputProps }) {
           marginBottom: "2.3rem",
           marginTop: "5.5rem",
         },
-        isSmDown && { marginBottom: "1.5rem" },
+        isSmDown && { marginBottom: "1.5rem", marginTop: "3.5rem" },
       ]}
     >
       <InputBase
+        onChange={onChange}
         sx={{
           ml: 1,
           flex: 1,
@@ -34,25 +34,14 @@ export default function InputPagePartner({ name, InputProps }) {
         }}
         {...InputProps}
       />
-      <IconButton
-        type="submit"
-        color="primary"
+
+      <SearchIcon
         sx={{
-          p: "10px",
-          width: "2.2rem",
-          height: "2.2rem",
-          backgroundColor: theme.palette.secondary.light,
+          color: theme.palette.common.natural4,
+          width: "1.5rem",
+          height: "1.5rem",
         }}
-        aria-label="directions"
-      >
-        <SearchIcon
-          sx={{
-            color: "white",
-            width: "1.5rem",
-            height: "1.5rem",
-          }}
-        />
-      </IconButton>
+      />
     </Paper>
   );
 }

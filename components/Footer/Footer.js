@@ -73,7 +73,12 @@ const Footer = ({ children, ...props }) => {
         </Stack>
 
         {isMdDown && (
-          <Stack direction="row" spacing={1} justifyContent="center" marginBottom={3}>
+          <Stack
+            direction="row"
+            spacing={1}
+            justifyContent="center"
+            marginBottom={3}
+          >
             <Image
               {...{
                 src: "/img/image 6.png",

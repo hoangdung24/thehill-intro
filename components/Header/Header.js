@@ -98,10 +98,6 @@ const Header = ({}) => {
                 "&:hover": {
                   backgroundColor: theme.palette.primary.dark,
                 },
-                "& span": {
-                  color: "white",
-                  display: "block",
-                },
               },
             },
             !isMdUp && {
@@ -126,7 +122,11 @@ const Header = ({}) => {
                 ) : (
                   <Link
                     key={idx}
-                    href={block_type === "by_section" ? `#${value.section}` : value.link}
+                    href={
+                      block_type === "by_section"
+                        ? `#${value.section}`
+                        : value.link
+                    }
                     onClick={() => {
                       setIsToggle(false);
                     }}

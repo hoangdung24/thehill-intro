@@ -1,5 +1,12 @@
-import { Box, Button, Container, Stack, Typography, useTheme } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Button,
+  Container,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import BannerTop from "../../components/BannerTop/BannerTop";
 import { transformUrl } from "../../libs";
 import { PAGES } from "../../apis";
@@ -17,8 +24,9 @@ export default function NewDetail() {
   const [data, setData] = useState();
   const [dataClip, setDataClip] = useState();
   const [stickyRef, { width }] = useMeasure();
-  const { data: resData } = useSWR(transformUrl(`${PAGES}${router.query.id}`, {}));
-  console.log("router", router);
+  const { data: resData } = useSWR(
+    transformUrl(`${PAGES}${router.query.id}`, {})
+  );
   useEffect(() => {
     if (!resData) {
       return;
@@ -27,21 +35,38 @@ export default function NewDetail() {
     setData(resData);
     setDataClip(resData?.content[1]?.value.src);
   }, [resData]);
-  const renderTags = () => {
+
+  const renderTags = useMemo(() => {
     if (!resData) {
       return;
     }
     return resData?.tags.map((item, index) => {
-      console.log("item", item);
       return (
-        <Link href={`/tin-tuc#${item}`}>
-          <Button key={index} sx={{ textTransform: "lowercase" }}>
-            <Typography variant="body1">{item}</Typography>
+        <Link
+          key={index}
+          href={`/tin-tuc?tags=${item}`}
+          sx={{ textDecoration: "none" }}
+        >
+          <Button
+            disabled
+            sx={{
+              textTransform: "lowercase",
+              backgroundColor: theme.palette.secondary.light,
+              borderRadius: "1rem",
+              padding: "0.5rem",
+            }}
+          >
+            <Typography
+              variant="button1"
+              sx={{ color: theme.palette.common.white }}
+            >
+              {item}
+            </Typography>
           </Button>
         </Link>
       );
     });
-  };
+  }, [resData]);
 
   let videoId;
 
@@ -51,9 +76,9 @@ export default function NewDetail() {
     const { pathname } = new URL(url);
 
     if (query.v) {
-      videoId = query.v;
+      videoId = query?.v;
     } else {
-      videoId = pathname.replace("/", "");
+      videoId = pathname?.replace("/", "");
     }
   }
   return (
@@ -78,14 +103,24 @@ export default function NewDetail() {
             height: (width * 7) / 16,
           }}
         />
-
-        <ReaderHTML content={resData?.content[0].value} />
+        <Box
+          sx={{
+            "& .MuiBox-root h1": {
+              lineHeight: "3rem",
+            },
+            "& .MuiBox-root h2": {
+              lineHeight: "2.5rem",
+            },
+          }}
+        >
+          {resData === undefined ? "" : <ReaderHTML data={resData} />}
+        </Box>
         <Stack
           direction="row"
           spacing={1}
           sx={{ marginTop: "3rem", marginBottom: "5.5rem" }}
         >
-          {renderTags()}
+          {renderTags}
         </Stack>
       </Container>
     </Box>

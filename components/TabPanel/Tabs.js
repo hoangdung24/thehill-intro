@@ -6,7 +6,10 @@ import { useMedia } from "../../hooks";
 const Tabs = ({ value, changeTab, data }) => {
   const { isSmUp } = useMedia();
   const theme = useTheme();
-
+  // console.log("datadata", data);
+  if (!data) {
+    return null;
+  }
   const renderTab = useMemo(() => {
     return data.map((el) => {
       return (
@@ -47,6 +50,15 @@ const Tabs = ({ value, changeTab, data }) => {
             marginBottom: 10,
           },
           {
+            "& .Mui-selected": {
+              color: `${theme.palette.common.white} !important`,
+              backgroundColor: theme.palette.secondary.light,
+              borderRadius: "5px",
+            },
+            "& button": {
+              minWidth: "auto",
+              margin: "0 1rem",
+            },
             "& .MuiTabs-flexContainer": {
               justifyContent: "center",
               width: "100%",
@@ -69,7 +81,15 @@ const Tabs = ({ value, changeTab, data }) => {
           marginTop: 4,
           marginBottom: 4,
           display: "flex",
-
+          "& .Mui-selected": {
+            color: `${theme.palette.common.white} !important`,
+            backgroundColor: theme.palette.secondary.light,
+            borderRadius: "5px",
+          },
+          "& button": {
+            minWidth: "auto",
+            margin: "0 1rem",
+          },
           ["& .MuiTabs-flexContainer"]: {
             overflowX: "auto",
             "&::-webkit-scrollbar": {

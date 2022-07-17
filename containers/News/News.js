@@ -1,73 +1,127 @@
-import { Container, Fade, Grid, Typography, useTheme } from "@mui/material";
-import { Box } from "@mui/system";
+import { Box, Container, Fade, Grid, useTheme } from "@mui/material";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import BannerTop from "../../components/BannerTop/BannerTop";
+import InputPagePartner from "../../components/Input/InputPagePartner";
 import LineTitle from "../../components/LineTitle/LineTitle";
-import TabPanel from "../../components/TabPanel/TabPanel";
 import Tabs from "../../components/TabPanel/Tabs";
-import useMedia from "../../hooks/useMedia";
-import CardItem from "../../components/Card/CardItem";
+import TabPanel from "../../components/TabPanel/TabPanel";
 import Pagination from "../../components/Pagination";
+
+import useMedia from "../../hooks/useMedia";
+import cloneDeep from "lodash/cloneDeep";
+import CardItem from "../../components/Card/CardItem";
+import { NEWPC_LIMIT } from "../../constants";
+import { useRouter } from "next/router";
 import useSWR from "swr";
 import { transformUrl } from "../../libs";
 import { PAGES, types } from "../../apis";
-import { NEWPC_LIMIT } from "../../constants";
-import { useForm } from "react-hook-form";
-import { useRouter } from "next/router";
-import InputPageNew from "../../components/Input/InputPageNew";
-import { defaultValuesPageNew } from "../../libs/yupRegister";
 import useDebounce from "../../hooks/useDebounce";
+import { useParams } from "../../hooks";
+
+const objTabs = {
+  id: -1,
+  title: "Tất cả",
+};
 
 export default function News({ initData }) {
-  const [blogListingPage, blogCategoryPage, blogDetailPage] = initData;
-
-  const [currentTab, setCurrentTab] = useState(blogCategoryPage.items[0].id);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [blogListingPage, blogCategoryPage, tagsSSS] = initData;
+  const theme = useTheme();
+  const router = useRouter();
+  const { isSmUp, isSmDown } = useMedia();
   const [animationState, setAnimationState] = useState(true);
-  const [array, setArray] = useState([]);
-  const [isArray, setIsArray] = useState(true);
-  const [idAPI, setIdAPI] = useState(blogCategoryPage.items[0].id);
-
-  const [search, setSearch] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentTab, setCurrentTab] = useState(-1);
+  const [dataTabs, setDataTabs] = useState([]);
+  const [idAPI, setIdAPI] = useState(-1);
+  const [dataTabPanel, setDataTabPanel] = useState([]);
+  const [textSearch, setTextSearch] = useState(null);
   const [isSearch, setIsSearch] = useState(true);
 
-  const { handleSubmit, reset, control, setError } = useForm({
-    defaultValuesPageNew,
+  const [dataTags, setDataTags] = useState(tagsSSS);
+  const [isdataTags, setIsDataTags] = useState(
+    tagsSSS === undefined ? false : true
+  );
+
+  const [params, setParams] = useParams({
+    initState: {},
+    excludeKeys: ["limit", "offset"],
   });
 
-  const theme = useTheme();
-  const { isSmUp, isSmDown } = useMedia();
-  const router = useRouter();
-
   const { data: resData } = useSWR(
-    transformUrl(PAGES, {
-      child_of: idAPI,
-      fields: "*",
-      type: types.blogDetailPage,
-    })
+    idAPI == -1
+      ? transformUrl(PAGES, {
+          type: types.blogDetailPage,
+          fields: "*",
+        })
+      : transformUrl(PAGES, {
+          child_of: idAPI,
+          fields: "*",
+          type: types.blogDetailPage,
+        })
   );
   const { data: searchData } = useSWR(
-    transformUrl(PAGES, {
-      child_of: idAPI,
-      search: search,
-      fields: "*",
-      type: types.blogDetailPage,
-    })
+    idAPI == -1
+      ? transformUrl(PAGES, {
+          type: types.blogDetailPage,
+          search: textSearch,
+          fields: "*",
+        })
+      : transformUrl(PAGES, {
+          child_of: idAPI,
+          search: textSearch,
+          fields: "*",
+          type: types.blogDetailPage,
+        })
   );
 
   useEffect(() => {
-    if (isSearch) {
+    const cloneTabsData = cloneDeep(blogCategoryPage.items);
+    cloneTabsData.splice(0, 0, objTabs);
+    setDataTabs(cloneTabsData);
+  }, [blogCategoryPage]);
+
+  useEffect(() => {
+    if (isdataTags) {
+      //xét lại data nội dung khi chuyển về từ trang NewDetail
+      if (dataTags?.items.length > 0) {
+        setCurrentTab(dataTags?.items[0].meta.parent.id);
+        setDataTabPanel(dataTags?.items);
+        setIsSearch(true);
+        setIsDataTags(false);
+        // setParams({ tags: undefined });
+      } else {
+        setDataTabPanel(resData?.items);
+        setIsSearch(true);
+        // setParams({ tags: undefined });
+      }
+    } else if (isSearch == false) {
+      //xét lại data nội dung khi tìm kiếm
+      if (searchData === undefined) {
+        return null;
+      }
+      setDataTabPanel(searchData?.items);
+    } else if (isSearch == true) {
+      //xét lại data nội dung khi chuyển Tab danh mục
       if (resData === undefined) {
         return;
       }
-      setArray(resData?.items);
-    } else if (isSearch == false) {
-      if (searchData === undefined) {
-        return;
-      }
-      setArray(searchData?.items);
+      setDataTabPanel(resData?.items);
     }
-  });
+  }, [dataTags, resData, searchData, isSearch]);
+
+  const handleTextChange = (e) => {
+    if (e.target.value == "") {
+      setIsSearch(true);
+      setParams({ tags: undefined });
+    } else {
+      const debounce = useDebounce(() => {
+        setTextSearch(e.target.value);
+        setIsSearch(false);
+      }, 1000);
+      setParams({ tags: e.target.value });
+      debounce();
+    }
+  };
 
   const animationHandler = useCallback(() => {
     setAnimationState(false);
@@ -86,50 +140,31 @@ export default function News({ initData }) {
     animationHandler();
     setIdAPI(newValue);
   }, []);
-
   const handleDetailNew = (id) => {
     router.push(`${router.pathname}/${id}`);
   };
 
-  const onSubmit = useCallback((data) => {
-    if (data.search === "") {
-      setIsSearch(true);
-    } else {
-      const scrollWithMoreDebounce = useDebounce(() => {
-        setSearch(data.search);
-        setIsSearch(false);
-      }, 500);
-      scrollWithMoreDebounce();
-      reset(defaultValuesPageNew, {
-        keepDirty: false,
-      });
-    }
-  });
-
   const renderTabs = useMemo(() => {
-    if (!blogCategoryPage) {
+    if (!dataTabs) {
       return null;
     }
 
     return (
-      <Tabs
-        value={currentTab}
-        changeTab={changeTabHandler}
-        data={blogCategoryPage}
-      />
+      <Tabs value={currentTab} changeTab={changeTabHandler} data={dataTabs} />
     );
-  }, [blogCategoryPage, currentTab]);
+  }, [dataTabs, currentTab]);
 
   const renderTabPanel = useMemo(() => {
-    if (!blogCategoryPage) {
+    if (!dataTabs) {
       return null;
     }
     // FORMULA: OFFSET = (PAGE - 1) * LIMIT
     // FORMULA PAGE = (OFFSET / LIMIT) + 1
     if (isSmUp) {
       const offset = (currentPage - 1) * NEWPC_LIMIT;
-      const data = array?.slice(offset, offset + NEWPC_LIMIT);
-      return blogCategoryPage.items.map((item, index) => {
+      const data = dataTabPanel?.slice(offset, offset + NEWPC_LIMIT);
+      console.log("datadata", data);
+      return dataTabs.map((item, index) => {
         return (
           <TabPanel key={index} value={currentTab} index={item.id}>
             <Grid
@@ -163,12 +198,16 @@ export default function News({ initData }) {
       });
     } else {
       const offset = (currentPage - 1) * NEWPC_LIMIT;
-      const data = array.slice(offset, offset + NEWPC_LIMIT);
-      return blogCategoryPage.items.map((item, index) => {
+      const data = dataTabPanel?.slice(offset, offset + NEWPC_LIMIT);
+      return dataTabs.map((item, index) => {
         return (
           <TabPanel key={index} value={currentTab} index={item.id}>
-            {data.map((el, i) => {
-              return <CardItem key={i} data={el} />;
+            {data?.map((el, i) => {
+              return (
+                <Box key={i} onClick={() => handleDetailNew(el.id)}>
+                  <CardItem data={el} />
+                </Box>
+              );
             })}
           </TabPanel>
         );
@@ -176,12 +215,13 @@ export default function News({ initData }) {
     }
 
     //
-  }, [array, currentTab, currentPage, isArray]);
+  }, [currentTab, currentPage, dataTabs, dataTabPanel]);
 
   const renderPagination = useMemo(() => {
     return (
       <Pagination
-        data={array}
+        limit={6}
+        data={dataTabPanel}
         currentPage={currentPage}
         onChange={(_, newPage) => {
           setCurrentPage(newPage);
@@ -189,30 +229,27 @@ export default function News({ initData }) {
         }}
       />
     );
-  }, [array, currentPage, isSmUp, currentTab]);
+  }, [currentPage, isSmUp, currentTab, dataTabPanel]);
 
   return (
-    <Box sx={{ marginBottom: isSmDown ? "4rem" : "6.6rem" }}>
+    <Box sx={{ marginBottom: "6rem" }}>
       <BannerTop data={blogListingPage.items[0].banner} />
+
       <Container maxWidth="lg">
         <LineTitle titleData={blogListingPage.items[0].title} type="center" />
-        <Box component={"form"} onSubmit={handleSubmit(onSubmit)}>
-          <InputPageNew
-            control={control}
+        <Box sx={{}}>
+          <InputPagePartner
+            onChange={handleTextChange}
             name="search"
             InputProps={{
               placeholder: "Tìm kiếm",
             }}
           />
         </Box>
-      </Container>
-
-      {/* {renderTabs} */}
-      <Container maxWidth="lg">
+        {renderTabs}
         <Box
           sx={{
             [theme.breakpoints.down("sm")]: {
-              width: isSmDown ? "75vw" : "100%",
               margin: "0 auto",
             },
           }}

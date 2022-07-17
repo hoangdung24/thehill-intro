@@ -130,7 +130,10 @@ export default function Register({ initData }) {
               <Controller
                 name="store_name"
                 control={control}
-                render={({ field: { onChange, ref, value }, fieldState: { error } }) => {
+                render={({
+                  field: { onChange, ref, value },
+                  fieldState: { error },
+                }) => {
                   return (
                     <TextField
                       error={!!error}
@@ -146,7 +149,10 @@ export default function Register({ initData }) {
               <Controller
                 name="category"
                 control={control}
-                render={({ field: { onChange, ref, value }, fieldState: { error } }) => {
+                render={({
+                  field: { onChange, ref, value },
+                  fieldState: { error },
+                }) => {
                   return (
                     <TextField
                       error={!!error}
@@ -161,7 +167,9 @@ export default function Register({ initData }) {
                     >
                       <MenuItem
                         value={""}
-                        children={<Typography variant="caption1" children={"None"} />}
+                        children={
+                          <Typography variant="caption1" children={"None"} />
+                        }
                       />
 
                       {storeCategories.map((el) => {
@@ -170,7 +178,10 @@ export default function Register({ initData }) {
                             key={el.id}
                             value={el.id}
                             children={
-                              <Typography variant="caption1" children={el.name} />
+                              <Typography
+                                variant="caption1"
+                                children={el.name}
+                              />
                             }
                           />
                         );
@@ -183,7 +194,10 @@ export default function Register({ initData }) {
               <Controller
                 name="presentator"
                 control={control}
-                render={({ field: { onChange, ref, value }, fieldState: { error } }) => {
+                render={({
+                  field: { onChange, ref, value },
+                  fieldState: { error },
+                }) => {
                   return (
                     <TextField
                       error={!!error}
@@ -196,12 +210,19 @@ export default function Register({ initData }) {
                 }}
               />
 
-              <InputPhoneNumber control={control} name="phone" label="Số điện thoại" />
+              <InputPhoneNumber
+                control={control}
+                name="phone"
+                label="Số điện thoại"
+              />
 
               <Controller
                 name="email"
                 control={control}
-                render={({ field: { onChange, ref, value }, fieldState: { error } }) => {
+                render={({
+                  field: { onChange, ref, value },
+                  fieldState: { error },
+                }) => {
                   return (
                     <TextField
                       error={!!error}
@@ -240,7 +261,10 @@ export default function Register({ initData }) {
               <Controller
                 name="bank"
                 control={control}
-                render={({ field: { onChange, ref, value }, fieldState: { error } }) => {
+                render={({
+                  field: { onChange, ref, value },
+                  fieldState: { error },
+                }) => {
                   return (
                     <TextField
                       error={!!error}
@@ -257,7 +281,10 @@ export default function Register({ initData }) {
               <Controller
                 name="owner"
                 control={control}
-                render={({ field: { onChange, ref, value }, fieldState: { error } }) => {
+                render={({
+                  field: { onChange, ref, value },
+                  fieldState: { error },
+                }) => {
                   return (
                     <TextField
                       error={!!error}
@@ -274,7 +301,10 @@ export default function Register({ initData }) {
               <Controller
                 name="branch"
                 control={control}
-                render={({ field: { onChange, ref, value }, fieldState: { error } }) => {
+                render={({
+                  field: { onChange, ref, value },
+                  fieldState: { error },
+                }) => {
                   return (
                     <TextField
                       error={!!error}
@@ -329,7 +359,9 @@ export default function Register({ initData }) {
                     variant="caption1"
                     sx={{
                       color:
-                        message.severity === "success" ? "success.main" : "error.main",
+                        message.severity === "success"
+                          ? "success.main"
+                          : "error.main",
                     }}
                   >
                     {message.content}
@@ -376,7 +408,12 @@ export default function Register({ initData }) {
               />
             </Box>
 
-            <Stack spacing={2} direction="column" alignItems={"center"} marginTop="40px">
+            <Stack
+              spacing={2}
+              direction="column"
+              alignItems={"center"}
+              marginTop="40px"
+            >
               <Typography
                 variant="caption2_bold"
                 sx={{ display: "block", textAlign: "center" }}

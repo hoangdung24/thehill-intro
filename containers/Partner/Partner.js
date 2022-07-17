@@ -233,7 +233,14 @@ const Partner = ({ initData }) => {
 
       return null;
     }
-  }, [currentTab, partnerData, tranformedPartnerData, width, isSmUp, currentPage]);
+  }, [
+    currentTab,
+    partnerData,
+    tranformedPartnerData,
+    width,
+    isSmUp,
+    currentPage,
+  ]);
 
   const renderPagination = useMemo(() => {
     if (isSmUp) {

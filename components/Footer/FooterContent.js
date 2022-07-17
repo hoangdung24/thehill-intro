@@ -163,7 +163,10 @@ export default function FooterContent({ setting }) {
         <Box>
           <Title variant="body2_bold">{title_column_3}</Title>
 
-          <Content variant="caption1" sx={{ marginBottom: "0.5rem !important" }}>
+          <Content
+            variant="caption1"
+            sx={{ marginBottom: "0.5rem !important" }}
+          >
             {address}
           </Content>
 
@@ -242,7 +245,10 @@ export default function FooterContent({ setting }) {
                     justifyContent: "center",
                     alignItems: "center",
                     padding: 0,
-                    color: message.severity === "success" ? "success.main" : "error.main",
+                    color:
+                      message.severity === "success"
+                        ? "success.main"
+                        : "error.main",
                   },
                 }}
               >

@@ -2,7 +2,7 @@ import axios from "axios";
 import { DOMAIN } from "./apis";
 
 const instance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_DOMAIN_URL,
+  baseURL: DOMAIN,
   headers: {
     post: {
       ...axios.defaults.headers.post,

@@ -1,11 +1,5 @@
 import { forwardRef } from "react";
-import {
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  Input,
-  OutlinedInput,
-} from "@mui/material";
+import { FormControl, FormHelperText, FormLabel, OutlinedInput } from "@mui/material";
 
 const InputBase = forwardRef(
   (

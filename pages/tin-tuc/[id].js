@@ -1,9 +1,28 @@
-import { Box, Button, Container, Stack, Typography } from "@mui/material";
-import React from "react";
-import NewDetail from "../../containers/News/NewDetail";
+import { PAGES } from "../../apis";
+import NewsDetail from "../../containers/News/NewsDetail";
+import { prefetchData, transformUrl } from "../../libs";
 
-export default function PageNews() {
-  // return null;
+export default function PageNews({ ...props }) {
+  return <NewsDetail {...props} />;
+}
 
-  return <NewDetail />;
+export async function getServerSideProps({ params }) {
+  try {
+    const { id } = params;
+
+    const urls = [transformUrl(`${PAGES}${id}`)];
+
+    const { resList, fallback } = await prefetchData(urls);
+
+    return {
+      props: { initData: resList, fallback },
+    };
+  } catch (err) {
+    return {
+      redirect: {
+        destination: "/404",
+        permanent: false,
+      },
+    };
+  }
 }

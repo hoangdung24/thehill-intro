@@ -1,127 +1,86 @@
-import { Box, Container, Fade, Grid, useTheme } from "@mui/material";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import BannerTop from "../../components/BannerTop/BannerTop";
-import InputPagePartner from "../../components/Input/InputPagePartner";
-import LineTitle from "../../components/LineTitle/LineTitle";
-import Tabs from "../../components/TabPanel/Tabs";
-import TabPanel from "../../components/TabPanel/TabPanel";
-import Pagination from "../../components/Pagination";
-
-import useMedia from "../../hooks/useMedia";
-import cloneDeep from "lodash/cloneDeep";
-import CardItem from "../../components/Card/CardItem";
-import { NEWPC_LIMIT } from "../../constants";
-import { useRouter } from "next/router";
 import useSWR from "swr";
+import { useRouter } from "next/router";
+import { useDebounce } from "react-use";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { Box, Container, Fade, Grid, useTheme, OutlinedInput } from "@mui/material";
+
+import trim from "lodash/trim";
+
+import SearchIcon from "@mui/icons-material/Search";
+
+import { NEWS_POST_LIMIT } from "../../constants";
+
+import {
+  BannerTop,
+  LineTitle,
+  Tabs,
+  TabPanel,
+  Pagination,
+  CardItem,
+} from "../../components";
+
 import { transformUrl } from "../../libs";
 import { PAGES, types } from "../../apis";
-import useDebounce from "../../hooks/useDebounce";
-import { useParams } from "../../hooks";
 
-const objTabs = {
+import { useParams, useMedia } from "../../hooks";
+
+const customTab = {
   id: -1,
   title: "Tất cả",
 };
 
 export default function News({ initData }) {
-  const [blogListingPage, blogCategoryPage, tagsSSS] = initData;
-  const theme = useTheme();
   const router = useRouter();
-  const { isSmUp, isSmDown } = useMedia();
+  const [metadaPage, listingCategory] = initData;
+  const { isMdDown } = useMedia();
   const [animationState, setAnimationState] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentTab, setCurrentTab] = useState(-1);
-  const [dataTabs, setDataTabs] = useState([]);
-  const [idAPI, setIdAPI] = useState(-1);
-  const [dataTabPanel, setDataTabPanel] = useState([]);
-  const [textSearch, setTextSearch] = useState(null);
-  const [isSearch, setIsSearch] = useState(true);
-
-  const [dataTags, setDataTags] = useState(tagsSSS);
-  const [isdataTags, setIsDataTags] = useState(
-    tagsSSS === undefined ? false : true
-  );
+  const [searchText, setSearchText] = useState("");
 
   const [params, setParams] = useParams({
-    initState: {},
+    initState: {
+      limit: NEWS_POST_LIMIT,
+    },
     excludeKeys: ["limit", "offset"],
+    isScroll: false,
   });
 
-  const { data: resData } = useSWR(
-    idAPI == -1
-      ? transformUrl(PAGES, {
-          type: types.blogDetailPage,
-          fields: "*",
-        })
-      : transformUrl(PAGES, {
-          child_of: idAPI,
-          fields: "*",
-          type: types.blogDetailPage,
-        })
-  );
-  const { data: searchData } = useSWR(
-    idAPI == -1
-      ? transformUrl(PAGES, {
-          type: types.blogDetailPage,
-          search: textSearch,
-          fields: "*",
-        })
-      : transformUrl(PAGES, {
-          child_of: idAPI,
-          search: textSearch,
-          fields: "*",
-          type: types.blogDetailPage,
-        })
-  );
+  const [, cancel] = useDebounce(
+    () => {
+      setCurrentPage(1);
 
-  useEffect(() => {
-    const cloneTabsData = cloneDeep(blogCategoryPage.items);
-    cloneTabsData.splice(0, 0, objTabs);
-    setDataTabs(cloneTabsData);
-  }, [blogCategoryPage]);
+      if (searchText === "") {
+        setParams({
+          search: undefined,
+          offset: "0",
+          tags: undefined,
+        });
 
-  useEffect(() => {
-    if (isdataTags) {
-      //xét lại data nội dung khi chuyển về từ trang NewDetail
-      if (dataTags?.items.length > 0) {
-        setCurrentTab(dataTags?.items[0].meta.parent.id);
-        setDataTabPanel(dataTags?.items);
-        setIsSearch(true);
-        setIsDataTags(false);
-        // setParams({ tags: undefined });
-      } else {
-        setDataTabPanel(resData?.items);
-        setIsSearch(true);
-        // setParams({ tags: undefined });
-      }
-    } else if (isSearch == false) {
-      //xét lại data nội dung khi tìm kiếm
-      if (searchData === undefined) {
-        return null;
-      }
-      setDataTabPanel(searchData?.items);
-    } else if (isSearch == true) {
-      //xét lại data nội dung khi chuyển Tab danh mục
-      if (resData === undefined) {
         return;
       }
-      setDataTabPanel(resData?.items);
-    }
-  }, [dataTags, resData, searchData, isSearch]);
 
-  const handleTextChange = (e) => {
-    if (e.target.value == "") {
-      setIsSearch(true);
-      setParams({ tags: undefined });
-    } else {
-      const debounce = useDebounce(() => {
-        setTextSearch(e.target.value);
-        setIsSearch(false);
-      }, 1000);
-      setParams({ tags: e.target.value });
-      debounce();
-    }
-  };
+      setParams({
+        search: trim(searchText),
+        offset: "0",
+        tags: undefined,
+      });
+    },
+    500,
+    [searchText]
+  );
+
+  useEffect(() => {
+    cancel();
+  }, []);
+
+  const { data: listingBlogPost } = useSWR(() => {
+    return transformUrl(PAGES, {
+      type: types.blogDetailPage,
+      fields: "*",
+      ...params,
+    });
+  });
 
   const animationHandler = useCallback(() => {
     setAnimationState(false);
@@ -134,136 +93,191 @@ export default function News({ initData }) {
       clearTimeout(timer);
     };
   }, []);
-  const changeTabHandler = useCallback((event, newValue) => {
-    setCurrentTab(newValue);
-    setCurrentPage(1);
-    animationHandler();
-    setIdAPI(newValue);
+
+  const onChangeSearchTextHandler = useCallback((e) => {
+    const value = e.target.value;
+
+    setSearchText(value);
   }, []);
-  const handleDetailNew = (id) => {
-    router.push(`${router.pathname}/${id}`);
-  };
 
-  const renderTabs = useMemo(() => {
-    if (!dataTabs) {
-      return null;
-    }
+  const onChangePageHandler = useCallback((page) => {
+    setCurrentPage(page);
 
-    return (
-      <Tabs value={currentTab} changeTab={changeTabHandler} data={dataTabs} />
-    );
-  }, [dataTabs, currentTab]);
+    const offset = (page - 1) * NEWS_POST_LIMIT;
 
-  const renderTabPanel = useMemo(() => {
-    if (!dataTabs) {
-      return null;
-    }
-    // FORMULA: OFFSET = (PAGE - 1) * LIMIT
-    // FORMULA PAGE = (OFFSET / LIMIT) + 1
-    if (isSmUp) {
-      const offset = (currentPage - 1) * NEWPC_LIMIT;
-      const data = dataTabPanel?.slice(offset, offset + NEWPC_LIMIT);
-      console.log("datadata", data);
-      return dataTabs.map((item, index) => {
-        return (
-          <TabPanel key={index} value={currentTab} index={item.id}>
-            <Grid
-              container
-              columnSpacing={7}
-              sx={{
-                height: "100%",
-              }}
-            >
-              {data?.map((el, i) => {
-                return (
-                  <Grid
-                    onClick={() => handleDetailNew(el.id)}
-                    item
-                    key={i}
-                    xs={12}
-                    sm={6}
-                    md={4}
-                    sx={{
-                      marginBottom: isSmDown ? "1.75rem" : "3.25rem",
-                      cursor: "pointer",
-                    }}
-                  >
-                    <CardItem data={el} />
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </TabPanel>
-        );
+    setParams({
+      offset,
+    });
+  }, []);
+
+  const changeTabHandler = useCallback((event, newValue) => {
+    animationHandler();
+    onChangePageHandler(newValue);
+    setCurrentTab(newValue);
+
+    setCurrentPage(1);
+
+    if (newValue === -1) {
+      setParams({
+        child_of: undefined,
+        offset: 0,
+        tags: undefined,
       });
     } else {
-      const offset = (currentPage - 1) * NEWPC_LIMIT;
-      const data = dataTabPanel?.slice(offset, offset + NEWPC_LIMIT);
-      return dataTabs.map((item, index) => {
-        return (
-          <TabPanel key={index} value={currentTab} index={item.id}>
-            {data?.map((el, i) => {
-              return (
-                <Box key={i} onClick={() => handleDetailNew(el.id)}>
-                  <CardItem data={el} />
-                </Box>
-              );
-            })}
-          </TabPanel>
-        );
+      setParams({
+        child_of: newValue,
+        offset: 0,
+        tags: undefined,
       });
     }
+  }, []);
 
-    //
-  }, [currentTab, currentPage, dataTabs, dataTabPanel]);
+  const goToNewsDetail = useCallback((id) => {
+    router.push(`${router.pathname}/${id}`);
+  }, []);
+
+  const mutatedListingCategory = useMemo(() => {
+    if (listingCategory == undefined) {
+      return;
+    }
+
+    return [customTab, ...listingCategory.items];
+  }, [listingCategory]);
+
+  const renderTabs = useMemo(() => {
+    if (mutatedListingCategory == undefined) {
+      return;
+    }
+
+    return (
+      <Tabs
+        value={currentTab}
+        changeTab={changeTabHandler}
+        data={mutatedListingCategory}
+      />
+    );
+  }, [mutatedListingCategory, currentTab]);
+
+  const renderTabPanel = useMemo(() => {
+    if (listingBlogPost == undefined) {
+      return null;
+    }
+
+    // FORMULA: OFFSET = (PAGE - 1) * LIMIT
+    // FORMULA PAGE = (OFFSET / LIMIT) + 1
+
+    return mutatedListingCategory.map((item, index) => {
+      return (
+        <TabPanel key={index} value={currentTab} index={item.id}>
+          <Grid container columnSpacing={8} rowSpacing={4}>
+            {listingBlogPost.items.map((el, i) => {
+              return (
+                <Grid
+                  onClick={() => {
+                    goToNewsDetail(el.id);
+                  }}
+                  item
+                  key={i}
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  sx={{
+                    cursor: "pointer",
+                  }}
+                >
+                  <CardItem data={el} />
+                </Grid>
+              );
+            })}
+          </Grid>
+        </TabPanel>
+      );
+    });
+  }, [currentTab, currentPage, listingBlogPost]);
 
   const renderPagination = useMemo(() => {
+    if (listingBlogPost == undefined) {
+      return null;
+    }
+
     return (
       <Pagination
-        limit={6}
-        data={dataTabPanel}
+        limit={NEWS_POST_LIMIT}
+        data={{
+          length: listingBlogPost.meta.total_count,
+        }}
         currentPage={currentPage}
         onChange={(_, newPage) => {
-          setCurrentPage(newPage);
+          onChangePageHandler(newPage);
           animationHandler();
         }}
       />
     );
-  }, [currentPage, isSmUp, currentTab, dataTabPanel]);
+  }, [currentPage, listingBlogPost]);
 
   return (
-    <Box sx={{ marginBottom: "6rem" }}>
-      <BannerTop data={blogListingPage.items[0].banner} />
+    <Box>
+      <BannerTop imageSrc={metadaPage.items[0].banner} />
 
-      <Container maxWidth="lg">
-        <LineTitle titleData={blogListingPage.items[0].title} type="center" />
-        <Box sx={{}}>
-          <InputPagePartner
-            onChange={handleTextChange}
-            name="search"
-            InputProps={{
-              placeholder: "Tìm kiếm",
-            }}
-          />
-        </Box>
-        {renderTabs}
-        <Box
-          sx={{
-            [theme.breakpoints.down("sm")]: {
-              margin: "0 auto",
-            },
-          }}
-        >
-          <Fade
-            in={animationState}
-            timeout={{
-              enter: 500,
-            }}
-          >
-            <Box>{renderTabPanel}</Box>
-          </Fade>
-        </Box>
-        {renderPagination}
+      <Container
+        maxWidth="lg"
+        sx={[
+          {
+            paddingBottom: 10,
+          },
+          isMdDown && {
+            paddingBottom: 6,
+          },
+        ]}
+      >
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Box
+              sx={[
+                {
+                  paddingTop: 5,
+                  paddingBottom: 8,
+                },
+                isMdDown && {
+                  paddingBottom: 5,
+                },
+              ]}
+            >
+              <LineTitle titleData={metadaPage.items[0].title} type="center" />
+            </Box>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Box marginBottom={5}>
+              <OutlinedInput
+                value={searchText}
+                onChange={onChangeSearchTextHandler}
+                placeholder="Tìm kiếm"
+                fullWidth
+                endAdornment={<SearchIcon />}
+              />
+            </Box>
+          </Grid>
+
+          <Grid item xs={12}>
+            {renderTabs}
+          </Grid>
+
+          <Grid item xs={12}>
+            <Fade
+              in={animationState}
+              timeout={{
+                enter: 500,
+              }}
+            >
+              <Box>{renderTabPanel}</Box>
+            </Fade>
+          </Grid>
+
+          <Grid item xs={12}>
+            {renderPagination}
+          </Grid>
+        </Grid>
       </Container>
     </Box>
   );

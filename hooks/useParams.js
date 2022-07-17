@@ -1,16 +1,19 @@
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { usePrevious } from "react-use";
-import queryString from "query-string";
 
 import omit from "lodash/omit";
 import isEqual from "lodash/isEqual";
+
+import { transformUrl } from "../libs";
 
 export const useParams = ({
   initState = {},
   callback = () => {},
   excludeKeys = [],
   isUpdateRouter = true,
+  isShallow = true,
+  isScroll = true,
 }) => {
   const router = useRouter();
   const [isReady, setIsReady] = useState(false);
@@ -19,10 +22,17 @@ export const useParams = ({
 
   useEffect(() => {
     setParams((prev) => {
-      return {
-        ...prev,
-        ...router.query,
-      };
+      const originalObj = { ...prev, ...router.query };
+
+      const newObj = {};
+
+      for (const key of Object.keys(originalObj)) {
+        if (!!originalObj[key]) {
+          newObj[key] = originalObj[key];
+        }
+      }
+
+      return newObj;
     });
     setIsReady(true);
   }, []);
@@ -34,14 +44,14 @@ export const useParams = ({
 
     const urlParams = omit(params, [...excludeKeys]);
 
-    const stringifyParams = queryString.stringify(urlParams);
-    const pathname = `${router.pathname}?${stringifyParams}`;
+    const pathname = transformUrl(router.pathname, urlParams);
 
     callback(params);
 
     if (isUpdateRouter) {
       router.push(pathname, pathname, {
-        shallow: true,
+        shallow: isShallow,
+        scroll: isScroll,
       });
     }
   }, [callback, params, prevParams]);

@@ -9,7 +9,6 @@ const PolicyPage = ({ initData }) => {
   const { isMdDown } = useMedia();
 
   const data = policyData.items[0];
-  console.log("policyData.items[0]", data);
   return (
     <Fragment>
       <BannerTop imageSrc={data.banner} />

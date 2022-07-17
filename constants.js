@@ -15,3 +15,5 @@ export const NEWPC_LIMIT = 9;
 export const PARTNER_LIMIT = 9;
 
 export const POSTMOBILE_LIMIT = 9;
+
+export const NEWS_POST_LIMIT = 9;

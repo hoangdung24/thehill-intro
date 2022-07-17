@@ -122,12 +122,15 @@ const Header = ({}) => {
                 ) : (
                   <Link
                     key={idx}
-                    href={
-                      block_type === "by_section"
-                        ? `#${value.section}`
-                        : value.link
-                    }
-                    onClick={() => {
+                    href={block_type === "by_section" ? `#${value.section}` : value.link}
+                    onClick={(e) => {
+                      e.preventDefault();
+
+                      const link =
+                        block_type === "by_section" ? `/#${value.section}` : value.link;
+
+                      router.push(link);
+
                       setIsToggle(false);
                     }}
                     sx={{

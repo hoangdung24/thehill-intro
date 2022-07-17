@@ -1,8 +1,4 @@
-import {
-  Pagination as MuiPagination,
-  PaginationItem,
-  useTheme,
-} from "@mui/material";
+import { Pagination as MuiPagination, PaginationItem, useTheme } from "@mui/material";
 
 import ArrowRightAltOutlinedIcon from "@mui/icons-material/ArrowRightAltOutlined";
 
@@ -10,7 +6,7 @@ const Pagination = ({ data, onChange, currentPage, limit = 9 }) => {
   const theme = useTheme();
   return (
     <MuiPagination
-      count={Math.round(data?.length / limit)}
+      count={Math.ceil(data?.length / limit)}
       variant="outlined"
       onChange={onChange}
       page={currentPage}

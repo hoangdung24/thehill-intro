@@ -6,7 +6,6 @@ import { useMedia } from "../../hooks";
 const Tabs = ({ value, changeTab, data }) => {
   const { isSmUp } = useMedia();
   const theme = useTheme();
-  // console.log("datadata", data);
   if (!data) {
     return null;
   }

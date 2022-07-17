@@ -23,3 +23,4 @@ export { default as TabPanel } from "./TabPanel/TabPanel";
 export { default as Pagination } from "./Pagination";
 export { default as Tabs } from "./TabPanel/Tabs";
 export { default as Link } from "./Link";
+export { default as CardItem } from "./Card/CardItem";

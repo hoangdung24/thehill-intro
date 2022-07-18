@@ -10,9 +10,30 @@ const settings = {
   dots: false,
   infinite: true,
   speed: 200,
-  slidesToShow: 1,
+  slidesToShow: 4,
   slidesToScroll: 1,
-  centerMode: true,
+  autoplay: true,
+  autoplaySpeed: 3000,
+  centerMode: false,
+
+  responsive: [
+    {
+      breakpoint: 600,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        centerMode: true,
+      },
+    },
+    {
+      breakpoint: 900,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2,
+        centerMode: false,
+      },
+    },
+  ],
 };
 
 export default function Brand({ data, brandHomeData }) {
@@ -75,7 +96,31 @@ export default function Brand({ data, brandHomeData }) {
           </Box>
         </Grid>
 
-        {isSmUp ? (
+        <Grid item xs={12}>
+          <Box
+            sx={{
+              overflowX: "hidden",
+
+              "& .slick-slide": {
+                width: "100%",
+                margin: "0 20px",
+                paddingBottom: 2,
+              },
+              "& button": {
+                display: "none",
+              },
+              "& .slick-track": {
+                display: "flex",
+              },
+            }}
+          >
+            <Slider ref={slickRef} {...settings}>
+              {renderCardBrand}
+            </Slider>
+          </Box>
+        </Grid>
+
+        {/* {isSmUp ? (
           <Grid container rowSpacing={4} columnSpacing={8}>
             {renderCardBrand}
           </Grid>
@@ -101,7 +146,7 @@ export default function Brand({ data, brandHomeData }) {
               {renderCardBrand}
             </Slider>
           </Box>
-        )}
+        )} */}
 
         <Grid item xs={12}>
           <Box

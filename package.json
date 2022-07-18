@@ -44,10 +44,10 @@
     "react-phone-number-input": "^3.1.47",
     "react-slick": "^0.28.1",
     "react-use": "^17.3.2",
-    "react-youtube": "^9.0.3",
     "slick-carousel": "^1.8.1",
     "swr": "^1.2.2",
     "three": "^0.142.0",
+    "video-react": "^0.15.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {

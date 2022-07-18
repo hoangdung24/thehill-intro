@@ -1,4 +1,6 @@
+import { useEffect, useRef } from "react";
 import { useMeasure } from "react-use";
+import { Player, ControlBar } from "video-react";
 import { Box, Grid, Typography } from "@mui/material";
 
 import { Image } from "../../../HOC";
@@ -51,19 +53,61 @@ export default function ExchangePointsHome({ data }) {
 }
 
 const CardItem = ({ data }) => {
+  const videoRef = useRef(null);
   const [ref, { width }] = useMeasure();
-  const { image, description } = data.value;
+
+  const { block_type, value } = data;
+  const { image, description, video } = value;
+
+  useEffect(() => {
+    if (ref.current) {
+      videoRef.current.actions.play();
+    }
+  }, []);
 
   return (
     <Box ref={ref}>
-      <Image
-        {...{
-          src: image,
-          width: "100%",
-          height: (width * 420) / 315,
-          objectFit: "cover",
-        }}
-      />
+      {block_type === "image_content" ? (
+        <Image
+          {...{
+            src: image,
+            width: "100%",
+            height: (width * 420) / 315,
+            objectFit: "cover",
+          }}
+        />
+      ) : (
+        <Box
+          width={width}
+          sx={{
+            overflow: "hidden",
+            pointerEvents: "none",
+          }}
+          height={(width * 420) / 315}
+        >
+          <Player
+            autoPlay
+            muted
+            loop
+            playsInline
+            fluid={false}
+            type="video/mp4"
+            width="100%"
+            height="100%"
+            ref={(player) => {
+              videoRef.current = player;
+            }}
+          >
+            <source src={video.file} />
+            <ControlBar
+              disableCompletely={true}
+              autoHide={false}
+              disableDefaultControls={true}
+            />
+          </Player>
+        </Box>
+      )}
+
       <Typography variant="body2" sx={{ marginTop: "1.5rem", textAlign: "justify" }}>
         {description}
       </Typography>

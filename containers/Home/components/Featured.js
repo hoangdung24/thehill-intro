@@ -26,19 +26,19 @@ const settings = {
   centerPadding: "0px",
   responsive: [
     {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 3,
-        centerPadding: "0px",
-      },
-    },
-    {
       breakpoint: 600,
       settings: {
         slidesToShow: 1,
         slidesToScroll: 1,
         centerPadding: "75px",
+      },
+    },
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        centerPadding: "0px",
       },
     },
   ],
@@ -64,14 +64,7 @@ export default function Featured({ data }) {
         },
       ]}
     >
-      <Container
-        sx={
-          isMdDown && {
-            paddingLeft: "0 !important",
-            paddingRight: "0 !important",
-          }
-        }
-      >
+      <Container>
         <Grid container>
           <Grid item xs={12}>
             <Box
@@ -91,7 +84,19 @@ export default function Featured({ data }) {
                 type="left"
               />
             </Box>
+          </Grid>
+        </Grid>
 
+        <Grid
+          container
+          sx={[
+            isMdDown && {
+              width: "calc(100% + 64px)",
+              marginLeft: "-32px",
+            },
+          ]}
+        >
+          <Grid item xs={12}>
             <Box
               sx={{
                 position: "relative",

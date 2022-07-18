@@ -9,7 +9,7 @@ import Brand from "./components/Brand";
 import News from "./components/News";
 
 const HomePage = ({ initData }) => {
-  const [homeData, blogHome, brandHome, benefitHome] = initData;
+  const [homeData, blogHome, brandHome] = initData;
 
   const metaData = homeData.items?.[0];
   const blogHomeData = blogHome.items;
@@ -17,7 +17,7 @@ const HomePage = ({ initData }) => {
 
   return (
     <Box>
-      <TopBanner data={benefitHome} />
+      <TopBanner data={metaData} />
 
       <AboutExchangePoint data={metaData} />
 

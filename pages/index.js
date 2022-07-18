@@ -16,20 +16,17 @@ export async function getServerSideProps({ params }) {
         type: HOME_PAGE,
         fields: "*",
       }),
-
       transformUrl(PAGES, {
         type: BLOG_DETAIL,
         fields: "*",
         is_on_homepage: true,
         limit: 3,
       }),
-
       transformUrl(PARTNER, {
         fields: "*",
         is_on_homepage: true,
-        limit: 4,
+        limit: 9,
       }),
-      transformUrl(`${PAGES}4`, {}),
     ];
 
     const { resList, fallback } = await prefetchData(urls);
